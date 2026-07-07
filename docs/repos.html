@@ -167,6 +167,32 @@
   .empty{ text-align:center; padding:60px 20px; color:var(--ink-faint); font-size:14px; display:none; }
   .empty.show{ display:block; }
 
+  .flagship{ max-width:1180px; margin:0 auto; padding:22px clamp(16px,4vw,32px) 4px; }
+  .flagship-box{
+    background:var(--paper-raised); border:1px solid var(--gold); border-radius:10px; padding:18px 20px 20px;
+  }
+  .flagship-box h2{ font-family:var(--font-display); font-size:18px; font-weight:600; margin:0 0 6px; }
+  .flagship-intro{ color:var(--ink-soft); font-size:13px; margin:0 0 16px; max-width:80ch; }
+  .flagship-grid{ display:grid; gap:12px; }
+  .flagship-card{
+    border:1px solid var(--line); border-radius:9px; padding:14px 16px; display:grid; gap:8px;
+    background:var(--paper);
+  }
+  .flagship-head{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+  .flagship-num{ font-family:var(--font-mono); font-size:12px; color:var(--gold); }
+  .flagship-title{ font-family:var(--font-display); font-size:16px; font-weight:600; }
+  .flagship-desc{ color:var(--ink-soft); font-size:13.5px; }
+  .flagship-row{ display:flex; flex-wrap:wrap; gap:6px 8px; align-items:center; font-size:12px; }
+  .flagship-row .lbl{ font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-faint); margin-right:2px; }
+  .chip{
+    font-family:var(--font-mono); font-size:11.5px; padding:3px 9px; border-radius:20px;
+    background:var(--product-bg); color:var(--product); white-space:nowrap;
+  }
+  .chip.proto{ background:var(--frontline-bg); color:var(--frontline); text-decoration:none; }
+  .chip.proto:hover{ text-decoration:underline; }
+  .flagship-source{ font-family:var(--font-mono); font-size:11.5px; color:var(--ink-faint); text-decoration:none; }
+  .flagship-source:hover{ color:var(--product); }
+
   footer{
     max-width:1180px; margin:0 auto; padding:20px clamp(16px,4vw,32px) 50px;
     color:var(--ink-faint); font-size:12px; border-top:1px solid var(--line);
@@ -183,9 +209,60 @@
     <span><b>21</b> arenas</span>
     <span><b>105</b> repo picks</span>
     <span><b>36</b> distinct verified repos</span>
+    <span><b>5</b> flagship agentic builds on Citi's own stack</span>
   </div>
   <p class="disclaimer">Most of the 21 arenas are internal bank functions with no dedicated public repo (nobody open-sources a "private-bank suitability guardrail"). So these are the closest real building blocks — general-purpose RAG, guardrail, extraction, and quant libraries — picked and explained per arena. Fork one, wire in your own data, add the guardrail described in the idea bank. For evidence that these idea patterns are already winning at banks — Citi Wealth's own AskWealth/Advisor Insights, Merrill's AI-Powered Meeting Journey, DBS's scam-detection hackathon, Google's agentic winners CardOS and Vigil AI, and Lloyds Banking Group calling 2026 "the year of Agentic AI" — see the citations in the <a href="index.html" style="color:var(--product);">idea bank</a>.</p>
 </header>
+
+<section class="flagship">
+  <div class="flagship-box">
+    <h2>5 flagship builds — composing Citi's own 2026 AI stack</h2>
+    <p class="flagship-intro">Citi Wealth already shipped Arc (a governed platform for building multi-agent workflows), Citi Sky (a client-facing multimodal AI avatar), and four advisor tools — AskWealth CIO, Client 360, CitiScribe, and Portfolio Intelligence. The most winnable entries compose these rather than reinvent a chatbot. None of Citi's internal tools are public, so "Prototype with" links point to the closest open building block for a local demo of the same pattern.</p>
+    <div class="flagship-grid">
+
+      <div class="flagship-card">
+        <div class="flagship-head"><span class="flagship-num">01</span><span class="flagship-title">Sky Handoff Guardian</span></div>
+        <p class="flagship-desc">Citi Sky just launched and talks directly to clients — nobody's built its safety layer yet. An Arc-governed agent shadows every Citi Sky session, cross-checks each claim against Portfolio Intelligence and AskWealth CIO's grounded data, and silently escalates to a human advisor if Sky drifts toward an ungrounded or non-compliant answer. The purest expression of "safety" in this whole idea bank — and the most timely gap to fill.</p>
+        <div class="flagship-row"><span class="lbl">Composes</span><span class="chip">Citi Sky</span><span class="chip">Portfolio Intelligence</span><span class="chip">AskWealth CIO</span><span class="chip">Arc</span></div>
+        <div class="flagship-row"><span class="lbl">Prototype with</span><a class="chip proto" href="https://github.com/guardrails-ai/guardrails" target="_blank" rel="noopener noreferrer">guardrails-ai/guardrails</a><a class="chip proto" href="https://github.com/google/adk-python" target="_blank" rel="noopener noreferrer">google/adk-python</a></div>
+        <a class="flagship-source" href="https://www.citigroup.com/global/news/press-release/2026/citi-wealth-unveils-citi-sky-ai-powered-member-google-cloud-deepmind-technologies" target="_blank" rel="noopener noreferrer">source: Citi Wealth unveils Citi Sky ↗</a>
+      </div>
+
+      <div class="flagship-card">
+        <div class="flagship-head"><span class="flagship-num">02</span><span class="flagship-title">Meeting-to-Action Agent Mesh</span></div>
+        <p class="flagship-desc">The moment CitiScribe finishes summarizing a client meeting, an Arc-orchestrated agent crew takes over: one agent checks the summary's action items against Client 360 for stale or missing data, a second pulls relevant AskWealth CIO research, a third drafts compliant follow-up copy. Advisor approves before anything sends. Merrill's real "AI-Powered Meeting Journey" (already cited in the idea bank), but agentic — multi-step follow-through, not just a transcript.</p>
+        <div class="flagship-row"><span class="lbl">Composes</span><span class="chip">CitiScribe</span><span class="chip">Client 360</span><span class="chip">AskWealth CIO</span><span class="chip">Arc</span></div>
+        <div class="flagship-row"><span class="lbl">Prototype with</span><a class="chip proto" href="https://github.com/google/adk-python" target="_blank" rel="noopener noreferrer">google/adk-python</a><a class="chip proto" href="https://github.com/Cinnamon/kotaemon" target="_blank" rel="noopener noreferrer">Cinnamon/kotaemon</a></div>
+        <a class="flagship-source" href="https://www.pymnts.com/artificial-intelligence-2/2026/citi-arms-wealth-advisors-with-4-ai-tools-to-cut-busywork/" target="_blank" rel="noopener noreferrer">source: Citi arms wealth advisors with 4 AI tools ↗</a>
+      </div>
+
+      <div class="flagship-card">
+        <div class="flagship-head"><span class="flagship-num">03</span><span class="flagship-title">Client 360 Proactive Opportunity Crew</span></div>
+        <p class="flagship-desc">Turns Client 360 from a passive data store into an always-on co-pilot: a scanner agent watches for lifecycle signals (idle cash, portfolio drift, an upcoming liquidity event), a researcher agent grounds the opportunity against Portfolio Intelligence and AskWealth CIO, a drafter agent hands the advisor a ready-to-review brief. Three agents, one human gate — nothing reaches a client unreviewed.</p>
+        <div class="flagship-row"><span class="lbl">Composes</span><span class="chip">Client 360</span><span class="chip">Portfolio Intelligence</span><span class="chip">AskWealth CIO</span><span class="chip">Arc</span></div>
+        <div class="flagship-row"><span class="lbl">Prototype with</span><a class="chip proto" href="https://github.com/google/adk-python" target="_blank" rel="noopener noreferrer">google/adk-python</a><a class="chip proto" href="https://github.com/shcherbak-ai/contextgem" target="_blank" rel="noopener noreferrer">shcherbak-ai/contextgem</a></div>
+        <a class="flagship-source" href="https://www.pymnts.com/artificial-intelligence-2/2026/citi-arms-wealth-advisors-with-4-ai-tools-to-cut-busywork/" target="_blank" rel="noopener noreferrer">source: Citi arms wealth advisors with 4 AI tools ↗</a>
+      </div>
+
+      <div class="flagship-card">
+        <div class="flagship-head"><span class="flagship-num">04</span><span class="flagship-title">Cross-Border Compliance Relay</span></div>
+        <p class="flagship-desc">For CPB EMEA / APAC / LATAM: a chained Arc pipeline — jurisdiction-checker → sanctions/PEP screener → tax-flag agent → translator — that a cross-border transaction must clear before an advisor acts on it, each hop auditable per Arc's own governance model. Turns five separate per-region "guardrail" ideas already in the idea bank into one coherent agent chain.</p>
+        <div class="flagship-row"><span class="lbl">Composes</span><span class="chip">Arc</span><span class="chip">AskWealth CIO</span></div>
+        <div class="flagship-row"><span class="lbl">Prototype with</span><a class="chip proto" href="https://github.com/google/adk-python" target="_blank" rel="noopener noreferrer">google/adk-python</a><a class="chip proto" href="https://github.com/guardrails-ai/guardrails" target="_blank" rel="noopener noreferrer">guardrails-ai/guardrails</a><a class="chip proto" href="https://github.com/argosopentech/argos-translate" target="_blank" rel="noopener noreferrer">argosopentech/argos-translate</a></div>
+        <a class="flagship-source" href="https://www.ciodive.com/news/citi-launches-arc-scale-ai-agents/819113/" target="_blank" rel="noopener noreferrer">source: Citi launches Arc to scale AI agents ↗</a>
+      </div>
+
+      <div class="flagship-card">
+        <div class="flagship-head"><span class="flagship-num">05</span><span class="flagship-title">Stylus Workspaces War-Room Agent</span></div>
+        <p class="flagship-desc">Given a market shock (a rate move, an earnings surprise), a four-agent crew inside Stylus Workspaces autonomously assembles a client-impact packet: pull affected holdings (Client 360 / Portfolio Intelligence) → pull relevant CIO research (AskWealth CIO) → run a scenario narrative → compile a CitiScribe-style one-pager. Advisor reviews, sends. Turns the idea bank's "Stress-Test Narrator" into a real multi-tool agentic workflow.</p>
+        <div class="flagship-row"><span class="lbl">Composes</span><span class="chip">Stylus Workspaces</span><span class="chip">Client 360</span><span class="chip">Portfolio Intelligence</span><span class="chip">AskWealth CIO</span></div>
+        <div class="flagship-row"><span class="lbl">Prototype with</span><a class="chip proto" href="https://github.com/google/adk-python" target="_blank" rel="noopener noreferrer">google/adk-python</a><a class="chip proto" href="https://github.com/TauricResearch/TradingAgents" target="_blank" rel="noopener noreferrer">TauricResearch/TradingAgents</a></div>
+        <a class="flagship-source" href="https://www.citigroup.com/global/news/press-release/2025/citi-unveils-citi-stylus-workspaces-agentic-ai-turbocharging-productivity" target="_blank" rel="noopener noreferrer">source: Citi unveils Stylus Workspaces agentic AI ↗</a>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 <div class="controlbar">
   <div class="search">
