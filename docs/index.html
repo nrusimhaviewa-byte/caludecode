@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Idea Bank — 2026 Wealth Hackathon</title>
+<style>
+  :root{
+    --paper:#eef1f0; --paper-raised:#ffffff; --ink:#14181f; --ink-soft:#4c5750; --ink-faint:#7c8983;
+    --line:#d7dcd8; --line-soft:#e3e7e4;
+    --product:#1f6f66; --product-bg:#e4efec;
+    --frontline:#b5532c; --frontline-bg:#f5e9e1;
+    --gold:#8a6a20; --gold-bg:#f1e8d2;
+    --focus:#1f6f66;
+    --font-display:'Iowan Old Style','Palatino Linotype',Georgia,serif;
+    --font-body:'Segoe UI',system-ui,-apple-system,sans-serif;
+    --font-mono:Consolas,'SF Mono',Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#12161a; --paper-raised:#191f24; --ink:#e8ece9; --ink-soft:#a3aca5; --ink-faint:#6d7873;
+      --line:#2a3138; --line-soft:#20262c;
+      --product:#4bb3a3; --product-bg:#172422;
+      --frontline:#e08a5c; --frontline-bg:#271b14;
+      --gold:#d4af5a; --gold-bg:#26210f;
+      --focus:#4bb3a3;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#12161a; --paper-raised:#191f24; --ink:#e8ece9; --ink-soft:#a3aca5; --ink-faint:#6d7873;
+    --line:#2a3138; --line-soft:#20262c;
+    --product:#4bb3a3; --product-bg:#172422;
+    --frontline:#e08a5c; --frontline-bg:#271b14;
+    --gold:#d4af5a; --gold-bg:#26210f;
+    --focus:#4bb3a3;
+  }
+  :root[data-theme="light"]{
+    --paper:#eef1f0; --paper-raised:#ffffff; --ink:#14181f; --ink-soft:#4c5750; --ink-faint:#7c8983;
+    --line:#d7dcd8; --line-soft:#e3e7e4;
+    --product:#1f6f66; --product-bg:#e4efec;
+    --frontline:#b5532c; --frontline-bg:#f5e9e1;
+    --gold:#8a6a20; --gold-bg:#f1e8d2;
+    --focus:#1f6f66;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--font-body); font-size:15px; line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--gold-bg); color:var(--ink); }
+
+  a{ color:inherit; }
+  button{ font-family:inherit; }
+  :focus-visible{ outline:2px solid var(--focus); outline-offset:2px; }
+
+  /* ---------- Masthead ---------- */
+  .masthead{
+    border-bottom:1px solid var(--line);
+    padding:28px clamp(16px,4vw,48px) 22px;
+    background:var(--paper);
+  }
+  .eyebrow{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-faint); margin:0 0 8px;
+  }
+  h1{
+    font-family:var(--font-display); font-weight:600; font-size:clamp(26px,3.4vw,36px);
+    margin:0 0 8px; text-wrap:balance; letter-spacing:.01em;
+  }
+  .dek{
+    max-width:62ch; color:var(--ink-soft); margin:0 0 18px; font-size:15px;
+  }
+  .stats{
+    display:flex; gap:22px; flex-wrap:wrap; font-family:var(--font-mono); font-size:12.5px;
+    color:var(--ink-soft); font-variant-numeric:tabular-nums;
+  }
+  .stats b{ color:var(--ink); font-weight:600; }
+
+  /* ---------- Control bar ---------- */
+  .controlbar{
+    position:sticky; top:0; z-index:5;
+    background:var(--paper); border-bottom:1px solid var(--line);
+    padding:12px clamp(16px,4vw,48px);
+    display:flex; gap:12px; flex-wrap:wrap; align-items:center;
+  }
+  .search{
+    flex:1 1 260px; position:relative;
+  }
+  .search input{
+    width:100%; padding:9px 12px 9px 32px; border-radius:7px; border:1px solid var(--line);
+    background:var(--paper-raised); color:var(--ink); font-size:14px; font-family:var(--font-body);
+  }
+  .search input::placeholder{ color:var(--ink-faint); }
+  .search svg{ position:absolute; left:10px; top:50%; transform:translateY(-50%); opacity:.55; }
+
+  .grouptabs{ display:flex; gap:6px; }
+  .grouptabs button{
+    border:1px solid var(--line); background:var(--paper-raised); color:var(--ink-soft);
+    padding:8px 13px; border-radius:7px; font-size:13px; cursor:pointer; white-space:nowrap;
+  }
+  .grouptabs button.active[data-g="product"]{ background:var(--product-bg); color:var(--product); border-color:var(--product); }
+  .grouptabs button.active[data-g="frontline"]{ background:var(--frontline-bg); color:var(--frontline); border-color:var(--frontline); }
+  .grouptabs button.active[data-g="all"]{ background:var(--paper-raised); color:var(--ink); border-color:var(--ink-faint); }
+
+  .toggleall{
+    border:1px solid var(--line); background:var(--paper-raised); color:var(--ink-soft);
+    padding:8px 13px; border-radius:7px; font-size:13px; cursor:pointer;
+  }
+
+  /* ---------- Layout ---------- */
+  .layout{
+    display:grid; grid-template-columns:220px 1fr; gap:0;
+    max-width:1180px; margin:0 auto;
+  }
+  @media (max-width:820px){ .layout{ grid-template-columns:1fr; } }
+
+  .index{
+    padding:22px 14px 60px clamp(16px,4vw,32px);
+    position:sticky; top:57px; align-self:start; max-height:calc(100vh - 57px); overflow:auto;
+  }
+  @media (max-width:820px){ .index{ position:static; max-height:none; padding:16px clamp(16px,4vw,32px) 0; } }
+
+  .index-group{ margin-bottom:18px; }
+  .index-label{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--ink-faint); margin:0 0 8px;
+  }
+  .index a{
+    display:flex; justify-content:space-between; gap:8px; text-decoration:none;
+    padding:5px 8px; margin:0 -8px; border-radius:5px; font-size:13.5px; color:var(--ink-soft);
+  }
+  .index a:hover{ background:var(--paper-raised); color:var(--ink); }
+  .index a .n{ font-family:var(--font-mono); color:var(--ink-faint); font-size:12px; }
+  .index a.hidden{ display:none; }
+
+  .content{ padding:22px clamp(16px,4vw,32px) 80px; min-width:0; }
+
+  /* ---------- Legend ---------- */
+  .legend{
+    display:flex; flex-wrap:wrap; gap:8px 14px; padding:12px 14px; margin-bottom:20px;
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:9px;
+    font-size:12.5px; color:var(--ink-soft);
+  }
+  .legend b{ color:var(--ink); font-family:var(--font-mono); font-weight:500; font-size:11.5px; }
+  .legend span{ white-space:nowrap; }
+
+  /* ---------- Arena sections ---------- */
+  details.arena{
+    border:1px solid var(--line); border-radius:10px; background:var(--paper-raised);
+    margin-bottom:12px; overflow:hidden; scroll-margin-top:70px;
+  }
+  details.arena[data-group="product"]{ border-left:3px solid var(--product); }
+  details.arena[data-group="frontline"]{ border-left:3px solid var(--frontline); }
+  details.arena.hidden{ display:none; }
+
+  summary.arena-head{
+    list-style:none; cursor:pointer; padding:15px 18px; display:flex; align-items:baseline;
+    justify-content:space-between; gap:16px;
+  }
+  summary.arena-head::-webkit-details-marker{ display:none; }
+  .arena-title-wrap{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; min-width:0; }
+  .arena-title{ font-family:var(--font-display); font-size:19px; font-weight:600; }
+  .arena-role{ color:var(--ink-faint); font-size:13px; }
+  .arena-meta{ display:flex; align-items:center; gap:10px; flex-shrink:0; }
+  .arena-count{ font-family:var(--font-mono); font-size:12px; color:var(--ink-faint); font-variant-numeric:tabular-nums; }
+  .chev{ transition:transform .15s ease; color:var(--ink-faint); }
+  details[open] .chev{ transform:rotate(90deg); }
+
+  .idea-list{ border-top:1px solid var(--line-soft); }
+  .idea-row{
+    display:grid; grid-template-columns:26px 1fr auto; gap:12px; align-items:start;
+    padding:11px 18px; border-bottom:1px solid var(--line-soft);
+  }
+  .idea-row:last-child{ border-bottom:none; }
+  .idea-row.hidden{ display:none; }
+  .idea-idx{ font-family:var(--font-mono); font-size:12px; color:var(--ink-faint); padding-top:2px; font-variant-numeric:tabular-nums; }
+  .idea-title{ font-weight:600; font-size:14px; }
+  .idea-desc{ color:var(--ink-soft); font-size:13.5px; margin-top:2px; }
+  .idea-tag{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.03em; white-space:nowrap;
+    padding:3px 8px; border-radius:20px; background:var(--gold-bg); color:var(--gold);
+    align-self:start; margin-top:2px; cursor:help;
+  }
+
+  .note{
+    font-size:12.5px; color:var(--ink-faint); padding:10px 18px 14px; border-top:1px solid var(--line-soft);
+  }
+
+  .cite-badge{
+    display:inline-flex; align-items:center; justify-content:center; min-width:16px; height:16px;
+    padding:0 4px; border-radius:4px; background:var(--gold-bg); color:var(--gold);
+    font-family:var(--font-mono); font-size:10px; text-decoration:none; margin-left:6px; vertical-align:2px;
+  }
+  .cite-badge:hover{ background:var(--gold); color:var(--paper-raised); }
+
+  .evidence{
+    max-width:1180px; margin:0 auto; padding:18px clamp(16px,4vw,32px) 0;
+  }
+  .evidence-box{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:10px; padding:16px 18px;
+  }
+  .evidence-box h2{
+    font-family:var(--font-display); font-size:16px; font-weight:600; margin:0 0 4px;
+  }
+  .evidence-intro{ color:var(--ink-soft); font-size:13px; margin:0 0 12px; max-width:78ch; }
+  .evidence-list{ display:grid; gap:9px; }
+  .evidence-item{ display:grid; grid-template-columns:22px 1fr; gap:10px; font-size:13px; scroll-margin-top:70px; }
+  .evidence-num{ font-family:var(--font-mono); color:var(--gold); font-size:12px; }
+  .evidence-item b{ font-weight:600; }
+  .evidence-item .src{ color:var(--ink-soft); }
+  .evidence-item a.srclink{ color:var(--product); font-family:var(--font-mono); font-size:11.5px; text-decoration:none; }
+  .evidence-item a.srclink:hover{ text-decoration:underline; }
+  .evidence-item:target{ background:var(--gold-bg); border-radius:6px; margin:-4px -6px; padding:4px 6px; }
+
+  .empty{
+    text-align:center; padding:60px 20px; color:var(--ink-faint); font-size:14px; display:none;
+  }
+  .empty.show{ display:block; }
+
+  footer{
+    max-width:1180px; margin:0 auto; padding:20px clamp(16px,4vw,32px) 50px;
+    color:var(--ink-faint); font-size:12px; border-top:1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">2026 Wealth Hackathon &middot; Idea Bank</p>
+  <h1>Every arena, ten ideas, one rule: the model never gets the final say alone.</h1>
+  <p class="dek">A working set of AI concepts mapped to all 21 hackathon arenas — Product &amp; Support and Front-Line. Each idea names its safety mechanism up front: grounded retrieval, a deterministic guardrail, or a human who approves before anything happens.</p>
+  <div class="stats">
+    <span><b>21</b> arenas</span>
+    <span><b>210</b> ideas</span>
+    <span><b>6</b> safety patterns</span>
+    <span><b>11</b> ideas with a cited, real bank precedent</span>
+    <span><b>0</b> ideas that let a model move money or send a client message unsupervised</span>
+  </div>
+</header>
+
+<section class="evidence">
+  <div class="evidence-box">
+    <h2>This isn't hypothetical — banks are already winning with this</h2>
+    <p class="evidence-intro">Eleven ideas below are marked <span class="cite-badge">n</span> where a bank has already shipped or won a hackathon with something close to it. Citi Wealth runs this exact hackathon — Citi Wealth's Head confirmed a "2025 Citi Wealth Hackathon Championship" on LinkedIn — and Citi's own AskWealth / Advisor Insights tools launched the same year. And the industry's own framing backs the shift this idea bank leans into: Lloyds Banking Group titled its own outlook <i>"2026: The year of Agentic AI"</i>, and State Bank of India's 2026 innovation challenge is themed exactly that — agentic, not just generative. Google's 2025 Agent Development Kit Hackathon (10,400+ participants, 477 submissions) produced two of the clearest banking-agentic proof points: CardOS (autonomous credit pre-approval) and Vigil AI (a four-agent fraud-defense system) — both built on Google's own Bank of Anthos.</p>
+    <div class="evidence-list" id="evidence-list"></div>
+  </div>
+</section>
+
+<div class="controlbar">
+  <div class="search">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="search" type="text" placeholder="Search ideas, e.g. &quot;fraud&quot;, &quot;RAG&quot;, &quot;credit&quot;&hellip;" autocomplete="off">
+  </div>
+  <div class="grouptabs" id="grouptabs">
+    <button data-g="all" class="active">All arenas</button>
+    <button data-g="product">Product &amp; Support</button>
+    <button data-g="frontline">Front-Line</button>
+  </div>
+  <button class="toggleall" id="toggleall">Expand all</button>
+</div>
+
+<div class="layout">
+  <nav class="index" id="index"></nav>
+  <main class="content">
+    <div class="legend" id="legend"></div>
+    <div id="arenas"></div>
+    <p class="empty" id="empty">No ideas match that search.</p>
+  </main>
+</div>
+
+<footer>
+  Drafted for internal ideation ahead of the 2026 Wealth Hackathon. "WaW" ideas are written generically since the arena's full name wasn't confirmed — adjust the framing once you know the segment it targets. See <a href="repos.html" style="color:var(--product);">5 starter repos per arena</a> to start building.
+</footer>
+
+<script>
+const TAGS = {
+  rag:  "Grounded — cites source or declines to answer",
+  guard:"Rule engine decides, model only explains",
+  hitl: "Human approves before anything happens",
+  conf: "Confidence-flagged; low-confidence goes to a human",
+  priv: "Access-controlled or anonymized data only",
+  bias: "Documented, auditable criteria — flags, doesn't reject"
+};
+const TAGLABEL = { rag:"Grounded", guard:"Guardrail", hitl:"Human-in-loop", conf:"Confidence-flag", priv:"Privacy-safe", bias:"Bias-audited" };
+
+const ARENAS = [
+{id:"investments",group:"product",name:"Investments",role:"Portfolio construction, advice, and research delivery",ideas:[
+["Grounded Portfolio Q&A Copilot","Answers client portfolio questions strictly from verified holdings data; cites the source record or declines.","rag","c1"],
+["Suitability Guardrail","A deterministic rule engine blocks unsuitable trades before execution; the model only drafts the rationale.","guard"],
+["Research Digest with Citations","Condenses CIO and analyst notes into a daily brief where every line links back to its source.","rag"],
+["Concentration Drift Narrator","Statistical drift detection flags concentration risk; the model turns it into an advisor talking point.","guard"],
+["Fund Fact-Sheet Comparator","Extracts fees, minimums, and terms from two prospectuses into a table with a confidence score per field.","conf"],
+["Rebalance Rationale Generator","Explains why a proposed rebalance satisfies the client's investment policy statement, citing the clause.","rag"],
+["Earnings Call Digest","Summarizes transcripts into bull/bear bullets, each tied to a direct quote.","rag"],
+["Model Portfolio Drift Dashboard","Pure-statistics drift detection across model portfolios; the model writes the accompanying note.","guard"],
+["ESG Exclusion Screener","Checks holdings against exclusion lists deterministically; the model explains why one was flagged.","guard"],
+["Stress-Test Narrator","Runs a documented market-shock scenario and narrates the numeric output — no invented figures.","rag"]
+]},
+{id:"cio",group:"product",name:"CIO",role:"House view, macro research, and cross-asset strategy",ideas:[
+["House-View Consistency Checker","Flags advisor commentary that contradicts the published house view, citing the conflict.","rag"],
+["Macro Research Digest","Daily summary of macro research with inline citations to the original report.","rag"],
+["Cross-Asset Signal Narrator","Narrates existing quant signals from verified numeric outputs only — never invents a number.","guard","c9"],
+["Research Archive Q&A","Retrieval chatbot over the research library that declines to answer outside indexed documents.","rag"],
+["Thematic Idea Generator","Surfaces candidate investment themes from news and research, always labeled 'for analyst review'.","hitl"],
+["House-View Change Tracker","Diffs successive view updates and summarizes exactly what changed and the stated reason.","rag"],
+["Model Validation Checklist Assistant","Checks a new quant model's documented assumptions against a fixed validation checklist.","guard"],
+["Peer Benchmark Comparator","Compares house performance to benchmark data, citing the dataset and date range.","rag"],
+["Commentary Plain-Language Translator","Converts technical notes to client language via structured extraction, preserving numeric fidelity.","conf"],
+["Research Duplication Detector","Flags when two analysts are independently covering the same thesis, by document similarity.","hitl"]
+]},
+{id:"operations",group:"product",name:"Operations",role:"Trade processing, reconciliation, and account servicing",ideas:[
+["Trade Break Explainer","Identifies the exact mismatched field behind a break and explains it; a human confirms the fix.","hitl"],
+["Runbook Q&A Copilot","Retrieval chatbot over SOPs that declines to answer outside the documented procedure.","rag"],
+["Settlement Exception Triage","Classifies settlement failures by root cause and routes each to the correct queue.","guard"],
+["Onboarding Checklist Copilot","Walks new-account ops through the KYC checklist and flags only what's missing — never approves.","hitl"],
+["SLA Breach Predictor","Flags tasks at risk of missing SLA and cites the contributing factors.","guard"],
+["Document Extraction QA","Pulls data from account forms with a per-field confidence score; low-confidence routes to a human.","conf"],
+["Batch Job Failure Explainer","Turns cryptic ETL error logs into a plain-English root-cause summary.","rag"],
+["Duplicate Payment Detector","Flags likely duplicate wires before execution; a human approves release.","hitl"],
+["Ops Metrics Narrator","Turns the weekly KPI dashboard into a summary, every claim traceable to a dashboard cell.","rag"],
+["Change-Request Risk Reviewer","Reviews a change ticket against a fixed risk checklist before it can move to approval.","guard"]
+]},
+{id:"risk",group:"product",name:"Risk",role:"Market, credit, and operational risk oversight",ideas:[
+["Real-Time Limit Guardrail","A deterministic engine blocks any trade breaching a risk limit; the model explains the breach after.","guard"],
+["Risk Report Narrator","Turns VaR and stress-test output into a memo, pulling figures directly rather than regenerating them.","rag"],
+["Model Risk Documentation Drafter","Drafts documentation from the model's own spec and code; a validator signs off.","hitl"],
+["Emerging Risk Scanner","Summarizes news and regulatory feeds for emerging risk themes, every item linked to its source.","rag"],
+["Counterparty Exposure Explainer","Narrates day-over-day exposure changes from verified position data.","rag"],
+["Risk Appetite Alignment Checker","Checks a proposed strategy against the documented risk appetite statement.","guard"],
+["Incident Postmortem Drafter","Drafts a first-pass postmortem from logs and timeline; the owner edits the final version.","hitl"],
+["Scenario Library Assistant","Suggests relevant historical stress scenarios for a portfolio, citing the precedent event.","rag"],
+["Risk Policy Q&A Bot","Retrieval chatbot over policy documents that cites the section or declines to answer.","rag"],
+["Trading Pattern Flagger","Statistical anomaly detection surfaces unusual patterns; the model drafts the escalation summary.","hitl"]
+]},
+{id:"wealth-intelligence",group:"product",name:"Wealth Intelligence",role:"Client insight, data, and analytics for advisors",ideas:[
+["Grounded Client Insight Copilot","Answers advisor questions about a household strictly from verified records, citing the source system.","rag"],
+["Next-Conversation Suggester","Suggests talking points from documented life events; nothing is ever sent to a client automatically.","hitl"],
+["Household Aggregation Summarizer","Summarizes a client's cross-product relationship and flags data gaps rather than filling them in.","conf","c6"],
+["Wealth-Event Detector","Flags likely liquidity or inheritance events for proactive outreach; a human decides whether to act.","hitl"],
+["Client Meeting-Note Digest","Summarizes relationship-manager notes and feedback into themes for coaching.","priv"],
+["Competitive Intelligence Digest","Condenses public competitor moves into a cited summary.","rag"],
+["Data Quality Sentinel","Flags inconsistent or missing client data before it feeds any downstream AI output.","conf"],
+["Personalized Commentary Generator","Tailors house-view commentary to a client's actual holdings, grounded in real position data.","rag","c2"],
+["Book-of-Business Health Narrator","Turns book metrics into a coaching summary, every figure traceable to source.","rag"],
+["Meeting Prep Copilot","Drafts a pre-meeting brief from CRM and portfolio data, flagging any claim it can't verify.","conf","c3"]
+]},
+{id:"lending",group:"product",name:"Lending",role:"Credit decisioning, underwriting, and loan servicing",ideas:[
+["Explainable Credit Decision Assistant","Explains a scoring model's decision in plain language; the decision stays with the deterministic model.","guard","c10"],
+["Adverse Action Notice Drafter","Drafts compliant adverse-action language from documented factors; compliance signs off before it's sent.","hitl"],
+["Collateral Document Extractor","Pulls structured data from loan and collateral documents with a confidence flag per field.","conf"],
+["Loan Covenant Monitor","Tracks covenant compliance and narrates breaches strictly from verified financials.","rag"],
+["Underwriting Checklist Copilot","Walks the underwriter through required checks and flags missing documentation only.","hitl"],
+["Pricing Rationale Explainer","Explains why a loan was priced at a given rate, citing the documented risk factors.","rag"],
+["Loan Book Concentration Alert","Flags sector or geographic concentration risk building up in the loan book.","guard"],
+["Early-Warning Delinquency Narrator","Turns a statistical delinquency score into a plain-English alert for the relationship team.","guard"],
+["Credit Policy Q&A","Retrieval chatbot for loan officers over the credit policy manual, citing the section relied on.","rag"],
+["Restructure Scenario Explainer","Runs a documented restructuring scenario and narrates the impact for both client and bank.","rag"]
+]},
+{id:"coo",group:"product",name:"COO",role:"Business operations, vendor, and process management",ideas:[
+["Vendor Contract Risk Scanner","Extracts key risk clauses from vendor contracts and flags them for legal review.","hitl"],
+["Business Continuity Q&A","Retrieval chatbot over BCP documentation that declines to answer outside what's documented.","rag"],
+["Automation Opportunity Finder","Analyzes workflow logs to suggest automation candidates, ranked for human prioritization.","hitl"],
+["Budget Variance Narrator","Turns a budget-vs-actual sheet into a variance explanation, every figure sourced from the sheet.","rag"],
+["Cross-Team Dependency Mapper","Explains dependencies between initiatives, extracted from project documentation.","rag"],
+["Meeting Action-Item Tracker","Extracts action items from transcripts and flags the ones that are overdue.","hitl"],
+["Third-Party Risk Score Explainer","Narrates why a vendor's risk score changed, citing the underlying factors.","rag"],
+["Capacity Planning Assistant","Projects team capacity needs from historical throughput data.","rag"],
+["Policy Change Impact Summarizer","Summarizes how a new internal policy affects existing procedures, citing both documents.","rag"],
+["Executive Briefing Drafter","Drafts a weekly COO briefing from status reports; the COO edits before it goes out.","hitl"]
+]},
+{id:"marketing",group:"product",name:"Marketing",role:"Client content, campaigns, and brand",ideas:[
+["Compliant Content Reviewer","Checks marketing copy against regulatory guidelines before submission, citing the exact rule flagged.","guard"],
+["Campaign Performance Narrator","Turns campaign analytics into a summary, every claim traceable to the dashboard.","rag"],
+["Segment Content Drafter","Drafts segment-specific content that always routes through compliance review before publishing.","hitl"],
+["Brand Voice Checker","Flags copy that deviates from the approved brand and tone guidelines.","guard"],
+["Competitive Messaging Tracker","Summarizes competitor marketing moves from public sources, each claim cited.","rag"],
+["A/B Test Result Explainer","Turns statistical test results into a plain-English recommendation, numbers pulled not generated.","rag"],
+["Social Listening Digest","Summarizes public sentiment and flags reputational-risk items for review, never auto-responds.","hitl"],
+["Event ROI Summarizer","Condenses attendance and lead data into an ROI narrative sourced from the CRM export.","rag"],
+["Disclosure Completeness Checker","Verifies required regulatory disclosures are present before material goes out.","guard"],
+["Segment Insight Generator","Summarizes what messaging resonates with which segment, grounded in real engagement data.","rag"]
+]},
+{id:"legal",group:"product",name:"Legal",role:"Contracts, regulatory interpretation, and counsel",ideas:[
+["Contract Clause Extractor","Pulls termination, liability, and indemnity clauses with a confidence score per clause.","conf"],
+["Regulatory Change Digest","Summarizes new regulations relevant to private banking, citing source and effective date.","rag"],
+["Legal Policy Q&A","Retrieval chatbot over the legal policy library that cites the section or declines to answer.","rag"],
+["Contract Redline Assistant","Suggests redlines against the standard playbook; an attorney approves every change.","hitl"],
+["Litigation Timeline Summarizer","Condenses case documents into a chronological summary for attorney review.","rag"],
+["Nonstandard Clause Flagger","Flags risky or nonstandard clauses in incoming agreements against the approved playbook.","guard"],
+["Precedent Finder","Retrieves similar past matters from the internal archive, with citations to each one.","rag"],
+["Obligation Tracker","Extracts obligations from new regulations and maps each to its internal owner.","rag"],
+["Legal Spend Analyzer","Narrates trends in outside-counsel spend, sourced directly from billing data.","rag"],
+["Plain-Language Contract Summarizer","Turns a dense contract into a one-page summary and lists anything it omitted.","conf"]
+]},
+{id:"deposits",group:"product",name:"Deposits",role:"Deposit products, pricing, and liquidity",ideas:[
+["Grounded Deposit Recommender","Suggests deposit products strictly from the current rate sheet, citing product and rate date.","rag"],
+["Rate Change Impact Narrator","Explains how a rate change affects existing depositors, computed from real balances.","rag"],
+["Deposit Flight Risk Detector","Flags early-warning attrition signals; a human decides whether and how to reach out.","hitl"],
+["Source-of-Funds Interview Assistant","Helps ops ask the right KYC questions for a large, unusual deposit.","hitl"],
+["Deposit Insurance Coverage Explainer","Calculates coverage across accounts with real math, not model-generated arithmetic.","guard"],
+["Sweep Allocation Narrator","Explains sweep-account allocation logic to advisors and clients in plain language.","rag"],
+["Seasonal Liquidity Forecaster","Projects deposit inflow and outflow from historical patterns.","rag"],
+["Fee Waiver Eligibility Checker","A deterministic rule checks eligibility; the model explains the result to the advisor.","guard"],
+["Cross-Sell Opportunity Flagger","Flags deposit clients who may benefit from another product, grounded in real balance data.","rag","c5"],
+["Deposit Comparison Chatbot","Compares CDs, money market, and savings terms strictly from the current rate sheet.","rag"]
+]},
+{id:"ics",group:"product",name:"ICS",role:"Internal controls and control testing",ideas:[
+["Control Test Drafting Copilot","Drafts test procedures from the control description; a reviewer approves before execution.","hitl"],
+["Control Gap Analyzer","Compares documented controls against actual process logs and flags the gaps.","guard"],
+["Remediation Tracker Narrator","Narrates the status of audit remediation plans, sourced from the tracking system.","rag"],
+["Control Narrative Q&A","Retrieval chatbot over the control library, citing the control ID it relied on.","rag"],
+["Segregation-of-Duties Checker","A deterministic check flags SoD violations directly from access logs.","guard"],
+["Control Self-Assessment Assistant","Helps process owners draft CSA responses and flags any unsupported claim.","conf"],
+["Exam Prep Digest","Summarizes prior exam findings relevant to an upcoming regulatory review.","rag"],
+["Evidence Completeness Checker","Verifies required evidence artifacts exist before a control test is marked complete.","guard"],
+["Control Change Impact Summarizer","Explains how a process change affects existing control coverage.","rag"],
+["Issue Trend Analyzer","Narrates trends in control issues over time, sourced from the tracking data.","rag"]
+]},
+{id:"compliance",group:"product",name:"Compliance",role:"AML, surveillance, and regulatory adherence",ideas:[
+["Compliance Guardrail Layer","A deterministic engine blocks non-compliant actions before execution; the model only explains why.","guard"],
+["SAR/AML Triage Copilot","Summarizes a flagged transaction cluster with the specific rule that triggered it; a human files or dismisses.","hitl","c7"],
+["Regulatory Change Impact Mapper","Maps new regulation text to the specific internal policies it affects.","rag"],
+["Surveillance Alert Explainer","Turns a trade-surveillance alert into a plain summary citing the underlying data points.","rag"],
+["Compliance Manual Q&A","Retrieval chatbot over the compliance manual that cites the section or declines to answer.","rag"],
+["Gift & Entertainment Log Reviewer","A deterministic rule flags entries that may breach policy thresholds.","guard"],
+["Communications Review Summarizer","Summarizes flagged employee communications under strict access controls.","priv"],
+["Training Gap Reporter","Narrates who is missing required training and why it matters for their role.","rag"],
+["Cross-Border Rule Checklist","Confirms cross-border service rules before an advisor acts, citing the jurisdiction rule.","guard"],
+["Whistleblower Intake Summarizer","Condenses an intake report into structured categories, access-controlled and human-reviewed.","priv"]
+]},
+{id:"hr",group:"product",name:"HR",role:"Talent, policy, and employee experience",ideas:[
+["Employee Policy Q&A","Retrieval chatbot over the HR handbook that declines to answer outside documented policy.","rag"],
+["Bias-Audited Resume Screener","Screens resumes against documented, auditable criteria and flags candidates for human review — never auto-rejects.","bias"],
+["Onboarding Checklist Copilot","Guides new hires through required steps and flags what's missing.","hitl"],
+["Employee Sentiment Digest","Summarizes anonymized survey feedback into themes, aggregated to protect privacy.","priv"],
+["Performance Review Drafting Assistant","Helps managers draft reviews from documented examples; the manager retains full authorship.","hitl"],
+["Compensation Benchmark Explainer","Narrates market benchmark comparisons for a role, citing the data source and date.","rag"],
+["Internal Mobility Matcher","Matches employees to openings based on stated skills; a recruiter reviews every match.","hitl"],
+["Exit Interview Theme Analyzer","Summarizes exit-interview themes for leadership, fully anonymized.","priv"],
+["Learning Path Recommender","Suggests training grounded in a documented skill-gap assessment, not guesswork.","rag"],
+["Policy Change FAQ Generator","Drafts an employee FAQ when a policy changes; HR reviews before publishing.","hitl"]
+]},
+{id:"cpb-nam",group:"frontline",name:"CPB NAM",role:"Private banking coverage, North America",ideas:[
+["Grounded Portfolio Q&A (NAM)","RAG chatbot for NAM advisors that cites the source record and declines to guess.","rag"],
+["Meeting Prep Copilot","Drafts a pre-meeting brief from CRM and portfolio data, flagging any unverifiable claim.","conf","c3"],
+["Tax-Aware Guardrail Explainer","Checks tax-loss harvesting or muni suggestions against IPS and tax rules; the model explains the result.","guard"],
+["Next-Best-Action Suggester","Surfaces relevant products or events for outreach; the advisor always decides whether to act.","hitl"],
+["SEC/FINRA Disclosure Checker","Verifies required disclosures are present before client-facing material goes out.","guard"],
+["Estate Event Detector","Flags likely estate-planning triggers from documented life events; a human decides on outreach.","hitl"],
+["Client Complaint Summarizer","Condenses complaint text into a categorized summary with cited excerpts for compliance.","rag"],
+["Market Commentary Personalizer","Tailors house-view commentary to a client's actual NAM holdings.","rag"],
+["Win-Loss Analyzer","Summarizes why NAM won or lost a prospect, sourced from CRM notes.","rag"],
+["Onboarding Document Extractor","Extracts KYC data from NAM account forms with a confidence flag per field.","conf"]
+]},
+{id:"cpb-emea",group:"frontline",name:"CPB EMEA",role:"Private banking coverage, Europe, Middle East & Africa",ideas:[
+["Multi-Jurisdiction Checklist Assistant","Checks a proposed service against country-specific cross-border rules across EMEA.","guard"],
+["Multilingual Grounded Q&A","Answers client questions in their own language, strictly grounded in verified data.","rag"],
+["FX Exposure Narrator","Explains changes in a portfolio's currency exposure using real, current rates.","rag"],
+["Privacy-Safe Client Insight Copilot","Summarizes client data through a data-minimization filter that runs before the model sees it.","priv"],
+["Cross-Border Tax Flag Assistant","Flags when a transaction may trigger cross-border tax complexity and routes it to a specialist.","hitl"],
+["Regional Regulatory Digest","Summarizes EU, UK, and Swiss regulatory changes relevant to private banking.","rag"],
+["Sanctions Screening Explainer","Explains why a name or transaction was flagged, citing the specific match reason.","rag"],
+["Meeting Note Translator","Converts multilingual meeting notes into a standardized English summary, flags translation uncertainty.","conf"],
+["EMEA Commentary Localizer","Adapts house-view commentary to EMEA-specific market context.","rag"],
+["Document Authentication Assistant","Flags inconsistencies across the many EMEA identity-document formats used in KYC.","conf"]
+]},
+{id:"cpb-apac",group:"frontline",name:"CPB APAC",role:"Private banking coverage, Asia-Pacific",ideas:[
+["Multilingual Grounded Q&A","Answers in the client's language, grounded strictly in verified data, declines rather than guesses.","rag"],
+["APAC Cross-Border Checklist","Checks a proposed service against Hong Kong, Singapore, and Japan-specific rules.","guard"],
+["Family Structure Explainer","Explains complex trust or holding structures in plain language from the documented structure only.","rag"],
+["Capital Controls Alert","Flags transactions that may hit local capital-control restrictions, citing the jurisdiction rule.","guard"],
+["APAC Commentary Localizer","Adapts CIO house views to APAC-specific market context.","rag"],
+["Next-Gen Transfer Copilot","Flags succession-planning triggers for family-owned businesses; a human decides on outreach.","hitl"],
+["Multilingual Complaint Summarizer","Condenses complaints from the local language into an English summary with cited excerpts.","rag"],
+["Sanctions/PEP Screening Explainer","Explains why a client or transaction was flagged, citing the exact match criteria.","rag"],
+["Alt-Asset Document Extractor","Pulls structured data from regionally common alternative-asset documents, confidence-flagged.","conf"],
+["Onboarding Document Extractor","Handles region-specific ID formats for KYC with a confidence flag per field.","conf"]
+]},
+{id:"cpb-latam",group:"frontline",name:"CPB LATAM",role:"Private banking coverage, Latin America",ideas:[
+["Multilingual Grounded Q&A (ES/PT)","Spanish and Portuguese chatbot grounded strictly in verified data, declines when ungrounded.","rag"],
+["US-Reporting Checklist Assistant","Flags US tax and reporting implications for LATAM clients with US ties, citing the specific rule.","guard"],
+["Currency Volatility Narrator","Explains portfolio impact from local currency volatility using real, current FX data.","rag"],
+["Source-of-Wealth Assistant","Helps compile and organize source-of-wealth documentation for enhanced due diligence.","hitl"],
+["Regional Regulatory Digest","Summarizes country-specific regulatory changes across LATAM markets.","rag"],
+["Family Succession Copilot","Flags succession-planning triggers for family businesses; a human decides on outreach.","hitl"],
+["Sanctions/PEP Screening Explainer","Explains why a name was flagged, citing the exact match criteria.","rag"],
+["Meeting Note Translator","Spanish/Portuguese notes to an English CRM summary, flags translation uncertainty.","conf"],
+["Onboarding Document Extractor","Region-specific ID formats extracted with a confidence flag per field.","conf"],
+["Hedging Rationale Explainer","Explains why a currency-hedging strategy was recommended, grounded in documented logic.","rag"]
+]},
+{id:"waw",group:"frontline",name:"WaW",role:"Specialized client-segment coverage",ideas:[
+["Segment Content Personalizer","Tailors educational content to this segment's documented preferences, grounded in real engagement data.","rag"],
+["Grounded Client Q&A Copilot","Same cite-or-decline pattern, tuned to this segment's advisors.","rag"],
+["Life-Event Outreach Detector","Flags relevant life events for proactive, segment-appropriate outreach; a human approves every touch.","hitl"],
+["Event ROI Summarizer","Condenses segment-focused event data into an ROI narrative sourced from the CRM export.","rag"],
+["Expertise Matching Assistant","Matches clients to relevant advisor expertise based on documented interests.","hitl"],
+["Segment Sentiment Digest","Summarizes anonymized feedback specific to this client segment.","priv"],
+["Content Compliance Reviewer","Checks segment-tailored content against compliance guidelines before it publishes.","guard"],
+["Referral Pattern Analyzer","Narrates referral trends within the segment, sourced from CRM data.","rag"],
+["Educational Webinar Q&A","Retrieval chatbot answering segment FAQs from vetted educational material only.","rag"],
+["Advisor Coaching Digest","Summarizes what's resonating with this segment for advisor coaching, grounded in real data.","rag"]
+]},
+{id:"nam-cg-retail",group:"frontline",name:"NAM CG & Retail",role:"Consumer and retail banking, North America",ideas:[
+["Retail FAQ Bot","Retrieval chatbot over product terms and conditions, cites the document or declines to answer.","rag"],
+["Fee Explainer","Explains why a fee was charged, grounded in the actual account rules; disputes route to a human.","hitl"],
+["Real-Time Scam Shield","Flags social-engineering patterns in a transfer request before it's confirmed, rules plus model reasoning.","guard","c4,c11"],
+["Grounded Spending Insight Generator","Summarizes a customer's spending pattern from real transaction data — no invented numbers.","rag"],
+["Product Eligibility Checker","A deterministic rule checks eligibility; the model explains the result in plain language.","guard"],
+["Dispute Triage Copilot","Summarizes dispute evidence and cites the applicable policy for the reviewing agent.","rag"],
+["Branch Staffing Narrator","Turns branch traffic analytics into a staffing recommendation, every figure sourced from the data.","rag"],
+["Complaint Summarizer","Condenses complaint text with cited excerpts for compliance review.","rag"],
+["Financial Wellness Nudge Generator","Suggests grounded, personalized savings nudges using only compliance-approved templates.","guard","c12"],
+["Onboarding Document Extractor","Extracts KYC data from retail account-opening documents with a confidence flag per field.","conf"]
+]},
+{id:"asia-north",group:"frontline",name:"Asia North",role:"Private banking coverage, North Asia",ideas:[
+["Multilingual Grounded Q&A (JP/KR/CN)","Grounded chatbot in the client's language that declines rather than guesses.","rag"],
+["Regional Regulatory Digest","Summarizes Japan and Korea-specific regulatory changes.","rag"],
+["Cross-Border Checklist Assistant","Checks a proposed service against jurisdiction-specific rules.","guard"],
+["Rate Environment Narrator","Explains portfolio impact from regional rate and currency moves using real, current data.","rag"],
+["Family Succession Copilot","Flags succession-planning triggers; a human decides on outreach.","hitl"],
+["Sanctions/PEP Screening Explainer","Explains flag reasons with cited match criteria.","rag"],
+["Meeting Note Translator","Localized-language notes to an English CRM summary, flags translation uncertainty.","conf"],
+["Onboarding Document Extractor","Region-specific ID formats extracted with a confidence flag per field.","conf"],
+["Commentary Localizer","Adapts CIO house views to Asia North market context.","rag"],
+["Alt-Asset Document Extractor","Structured extraction from regionally common alternative-asset documents.","conf"]
+]},
+{id:"asia-south",group:"frontline",name:"Asia South",role:"Private banking coverage, South & Southeast Asia",ideas:[
+["Multilingual Grounded Q&A (Bahasa/Thai/Hindi)","Grounded chatbot in the client's language that declines rather than guesses.","rag"],
+["Regional Regulatory Digest","Summarizes Singapore, India, and Southeast Asia regulatory changes.","rag"],
+["Capital Controls Checklist","Checks transactions against jurisdiction-specific capital-control rules.","guard"],
+["Family Structure Explainer","Explains complex structures in plain language from documented data only.","rag"],
+["Currency Volatility Narrator","Grounded FX exposure explanation using real, current rates.","rag"],
+["Sanctions/PEP Screening Explainer","Explains flag reasons with cited match criteria.","rag"],
+["Meeting Note Translator","Localized-language notes to an English CRM summary, flags translation uncertainty.","conf"],
+["Onboarding Document Extractor","Region-specific ID formats extracted with a confidence flag per field.","conf"],
+["Commentary Localizer","Adapts CIO house views to Asia South market context.","rag"],
+["Next-Gen Transfer Copilot","Flags succession-planning triggers for family-owned businesses; a human decides on outreach.","hitl"]
+]}
+];
+
+const GROUPLABEL = { product:"Product & Support", frontline:"Front-Line" };
+
+const CITATIONS = {
+  c1:["Citi Wealth — AskWealth","GenAI conversational assistant giving advisory and service teams instant, grounded answers across the Wealth ecosystem. Launched 2025, now global.","https://www.citigroup.com/global/news/press-release/2025/citi-wealth-launches-advisor-insights-askwealth"],
+  c2:["Citi Wealth — Advisor Insights","ML-based markets update dashboard for advisors, piloted alongside AskWealth in 2025.","https://www.citigroup.com/global/news/press-release/2025/citi-wealth-launches-advisor-insights-askwealth"],
+  c3:["Merrill & Bank of America Private Bank — AI-Powered Meeting Journey","Meeting prep, live summarization, and follow-up for advisors — saved up to 4 hours per meeting across 1,500+ advisors in beta. Rolled out fully in March 2026.","https://newsroom.bankofamerica.com/content/newsroom/press-releases/2026/03/merrill-and-bank-of-america-private-bank-launch-ai-powered-meeti.html"],
+  c4:["DBS, Singapore Courts & National Crime Prevention Council — Hackathon for a Better World","Winning teams built AI/ML solutions to detect and warn users of scam attempts in real time.","https://www.judiciary.gov.sg/news-and-resources/news/news-details/joint-media-release-dbs-singapore-courts-and-national-crime-prevention-council-announce-winners-of-community-hackathon-to-find-solutions-that-foster-a-scam-resilient-society"],
+  c5:["Global IME Bank AI/ML Hackathon — Team Calculus (grand winner)","Won with “Personalized Financial Management & Retention Offers.”","https://www.globalimebank.com/blog/global-ime-banks-ai-ml-hackathon-concludes/"],
+  c6:["CTBC Bank — Asset Review System & AI Remote Wealth Management Model","Banking Tech Awards 2025 winner for AI-driven client asset review and remote wealth management.","https://informaconnect.com/banking-tech-awards/2025-winners/"],
+  c7:["HSBC Technology Hackathons","Named focus areas across HSBC's hackathon program include using AI/ML for fraud detection and customer-service decisioning.","https://hackculture.io/blog/from-code-to-career-hsbc-technology-hiring-hackathon-highlights"],
+  c8:["Capital One Launchpad hackathon","Finalist pattern (e.g. AgriSenseAI) combined retrieval-augmented reasoning, policy-compliance checks, and scenario simulation — the same grounded-plus-guardrail architecture used throughout this idea bank.","https://capitalone.hackerearth.com/"],
+  c9:["Google Cloud — Agent Development Kit Hackathon 2025 — TradeSageAI","Multi-agent financial-analysis platform built on ADK, Agent Engine, Cloud Run, and Vertex AI, evaluating trading hypotheses — one of the hackathon's standout finance builds among 10,400+ participants and 477 submissions.","https://cloud.google.com/blog/products/ai-machine-learning/adk-hackathon-results-winners-and-highlights/"],
+  c10:["Google Cloud — GKE Turns 10 Hackathon — CardOS","Regional-winning multi-agent pipeline for credit pre-approval: analyzes spending patterns from Bank of Anthos data, tailors terms and perks, and balances bank profitability with customer value using ADK, MCP, and A2A protocols. Source code: github.com/amelia751/bank-of-anthos.","https://github.com/amelia751/bank-of-anthos"],
+  c11:["Google Cloud — GKE Turns 10 Hackathon — Vigil AI","A proactive, hierarchical multi-agent system securing the Bank of Anthos app against fraud — four specialized agents orchestrated on GKE flag suspicious activity and can lock accounts autonomously.","https://cloud.google.com/blog/topics/developers-practitioners/winners-and-highlights-from-gke-hackathon"],
+  c12:["MumbaiHacks 2025 (fintech category winner) — MoneyMitra","At what organizers called the world's largest Agentic AI hackathon, MoneyMitra won the fintech category: automated budgeting, OCR/SMS transaction classification, spending alerts, portfolio tracking, and multilingual financial-literacy modules.","https://www.tribuneindia.com/news/business/mumbaihacks-2025-crowns-indias-next-gen-ai-innovators-with-inr-1-crore-cash-and-rewards-marking-the-worlds-largest-agentic-ai-hackathon/"],
+  c13:["Lloyds Banking Group — “2026: The year of Agentic AI, and a new era for finance”","A major bank's own published position: agentic AI — not generative AI — defines the 2026 shift in financial services.","https://www.lloydsbankinggroup.com/insights/2026-the-year-of-agentic-ai-and-a-new-era-for-finance.html"],
+  c14:["State Bank of India — SBI Hackathon at Global Fintech Fest 2026","India's largest bank is running its 2026 innovation challenge specifically themed “Agentic AI Banking Solutions,” confirming the same generative-to-agentic pivot this idea bank is built around.","https://internshala.com/competitions/sbi-hackathon-at-gff-2026-win-%E2%82%B94-75-lakh-for-agentic-ai-banking-solutions/"]
+};
+
+function chevron(){
+  return '<svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 6 15 12 9 18"/></svg>';
+}
+
+function render(){
+  const arenasEl = document.getElementById('arenas');
+  const indexEl = document.getElementById('index');
+  const legendEl = document.getElementById('legend');
+
+  legendEl.innerHTML = Object.entries(TAGS).map(([k,v]) => `<span><b>${TAGLABEL[k]}</b> — ${v}</span>`).join('');
+
+  const evEl = document.getElementById('evidence-list');
+  evEl.innerHTML = Object.entries(CITATIONS).map(([key,[bank,blurb,url]], i) =>
+    `<div class="evidence-item" id="cite-${key}">
+      <span class="evidence-num">${i+1}</span>
+      <span><b>${bank}</b> — <span class="src">${blurb}</span> <a class="srclink" href="${url}" target="_blank" rel="noopener noreferrer">source ↗</a></span>
+    </div>`
+  ).join('');
+
+  let indexHtml = '';
+  ['product','frontline'].forEach(g => {
+    indexHtml += `<div class="index-group" data-ig="${g}"><p class="index-label">${GROUPLABEL[g]}</p>`;
+    ARENAS.filter(a => a.group === g).forEach(a => {
+      indexHtml += `<a href="#${a.id}" data-idx="${a.id}"><span>${a.name}</span><span class="n">${a.ideas.length}</span></a>`;
+    });
+    indexHtml += `</div>`;
+  });
+  indexEl.innerHTML = indexHtml;
+
+  let html = '';
+  ARENAS.forEach(a => {
+    html += `<details class="arena" id="${a.id}" data-group="${a.group}" data-name="${a.name.toLowerCase()}">
+      <summary class="arena-head">
+        <div class="arena-title-wrap">
+          <span class="arena-title">${a.name}</span>
+          <span class="arena-role">${a.role}</span>
+        </div>
+        <div class="arena-meta"><span class="arena-count">${a.ideas.length} ideas</span>${chevron()}</div>
+      </summary>
+      <div class="idea-list">`;
+    a.ideas.forEach((idea, i) => {
+      const [t, d, tag, cite] = idea;
+      const citeKeys = cite ? cite.split(',') : [];
+      const citeBadge = citeKeys.map(k => {
+        const n = Object.keys(CITATIONS).indexOf(k) + 1;
+        return `<a class="cite-badge" href="#cite-${k}" title="${CITATIONS[k][0]}">${n}</a>`;
+      }).join('');
+      html += `<div class="idea-row" data-text="${(t+' '+d+' '+TAGLABEL[tag]).toLowerCase().replace(/"/g,'&quot;')}">
+        <span class="idea-idx">${String(i+1).padStart(2,'0')}</span>
+        <span>
+          <span class="idea-title">${t}${citeBadge}</span>
+          <div class="idea-desc">${d}</div>
+        </span>
+        <span class="idea-tag" title="${TAGS[tag]}">${TAGLABEL[tag]}</span>
+      </div>`;
+    });
+    html += `</div></details>`;
+  });
+  arenasEl.innerHTML = html;
+}
+render();
+
+// ---- interactions ----
+const searchInput = document.getElementById('search');
+const groupBtns = document.querySelectorAll('#grouptabs button');
+const toggleAllBtn = document.getElementById('toggleall');
+const emptyEl = document.getElementById('empty');
+let currentGroup = 'all';
+let expandedAll = false;
+
+function applyFilters(){
+  const q = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  document.querySelectorAll('details.arena').forEach(arena => {
+    const group = arena.dataset.group;
+    const groupMatch = currentGroup === 'all' || group === currentGroup;
+    let arenaHasMatch = false;
+    const rows = arena.querySelectorAll('.idea-row');
+    rows.forEach(row => {
+      const match = !q || row.dataset.text.includes(q);
+      row.classList.toggle('hidden', !match);
+      if (match) arenaHasMatch = true;
+    });
+    const nameMatch = arena.dataset.name.includes(q);
+    const visible = groupMatch && (!q || arenaHasMatch || nameMatch);
+    arena.classList.toggle('hidden', !visible);
+    if (visible){
+      anyVisible = true;
+      if (q) arena.open = true;
+    }
+    const idxLink = document.querySelector(`a[data-idx="${arena.id}"]`);
+    if (idxLink) idxLink.classList.toggle('hidden', !visible);
+  });
+  document.querySelectorAll('.index-group').forEach(g => {
+    const anyLink = g.querySelectorAll('a:not(.hidden)').length > 0;
+    g.style.display = (currentGroup === 'all' || currentGroup === g.dataset.ig) && anyLink ? '' : 'none';
+  });
+  emptyEl.classList.toggle('show', !anyVisible);
+}
+
+searchInput.addEventListener('input', applyFilters);
+
+groupBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    groupBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentGroup = btn.dataset.g;
+    applyFilters();
+  });
+});
+
+toggleAllBtn.addEventListener('click', () => {
+  expandedAll = !expandedAll;
+  document.querySelectorAll('details.arena').forEach(d => d.open = expandedAll);
+  toggleAllBtn.textContent = expandedAll ? 'Collapse all' : 'Expand all';
+});
+
+document.querySelectorAll('#index a').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const target = document.getElementById(a.dataset.idx);
+    if (target) target.open = true;
+  });
+});
+
+applyFilters();
+</script>
+</body>
+</html>
