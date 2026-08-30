@@ -1669,6 +1669,149 @@ footer {
   font-weight: 500;
 }
 
+
+/* ---- Swing Trading Block (1-2 Weeks Horizon) ---- */
+.swing-desk-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  border-top: 4px solid var(--accent);
+}
+.swing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 1.25rem;
+}
+.swing-card {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+.swing-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: var(--accent);
+}
+.swing-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.swing-card-title h3 {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin: 0;
+}
+.swing-card-title .stk-ticker {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.swing-badge-horizon {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 99px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.swing-badge-horizon.reversal {
+  background: var(--neutral-soft);
+  color: var(--neutral-flag);
+}
+.swing-levels-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.75rem 0.85rem;
+}
+.swing-lvl-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.swing-lvl-col .k {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--muted);
+  font-weight: 700;
+}
+.swing-lvl-col .v {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+.swing-lvl-col .v.gain { color: var(--gain); }
+.swing-lvl-col .v.loss { color: var(--loss); }
+
+.swing-stat-pill-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.swing-pill {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.swing-calc-wrap {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.25rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+@media (max-width: 768px) {
+  .swing-calc-wrap { grid-template-columns: 1fr; }
+}
+.swing-rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+.swing-rule-item {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.75rem 0.85rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+.swing-rule-item strong { color: var(--accent); font-family: 'IBM Plex Mono', monospace; }
+
 </style>
 </head>
 <body>
@@ -1838,6 +1981,7 @@ footer {
             <button class="voice-mode-btn active" data-mode="stocks" id="btn-mode-stocks">🚀 Stock Picks Only</button>
             <button class="voice-mode-btn" data-mode="news" id="btn-mode-news">📰 Live News Brief</button>
             <button class="voice-mode-btn" data-mode="full" id="btn-mode-full">📊 Full Summary</button>
+            <button class="voice-mode-btn" data-mode="swing" id="btn-mode-swing">🎯 1-2W Swing Trades</button>
             
             <select class="voice-select" id="voice-rate-select" title="Speaking Speed">
               <option value="1.0" selected>Speed: 1.0x</option>
@@ -2189,6 +2333,280 @@ footer {
     </section>
 
     <!-- Momentum Watchlist -->
+    
+    <!-- SWING TRADING DESK (1-2 WEEKS HORIZON) -->
+    <section id="swing-trading-section">
+      <div class="section-head">
+        <div class="section-head-left">
+          <h2>Swing Trading Desk &middot; 1–2 Weeks Horizon</h2>
+          <span class="count">5 high-probability setups</span>
+        </div>
+      </div>
+      <p class="section-note">Researched based on last week's momentum breakouts, volume expansion, and fresh catalyst flows. Engineered for <strong>7–14 calendar days</strong> holding with strict risk:reward ratios (&ge; 1:2.3).</p>
+
+      <div class="swing-grid">
+        <!-- SETUP 1: WELSPUN CORP -->
+        <div class="swing-card" data-stock="Welspun Corp">
+          <div class="swing-card-head">
+            <div class="swing-card-title">
+              <h3>Welspun Corp</h3>
+              <span class="stk-ticker">NSE: WELSPUNCORP &middot; Large Cap</span>
+            </div>
+            <span class="swing-badge-horizon">1–2W Breakout</span>
+          </div>
+          
+          <div class="swing-levels-box">
+            <div class="swing-lvl-col">
+              <span class="k">Entry Range</span>
+              <span class="v num">₹2,360–₹2,385</span>
+            </div>
+            <div class="swing-lvl-col">
+              <span class="k">Target (1-2W)</span>
+              <span class="v num gain">₹2,620 (+10.5%)</span>
+            </div>
+            <div class="swing-lvl-col">
+              <span class="k">Stop-Loss</span>
+              <span class="v num loss">₹2,260 (-4.6%)</span>
+            </div>
+          </div>
+
+          <div class="swing-stat-pill-row">
+            <span class="swing-pill">Risk:Reward <strong>1 : 2.3</strong></span>
+            <span class="swing-pill">Trigger: <strong>$1.8B US Order</strong></span>
+            <span class="swing-pill">Target 1: <strong>₹2,520</strong></span>
+          </div>
+
+          <div class="watch-field">
+            <span class="k">Technical &amp; Catalyst Rationale</span>
+            <span class="v" style="font-size:0.83rem;line-height:1.45;">
+              Stock printed a fresh all-time high on 3.4x 20-day average volume after landing the $1.8bn US order. Consolidated tight on Friday. A sustained move above ₹2,380 triggers continuation towards Nuvama's upgraded ₹2,656 target.
+            </span>
+          </div>
+        </div>
+
+        <!-- SETUP 2: HINDUSTAN ZINC -->
+        <div class="swing-card" data-stock="Hindustan Zinc">
+          <div class="swing-card-head">
+            <div class="swing-card-title">
+              <h3>Hindustan Zinc</h3>
+              <span class="stk-ticker">NSE: HINDZINC &middot; Metals</span>
+            </div>
+            <span class="swing-badge-horizon">1–2W Squeeze</span>
+          </div>
+          
+          <div class="swing-levels-box">
+            <div class="swing-lvl-col">
+              <span class="k">Entry Range</span>
+              <span class="v num">₹618–₹625</span>
+            </div>
+            <div class="swing-lvl-col">
+              <span class="k">Target (1-2W)</span>
+              <span class="v num gain">₹715 (+14.8%)</span>
+            </div>
+            <div class="swing-lvl-col">
+              <span class="k">Stop-Loss</span>
+              <span class="v num loss">₹588 (-5.4%)</span>
+            </div>
+          </div>
+
+          <div class="swing-stat-pill-row">
+            <span class="swing-pill">Risk:Reward <strong>1 : 2.7</strong></span>
+            <span class="swing-pill">Trigger: <strong>Zinc Spot +31%</strong></span>
+            <span class="swing-pill">Target 1: <strong>₹675</strong></span>
+          </div>
+
+          <div class="watch-field">
+            <span class="k">Technical &amp; Catalyst Rationale</span>
+            <span class="v" style="font-size:0.83rem;line-height:1.45;">
+              Spot zinc and silver rally on severe mine constraints outside China. Jefferies upgrade to ₹750 catalyzed massive institutional turnover. Weekly chart shows a multi-week cup-and-handle breakout ready for extension.
+            </span>
+          </div>
+        </div>
+
+        <!-- SETUP 3: BHARAT ELECTRONICS -->
+        <div class="swing-card" data-stock="Bharat Electronics (BEL)">
+          <div class="swing-card-head">
+            <div class="swing-card-title">
+              <h3>Bharat Electronics</h3>
+              <span class="stk-ticker">NSE: BEL &middot; Defence PSU</span>
+            </div>
+            <span class="swing-badge-horizon">1–2W Pullback</span>
+          </div>
+          
+          <div class="swing-levels-box">
+            <div class="swing-lvl-col">
+              <span class="k">Entry Range</span>
+              <span class="v num">₹408–₹414</span>
+            </div>
+            <div class="swing-lvl-col">
+              <span class="k">Target (1-2W)</span>
+              <span class="v num gain">₹462 (+11.8%)</span>
+            </div>
+            <div class="swing-lvl-col">
+              <span class="k">Stop-Loss</span>
+              <span class="v num loss">₹392 (-4.3%)</span>
+            </div>
+          </div>
+
+          <div class="swing-stat-pill-row">
+            <span class="swing-pill">Risk:Reward <strong>1 : 2.6</strong></span>
+            <span class="swing-pill">Trigger: <strong>Tejas 97 Jet Book</strong></span>
+            <span class="swing-pill">Target 1: <strong>₹445</strong></span>
+          </div>
+
+          <div class="watch-field">
+            <span class="k">Technical &amp; Catalyst Rationale</span>
+            <span class="v" style="font-size:0.83rem;line-height:1.45;">
+              BEL completed a 4-day shallow pullback to its 20-day EMA support zone and bounced firmly on Friday. Defence PSU basket is witnessing consistent domestic mutual fund inflows; HDFC Securities target stands at ₹490.
+            </span>
+          </div>
+        </div>
+
+        <!-- SETUP 4: MASTEK -->
+        <div class="swing-card" data-stock="Mastek">
+          <div class="swing-card-head">
+            <div class="swing-card-title">
+              <h3>Mastek</h3>
+              <span class="stk-ticker">NSE: MASTEK &middot; IT Services</span>
+            </div>
+            <span class="swing-badge-horizon reversal">1–2W Reversal</span>
+          </div>
+          
+          <div class="swing-levels-box">
+            <div class="swing-lvl-col">
+              <span class="k">Entry Range</span>
+              <span class="v num">₹1,885–₹1,915</span>
+            </div>
+            <div class="swing-lvl-col">
+              <span class="k">Target (1-2W)</span>
+              <span class="v num gain">₹2,140 (+12.2%)</span>
+            </div>
+            <div class="swing-lvl-col">
+              <span class="k">Stop-Loss</span>
+              <span class="v num loss">₹1,815 (-4.5%)</span>
+            </div>
+          </div>
+
+          <div class="swing-stat-pill-row">
+            <span class="swing-pill">Risk:Reward <strong>1 : 2.5</strong></span>
+            <span class="swing-pill">Trigger: <strong>Tech Short Squeeze</strong></span>
+            <span class="swing-pill">Target 1: <strong>₹2,060</strong></span>
+          </div>
+
+          <div class="watch-field">
+            <span class="k">Technical &amp; Catalyst Rationale</span>
+            <span class="v" style="font-size:0.83rem;line-height:1.45;">
+              Surged +17.98% on Friday breaking out of a 2-month base as global tech sentiment flipped bullish post Nvidia Q2. High-beta setup with RSI crossing 60; ideal candidate for a 1–2 week momentum follow-through.
+            </span>
+          </div>
+        </div>
+
+        <!-- SETUP 5: ATHER ENERGY -->
+        <div class="swing-card" data-stock="Ather Energy">
+          <div class="swing-card-head">
+            <div class="swing-card-title">
+              <h3>Ather Energy</h3>
+              <span class="stk-ticker">NSE: ATHERENERGY &middot; EV Auto</span>
+            </div>
+            <span class="swing-badge-horizon">1–2W Momentum</span>
+          </div>
+          
+          <div class="swing-levels-box">
+            <div class="swing-lvl-col">
+              <span class="k">Entry Range</span>
+              <span class="v num">₹1,600–₹1,625</span>
+            </div>
+            <div class="swing-lvl-col">
+              <span class="k">Target (1-2W)</span>
+              <span class="v num gain">₹1,840 (+13.8%)</span>
+            </div>
+            <div class="swing-lvl-col">
+              <span class="k">Stop-Loss</span>
+              <span class="v num loss">₹1,515 (-5.8%)</span>
+            </div>
+          </div>
+
+          <div class="swing-stat-pill-row">
+            <span class="swing-pill">Risk:Reward <strong>1 : 2.4</strong></span>
+            <span class="swing-pill">Trigger: <strong>EV Share Expansion</strong></span>
+            <span class="swing-pill">Target 1: <strong>₹1,760</strong></span>
+          </div>
+
+          <div class="watch-field">
+            <span class="k">Technical &amp; Catalyst Rationale</span>
+            <span class="v" style="font-size:0.83rem;line-height:1.45;">
+              Gained 33% over 1 month and 127% over 6 months. Clean ascending channel structure with expanding delivery percentages. Volume expansion on Friday confirmed strong accumulator interest.
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Swing Position Sizer & Risk Calculator -->
+      <div class="swing-desk-card" style="margin-top:1.25rem;">
+        <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.15rem;">🎯 Interactive Swing Position Sizer &amp; Risk Manager</h3>
+        <p class="section-note" style="margin:0;">Calculate your exact share quantity and capital allocation before executing any 1–2 week swing trade.</p>
+        
+        <div class="swing-calc-wrap">
+          <div class="calc-form">
+            <div class="calc-input-group">
+              <div class="calc-label-row">
+                <label for="swing-capital">Total Trading Account Capital (₹)</label>
+                <span class="calc-val-display" id="swing-cap-val">₹5,00,000</span>
+              </div>
+              <input type="range" id="swing-capital" class="calc-slider" min="50000" max="2500000" step="25000" value="500000">
+            </div>
+
+            <div class="calc-input-group">
+              <div class="calc-label-row">
+                <label for="swing-risk-pct">Max Risk Per Trade (%)</label>
+                <span class="calc-val-display" id="swing-risk-val">1.5%</span>
+              </div>
+              <input type="range" id="swing-risk-pct" class="calc-slider" min="0.5" max="3.0" step="0.25" value="1.5">
+            </div>
+
+            <div class="calc-input-group">
+              <div class="calc-label-row">
+                <label for="swing-select-setup">Select Setup</label>
+              </div>
+              <select class="voice-select" id="swing-select-setup" style="max-width:100%;padding:0.5rem 0.75rem;font-size:0.85rem;">
+                <option value="2373.80,2260,2620">Welspun Corp (Entry: ₹2,373.80 | SL: ₹2,260 | Tgt: ₹2,620)</option>
+                <option value="622.00,588,715">Hindustan Zinc (Entry: ₹622.00 | SL: ₹588 | Tgt: ₹715)</option>
+                <option value="411.90,392,462">Bharat Electronics (Entry: ₹411.90 | SL: ₹392 | Tgt: ₹462)</option>
+                <option value="1901.40,1815,2140">Mastek (Entry: ₹1,901.40 | SL: ₹1,815 | Tgt: ₹2,140)</option>
+                <option value="1616.30,1515,1840">Ather Energy (Entry: ₹1,616.30 | SL: ₹1,515 | Tgt: ₹1,840)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="result-breakdown-grid" style="grid-template-columns:1fr 1fr;">
+            <div class="breakdown-tile">
+              <span class="k">Recommended Quantity</span>
+              <span class="v num" id="swing-res-qty">65 shares</span>
+            </div>
+            <div class="breakdown-tile">
+              <span class="k">Capital Deployed</span>
+              <span class="v num" id="swing-res-cost">₹1,54,297</span>
+            </div>
+            <div class="breakdown-tile">
+              <span class="k">Max Risk (If SL hits)</span>
+              <span class="v num loss" id="swing-res-risk">-₹7,397 (1.48%)</span>
+            </div>
+            <div class="breakdown-tile gain-tile">
+              <span class="k">Potential Gain (At Target)</span>
+              <span class="v num gain" id="swing-res-profit">+₹16,003 (R:R 1:2.2)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="swing-rules-grid">
+          <div class="swing-rule-item"><strong>RULE #1:</strong> Never risk &gt;1.5% of total account equity on any single swing setup.</div>
+          <div class="swing-rule-item"><strong>RULE #2:</strong> Move Stop-Loss to Cost Price once Target 1 is hit; lock in 50% gains.</div>
+          <div class="swing-rule-item"><strong>RULE #3:</strong> Check volume is &gt;1.5x average on breakout days for authentic institutional accumulation.</div>
+          <div class="swing-rule-item"><strong>RULE #4:</strong> Time-Stop: Exit or trim if price action goes flat after 8 trading sessions.</div>
+        </div>
+      </div>
+    </section>
+
     <section id="watchlist-anchor">
       <div class="section-head">
         <div class="section-head-left">
@@ -3584,6 +4002,65 @@ document.querySelectorAll('.watch-card').forEach(function(card){
   }
 
   // Generate dynamic contextual scripts
+  
+// ---- Swing Trading Position Sizer & Voice Script ----
+(function(){
+  var capInp = document.getElementById('swing-capital');
+  var riskInp = document.getElementById('swing-risk-pct');
+  var setupSel = document.getElementById('swing-select-setup');
+
+  function fmtINR(val) {
+    return '₹' + Math.round(val).toLocaleString('en-IN');
+  }
+
+  function updateSwingCalc() {
+    if (!capInp || !riskInp || !setupSel) return;
+    var totalCap = parseFloat(capInp.value) || 500000;
+    var maxRiskPct = parseFloat(riskInp.value) || 1.5;
+    
+    document.getElementById('swing-cap-val').textContent = fmtINR(totalCap);
+    document.getElementById('swing-risk-val').textContent = maxRiskPct.toFixed(2) + '%';
+
+    var maxRiskINR = totalCap * (maxRiskPct / 100);
+    
+    var parts = setupSel.value.split(',');
+    var entry = parseFloat(parts[0]);
+    var sl = parseFloat(parts[1]);
+    var tgt = parseFloat(parts[2]);
+
+    var riskPerShare = Math.max(0.1, entry - sl);
+    var rewardPerShare = Math.max(0.1, tgt - entry);
+    var qty = Math.max(1, Math.floor(maxRiskINR / riskPerShare));
+    var capitalDeployed = qty * entry;
+    var totalRisk = qty * riskPerShare;
+    var totalReward = qty * rewardPerShare;
+    var rrRatio = (rewardPerShare / riskPerShare).toFixed(1);
+
+    document.getElementById('swing-res-qty').textContent = qty + ' shares';
+    document.getElementById('swing-res-cost').textContent = fmtINR(capitalDeployed);
+    document.getElementById('swing-res-risk').textContent = '-' + fmtINR(totalRisk) + ' (' + ((totalRisk/totalCap)*100).toFixed(2) + '%)';
+    document.getElementById('swing-res-profit').textContent = '+' + fmtINR(totalReward) + ' (R:R 1:' + rrRatio + ')';
+  }
+
+  [capInp, riskInp, setupSel].forEach(function(el){
+    if (el) el.addEventListener('input', updateSwingCalc);
+    if (el) el.addEventListener('change', updateSwingCalc);
+  });
+  updateSwingCalc();
+})();
+
+function getSwingScript() {
+  return [
+    "Here is your momentWealth One to Two Week Swing Trading Briefing based on last week's momentum research.",
+    "First setup: Welspun Corp. All-time high breakout. Enter between 2,360 and 2,385 rupees. Stop-loss at 2,260 rupees. Target 1 at 2,520, final target 2,620 rupees for a 10.5% gain.",
+    "Second setup: Hindustan Zinc. Commodity squeeze play. Enter between 618 and 625 rupees. Stop-loss at 588 rupees. Target 1 at 675, final target 715 rupees for a 14.8% upside.",
+    "Third setup: Bharat Electronics BEL. 20 EMA pullback bounce. Enter between 408 and 414 rupees. Stop-loss at 392 rupees. Target 1 at 445, final target 462 rupees.",
+    "Fourth setup: Mastek. Tech short-squeeze continuation. Enter between 1,885 and 1,915 rupees. Stop-loss at 1,815 rupees. Target 2,140 rupees for a 12.2% return.",
+    "Fifth setup: Ather Energy. EV volume markup. Enter between 1,600 and 1,625 rupees. Stop-loss at 1,515 rupees. Target 1,840 rupees for a 13.8% return.",
+    "Remember Rule Number One: never risk more than 1.5% of total account equity per trade, and trail your stop-loss to cost once Target 1 is hit."
+  ];
+}
+
   function getStockRecommendationsScript() {
     return [
       "Here is your momentWealth High Conviction Stock Recommendation Briefing for next week.",
@@ -3691,7 +4168,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       if (isSpeaking) {
         stopSpeech();
       } else {
-        var script = currentMode === 'stocks' ? getStockRecommendationsScript() :
+        var script = currentMode === 'swing' ? getSwingScript() : (currentMode === 'stocks' ? getStockRecommendationsScript() :
                      (currentMode === 'news' ? getNewsSummaryScript() : getFullSummaryScript());
         speakScript(script);
         showToast('🎙️ AI Voice Agent is speaking...');
@@ -3709,7 +4186,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       btnText.textContent = currentMode === 'stocks' ? 'Read Stock Recommendations' : (currentMode === 'news' ? 'Read News Brief' : 'Read Full Summary');
       
       if (isSpeaking) {
-        var script = currentMode === 'stocks' ? getStockRecommendationsScript() :
+        var script = currentMode === 'swing' ? getSwingScript() : (currentMode === 'stocks' ? getStockRecommendationsScript() :
                      (currentMode === 'news' ? getNewsSummaryScript() : getFullSummaryScript());
         speakScript(script);
       } else {
