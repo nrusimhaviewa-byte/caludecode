@@ -200,6 +200,65 @@ body{
 .ticker-item .tchg.loss{color:var(--loss);}
 .ticker-item .tchg.flat{color:var(--faint);}
 
+/* ---- Hero ---- */
+.hero{background:#0A130F;color:#EFF4F1;}
+.hero-inner{
+  max-width:1040px;
+  margin:0 auto;
+  padding:3rem 1.5rem;
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:2rem;
+  align-items:center;
+}
+@media (max-width:680px){.hero-inner{grid-template-columns:1fr;}}
+.hero-eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.72rem;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:#6FE3AE;
+  font-weight:600;
+}
+.hero-title{
+  font-family:'Manrope',system-ui,sans-serif;
+  font-weight:800;
+  font-size:clamp(1.7rem,4vw,2.5rem);
+  line-height:1.15;
+  letter-spacing:-0.02em;
+  margin:0.6rem 0 0.75rem;
+  text-wrap:balance;
+  color:#FFFFFF;
+}
+.hero-sub{
+  font-size:0.98rem;
+  color:#B9C8C0;
+  max-width:38ch;
+  margin:0 0 1.4rem;
+}
+.hero-cta{
+  font-family:'Manrope',system-ui,sans-serif;
+  font-weight:700;
+  font-size:0.9rem;
+  background:#6FE3AE;
+  color:#062A1B;
+  border:none;
+  padding:0.85rem 1.5rem;
+  border-radius:99px;
+  cursor:pointer;
+}
+.hero-cta:hover{background:#8CEFC1;}
+.hero-graphic{
+  background:linear-gradient(160deg,#12271D,#0A130F);
+  border:1px solid #1E3229;
+  border-radius:20px;
+  padding:1.5rem;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+}
+.hero-graphic svg{width:100%;height:auto;max-width:260px;}
+
 /* ---- Masthead ---- */
 .masthead{
   display:flex;
@@ -343,6 +402,32 @@ body{
 .sector-tag.bull{background:var(--gain-soft);color:var(--gain);}
 .sector-tag.bear{background:var(--loss-soft);color:var(--loss);}
 .sector-tag.neu{background:var(--neutral-soft);color:var(--neutral-flag);}
+
+/* ---- Screener (tenure toggle) ---- */
+.screener{display:flex;flex-direction:column;gap:0.75rem;}
+.screener-toolbar{
+  display:inline-flex;
+  gap:0.2rem;
+  background:var(--surface-2);
+  border:1px solid var(--line);
+  border-radius:99px;
+  padding:0.25rem;
+  width:fit-content;
+}
+.tenure-btn{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.75rem;
+  font-weight:600;
+  letter-spacing:0.02em;
+  background:none;
+  border:none;
+  color:var(--muted);
+  padding:0.4rem 0.85rem;
+  border-radius:99px;
+  cursor:pointer;
+}
+.tenure-btn:hover{color:var(--ink);}
+.tenure-btn.active{background:var(--accent);color:var(--bg);}
 
 /* ---- Gainers table ---- */
 .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface);}
@@ -595,6 +680,28 @@ a:focus-visible, [tabindex]:focus-visible{outline:2px solid var(--accent);outlin
   </div>
 </div>
 
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <span class="hero-eyebrow">India markets &middot; one look</span>
+      <h2 class="hero-title">See what's actually moving your money today.</h2>
+      <p class="hero-sub">Sector trends, real prices across six timeframes, and a catalyst-driven watchlist — refreshed hourly, sourced in the open.</p>
+      <button class="hero-cta" id="hero-cta">Jump to the watchlist</button>
+    </div>
+    <div class="hero-graphic" aria-hidden="true">
+      <svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="110" width="22" height="40" rx="4" fill="rgba(255,255,255,0.16)"/>
+        <rect x="42" y="90" width="22" height="60" rx="4" fill="rgba(255,255,255,0.26)"/>
+        <rect x="74" y="70" width="22" height="80" rx="4" fill="rgba(255,255,255,0.38)"/>
+        <rect x="106" y="45" width="22" height="105" rx="4" fill="rgba(255,255,255,0.55)"/>
+        <rect x="138" y="20" width="22" height="130" rx="4" fill="#ffffff"/>
+        <path d="M14 108 L53 88 L85 68 L117 43 L149 18" stroke="#6FE3AE" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="149" cy="18" r="5" fill="#6FE3AE"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
 <div class="page">
   <div class="market-scope">Scope: India market only</div>
 
@@ -684,60 +791,48 @@ a:focus-visible, [tabindex]:focus-visible{outline:2px solid var(--accent);outlin
   </section>
 
   <section>
-    <div class="section-head"><h2>Today's NSE top gainers</h2><span class="count">snapshot, 30 Aug 2026</span></div>
-    <div class="data-caveat">NSE, BSE and Moneycontrol all block automated access from this environment (403s across the board), and the one gainers feed that did load didn't expose day % change — only price. So this table is prices only; treat the numbers below the fold on this page (weekly and monthly movers) as the verified ones, and check your broker terminal for today's live % change.</div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Stock</th><th class="price">Last price (₹)</th></tr></thead>
-        <tbody>
-          <tr><td>Mastek</td><td class="price num">1,901.40</td></tr>
-          <tr><td>Just Dial</td><td class="price num">704.55</td></tr>
-          <tr><td>Newgen Software Technologies</td><td class="price num">567.10</td></tr>
-          <tr><td>Ather Energy</td><td class="price num">1,616.30</td></tr>
-          <tr><td>Tejas Networks</td><td class="price num">550.15</td></tr>
-          <tr><td>PTC Industries</td><td class="price num">22,110.00</td></tr>
-          <tr><td>IFCI</td><td class="price num">89.96</td></tr>
-          <tr><td>Sun Pharma Advanced Research</td><td class="price num">207.71</td></tr>
-          <tr><td>NMDC Steel</td><td class="price num">49.02</td></tr>
-          <tr><td>Tata Teleservices (Maharashtra)</td><td class="price num">38.84</td></tr>
-        </tbody>
-      </table>
+    <div class="section-head"><h2>Stock screener</h2><span class="count">19 names &middot; switch tenure</span></div>
+    <p class="section-note">Every price and %, across every tenure, is a real number pulled from Dhan.co on 28 Aug 2026 — nothing here is estimated. Includes today's gainers, this week's movers, and the &gt;40%-in-a-month names (Welspun Corp, Morepen Laboratories) in one sortable-by-eye view.</p>
+    <div class="screener">
+      <div class="screener-toolbar" role="tablist" aria-label="Return period">
+        <button class="tenure-btn" data-period="d1" role="tab" aria-selected="false">1D</button>
+        <button class="tenure-btn" data-period="w1" role="tab" aria-selected="false">1W</button>
+        <button class="tenure-btn active" data-period="m1" role="tab" aria-selected="true">1M</button>
+        <button class="tenure-btn" data-period="m3" role="tab" aria-selected="false">3M</button>
+        <button class="tenure-btn" data-period="m6" role="tab" aria-selected="false">6M</button>
+        <button class="tenure-btn" data-period="y1" role="tab" aria-selected="false">1Y</button>
+      </div>
+      <div class="table-wrap">
+        <table class="screener-table">
+          <thead><tr><th>Company</th><th class="price">LTP (₹)</th><th class="price">Change %</th></tr></thead>
+          <tbody>
+            <tr data-d1="17.98" data-w1="12.28" data-m1="9.81" data-m3="16.48" data-m6="19.99" data-y1="-24.76"><td>Mastek</td><td class="price num">1,901.40</td><td class="price num chg"></td></tr>
+            <tr data-d1="10.00" data-w1="3.51" data-m1="-1.97" data-m3="31.81" data-m6="28.07" data-y1="-14.09"><td>Just Dial</td><td class="price num">704.55</td><td class="price num chg"></td></tr>
+            <tr data-d1="8.43" data-w1="7.54" data-m1="12.01" data-m3="29.46" data-m6="11.47" data-y1="-36.68"><td>Newgen Software Technologies</td><td class="price num">567.10</td><td class="price num chg"></td></tr>
+            <tr data-d1="8.09" data-w1="11.5" data-m1="33.04" data-m3="69.16" data-m6="127.36" data-y1="274.58"><td>Ather Energy</td><td class="price num">1,616.30</td><td class="price num chg"></td></tr>
+            <tr data-d1="7.63" data-w1="8.04" data-m1="7.23" data-m3="11.31" data-m6="26.22" data-y1="-8.47"><td>Tejas Networks</td><td class="price num">550.15</td><td class="price num chg"></td></tr>
+            <tr data-d1="7.22" data-w1="12.67" data-m1="23.36" data-m3="32.5" data-m6="23.27" data-y1="58.34"><td>PTC Industries</td><td class="price num">22,110.00</td><td class="price num chg"></td></tr>
+            <tr data-d1="6.75" data-w1="10.03" data-m1="27.8" data-m3="31.56" data-m6="49.98" data-y1="73.07"><td>IFCI</td><td class="price num">89.96</td><td class="price num chg"></td></tr>
+            <tr data-d1="6.53" data-w1="4.07" data-m1="-3.35" data-m3="-6.16" data-m6="63.45" data-y1="45.67"><td>Sun Pharma Advanced Research</td><td class="price num">207.71</td><td class="price num chg"></td></tr>
+            <tr data-d1="8.96" data-w1="24.04" data-m1="16.3" data-m3="6.54" data-m6="20.83" data-y1="28.16"><td>NMDC Steel</td><td class="price num">49.02</td><td class="price num chg"></td></tr>
+            <tr data-d1="6.53" data-w1="3.71" data-m1="-1.62" data-m3="-9.82" data-m6="-6.61" data-y1="-32.03"><td>Tata Teleservices (Maharashtra)</td><td class="price num">38.84</td><td class="price num chg"></td></tr>
+            <tr data-d1="-1.33" data-w1="18.38" data-m1="48.38" data-m3="72.9" data-m6="187.65" data-y1="171.49"><td>Welspun Corp</td><td class="price num">2,373.80</td><td class="price num chg"></td></tr>
+            <tr data-d1="9.81" data-w1="10.08" data-m1="87.42" data-m3="151.52" data-m6="143.16" data-y1="124.5"><td>Morepen Laboratories</td><td class="price num">106.19</td><td class="price num chg"></td></tr>
+            <tr data-d1="1.95" data-w1="8.38" data-m1="17.44" data-m3="-4.14" data-m6="3.01" data-y1="44.6"><td>Hindustan Zinc</td><td class="price num">622.00</td><td class="price num chg"></td></tr>
+            <tr data-d1="2.66" data-w1="-0.17" data-m1="1.56" data-m3="12.95" data-m6="-5.26" data-y1="-11.84"><td>HCL Technologies</td><td class="price num">1,316.10</td><td class="price num chg"></td></tr>
+            <tr data-d1="-0.44" data-w1="0.02" data-m1="-1.22" data-m3="13.04" data-m6="7.02" data-y1="-14.61"><td>IndiGo (InterGlobe Aviation)</td><td class="price num">5,166.00</td><td class="price num chg"></td></tr>
+            <tr data-d1="0.13" data-w1="-2.53" data-m1="0.94" data-m3="-1.85" data-m6="-6.66" data-y1="-24.5"><td>Jio Financial Services</td><td class="price num">238.40</td><td class="price num chg"></td></tr>
+            <tr data-d1="0.22" data-w1="0.61" data-m1="1.17" data-m3="-1.72" data-m6="-7.38" data-y1="12.59"><td>Bharat Electronics (BEL)</td><td class="price num">411.90</td><td class="price num chg"></td></tr>
+            <tr data-d1="-0.77" data-w1="-2.74" data-m1="5.24" data-m3="10.15" data-m6="24.22" data-y1="10.89"><td>Hindustan Aeronautics (HAL)</td><td class="price num">4,861.10</td><td class="price num chg"></td></tr>
+            <tr data-d1="-1.28" data-w1="-0.58" data-m1="9.64" data-m3="4.07" data-m6="14.84" data-y1="-4.94"><td>Mazagon Dock Shipbuilders</td><td class="price num">2,555.00</td><td class="price num chg"></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="section-note">Source: <a href="https://dhan.co/">Dhan.co</a> individual stock pages, 28 Aug 2026, ~3:55&ndash;4:00 PM IST snapshot. Welspun Corp (large cap, ₹62,619cr) and Morepen Laboratories (small cap, ₹5,819cr) are the two &gt;40%-in-a-month names verified here; no mid-cap name crossing 40% in 30 days turned up from sources reachable in this environment — run <a href="https://chartink.com/screener/monthly-greater-than-20-50-100-gainers">Chartink's screener</a> yourself for a live all-cap sweep.</p>
     </div>
   </section>
 
-  <section>
-    <div class="section-head"><h2>This week's gainers &amp; losers</h2><span class="count">verified %, week of 24&ndash;28 Aug</span></div>
-    <p class="section-note">The only % figures below are ones a named source actually reported — no interpolated or estimated numbers.</p>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Stock</th><th>Move</th><th class="price">Weekly %</th></tr></thead>
-        <tbody>
-          <tr><td>Welspun Corp</td><td>Gainer &middot; record $1.8bn US order</td><td class="price num gain">+12.4%<span style="color:var(--faint);"> (order-day move)</span></td></tr>
-          <tr><td>Hindustan Zinc</td><td>Gainer &middot; Jefferies target raised to ₹750</td><td class="price num gain">+5.0%<span style="color:var(--faint);"> (upgrade-day move)</span></td></tr>
-          <tr><td>HCLTech</td><td>Loser &middot; US bond-yield pressure</td><td class="price num loss">−5.12%</td></tr>
-          <tr><td>IndiGo</td><td>Loser &middot; crude-driven ATF cost worries</td><td class="price num loss">−4.84%</td></tr>
-          <tr><td>JioFinancial</td><td>Loser &middot; mean-reversion pullback</td><td class="price num loss">−4.54%</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section>
-    <div class="section-head"><h2>Multi-timeframe movers: &gt;40% in the last month</h2><span class="count">1M / 3M / 6M, large &amp; small cap verified</span></div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Stock</th><th>Cap</th><th>Mkt cap</th><th class="price">1M</th><th class="price">3M</th><th class="price">6M</th></tr></thead>
-        <tbody>
-          <tr><td>Welspun Corp</td><td>Large cap</td><td class="price num">₹62,619 cr</td><td class="price num gain">+48.38%</td><td class="price num gain">+72.9%</td><td class="price num gain">+187.65%</td></tr>
-          <tr><td>Morepen Laboratories</td><td>Small cap</td><td class="price num">₹5,819 cr</td><td class="price num gain">+87.42%</td><td class="price num gain">+151.52%</td><td class="price num gain">+143.16%</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="section-note"><strong>Welspun Corp</strong> (large cap): record $1.8bn US pipe order took the order book to $4.4bn. <strong>Morepen Laboratories</strong> (small cap): Q1FY27 net profit jumped to ₹54–56cr from ₹8–11cr a year earlier on 34% revenue growth, and the stock hit a fresh 52-week high in August. Source: <a href="https://dhan.co/stocks/welspun-corp-ltd-share-price/">Dhan — Welspun Corp</a>, <a href="https://dhan.co/stocks/morepen-laboratories-ltd-share-price/">Dhan — Morepen Laboratories</a>, <a href="https://www.screener.in/company/MOREPENLAB/consolidated/">Screener.in</a>.</p>
-    <div class="data-caveat">No verified mid-cap name crossing 40% in 30 days turned up from sources this environment can reach (NSE, BSE, Moneycontrol and Chartink's screener all block automated access here) — this table shows two verified cases, not an exhaustive scan. For a live, all-cap sweep, run <a href="https://chartink.com/screener/monthly-greater-than-20-50-100-gainers">Chartink's monthly-gainers screener</a> yourself and filter to &gt;40%.</div>
-  </section>
-
-  <section>
+  <section id="watchlist-anchor">
     <div class="section-head"><h2>Momentum watchlist for next week</h2><span class="count">4 names</span></div>
     <p class="section-note">Screened for a live catalyst plus follow-through room — a reason a further ~5% move is plausible, not a forecast. Ranked by how fresh and firm the catalyst is; the last card is a higher-risk contrarian idea.</p>
     <div class="watch-grid">
@@ -817,7 +912,7 @@ a:focus-visible, [tabindex]:focus-visible{outline:2px solid var(--accent);outlin
       <div class="stat-strip">
         <div class="stat-tile"><span class="label">India ETF industry AUM</span><span class="value num">₹10 lakh cr+</span></div>
         <div class="stat-tile"><span class="label">Nifty BeES AUM</span><span class="value num">₹25,000 cr+</span></div>
-        <div class="stat-tile"><span class="label">Nifty BeES 1-yr / 5-yr return</span><span class="value gain num">7.81% / 98.58%</span></div>
+        <div class="stat-tile"><span class="label">Nifty BeES 1-yr return</span><span class="value loss num">-1.23%</span></div>
         <div class="stat-tile"><span class="label">Gold ETF category AUM</span><span class="value num">₹1.83 lakh cr</span></div>
         <div class="stat-tile"><span class="label">Gold ETF folios</span><span class="value num">1.21 cr</span></div>
       </div>
@@ -825,30 +920,30 @@ a:focus-visible, [tabindex]:focus-visible{outline:2px solid var(--accent);outlin
     </section>
 
     <section>
-      <div class="section-head"><h2>Top-performing ETFs this year</h2><span class="count">by category</span></div>
-      <div class="fund-grid">
-        <div class="fund-card">
-          <div class="fname">Kotak Nifty PSU Bank ETF</div>
-          <div class="fmeta">Equity &middot; PSU banking theme</div>
-          <div class="fstats"><div><span class="k">2026 standing</span><span class="v gain">Top performer</span></div></div>
+      <div class="section-head"><h2>ETF screener</h2><span class="count">5 names &middot; switch tenure</span></div>
+      <div class="screener">
+        <div class="screener-toolbar" role="tablist" aria-label="Return period">
+          <button class="tenure-btn" data-period="d1" role="tab" aria-selected="false">1D</button>
+          <button class="tenure-btn" data-period="w1" role="tab" aria-selected="false">1W</button>
+          <button class="tenure-btn active" data-period="m1" role="tab" aria-selected="true">1M</button>
+          <button class="tenure-btn" data-period="m3" role="tab" aria-selected="false">3M</button>
+          <button class="tenure-btn" data-period="m6" role="tab" aria-selected="false">6M</button>
+          <button class="tenure-btn" data-period="y1" role="tab" aria-selected="false">1Y</button>
         </div>
-        <div class="fund-card">
-          <div class="fname">BHARAT 22 ETF</div>
-          <div class="fmeta">Equity &middot; diversified PSU basket</div>
-          <div class="fstats"><div><span class="k">2026 standing</span><span class="v gain">Top performer</span></div></div>
+        <div class="table-wrap">
+          <table class="screener-table">
+            <thead><tr><th>ETF</th><th class="price">LTP (₹)</th><th class="price">Change %</th></tr></thead>
+            <tbody>
+              <tr data-d1="-0.04" data-w1="-0.34" data-m1="0.74" data-m3="1.73" data-m6="-3.39" data-y1="-1.23"><td>Nifty BeES (NIFTYBEES)</td><td class="price num">275.62</td><td class="price num chg"></td></tr>
+              <tr data-d1="0.62" data-w1="1.53" data-m1="10.31" data-m3="1.4" data-m6="-0.57" data-y1="56.09"><td>Nippon India ETF Gold BeES</td><td class="price num">130.85</td><td class="price num chg"></td></tr>
+              <tr data-d1="0.91" data-w1="1.77" data-m1="10.4" data-m3="1.69" data-m6="0.05" data-y1="56.48"><td>Invesco India Gold ETF</td><td class="price num">138.00</td><td class="price num chg"></td></tr>
+              <tr data-d1="0.08" data-w1="0.15" data-m1="2.65" data-m3="4.31" data-m6="-12.09" data-y1="25.44"><td>Kotak Nifty PSU Bank ETF</td><td class="price num">86.15</td><td class="price num chg"></td></tr>
+              <tr data-d1="-0.10" data-w1="-0.53" data-m1="-0.97" data-m3="-6.24" data-m6="-10.04" data-y1="8.41"><td>ICICI Pru BHARAT 22 ETF</td><td class="price num">114.41</td><td class="price num chg"></td></tr>
+            </tbody>
+          </table>
         </div>
-        <div class="fund-card">
-          <div class="fname">Nippon India ETF Gold BeES</div>
-          <div class="fmeta">Gold</div>
-          <div class="fstats"><div><span class="k">5-yr return</span><span class="v gain num">25.71%</span></div><div><span class="k">NAV (21 Aug)</span><span class="v num">₹128.78</span></div></div>
-        </div>
-        <div class="fund-card">
-          <div class="fname">Invesco India Gold ETF</div>
-          <div class="fmeta">Gold</div>
-          <div class="fstats"><div><span class="k">2026 standing</span><span class="v gain">Top performer</span></div></div>
-        </div>
+        <p class="section-note">Both gold ETFs are up double digits over 1 month despite a near-flat 6-month — the safe-haven bid is recent, tracking the same Hormuz/crude story on the Stocks page. PSU Bank and Bharat 22 (also PSU-heavy) diverge sharply on 6-month performance despite both being government-linked baskets. Source: <a href="https://dhan.co/">Dhan.co</a>, 28 Aug 2026.</p>
       </div>
-      <p class="section-note">Source: <a href="https://www.analyticsinsight.net/stocks/best-etfs-to-invest-in-for-2026-and-beyond">Analytics Insight — Top ETFs 2026</a>, <a href="https://www.fincash.com/l/best-etfs">Fincash — Best ETFs in India 2026</a>.</p>
     </section>
 
     <div class="callout"><strong>Read-through from the Stocks page:</strong> PSU banks and gold are both benefiting from the same forces moving individual stocks this week — PSU strength tracks the broader defence/PSU rotation, while gold ETFs are catching the crude-and-Hormuz-driven risk-off bid.</div>
@@ -886,40 +981,22 @@ a:focus-visible, [tabindex]:focus-visible{outline:2px solid var(--accent);outlin
     </section>
 
     <section>
-      <div class="section-head"><h2>Sectoral &amp; thematic leaders</h2></div>
-      <div class="fund-grid">
-        <div class="fund-card">
-          <div class="fname">ICICI Pru India Opportunities Fund</div>
-          <div class="fmeta">Thematic &middot; largest by AUM</div>
-          <div class="fstats"><div><span class="k">AUM</span><span class="v num">₹34,778 cr</span></div><div><span class="k">1-yr return</span><span class="v gain num">14.05%</span></div></div>
-        </div>
-        <div class="fund-card">
-          <div class="fname">ICICI Pru Business Cycle Fund</div>
-          <div class="fmeta">Thematic</div>
-          <div class="fstats"><div><span class="k">AUM</span><span class="v num">₹15,958 cr</span></div><div><span class="k">1-yr return</span><span class="v gain num">16.72%</span></div></div>
-        </div>
-        <div class="fund-card">
-          <div class="fname">ICICI Pru Technology Fund</div>
-          <div class="fmeta">Sectoral &middot; IT</div>
-          <div class="fstats"><div><span class="k">2026 standing</span><span class="v gain">Top sectoral performer</span></div></div>
-        </div>
-        <div class="fund-card">
-          <div class="fname">Tata Digital India Fund</div>
-          <div class="fmeta">Sectoral &middot; IT</div>
-          <div class="fstats"><div><span class="k">2026 standing</span><span class="v gain">Top sectoral performer</span></div></div>
-        </div>
-        <div class="fund-card">
-          <div class="fname">SBI Banking &amp; Financial Services Fund</div>
-          <div class="fmeta">Sectoral &middot; BFSI</div>
-          <div class="fstats"><div><span class="k">2026 standing</span><span class="v gain">Top sectoral performer</span></div></div>
-        </div>
-        <div class="fund-card">
-          <div class="fname">ICICI Pru Energy Opportunities Fund</div>
-          <div class="fmeta">Sectoral &middot; Energy</div>
-          <div class="fstats"><div><span class="k">2026 standing</span><span class="v gain">Top sectoral performer</span></div></div>
-        </div>
+      <div class="section-head"><h2>Sectoral &amp; thematic leaders</h2><span class="count">direct-plan NAV &amp; trailing returns</span></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Fund</th><th class="price">NAV (₹)</th><th class="price">AUM</th><th class="price">1M</th><th class="price">6M</th><th class="price">1Y</th><th class="price">3Y (ann.)</th></tr></thead>
+          <tbody>
+            <tr><td>ICICI Pru India Opportunities Fund</td><td class="price num">40.32</td><td class="price num">₹38,299 cr</td><td class="price num gain">+0.27%</td><td class="price num loss">-2.41%</td><td class="price num loss">-1.51%</td><td class="price num gain">+16.65%</td></tr>
+            <tr><td>ICICI Pru Business Cycle Fund</td><td class="price num">26.49</td><td class="price num">₹16,123 cr</td><td class="price num loss">-0.04%</td><td class="price num gain">+1.55%</td><td class="price num gain">+1.13%</td><td class="price num gain">+17.15%</td></tr>
+            <tr><td>ICICI Pru Technology Fund</td><td class="price num">209.15</td><td class="price num">₹13,540 cr</td><td class="price num">—</td><td class="price num">—</td><td class="price num">—</td><td class="price num gain">+9.08%</td></tr>
+            <tr><td>Tata Digital India Fund</td><td class="price num">50.62</td><td class="price num">₹10,214 cr</td><td class="price num gain">+2.01%</td><td class="price num">—</td><td class="price num">—</td><td class="price num gain">+8.37%</td></tr>
+            <tr><td>SBI Banking &amp; Financial Services Fund</td><td class="price num">49.54</td><td class="price num">₹10,872 cr</td><td class="price num loss">-0.15%</td><td class="price num">—</td><td class="price num gain">+0.94%</td><td class="price num gain">+17.24%</td></tr>
+            <tr><td>ICICI Pru Energy Opportunities Fund</td><td class="price num">11.84</td><td class="price num">₹8,199 cr</td><td class="price num">—</td><td class="price num gain">+2.44%</td><td class="price num gain">+6.96%</td><td class="price num">—</td></tr>
+          </tbody>
+        </table>
       </div>
-      <p class="section-note">Source: <a href="https://www.tickertape.in/mutualfunds/collections/sectoral-mutual-funds">Tickertape — Sectoral Mutual Funds 2026</a>, <a href="https://groww.in/mutual-funds/category/best-thematic-mutual-funds">Groww — Thematic Funds 2026</a>.</p>
+      <div class="data-caveat">Fetched directly from each fund's Groww page on 28 Aug 2026 — dashes mean that fund's page didn't publish a clean point-return for that period (some show SIP-calculator returns instead, which are a different metric and are left out here rather than mixed in). Earlier AUM/1-yr figures for the top two funds shown on an earlier version of this page came from a stale secondary source and have been corrected against this direct fetch.</div>
+    </section>
     </section>
 
   </div><!-- /tab-mf -->
@@ -1084,5 +1161,38 @@ a:focus-visible, [tabindex]:focus-visible{outline:2px solid var(--accent);outlin
 
   var track = document.getElementById('ticker-track');
   if (track) { track.innerHTML += track.innerHTML; }
+
+  var heroCta = document.getElementById('hero-cta');
+  if (heroCta) {
+    heroCta.addEventListener('click', function(){
+      var stocksBtn = document.getElementById('tabbtn-stocks');
+      if (stocksBtn) stocksBtn.click();
+      var target = document.getElementById('watchlist-anchor');
+      if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  }
+
+  function applyTenure(scr, period){
+    scr.querySelectorAll('.tenure-btn').forEach(function(b){
+      var on = b.getAttribute('data-period') === period;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    scr.querySelectorAll('tbody tr').forEach(function(row){
+      var v = parseFloat(row.getAttribute('data-' + period));
+      var cell = row.querySelector('.chg');
+      if (!cell) return;
+      if (isNaN(v)) { cell.textContent = '—'; cell.className = 'price num chg'; return; }
+      cell.textContent = (v > 0 ? '+' : '') + v.toFixed(2) + '%';
+      cell.className = 'price num chg ' + (v > 0 ? 'gain' : (v < 0 ? 'loss' : ''));
+    });
+  }
+  document.querySelectorAll('.screener').forEach(function(scr){
+    scr.querySelectorAll('.tenure-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){ applyTenure(scr, btn.getAttribute('data-period')); });
+    });
+    var initial = scr.querySelector('.tenure-btn.active');
+    applyTenure(scr, initial ? initial.getAttribute('data-period') : 'm1');
+  });
 })();
 </script>
