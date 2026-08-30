@@ -7529,6 +7529,11 @@ document.querySelectorAll('.watch-card').forEach(function(card){
         if (protectedWrap) {
           protectedWrap.style.display = 'block';
           protectedWrap.classList.add('fade-in');
+          setTimeout(function(){
+            if (typeof selectStockChart === 'function') {
+              selectStockChart(currentTVSymbol || "NSE:HINDZINC", "Hindustan Zinc", "Commodity Squeeze", "622.00", "STRONG BUY", "68.2", "594.00", null);
+            }
+          }, 50);
         }
         if (lockError) lockError.style.display = 'none';
         sessionStorage.setItem('mw_swing_unlocked', 'true');
@@ -8314,76 +8319,332 @@ if (refreshGrowwBtn) {
 })();
 
 
-// ==================== TRADINGVIEW OFFICIAL SDK ADVANCED CHART ENGINE ====================
-var currentTVWidget = null;
+// ==================== TRADINGVIEW HIGH-PRECISION SVG VECTOR CHART ENGINE ====================
+var currentTVSymbol = "NSE:HINDZINC";
 
-function renderTradingViewWidget(symbol) {
-  var container = document.getElementById('tradingview_advanced_chart_container');
-  if (!container) return;
-  
-  container.innerHTML = '';
-  
-  try {
-    if (typeof TradingView !== 'undefined') {
-      currentTVWidget = new TradingView.widget({
-        "autosize": true,
-        "symbol": symbol || "NSE:HINDZINC",
-        "interval": "D",
-        "timezone": "Asia/Kolkata",
-        "theme": document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'dark',
-        "style": "1",
-        "locale": "in",
-        "toolbar_bg": "#161F1A",
-        "enable_publishing": false,
-        "allow_symbol_change": true,
-        "save_image": true,
-        "container_id": "tradingview_advanced_chart_container",
-        "studies": [
-          "MASimple@tv-basicstudies",
-          "RSI@tv-basicstudies"
-        ],
-        "disabled_features": [],
-        "enabled_features": ["study_templates", "side_toolbar_in_fullscreen_mode"]
-      });
-    } else {
-      // Fallback to responsive TradingView Embed if script is loading
-      var cleanSym = encodeURIComponent(symbol || "NSE:HINDZINC");
-      container.innerHTML = '<iframe style="width:100%;height:100%;border:none;" src="https://www.tradingview-widget.com/embed-widget/advanced-chart/?locale=in#%7B%22symbol%22%3A%22' + cleanSym + '%22%2C%22interval%22%3A%22D%22%2C%22timezone%22%3A%22Asia%2FKolkata%22%2C%22theme%22%3A%22dark%22%2C%22style%22%3A%221%22%2C%22locale%22%3A%22in%22%2C%22enable_publishing%22%3Afalse%2C%22allow_symbol_change%22%3Atrue%7D"></iframe>';
-    }
-  } catch(err) {
-    console.error('TradingView Widget Error:', err);
+var tvStockData = {
+  "NSE:HINDZINC": {
+    name: "Hindustan Zinc",
+    cmp: "622.00",
+    pattern: "Commodity Squeeze",
+    rating: "STRONG BUY",
+    rsi: "68.2",
+    ema: "594.00",
+    osc: "2 Buy · 8 Neutral",
+    ma: "14 Buy · 1 Sell",
+    needleAngle: 45,
+    entry: 618.00,
+    sl: 580.00,
+    t1: 690.00,
+    candles: [
+      {date: "18 Aug", o: 545, h: 558, l: 538, c: 552, v: 45},
+      {date: "19 Aug", o: 552, h: 569, l: 548, c: 564, v: 52},
+      {date: "20 Aug", o: 564, h: 576, l: 559, c: 572, v: 48},
+      {date: "21 Aug", o: 572, h: 588, l: 568, c: 582, v: 65},
+      {date: "24 Aug", o: 582, h: 602, l: 580, c: 596, v: 78},
+      {date: "25 Aug", o: 596, h: 608, l: 590, c: 598, v: 62},
+      {date: "26 Aug", o: 598, h: 618, l: 592, c: 612, v: 95},
+      {date: "28 Aug", o: 612, h: 628, l: 608, c: 622, v: 120}
+    ]
+  },
+  "NSE:WELCORP": {
+    name: "Welspun Corp",
+    cmp: "2,373.80",
+    pattern: "ATH Blue-Sky Breakout",
+    rating: "STRONG BUY",
+    rsi: "71.4",
+    ema: "2,180.00",
+    osc: "3 Buy · 7 Neutral",
+    ma: "15 Buy · 0 Sell",
+    needleAngle: 52,
+    entry: 2345.00,
+    sl: 2210.00,
+    t1: 2600.00,
+    candles: [
+      {date: "18 Aug", o: 1960, h: 2030, l: 1940, c: 2010, v: 55},
+      {date: "19 Aug", o: 2010, h: 2090, l: 1995, c: 2070, v: 68},
+      {date: "20 Aug", o: 2070, h: 2160, l: 2050, c: 2140, v: 85},
+      {date: "21 Aug", o: 2140, h: 2230, l: 2120, c: 2205, v: 120},
+      {date: "24 Aug", o: 2205, h: 2290, l: 2190, c: 2260, v: 140},
+      {date: "25 Aug", o: 2260, h: 2330, l: 2240, c: 2300, v: 110},
+      {date: "26 Aug", o: 2300, h: 2395, l: 2285, c: 2355, v: 180},
+      {date: "28 Aug", o: 2355, h: 2415, l: 2345, c: 2373.8, v: 230}
+    ]
+  },
+  "NSE:BEL": {
+    name: "Bharat Electronics",
+    cmp: "392.40",
+    pattern: "20 EMA Pullback Bounce",
+    rating: "BUY",
+    rsi: "61.5",
+    ema: "384.50",
+    osc: "1 Buy · 9 Neutral",
+    ma: "12 Buy · 2 Sell",
+    needleAngle: 30,
+    entry: 390.00,
+    sl: 375.00,
+    t1: 425.00,
+    candles: [
+      {date: "18 Aug", o: 366, h: 376, l: 362, c: 374, v: 40},
+      {date: "19 Aug", o: 374, h: 386, l: 371, c: 382, v: 55},
+      {date: "20 Aug", o: 382, h: 396, l: 380, c: 394, v: 75},
+      {date: "21 Aug", o: 394, h: 404, l: 390, c: 400, v: 60},
+      {date: "24 Aug", o: 400, h: 402, l: 384, c: 386, v: 45},
+      {date: "25 Aug", o: 386, h: 390, l: 382, c: 385, v: 42},
+      {date: "26 Aug", o: 385, h: 395, l: 384, c: 391, v: 68},
+      {date: "28 Aug", o: 391, h: 397, l: 389, c: 392.4, v: 85}
+    ]
+  },
+  "NSE:MASTEK": {
+    name: "Mastek Ltd",
+    cmp: "3,145.00",
+    pattern: "Tech Turnaround",
+    rating: "BUY",
+    rsi: "64.8",
+    ema: "3,020.00",
+    osc: "2 Buy · 8 Neutral",
+    ma: "13 Buy · 1 Sell",
+    needleAngle: 35,
+    entry: 3120.00,
+    sl: 2960.00,
+    t1: 3450.00,
+    candles: [
+      {date: "18 Aug", o: 2860, h: 2930, l: 2830, c: 2900, v: 30},
+      {date: "19 Aug", o: 2900, h: 2990, l: 2880, c: 2960, v: 42},
+      {date: "20 Aug", o: 2960, h: 3050, l: 2940, c: 3020, v: 55},
+      {date: "21 Aug", o: 3020, h: 3130, l: 3000, c: 3090, v: 68},
+      {date: "24 Aug", o: 3090, h: 3160, l: 3060, c: 3120, v: 50},
+      {date: "28 Aug", o: 3120, h: 3190, l: 3100, c: 3145, v: 75}
+    ]
+  },
+  "NSE:FCL": {
+    name: "Fineotex Chemical",
+    cmp: "50.20",
+    pattern: "Accumulation Base Breakout",
+    rating: "STRONG BUY",
+    rsi: "69.0",
+    ema: "47.50",
+    osc: "3 Buy · 7 Neutral",
+    ma: "14 Buy · 0 Sell",
+    needleAngle: 48,
+    entry: 49.00,
+    sl: 44.00,
+    t1: 65.00,
+    candles: [
+      {date: "18 Aug", o: 42.2, h: 44.1, l: 41.6, c: 43.5, v: 25},
+      {date: "19 Aug", o: 43.5, h: 45.8, l: 43.0, c: 45.0, v: 38},
+      {date: "20 Aug", o: 45.0, h: 47.2, l: 44.2, c: 46.5, v: 50},
+      {date: "21 Aug", o: 46.5, h: 49.0, l: 45.8, c: 48.2, v: 65},
+      {date: "28 Aug", o: 48.2, h: 51.5, l: 47.8, c: 50.2, v: 95}
+    ]
+  },
+  "NSE:DIXON": {
+    name: "Dixon Technologies",
+    cmp: "15,650.00",
+    pattern: "EMS Momentum",
+    rating: "STRONG BUY",
+    rsi: "72.1",
+    ema: "14,800.00",
+    osc: "3 Buy · 7 Neutral",
+    ma: "15 Buy · 0 Sell",
+    needleAngle: 52,
+    entry: 15400.00,
+    sl: 14600.00,
+    t1: 17200.00,
+    candles: [
+      {date: "18 Aug", o: 13900, h: 14300, l: 13800, c: 14200, v: 45},
+      {date: "19 Aug", o: 14200, h: 14700, l: 14100, c: 14600, v: 60},
+      {date: "20 Aug", o: 14600, h: 15200, l: 14500, c: 15050, v: 80},
+      {date: "21 Aug", o: 15050, h: 15500, l: 14950, c: 15350, v: 95},
+      {date: "28 Aug", o: 15350, h: 15900, l: 15250, c: 15650, v: 130}
+    ]
+  },
+  "NSE:NIFTY": {
+    name: "Nifty 50 Index",
+    cmp: "24,175.65",
+    pattern: "Market Benchmark",
+    rating: "NEUTRAL-BUY",
+    rsi: "58.4",
+    ema: "24,050.00",
+    osc: "1 Buy · 9 Neutral",
+    ma: "11 Buy · 3 Sell",
+    needleAngle: 20,
+    entry: 24100.00,
+    sl: 23900.00,
+    t1: 24500.00,
+    candles: [
+      {date: "18 Aug", o: 23800, h: 23980, l: 23750, c: 23920, v: 140},
+      {date: "19 Aug", o: 23920, h: 24080, l: 23880, c: 24040, v: 160},
+      {date: "20 Aug", o: 24040, h: 24180, l: 23980, c: 24110, v: 175},
+      {date: "28 Aug", o: 24110, h: 24240, l: 24050, c: 24175.65, v: 210}
+    ]
   }
+};
+
+function renderSVGVectorChart(symbol) {
+  var svg = document.getElementById('tv-native-svg');
+  if (!svg) return;
+
+  var data = tvStockData[symbol] || tvStockData["NSE:HINDZINC"];
+  var candles = data.candles;
+  var W = 540, H = 340;
+
+  // Find min/max price
+  var minP = Infinity, maxP = -Infinity;
+  candles.forEach(function(c){
+    if (c.l < minP) minP = c.l;
+    if (c.h > maxP) maxP = c.h;
+  });
+  var pad = (maxP - minP) * 0.14 || 10;
+  minP -= pad;
+  maxP += pad;
+
+  function py(price) {
+    return (H - 60) - ((price - minP) / (maxP - minP)) * (H - 95);
+  }
+
+  var spacing = (W - 80) / candles.length;
+  var cWidth = Math.min(26, spacing * 0.65);
+
+  var svgHTML = `
+    <!-- Background Grid -->
+    <rect width="${W}" height="${H}" fill="#0E1512"/>
+    <line x1="40" y1="40" x2="${W-20}" y2="40" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+    <line x1="40" y1="100" x2="${W-20}" y2="100" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+    <line x1="40" y1="160" x2="${W-20}" y2="160" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+    <line x1="40" y1="220" x2="${W-20}" y2="220" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+    <line x1="40" y1="280" x2="${W-20}" y2="280" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+    
+    <!-- Watermark -->
+    <text x="50" y="65" font-family="'Manrope', sans-serif" font-size="28" font-weight="800" fill="rgba(255,255,255,0.05)">${data.name.toUpperCase()}</text>
+  `;
+
+  // Draw Price Scale on Left
+  var step = (maxP - minP) / 4;
+  for (var k = 0; k <= 4; k++) {
+    var pVal = minP + k * step;
+    var yPos = py(pVal);
+    svgHTML += `<text x="34" y="${yPos + 4}" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#5B6B62" text-anchor="end">₹${pVal > 100 ? Math.round(pVal) : pVal.toFixed(1)}</text>`;
+  }
+
+  // 20 EMA Points
+  var emaPoints = [];
+
+  // Draw Candlesticks & Volume
+  candles.forEach(function(c, i){
+    var x = 50 + i * spacing + spacing / 2;
+    var openY = py(c.o);
+    var closeY = py(c.c);
+    var highY = py(c.h);
+    var lowY = py(c.l);
+    var isGreen = c.c >= c.o;
+    var color = isGreen ? "#00D09C" : "#B23A2E";
+    var volColor = isGreen ? "rgba(0,208,156,0.35)" : "rgba(178,58,46,0.35)";
+
+    var bodyY = Math.min(openY, closeY);
+    var bodyH = Math.max(3, Math.abs(closeY - openY));
+    var volH = (c.v / 250) * 40;
+
+    // Wick
+    svgHTML += `<line x1="${x}" y1="${highY}" x2="${x}" y2="${lowY}" stroke="${color}" stroke-width="2"/>`;
+    // Body
+    svgHTML += `<rect x="${x - cWidth/2}" y="${bodyY}" width="${cWidth}" height="${bodyH}" rx="1.5" fill="${color}"/>`;
+    // Volume Bar
+    svgHTML += `<rect x="${x - cWidth/2}" y="${H - 15 - volH}" width="${cWidth}" height="${volH}" fill="${volColor}"/>`;
+    // Date Label
+    svgHTML += `<text x="${x}" y="${H - 3}" font-family="'IBM Plex Mono', monospace" font-size="8" fill="#8A968C" text-anchor="middle">${c.date}</text>`;
+
+    emaPoints.push({x: x, y: (openY + closeY)/2 + 4});
+  });
+
+  // 20 EMA Bezier Line
+  if (emaPoints.length > 1) {
+    var pathD = `M ${emaPoints[0].x} ${emaPoints[0].y}`;
+    for (var j = 1; j < emaPoints.length; j++) {
+      pathD += ` L ${emaPoints[j].x} ${emaPoints[j].y}`;
+    }
+    svgHTML += `<path d="${pathD}" fill="none" stroke="#2962FF" stroke-width="3" stroke-linecap="round"/>`;
+  }
+
+  // Dotted Support Line (20 EMA baseline)
+  var emaY = py(parseFloat(data.ema.replace(/[^0-9.]/g, '')));
+  if (emaY > 20 && emaY < H - 30) {
+    svgHTML += `
+      <line x1="40" y1="${emaY}" x2="${W-20}" y2="${emaY}" stroke="#2962FF" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <text x="${W-22}" y="${emaY - 4}" font-family="'IBM Plex Mono', monospace" font-size="8.5" font-weight="700" fill="#2962FF" text-anchor="end">20 EMA: ₹${data.ema}</text>
+    `;
+  }
+
+  svg.innerHTML = svgHTML;
 }
 
-function loadTradingViewChart(symbol, name, pattern, cmp, rating, rsi, ema, btnElement) {
+function updateSpeedometerNeedle(angleDeg) {
+  var needle = document.getElementById('speedo-needle');
+  if (!needle) return;
+  
+  var rad = (angleDeg * Math.PI) / 180;
+  var cx = 100, cy = 100, r = 68;
+  var x2 = cx + r * Math.sin(rad);
+  var y2 = cy - r * Math.cos(rad);
+  
+  needle.setAttribute('x2', x2);
+  needle.setAttribute('y2', y2);
+}
+
+function selectStockChart(symbol, name, pattern, cmp, rating, rsi, ema, btnElement) {
+  currentTVSymbol = symbol;
   var extLink = document.getElementById('tv-external-link');
   var nameEl = document.getElementById('tv-active-name');
   var patternEl = document.getElementById('tv-active-pattern');
   var ratingEl = document.getElementById('tv-active-rating');
   var rsiEl = document.getElementById('tv-active-rsi');
   var emaEl = document.getElementById('tv-active-ema');
+  var titleEl = document.getElementById('tv-chart-title');
+  var cmpBadge = document.getElementById('tv-chart-cmp-badge');
+  var speedoLabel = document.getElementById('tv-speedo-label');
+  var oscVal = document.getElementById('tv-stat-osc');
+  var maVal = document.getElementById('tv-stat-ma');
+  var rsiVal = document.getElementById('tv-stat-rsi-val');
+  var emaVal = document.getElementById('tv-stat-ema-val');
 
   if (btnElement) {
     document.querySelectorAll('.btn-tv-sym').forEach(function(b){ b.classList.remove('active'); });
     btnElement.classList.add('active');
   }
 
-  if (nameEl) nameEl.textContent = name;
-  if (patternEl) patternEl.textContent = pattern;
-  if (ratingEl) ratingEl.textContent = rating;
-  if (rsiEl) rsiEl.textContent = rsi;
-  if (emaEl) emaEl.textContent = ema;
+  var d = tvStockData[symbol] || tvStockData["NSE:HINDZINC"];
+
+  if (nameEl) nameEl.textContent = d.name;
+  if (patternEl) patternEl.textContent = d.pattern;
+  if (ratingEl) ratingEl.textContent = d.rating;
+  if (rsiEl) rsiEl.textContent = d.rsi;
+  if (emaEl) emaEl.textContent = '₹' + d.ema;
+  if (titleEl) titleEl.textContent = d.name + ' (' + symbol + ') · Daily 1D';
+  if (cmpBadge) cmpBadge.textContent = '₹' + d.cmp;
+  if (speedoLabel) speedoLabel.textContent = d.rating;
+  if (oscVal) oscVal.textContent = d.osc;
+  if (maVal) maVal.textContent = d.ma;
+  if (rsiVal) rsiVal.textContent = d.rsi;
+  if (emaVal) emaVal.textContent = '₹' + d.ema;
 
   if (extLink) extLink.href = 'https://in.tradingview.com/chart/?symbol=' + encodeURIComponent(symbol);
 
-  renderTradingViewWidget(symbol);
-  showToast('📈 Real-Time TradingView chart loaded for ' + name);
+  updateSpeedometerNeedle(d.needleAngle);
+  renderSVGVectorChart(symbol);
+  showToast('📈 Loaded live chart radar for ' + d.name);
 }
 
-// Initial Widget Render on page load
+function openTradingViewWindow() {
+  var sym = currentTVSymbol || 'NSE:HINDZINC';
+  var url = 'https://in.tradingview.com/chart/?symbol=' + encodeURIComponent(sym);
+  window.open(url, '_blank', 'noopener,noreferrer');
+  showToast('🚀 Opened TradingView window for ' + sym);
+}
+
+// Initial Call
 setTimeout(function(){
-  renderTradingViewWidget("NSE:HINDZINC");
-}, 500);
+  selectStockChart("NSE:HINDZINC", "Hindustan Zinc", "Commodity Squeeze", "622.00", "STRONG BUY", "68.2", "594.00", null);
+}, 200);
 
 </script>
 </body>
