@@ -353,15 +353,19 @@ body {
 .hero {
   background: #0A130F;
   color: #EFF4F1;
-  border-bottom: 1px solid #1E3229;
+  border: 1px solid #1E3229;
+  border-radius: 16px;
+  margin-bottom: 1.75rem;
+  overflow: hidden;
+  box-shadow: var(--shadow);
 }
 .hero-inner {
-  max-width: 1080px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 3rem 1.5rem;
+  padding: 2.25rem 1.5rem;
   display: grid;
   grid-template-columns: 1.2fr 1fr;
-  gap: 2.5rem;
+  gap: 2rem;
   align-items: center;
 }
 @media (max-width: 720px) {
@@ -2637,7 +2641,15 @@ footer {
   </div>
 </div>
 
-<div class="hero">
+<div class="page">
+  <div class="market-scope" style="display:flex;justify-content:space-between;align-items:center;">
+    <span>Scope: India market only &middot; Verified against INDmoney 30 Aug 2026</span>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--muted);">💡 Press <kbd style="background:var(--surface-2);padding:2px 5px;border-radius:4px;border:1px solid var(--line);">/</kbd> to search anywhere</span>
+  </div>
+
+  <!-- TAB: STOCKS -->
+  <div class="tab-panel active" id="tab-stocks" role="tabpanel" aria-labelledby="tabbtn-stocks">
+    <div class="hero">
   <div class="hero-inner">
     <div class="hero-copy">
       <span class="hero-eyebrow">India Markets &middot; Real Intelligence</span>
@@ -2671,14 +2683,6 @@ footer {
   </div>
 </div>
 
-<div class="page">
-  <div class="market-scope" style="display:flex;justify-content:space-between;align-items:center;">
-    <span>Scope: India market only &middot; Verified against INDmoney 30 Aug 2026</span>
-    <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--muted);">💡 Press <kbd style="background:var(--surface-2);padding:2px 5px;border-radius:4px;border:1px solid var(--line);">/</kbd> to search anywhere</span>
-  </div>
-
-  <!-- TAB: STOCKS -->
-  <div class="tab-panel active" id="tab-stocks" role="tabpanel" aria-labelledby="tabbtn-stocks">
 
     <header class="masthead">
       <div class="masthead-top">
