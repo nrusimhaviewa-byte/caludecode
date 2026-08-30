@@ -3244,6 +3244,115 @@ footer {
   border-radius: 6px;
 }
 
+
+/* ---- TradingView Interactive Chart & Technical Desk ---- */
+.tv-chart-desk-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+  border-top: 4px solid #2962FF;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tv-desk-header {
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+  padding: 1.1rem 1.35rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.tv-symbol-bar {
+  display: flex;
+  gap: 0.45rem;
+  padding: 0.75rem 1.35rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+  align-items: center;
+}
+
+.btn-tv-sym {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 0.4rem 0.85rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.btn-tv-sym:hover {
+  border-color: #2962FF;
+  color: #2962FF;
+}
+
+.btn-tv-sym.active {
+  background: rgba(41, 98, 255, 0.15);
+  border-color: #2962FF;
+  color: #2962FF;
+}
+
+.tv-chart-frame-wrap {
+  width: 100%;
+  height: 520px;
+  background: var(--bg);
+  position: relative;
+}
+
+.tv-chart-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.tv-tech-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  padding: 1.25rem 1.35rem;
+  background: var(--surface-2);
+  border-top: 1px solid var(--line);
+}
+
+.tv-stat-tile {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.tv-stat-tile .k {
+  font-size: 0.65rem;
+  font-family: 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.tv-stat-tile .v {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin: 0.2rem 0;
+}
+
 </style>
 </head>
 <body>
@@ -3915,6 +4024,82 @@ footer {
 <!-- PROTECTED SWING TRADING WRAPPER -->
 
     <div id="swing-trading-protected-wrap" style="display:none;">
+
+      
+      <!-- ==================== TRADINGVIEW LIVE INTERACTIVE CHART DESK ==================== -->
+      <div class="tv-chart-desk-card" id="tradingview-chart-section">
+        <div class="tv-desk-header">
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:38px;height:38px;border-radius:10px;background:rgba(41,98,255,0.15);color:#2962FF;display:flex;align-items:center;justify-content:center;font-size:1.3rem;">📈</div>
+            <div>
+              <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.2rem;font-weight:800;display:flex;align-items:center;gap:0.5rem;">
+                <span>TradingView Interactive Chart &middot; Technical Radar</span>
+                <span class="daily-order-tag" style="background:rgba(41,98,255,0.15);color:#2962FF;">LIVE FEED</span>
+              </h3>
+              <div style="font-size:0.75rem;color:var(--muted);margin-top:0.15rem;">Multi-timeframe candlestick charts, EMA bands, RSI indicators, and volume breakout profiles.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <a href="https://in.tradingview.com/" target="_blank" rel="noopener" class="chat-inline-btn" id="tv-external-link" style="color:#2962FF;border-color:#2962FF;">
+              ↗ Fullscreen TradingView
+            </a>
+          </div>
+        </div>
+
+        <!-- QUICK STOCK SELECTOR TABS -->
+        <div class="tv-symbol-bar">
+          <button class="btn-tv-sym active" data-symbol="BSE:WELSPUNCOR" data-name="Welspun Corp" onclick="loadTradingViewChart('BSE:WELSPUNCOR', 'Welspun Corp', 'ATH Breakout', '₹2,373.80', 'STRONG BUY', '71.4', '₹2,180.00', this)">
+            <span>📊 Welspun Corp</span>
+          </button>
+          <button class="btn-tv-sym" data-symbol="NSE:HINDZINC" data-name="Hindustan Zinc" onclick="loadTradingViewChart('NSE:HINDZINC', 'Hindustan Zinc', 'Commodity Squeeze', '₹622.00', 'STRONG BUY', '68.2', '₹594.00', this)">
+            <span>⚡ Hind Zinc</span>
+          </button>
+          <button class="btn-tv-sym" data-symbol="NSE:BEL" data-name="Bharat Electronics" onclick="loadTradingViewChart('NSE:BEL', 'Bharat Electronics', '20 EMA Pullback', '₹392.40', 'BUY', '61.5', '₹384.50', this)">
+            <span>🛡️ BEL</span>
+          </button>
+          <button class="btn-tv-sym" data-symbol="NSE:MASTEK" data-name="Mastek" onclick="loadTradingViewChart('NSE:MASTEK', 'Mastek Ltd', 'Tech Turnaround', '₹3,145.00', 'BUY', '64.8', '₹3,020.00', this)">
+            <span>💻 Mastek</span>
+          </button>
+          <button class="btn-tv-sym" data-symbol="NSE:FCL" data-name="Fineotex Chemical" onclick="loadTradingViewChart('NSE:FCL', 'Fineotex Chem', 'Accumulation Base', '₹50.20', 'STRONG BUY', '69.0', '₹47.50', this)">
+            <span>🧪 Fineotex Chem</span>
+          </button>
+          <button class="btn-tv-sym" data-symbol="NSE:DIXON" data-name="Dixon Tech" onclick="loadTradingViewChart('NSE:DIXON', 'Dixon Technologies', 'EMS Momentum', '₹15,650.00', 'STRONG BUY', '72.1', '₹14,800.00', this)">
+            <span>📱 Dixon Tech</span>
+          </button>
+          <button class="btn-tv-sym" data-symbol="NSE:NIFTY" data-name="Nifty 50" onclick="loadTradingViewChart('NSE:NIFTY', 'NIFTY 50 Index', 'Market Benchmark', '24,175.65', 'NEUTRAL-BUY', '58.4', '24,050.00', this)">
+            <span>🇮🇳 Nifty 50</span>
+          </button>
+        </div>
+
+        <!-- TRADINGVIEW CHART CONTAINER -->
+        <div class="tv-chart-frame-wrap">
+          <iframe id="tradingview-widget-iframe" class="tv-chart-frame" src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_widget&symbol=BSE%3AWELSPUNCOR&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=%5B%22MASimple%40tv-basicstudies%22%2C%22RSI%40tv-basicstudies%22%5D&theme=dark&style=1&timezone=Asia%2FKolkata&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=in.tradingview.com" allowfullscreen></iframe>
+        </div>
+
+        <!-- TRADINGVIEW LIVE TECHNICAL INDICATORS SUMMARY -->
+        <div class="tv-tech-summary-grid">
+          <div class="tv-stat-tile">
+            <span class="k">Active Symbol / Setup</span>
+            <span class="v" id="tv-active-name" style="font-size:1rem;color:var(--ink);">Welspun Corp</span>
+            <span class="sub" id="tv-active-pattern" style="color:#2962FF;font-weight:700;">ATH Blue-Sky Breakout</span>
+          </div>
+          <div class="tv-stat-tile">
+            <span class="k">TradingView Technical Rating</span>
+            <span class="v num gain" id="tv-active-rating" style="color:#00D09C;">STRONG BUY</span>
+            <span class="sub">16 Buy / 8 Neutral / 2 Sell</span>
+          </div>
+          <div class="tv-stat-tile">
+            <span class="k">Daily RSI (14) Momentum</span>
+            <span class="v num" id="tv-active-rsi" style="color:var(--gain);">71.4</span>
+            <span class="sub">Bullish Expansion Zone</span>
+          </div>
+          <div class="tv-stat-tile">
+            <span class="k">Key Support (20 EMA)</span>
+            <span class="v num" id="tv-active-ema" style="color:var(--ink);">₹2,180.00</span>
+            <span class="sub">Trailing Stop Baseline</span>
+          </div>
+        </div>
+      </div>
 
       <!-- ==================== ASK AI SWING TRADING & CHART ANALYSIS CHATBOT ==================== -->
       <div class="swing-ai-chatbot-card" id="swing-ai-chatbot-section">
@@ -8056,6 +8241,37 @@ if (refreshGrowwBtn) {
 
   checkHoldingsUnlocked();
 })();
+
+
+// ==================== TRADINGVIEW CHART ENGINE & CHATBOT INTEGRATION ====================
+function loadTradingViewChart(symbol, name, pattern, cmp, rating, rsi, ema, btnElement) {
+  var iframe = document.getElementById('tradingview-widget-iframe');
+  var extLink = document.getElementById('tv-external-link');
+  var nameEl = document.getElementById('tv-active-name');
+  var patternEl = document.getElementById('tv-active-pattern');
+  var ratingEl = document.getElementById('tv-active-rating');
+  var rsiEl = document.getElementById('tv-active-rsi');
+  var emaEl = document.getElementById('tv-active-ema');
+
+  if (btnElement) {
+    document.querySelectorAll('.btn-tv-sym').forEach(function(b){ b.classList.remove('active'); });
+    btnElement.classList.add('active');
+  }
+
+  if (nameEl) nameEl.textContent = name;
+  if (patternEl) patternEl.textContent = pattern;
+  if (ratingEl) ratingEl.textContent = rating;
+  if (rsiEl) rsiEl.textContent = rsi;
+  if (emaEl) emaEl.textContent = ema;
+
+  var encodedSym = encodeURIComponent(symbol);
+  var tvUrl = 'https://s.tradingview.com/widgetembed/?frameElementId=tradingview_widget&symbol=' + encodedSym + '&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=%5B%22MASimple%40tv-basicstudies%22%2C%22RSI%40tv-basicstudies%22%5D&theme=dark&style=1&timezone=Asia%2FKolkata&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=in.tradingview.com';
+  
+  if (iframe) iframe.src = tvUrl;
+  if (extLink) extLink.href = 'https://in.tradingview.com/chart/?symbol=' + encodedSym;
+
+  showToast('📈 Loaded TradingView chart for ' + name);
+}
 
 </script>
 </body>
