@@ -321,6 +321,56 @@ body{
 .delta.loss{color:var(--loss);}
 .delta.gain{color:var(--gain);}
 
+/* ---- Live wire ---- */
+.livewire{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:1rem 1.1rem;
+}
+.livewire-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:0.5rem 1rem;
+  margin-bottom:0.75rem;
+}
+.livewire-head h2{
+  font-family:'Manrope',system-ui,-apple-system,sans-serif;
+  font-size:1.05rem;
+  font-weight:600;
+  margin:0;
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+}
+.livewire-dot{width:7px;height:7px;border-radius:50%;background:var(--gain);position:relative;flex-shrink:0;}
+@media (prefers-reduced-motion:no-preference){
+  .livewire-dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--gain);animation:pulse-ring 2.2s ease-out infinite;}
+}
+.livewire-status{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.7rem;
+  color:var(--faint);
+  letter-spacing:0.02em;
+}
+.livewire-list{display:flex;flex-direction:column;gap:0;max-height:260px;overflow-y:auto;}
+.livewire-item{padding:0.6rem 0;border-bottom:1px solid var(--line);font-size:0.85rem;}
+.livewire-item:last-child{border-bottom:none;}
+.livewire-item a{color:var(--ink);text-decoration:none;font-weight:600;}
+.livewire-item a:hover{color:var(--accent);text-decoration:underline;}
+.livewire-item .lw-meta{font-size:0.72rem;color:var(--muted);margin-top:0.15rem;display:flex;gap:0.5rem;align-items:center;}
+.livewire-item .lw-cat{
+  font-family:'IBM Plex Mono',monospace;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+  background:var(--surface-2);
+  padding:0.1rem 0.4rem;
+  border-radius:4px;
+}
+.livewire-empty{font-size:0.85rem;color:var(--muted);padding:0.5rem 0;}
+
 /* ---- Section heading ---- */
 .section-head{
   display:flex;
@@ -752,6 +802,18 @@ a:focus-visible, [tabindex]:focus-visible{outline:2px solid var(--accent);outlin
       </div>
     </div>
   </header>
+
+  <section>
+    <div class="livewire" id="livewire">
+      <div class="livewire-head">
+        <h2><span class="livewire-dot"></span>Live wire — policy &amp; markets news</h2>
+        <span class="livewire-status" id="livewire-status">connecting…</span>
+      </div>
+      <div class="livewire-list" id="livewire-list">
+        <div class="livewire-empty">Loading latest news…</div>
+      </div>
+    </div>
+  </section>
 
   <section>
     <div class="section-head"><h2>Week in numbers</h2></div>
@@ -1358,5 +1420,70 @@ a:focus-visible, [tabindex]:focus-visible{outline:2px solid var(--accent);outlin
     table._reapplySort = sortRows;
   }
   document.querySelectorAll('table').forEach(initSortableTable);
+})();
+
+(function(){
+  var NEWS_API = 'https://momentwealth-backend-47jvhx2odq-el.a.run.app/api/news';
+  var REFRESH_MS = 30 * 60 * 1000;
+  var listEl = document.getElementById('livewire-list');
+  var statusEl = document.getElementById('livewire-status');
+  if (!listEl || !statusEl) return;
+
+  function timeAgo(iso){
+    if (!iso) return null;
+    var mins = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
+    if (mins < 1) return 'just now';
+    if (mins === 1) return '1 min ago';
+    if (mins < 60) return mins + ' min ago';
+    var hrs = Math.round(mins / 60);
+    return hrs + (hrs === 1 ? ' hr ago' : ' hrs ago');
+  }
+
+  function escapeHtml(s){
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+    });
+  }
+
+  function render(payload){
+    var items = (payload && payload.items) || [];
+    if (payload && payload.error && items.length === 0) {
+      listEl.innerHTML = '<div class="livewire-empty">Live feed unavailable right now (' + escapeHtml(payload.error) + '). Showing the page’s last published data instead.</div>';
+      statusEl.textContent = 'offline';
+      return;
+    }
+    if (items.length === 0) {
+      listEl.innerHTML = '<div class="livewire-empty">No live items yet.</div>';
+    } else {
+      listEl.innerHTML = items.slice(0, 8).map(function(it){
+        var title = escapeHtml(it.title || 'Untitled');
+        var url = escapeHtml(it.url || '#');
+        var cat = escapeHtml(it.category || '');
+        var src = escapeHtml(it.source || '');
+        return '<div class="livewire-item">' +
+          '<a href="' + url + '" target="_blank" rel="noopener">' + title + '</a>' +
+          '<div class="lw-meta">' + (cat ? '<span class="lw-cat">' + cat + '</span>' : '') + '<span>' + src + '</span></div>' +
+        '</div>';
+      }).join('');
+    }
+    var ago = timeAgo(payload && payload.fetchedAt);
+    statusEl.textContent = ago ? ('updated ' + ago) : 'updated just now';
+  }
+
+  function load(){
+    fetch(NEWS_API, { cache: 'no-store' })
+      .then(function(r){ return r.json(); })
+      .then(render)
+      .catch(function(){
+        statusEl.textContent = 'offline';
+        listEl.innerHTML = '<div class="livewire-empty">Live feed unreachable. Showing the page’s last published data instead.</div>';
+      });
+  }
+
+  load();
+  setInterval(load, REFRESH_MS);
+  document.addEventListener('visibilitychange', function(){
+    if (document.visibilityState === 'visible') load();
+  });
 })();
 </script>
