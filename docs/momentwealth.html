@@ -321,6 +321,54 @@ body{
 .delta.loss{color:var(--loss);}
 .delta.gain{color:var(--gain);}
 
+/* ---- Music widget ---- */
+.music-toggle{
+  position:fixed;
+  right:1.25rem;
+  bottom:1.25rem;
+  z-index:50;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:var(--surface);
+  box-shadow:var(--shadow);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.4rem;
+  color:var(--accent);
+}
+.music-toggle:hover{background:var(--surface-2);}
+.music-toggle.playing{border-color:var(--accent);}
+.music-panel{
+  position:fixed;
+  right:1.25rem;
+  bottom:4.25rem;
+  z-index:50;
+  width:min(320px, calc(100vw - 2.5rem));
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:14px;
+  box-shadow:var(--shadow);
+  padding:0.75rem;
+  display:none;
+}
+.music-panel.open{display:block;}
+.music-panel-head{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.68rem;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  color:var(--faint);
+  margin-bottom:0.5rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.music-panel iframe{border-radius:10px;display:block;}
+
 /* ---- Live wire ---- */
 .livewire{
   background:var(--surface);
@@ -1295,7 +1343,37 @@ a:focus-visible, [tabindex]:focus-visible{outline:2px solid var(--accent);outlin
 
 </div>
 
+<button class="music-toggle" id="music-toggle" aria-expanded="false" aria-controls="music-panel" title="Background music">&#127925;</button>
+<div class="music-panel" id="music-panel" role="dialog" aria-label="Background music player">
+  <div class="music-panel-head"><span>Devotional instrumental</span><span>Spotify</span></div>
+  <div id="music-embed-slot"></div>
+</div>
+
 <script>
+(function(){
+  var toggleBtn = document.getElementById('music-toggle');
+  var panel = document.getElementById('music-panel');
+  var slot = document.getElementById('music-embed-slot');
+  var loaded = false;
+  if (toggleBtn && panel && slot) {
+    toggleBtn.addEventListener('click', function(){
+      var open = panel.classList.toggle('open');
+      toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggleBtn.classList.toggle('playing', open);
+      if (open && !loaded) {
+        var iframe = document.createElement('iframe');
+        iframe.src = 'https://open.spotify.com/embed/playlist/4MN1onNkxBKxItz4QxXymz?utm_source=generator&theme=0';
+        iframe.width = '100%';
+        iframe.height = '152';
+        iframe.frameBorder = '0';
+        iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+        iframe.loading = 'lazy';
+        slot.appendChild(iframe);
+        loaded = true;
+      }
+    });
+  }
+})();
 (function(){
   var buttons = document.querySelectorAll('.tab-btn');
   var allPanelIds = Array.prototype.map.call(buttons, function(b){ return b.getAttribute('aria-controls'); });
