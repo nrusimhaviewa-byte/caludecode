@@ -4027,22 +4027,22 @@ footer {
     <div id="swing-trading-protected-wrap" style="display:none;">
 
       
-            <!-- ==================== TRADINGVIEW LIVE INTERACTIVE CHART DESK ==================== -->
+                  <!-- ==================== TRADINGVIEW LIVE INTERACTIVE CHART DESK ==================== -->
       <div class="tv-chart-desk-card" id="tradingview-chart-section">
         <div class="tv-desk-header">
           <div style="display:flex;align-items:center;gap:0.75rem;">
             <div style="width:38px;height:38px;border-radius:10px;background:rgba(41,98,255,0.15);color:#2962FF;display:flex;align-items:center;justify-content:center;font-size:1.3rem;">📈</div>
             <div>
               <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.2rem;font-weight:800;display:flex;align-items:center;gap:0.5rem;">
-                <span>TradingView Live Technical Radar &middot; Multi-Stock Terminal</span>
-                <span class="daily-order-tag" style="background:rgba(41,98,255,0.15);color:#2962FF;">OFFICIAL FEED</span>
+                <span>TradingView Live Technical Radar &middot; Speedometer Gauge</span>
+                <span class="daily-order-tag" style="background:rgba(41,98,255,0.15);color:#2962FF;">LIVE TRADINGVIEW FEED</span>
               </h3>
-              <div style="font-size:0.75rem;color:var(--muted);margin-top:0.15rem;">Real-time NSE prices, 20 MA trends, volume indicators, and multi-timeframe oscillator meters.</div>
+              <div style="font-size:0.75rem;color:var(--muted);margin-top:0.15rem;">Live technical analysis speedometer, oscillator meters, moving averages, and real-time chart stream.</div>
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:0.5rem;">
-            <a href="https://in.tradingview.com/chart/?symbol=NSE%3AHINDZINC" target="_blank" rel="noopener" class="chat-inline-btn" id="tv-external-link" style="color:#2962FF;border-color:#2962FF;">
-              ↗ Open on TradingView.in
+            <a href="https://in.tradingview.com/chart/?symbol=NSE%3AHINDZINC" target="_blank" rel="noopener" class="chat-inline-btn" id="tv-external-link" style="color:#2962FF;border-color:#2962FF;font-weight:700;">
+              ↗ Open Fullscreen on TradingView.in
             </a>
           </div>
         </div>
@@ -4072,16 +4072,16 @@ footer {
           </button>
         </div>
 
-        <!-- TRADINGVIEW LIVE WIDGET CONTAINER -->
-        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:0;background:var(--surface);">
-          <!-- MAIN SYMBOL OVERVIEW & 20 MA CHART -->
-          <div class="tv-chart-frame-wrap" id="tv-overview-container" style="height:480px;border-right:1px solid var(--line);">
-            <!-- Dynamic TradingView Symbol Overview Loader -->
+        <!-- TRADINGVIEW LIVE WIDGET GRID -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));gap:0;background:#131722;">
+          <!-- TECHNICAL ANALYSIS GAUGE METER (SPEEDOMETER) -->
+          <div id="tv-gauge-container" style="height:460px;padding:0.75rem;border-right:1px solid rgba(255,255,255,0.08);">
+            <!-- Dynamic TradingView Technical Analysis Gauge Loader -->
           </div>
 
-          <!-- TECHNICAL ANALYSIS GAUGE & OSCILLATOR METER -->
-          <div id="tv-gauge-container" style="height:480px;padding:0.5rem;background:#131722;">
-            <!-- Dynamic TradingView Technical Analysis Gauge Loader -->
+          <!-- MINI SYMBOL OVERVIEW & REAL-TIME CHART -->
+          <div id="tv-overview-container" style="height:460px;padding:0.75rem;">
+            <!-- Dynamic TradingView Symbol Profile & Chart Loader -->
           </div>
         </div>
 
@@ -7505,7 +7505,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     // Check if already unlocked in this session
     if (sessionStorage.getItem('mw_swing_unlocked') === 'true') {
       if (lockCard) lockCard.style.display = 'none';
-      if (protectedWrap) protectedWrap.style.display = 'block';
+      if (protectedWrap) { protectedWrap.style.display = 'block'; if (typeof initTradingViewDesk === 'function') initTradingViewDesk(); }
     }
   })();
 
