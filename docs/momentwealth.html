@@ -5938,6 +5938,68 @@ document.querySelectorAll('.watch-card').forEach(function(card){
   calculateSwing();
 })();
 
+  
+  // ---- Swing Trading Desk Password Protection Engine (PIN: 2026) ----
+  (function(){
+    var lockCard = document.getElementById('swing-lock-card');
+    var protectedWrap = document.getElementById('swing-trading-protected-wrap');
+    var pinField = document.getElementById('swing-pin-field');
+    var unlockBtn = document.getElementById('btn-unlock-swing');
+    var lockError = document.getElementById('swing-lock-error');
+    var lockToggleBtn = document.getElementById('btn-lock-swing-desk');
+
+    var PIN_CODE = '2026';
+
+    function unlockDesk() {
+      if (!pinField) return;
+      var entered = pinField.value.trim();
+      if (entered === PIN_CODE) {
+        if (lockCard) lockCard.style.display = 'none';
+        if (protectedWrap) {
+          protectedWrap.style.display = 'block';
+          protectedWrap.classList.add('fade-in');
+        }
+        if (lockError) lockError.style.display = 'none';
+        sessionStorage.setItem('mw_swing_unlocked', 'true');
+        showToast('🔓 Swing Trading Desk Unlocked (PIN Verified)');
+      } else {
+        if (lockError) lockError.style.display = 'block';
+        if (pinField) {
+          pinField.classList.add('shake-anim');
+          setTimeout(function(){ pinField.classList.remove('shake-anim'); }, 400);
+          pinField.value = '';
+          pinField.focus();
+        }
+        showToast('❌ Incorrect PIN. Please try again.');
+      }
+    }
+
+    function lockDesk() {
+      sessionStorage.removeItem('mw_swing_unlocked');
+      if (protectedWrap) protectedWrap.style.display = 'none';
+      if (lockCard) lockCard.style.display = 'block';
+      if (pinField) {
+        pinField.value = '';
+        pinField.focus();
+      }
+      showToast('🔒 Swing Trading Desk Locked');
+    }
+
+    if (unlockBtn) unlockBtn.addEventListener('click', unlockDesk);
+    if (pinField) {
+      pinField.addEventListener('keydown', function(e){
+        if (e.key === 'Enter') unlockDesk();
+      });
+    }
+    if (lockToggleBtn) lockToggleBtn.addEventListener('click', lockDesk);
+
+    // Check if already unlocked in this session
+    if (sessionStorage.getItem('mw_swing_unlocked') === 'true') {
+      if (lockCard) lockCard.style.display = 'none';
+      if (protectedWrap) protectedWrap.style.display = 'block';
+    }
+  })();
+
   function getSwingScript() {
   return [
     "Here is your momentWealth One to Two Week Swing Trading Briefing based on last week's momentum research.",
