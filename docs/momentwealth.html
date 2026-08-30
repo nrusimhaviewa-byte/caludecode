@@ -4027,62 +4027,122 @@ footer {
     <div id="swing-trading-protected-wrap" style="display:none;">
 
       
-                  <!-- ==================== TRADINGVIEW LIVE INTERACTIVE CHART DESK ==================== -->
+                        <!-- ==================== TRADINGVIEW LIVE INTERACTIVE CHART & WINDOW DESK ==================== -->
       <div class="tv-chart-desk-card" id="tradingview-chart-section">
         <div class="tv-desk-header">
           <div style="display:flex;align-items:center;gap:0.75rem;">
             <div style="width:38px;height:38px;border-radius:10px;background:rgba(41,98,255,0.15);color:#2962FF;display:flex;align-items:center;justify-content:center;font-size:1.3rem;">📈</div>
             <div>
               <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.2rem;font-weight:800;display:flex;align-items:center;gap:0.5rem;">
-                <span>TradingView Live Technical Radar &middot; Speedometer Gauge</span>
-                <span class="daily-order-tag" style="background:rgba(41,98,255,0.15);color:#2962FF;">LIVE TRADINGVIEW FEED</span>
+                <span>TradingView Technical Radar &middot; Multi-Timeframe Chart</span>
+                <span class="daily-order-tag" style="background:rgba(41,98,255,0.15);color:#2962FF;">ACTIVE RADAR</span>
               </h3>
-              <div style="font-size:0.75rem;color:var(--muted);margin-top:0.15rem;">Live technical analysis speedometer, oscillator meters, moving averages, and real-time chart stream.</div>
+              <div style="font-size:0.75rem;color:var(--muted);margin-top:0.15rem;">Interactive candlestick chart, 20 EMA overlay, RSI indicator, and 1-click TradingView Window launcher.</div>
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:0.5rem;">
-            <a href="https://in.tradingview.com/chart/?symbol=NSE%3AHINDZINC" target="_blank" rel="noopener" class="chat-inline-btn" id="tv-external-link" style="color:#2962FF;border-color:#2962FF;font-weight:700;">
-              ↗ Open Fullscreen on TradingView.in
-            </a>
+            <button class="chat-inline-btn" id="btn-open-tv-window" onclick="openTradingViewWindow()" style="background:#2962FF;color:#fff;border-color:#2962FF;font-weight:800;padding:0.45rem 1rem;">
+              🚀 Open in TradingView Window ↗
+            </button>
           </div>
         </div>
 
         <!-- QUICK STOCK SELECTOR TABS -->
         <div class="tv-symbol-bar">
-          <button class="btn-tv-sym active" data-symbol="NSE:HINDZINC" data-name="Hindustan Zinc" onclick="switchTVSymbol('NSE:HINDZINC', 'Hindustan Zinc', 'Commodity Squeeze', '₹622.00', 'STRONG BUY', '68.2', '₹594.00', this)">
+          <button class="btn-tv-sym active" data-symbol="NSE:HINDZINC" data-name="Hindustan Zinc" onclick="selectStockChart('NSE:HINDZINC', 'Hindustan Zinc', 'Commodity Squeeze', '622.00', 'STRONG BUY', '68.2', '594.00', this)">
             <span>⚡ Hind Zinc</span>
           </button>
-          <button class="btn-tv-sym" data-symbol="NSE:WELCORP" data-name="Welspun Corp" onclick="switchTVSymbol('NSE:WELCORP', 'Welspun Corp', 'ATH Breakout', '₹2,373.80', 'STRONG BUY', '71.4', '₹2,180.00', this)">
+          <button class="btn-tv-sym" data-symbol="NSE:WELCORP" data-name="Welspun Corp" onclick="selectStockChart('NSE:WELCORP', 'Welspun Corp', 'ATH Breakout', '2373.80', 'STRONG BUY', '71.4', '2180.00', this)">
             <span>📊 Welspun Corp</span>
           </button>
-          <button class="btn-tv-sym" data-symbol="NSE:BEL" data-name="Bharat Electronics" onclick="switchTVSymbol('NSE:BEL', 'Bharat Electronics', '20 EMA Pullback', '₹392.40', 'BUY', '61.5', '₹384.50', this)">
+          <button class="btn-tv-sym" data-symbol="NSE:BEL" data-name="Bharat Electronics" onclick="selectStockChart('NSE:BEL', 'Bharat Electronics', '20 EMA Pullback', '392.40', 'BUY', '61.5', '384.50', this)">
             <span>🛡️ BEL</span>
           </button>
-          <button class="btn-tv-sym" data-symbol="NSE:MASTEK" data-name="Mastek" onclick="switchTVSymbol('NSE:MASTEK', 'Mastek Ltd', 'Tech Turnaround', '₹3,145.00', 'BUY', '64.8', '₹3,020.00', this)">
+          <button class="btn-tv-sym" data-symbol="NSE:MASTEK" data-name="Mastek" onclick="selectStockChart('NSE:MASTEK', 'Mastek Ltd', 'Tech Turnaround', '3145.00', 'BUY', '64.8', '3020.00', this)">
             <span>💻 Mastek</span>
           </button>
-          <button class="btn-tv-sym" data-symbol="NSE:FCL" data-name="Fineotex Chemical" onclick="switchTVSymbol('NSE:FCL', 'Fineotex Chem', 'Accumulation Base', '₹50.20', 'STRONG BUY', '69.0', '₹47.50', this)">
+          <button class="btn-tv-sym" data-symbol="NSE:FCL" data-name="Fineotex Chemical" onclick="selectStockChart('NSE:FCL', 'Fineotex Chem', 'Accumulation Base', '50.20', 'STRONG BUY', '69.0', '47.50', this)">
             <span>🧪 Fineotex Chem</span>
           </button>
-          <button class="btn-tv-sym" data-symbol="NSE:DIXON" data-name="Dixon Tech" onclick="switchTVSymbol('NSE:DIXON', 'Dixon Technologies', 'EMS Momentum', '₹15,650.00', 'STRONG BUY', '72.1', '₹14,800.00', this)">
+          <button class="btn-tv-sym" data-symbol="NSE:DIXON" data-name="Dixon Tech" onclick="selectStockChart('NSE:DIXON', 'Dixon Technologies', 'EMS Momentum', '15650.00', 'STRONG BUY', '72.1', '14800.00', this)">
             <span>📱 Dixon Tech</span>
           </button>
-          <button class="btn-tv-sym" data-symbol="NSE:NIFTY" data-name="Nifty 50" onclick="switchTVSymbol('NSE:NIFTY', 'NIFTY 50 Index', 'Market Benchmark', '24,175.65', 'NEUTRAL-BUY', '58.4', '24,050.00', this)">
+          <button class="btn-tv-sym" data-symbol="NSE:NIFTY" data-name="Nifty 50" onclick="selectStockChart('NSE:NIFTY', 'NIFTY 50 Index', 'Market Benchmark', '24175.65', 'NEUTRAL-BUY', '58.4', '24050.00', this)">
             <span>🇮🇳 Nifty 50</span>
           </button>
         </div>
 
-                <!-- TRADINGVIEW LIVE WIDGET GRID (IFRAME-POWERED FOR 100% RELIABILITY) -->
+        <!-- TRADINGVIEW DUAL-PANEL CANVAS & SPEEDOMETER GAUGE -->
         <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));gap:0;background:#131722;border-radius:0 0 16px 16px;overflow:hidden;">
-          <!-- TECHNICAL ANALYSIS GAUGE METER (SPEEDOMETER) -->
-          <div style="height:480px;border-right:1px solid rgba(255,255,255,0.08);position:relative;background:#131722;">
-            <iframe id="tv-gauge-iframe" style="width:100%;height:100%;border:none;" src="https://s.tradingview.com/embed-widget/technical-analysis/?locale=in#%7B%22interval%22%3A%221D%22%2C%22width%22%3A%22100%25%22%2C%22isTransparent%22%3Afalse%2C%22height%22%3A%22100%25%22%2C%22symbol%22%3A%22NSE%3AHINDZINC%22%2C%22showIntervalTabs%22%3Atrue%2C%22displayMode%22%3A%22multiple%22%2C%22locale%22%3A%22in%22%2C%22colorTheme%22%3A%22dark%22%7D"></iframe>
+          
+          <!-- LEFT PANEL: INTERACTIVE CANDLESTICK CHART CANVAS -->
+          <div style="padding:1rem;border-right:1px solid rgba(255,255,255,0.08);background:#131722;display:flex;flex-direction:column;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+              <div>
+                <strong id="tv-chart-title" style="color:#E8EDE7;font-size:1.05rem;">Hindustan Zinc (NSE:HINDZINC) &middot; Daily 1D</strong>
+                <div style="font-size:0.75rem;color:#8A968C;">Indicators: <span style="color:#2962FF;">20 EMA</span> &middot; <span style="color:#00D09C;">Volume</span> &middot; <span style="color:#E5A11F;">Trade Levels</span></div>
+              </div>
+              <span id="tv-chart-cmp-badge" class="num gain" style="font-family:'IBM Plex Mono',monospace;font-size:1.1rem;font-weight:800;color:#00D09C;">₹622.00</span>
+            </div>
+            
+            <div style="flex:1;min-height:360px;position:relative;background:#0E1512;border-radius:8px;border:1px solid rgba(255,255,255,0.08);overflow:hidden;">
+              <canvas id="tv-native-canvas" style="width:100%;height:100%;display:block;"></canvas>
+            </div>
           </div>
 
-          <!-- MINI SYMBOL OVERVIEW & REAL-TIME CHART -->
-          <div style="height:480px;position:relative;background:#131722;">
-            <iframe id="tv-overview-iframe" style="width:100%;height:100%;border:none;" src="https://s.tradingview.com/embed-widget/mini-symbol-overview/?locale=in#%7B%22symbol%22%3A%22NSE%3AHINDZINC%22%2C%22width%22%3A%22100%25%22%2C%22height%22%3A%22100%25%22%2C%22locale%22%3A%22in%22%2C%22dateRange%22%3A%223M%22%2C%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Afalse%2C%22autosize%22%3Atrue%2C%22largeChartUrl%22%3A%22https%3A%2F%2Fin.tradingview.com%2Fchart%2F%3Fsymbol%3DNSE%253AHINDZINC%22%7D"></iframe>
+          <!-- RIGHT PANEL: SPEEDOMETER GAUGE & TECHNICAL BREAKDOWN -->
+          <div style="padding:1.25rem;background:#131722;display:flex;flex-direction:column;justify-content:space-between;">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                <strong style="color:#E8EDE7;font-size:0.95rem;">Technical Speedometer &middot; 1D</strong>
+                <span class="daily-order-tag" style="background:rgba(37,211,102,0.15);color:#25D366;font-size:0.7rem;">OSCILLATORS + MAS</span>
+              </div>
+
+              <!-- SPEEDOMETER SVG DIAL GAUGE -->
+              <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0.75rem 0;">
+                <svg width="240" height="130" viewBox="0 0 200 110">
+                  <!-- Dial Arc -->
+                  <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#26332C" stroke-width="14" stroke-linecap="round"/>
+                  <!-- Strong Sell Zone -->
+                  <path d="M 20 100 A 80 80 0 0 1 52 44" fill="none" stroke="#B23A2E" stroke-width="14" stroke-linecap="round"/>
+                  <!-- Neutral Zone -->
+                  <path d="M 68 30 A 80 80 0 0 1 132 30" fill="none" stroke="#9A7B1F" stroke-width="14"/>
+                  <!-- Strong Buy Zone -->
+                  <path d="M 148 44 A 80 80 0 0 1 180 100" fill="none" stroke="#1F8A5F" stroke-width="14" stroke-linecap="round"/>
+                  
+                  <!-- Needle -->
+                  <line id="speedo-needle" x1="100" y1="100" x2="155" y2="45" stroke="#00D09C" stroke-width="4" stroke-linecap="round"/>
+                  <circle cx="100" cy="100" r="7" fill="#E8EDE7"/>
+                </svg>
+                <div id="tv-speedo-label" style="font-family:'Manrope',sans-serif;font-size:1.25rem;font-weight:800;color:#00D09C;margin-top:-10px;">
+                  STRONG BUY
+                </div>
+                <div style="font-size:0.75rem;color:#8A968C;margin-top:2px;">Summary of 26 Technical Indicators</div>
+              </div>
+
+              <!-- OSCILLATORS & MOVING AVERAGES STATS TABLE -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:0.75rem;">
+                <div style="background:#1D2721;padding:0.6rem 0.75rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);">
+                  <div style="font-size:0.68rem;color:#8A968C;font-family:'IBM Plex Mono',monospace;">OSCILLATORS</div>
+                  <div id="tv-stat-osc" style="font-size:0.88rem;font-weight:700;color:#00D09C;margin-top:2px;">2 Buy &middot; 8 Neutral</div>
+                  <div style="font-size:0.72rem;color:#93A398;">RSI (14): <strong id="tv-stat-rsi-val">68.2</strong></div>
+                </div>
+
+                <div style="background:#1D2721;padding:0.6rem 0.75rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);">
+                  <div style="font-size:0.68rem;color:#8A968C;font-family:'IBM Plex Mono',monospace;">MOVING AVERAGES</div>
+                  <div id="tv-stat-ma" style="font-size:0.88rem;font-weight:700;color:#00D09C;margin-top:2px;">14 Buy &middot; 1 Sell</div>
+                  <div style="font-size:0.72rem;color:#93A398;">20 EMA: <strong id="tv-stat-ema-val">₹594.00</strong></div>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:1rem;">
+              <button class="chat-inline-btn" onclick="openTradingViewWindow()" style="width:100%;background:rgba(41,98,255,0.15);color:#2962FF;border-color:#2962FF;font-weight:700;padding:0.6rem;justify-content:center;">
+                📈 Launch Interactive TradingView Terminal Window ↗
+              </button>
+            </div>
           </div>
+
         </div>
 
         <!-- TRADINGVIEW LIVE TECHNICAL INDICATORS SUMMARY -->
