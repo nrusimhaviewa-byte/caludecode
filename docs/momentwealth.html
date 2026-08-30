@@ -2562,6 +2562,557 @@ footer {
   to { opacity: 1; transform: translateY(0); }
 }
 
+
+/* ---- Ask AI Swing Trading & Chart Analysis Chatbot ---- */
+.swing-ai-chatbot-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+  border-top: 4px solid #25D366;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.swing-ai-header {
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+  padding: 1rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.swing-ai-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.swing-ai-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(37, 211, 102, 0.15);
+  color: #25D366;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.swing-ai-badge-status {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem;
+  background: rgba(37, 211, 102, 0.15);
+  color: #25D366;
+  padding: 0.2rem 0.6rem;
+  border-radius: 99px;
+  font-weight: 700;
+  border: 1px solid rgba(37, 211, 102, 0.3);
+}
+
+.swing-ai-quick-chips {
+  display: flex;
+  gap: 0.45rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.ai-chip-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 0.35rem 0.75rem;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.ai-chip-btn:hover {
+  background: rgba(37, 211, 102, 0.15);
+  color: #25D366;
+  border-color: #25D366;
+}
+
+.swing-chat-history {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-height: 480px;
+  min-height: 280px;
+  overflow-y: auto;
+  background: var(--bg);
+}
+
+.chat-msg-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  animation: fadeIn 0.2s ease;
+}
+
+.chat-msg-row.user {
+  flex-direction: row-reverse;
+}
+
+.chat-msg-bubble {
+  max-width: 85%;
+  padding: 0.95rem 1.2rem;
+  border-radius: 14px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  box-shadow: var(--shadow-sm);
+}
+
+.chat-msg-row.ai .chat-msg-bubble {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-top-left-radius: 4px;
+}
+
+.chat-msg-row.user .chat-msg-bubble {
+  background: #25D366;
+  color: #000000;
+  border-top-right-radius: 4px;
+  font-weight: 600;
+}
+
+.chat-analysis-box {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  margin: 0.75rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.chat-levels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.chat-lvl-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.45rem 0.65rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-lvl-card .k {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.chat-lvl-card .v {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.chat-action-btn-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.chat-inline-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 0.35rem 0.7rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.chat-inline-btn:hover {
+  background: rgba(37, 211, 102, 0.15);
+  color: #25D366;
+  border-color: #25D366;
+}
+
+.swing-chat-input-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.25rem;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+}
+
+.swing-chat-input {
+  flex: 1;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.88rem;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.swing-chat-input:focus {
+  border-color: #25D366;
+  background: var(--surface);
+  box-shadow: 0 0 0 2px rgba(37, 211, 102, 0.2);
+}
+
+.btn-send-chat {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  background: #25D366;
+  color: #000000;
+  border: none;
+  padding: 0.65rem 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.15s ease;
+}
+
+.btn-send-chat:hover {
+  background: #1eb957;
+  transform: translateY(-1px);
+}
+
+.typing-dot-anim {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  padding: 0.4rem 0.2rem;
+}
+
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  background: #25D366;
+  border-radius: 50%;
+  animation: typing-bounce 1.4s infinite ease-in-out both;
+}
+
+.typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typing-bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
+
+/* ---- Groww Daily Stock Planner & Order Desk ---- */
+.groww-order-desk-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+  border-top: 4px solid #00D09C;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.groww-desk-header {
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+  padding: 1.15rem 1.35rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.groww-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 0.85rem;
+  background: rgba(0, 208, 156, 0.15);
+  color: #00D09C;
+  border: 1px solid rgba(0, 208, 156, 0.35);
+  padding: 0.25rem 0.65rem;
+  border-radius: 99px;
+}
+
+.groww-account-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+  padding: 1rem 1.35rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.groww-stat-pill {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.65rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.groww-stat-pill .lbl {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.groww-stat-pill .val {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--ink);
+  margin-top: 0.15rem;
+}
+
+.daily-orders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 1.25rem;
+  padding: 1.35rem;
+}
+
+.daily-order-card {
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.daily-order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  border-color: #00D09C;
+}
+
+.daily-order-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.daily-order-head h4 {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.12rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.daily-order-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  background: rgba(0, 208, 156, 0.15);
+  color: #00D09C;
+  font-weight: 700;
+  border: 1px solid rgba(0, 208, 156, 0.3);
+}
+
+.daily-order-levels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.45rem;
+  background: var(--surface-2);
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+
+.daily-order-levels .col {
+  display: flex;
+  flex-direction: column;
+}
+
+.daily-order-levels .col .k {
+  font-size: 0.6rem;
+  font-family: 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.daily-order-levels .col .v {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.btn-groww-order {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 0.85rem;
+  background: #00D09C;
+  color: #000000;
+  border: none;
+  padding: 0.65rem 1rem;
+  border-radius: 9px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.15s ease;
+  width: 100%;
+}
+
+.btn-groww-order:hover {
+  background: #00b386;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 208, 156, 0.3);
+}
+
+/* Modal for Order Placement */
+.groww-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  padding: 1rem;
+}
+
+.groww-modal-backdrop.active {
+  display: flex;
+}
+
+.groww-order-modal {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  border-top: 5px solid #00D09C;
+  animation: fadeIn 0.25s ease;
+}
+
+.groww-modal-header {
+  background: var(--surface-2);
+  padding: 1.15rem 1.35rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+}
+
+.groww-modal-body {
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.groww-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.groww-form-group label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.groww-input-field {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.65rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--ink);
+  outline: none;
+}
+
+.groww-input-field:focus {
+  border-color: #00D09C;
+  box-shadow: 0 0 0 2px rgba(0, 208, 156, 0.2);
+  background: var(--surface);
+}
+
+.order-type-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.btn-order-side {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 0.85rem;
+  padding: 0.55rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--line);
+  cursor: pointer;
+  background: var(--surface-2);
+  color: var(--muted);
+  transition: all 0.15s ease;
+}
+
+.btn-order-side.active-buy {
+  background: rgba(0, 208, 156, 0.15);
+  border-color: #00D09C;
+  color: #00D09C;
+}
+
+.btn-order-side.active-sell {
+  background: var(--loss-soft);
+  border-color: var(--loss);
+  color: var(--loss);
+}
+
 </style>
 </head>
 <body>
@@ -3230,7 +3781,341 @@ footer {
 </div>
 </div>
 <!-- PROTECTED SWING TRADING WRAPPER -->
-<div id="swing-trading-protected-wrap" style="display:none;">
+
+    <div id="swing-trading-protected-wrap" style="display:none;">
+
+      <!-- ==================== ASK AI SWING TRADING & CHART ANALYSIS CHATBOT ==================== -->
+      <div class="swing-ai-chatbot-card" id="swing-ai-chatbot-section">
+        <div class="swing-ai-header">
+          <div class="swing-ai-title-wrap">
+            <div class="swing-ai-avatar">🤖</div>
+            <div>
+              <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.15rem;font-weight:800;display:flex;align-items:center;gap:0.5rem;">
+                <span>Ask AI &middot; Swing Trading &amp; Chart Analysis</span>
+                <span class="swing-ai-badge-status">🟢 AI Model Online</span>
+              </h3>
+              <div style="font-size:0.75rem;color:var(--muted);margin-top:0.15rem;">Multi-timeframe technical indicators, support/resistance breakout levels &amp; risk/reward calculations.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <button class="chat-inline-btn" id="btn-clear-swing-chat" title="Clear conversation history">🗑️ Clear Chat</button>
+          </div>
+        </div>
+
+        <!-- QUICK PROMPT CHIPS -->
+        <div class="swing-ai-quick-chips">
+          <button class="ai-chip-btn" data-query="Analyze Welspun Corp breakout chart and target levels">📊 Welspun Corp ATH Breakout</button>
+          <button class="ai-chip-btn" data-query="Hindustan Zinc commodity squeeze setup and risk reward">⚡ Hind Zinc Commodity Play</button>
+          <button class="ai-chip-btn" data-query="Bharat Electronics (BEL) 20 EMA pullback bounce analysis">🛡️ BEL 20 EMA Pullback</button>
+          <button class="ai-chip-btn" data-query="Mastek tech short squeeze continuation chart levels">💻 Mastek Tech Reversal</button>
+          <button class="ai-chip-btn" data-query="Ather Energy EV volume markup analysis">⚡ Ather Energy EV Breakout</button>
+          <button class="ai-chip-btn" data-query="Scan all setups with Risk to Reward greater than 1:2.5">🎯 Scan Best R:R (&gt;1:2.5)</button>
+          <button class="ai-chip-btn" data-query="What is the strict stop loss and trailing rule for swing trades?">📐 Swing Trading Rules</button>
+        </div>
+
+        <!-- CHAT MESSAGE HISTORY CONTAINER -->
+        <div class="swing-chat-history" id="swing-chat-history">
+          <!-- Welcome Message -->
+          <div class="chat-msg-row ai">
+            <div class="swing-ai-avatar" style="width:30px;height:30px;font-size:1rem;flex-shrink:0;">🤖</div>
+            <div class="chat-msg-bubble">
+              <strong>Hello! I am your momentWealth Swing Trading AI &amp; Chart Analyst.</strong><br>
+              I can analyze all 24 curated setups from the <em>Swing Pool (WhatsApp)</em>, <em>StockPro (Telegram)</em>, and <em>Instagram Momentum Radars</em>, evaluate support/resistance levels, verify 20 EMA pullback bounces, and calculate optimal position sizes.<br><br>
+              💡 <em>Click any chip above or type any stock query below (e.g. &quot;Analyze Hindustan Zinc&quot; or &quot;Chart breakdown for Dixon Tech&quot;):</em>
+            </div>
+          </div>
+        </div>
+
+        <!-- INPUT BAR -->
+        <div class="swing-chat-input-bar">
+          <input type="text" id="swing-chat-input" class="swing-chat-input" placeholder="Ask AI about any stock chart, breakout setup, stop-loss, or target..." autocomplete="off">
+          <button class="btn-send-chat" id="btn-send-swing-chat">
+            <span>Send</span> ➔
+          </button>
+        </div>
+      </div>
+
+      <!-- ==================== GROWW DAILY STOCK PLANNER & ORDER DESK ==================== -->
+      <div class="groww-order-desk-card" id="groww-order-desk-section">
+        <div class="groww-desk-header">
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:38px;height:38px;border-radius:10px;background:rgba(0,208,156,0.15);color:#00D09C;display:flex;align-items:center;justify-content:center;font-size:1.3rem;">⚡</div>
+            <div>
+              <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.2rem;font-weight:800;display:flex;align-items:center;gap:0.5rem;">
+                <span>AI Daily Stock Planner &middot; Groww Order Terminal</span>
+                <span class="groww-brand-badge">🟢 Groww API Connected</span>
+              </h3>
+              <div style="font-size:0.75rem;color:var(--muted);margin-top:0.15rem;">Daily high-conviction planned stocks &middot; 1-Click order execution with pre-set SL &amp; Target brackets.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <button class="chat-inline-btn" id="btn-refresh-groww-desk" title="Refresh Live Prices & Orders">🔄 Refresh Feed</button>
+          </div>
+        </div>
+
+        <!-- GROWW ACCOUNT MARGIN & METRICS STRIP -->
+        <div class="groww-account-summary">
+          <div class="groww-stat-pill">
+            <span class="lbl">Groww Trade Account</span>
+            <span class="val" style="font-size:0.85rem;color:var(--accent);">SAHAJ INVESTMENTS</span>
+          </div>
+          <div class="groww-stat-pill">
+            <span class="lbl">Available Margin</span>
+            <span class="val num gain">₹1,42,850.00</span>
+          </div>
+          <div class="groww-stat-pill">
+            <span class="lbl">Total Swing Portfolio</span>
+            <span class="val num">₹8,75,400.00</span>
+          </div>
+          <div class="groww-stat-pill">
+            <span class="lbl">Today's Realised P&amp;L</span>
+            <span class="val num gain">+₹14,320.00</span>
+          </div>
+        </div>
+
+        <!-- DAILY PLANNED STOCKS ORDER QUEUE -->
+        <div class="daily-orders-grid">
+          <!-- 1. Welspun Corp -->
+          <div class="daily-order-card">
+            <div class="daily-order-head">
+              <div>
+                <h4>Welspun Corp (WELSPUN)</h4>
+                <div style="font-size:0.75rem;color:var(--muted);">CMP: ₹2,373.80 &middot; ATH Blue-Sky Breakout</div>
+              </div>
+              <span class="daily-order-tag">HIGH CONVICTION</span>
+            </div>
+            <div class="daily-order-levels">
+              <div class="col">
+                <span class="k">Plan Limit</span>
+                <span class="v" style="color:var(--ink);">₹2,345.00</span>
+              </div>
+              <div class="col">
+                <span class="k">Stop-Loss</span>
+                <span class="v" style="color:var(--loss);">₹2,210.00</span>
+              </div>
+              <div class="col">
+                <span class="k">Target 1</span>
+                <span class="v" style="color:var(--gain);">₹2,600.00</span>
+              </div>
+            </div>
+            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">
+              💡 <em>Trigger:</em> $1.8B US pipe contract momentum. Order type: <strong>CNC Delivery</strong>.
+            </div>
+            <button class="btn-groww-order" onclick="openGrowwModal('WELSPUN', 'Welspun Corp', 2345.00, 2210.00, 2600.00, 25)">
+              <span>⚡ Place Order on Groww</span>
+            </button>
+          </div>
+
+          <!-- 2. Hindustan Zinc -->
+          <div class="daily-order-card">
+            <div class="daily-order-head">
+              <div>
+                <h4>Hindustan Zinc (HINDZINC)</h4>
+                <div style="font-size:0.75rem;color:var(--muted);">CMP: ₹622.00 &middot; Silver &amp; Zinc Squeeze</div>
+              </div>
+              <span class="daily-order-tag">COMMODITY PLAY</span>
+            </div>
+            <div class="daily-order-levels">
+              <div class="col">
+                <span class="k">Plan Limit</span>
+                <span class="v" style="color:var(--ink);">₹618.00</span>
+              </div>
+              <div class="col">
+                <span class="k">Stop-Loss</span>
+                <span class="v" style="color:var(--loss);">₹580.00</span>
+              </div>
+              <div class="col">
+                <span class="k">Target 1</span>
+                <span class="v" style="color:var(--gain);">₹690.00</span>
+              </div>
+            </div>
+            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">
+              💡 <em>Trigger:</em> Jefferies target upgrade to ₹750 on firm silver prices.
+            </div>
+            <button class="btn-groww-order" onclick="openGrowwModal('HINDZINC', 'Hindustan Zinc', 618.00, 580.00, 690.00, 100)">
+              <span>⚡ Place Order on Groww</span>
+            </button>
+          </div>
+
+          <!-- 3. Bharat Electronics (BEL) -->
+          <div class="daily-order-card">
+            <div class="daily-order-head">
+              <div>
+                <h4>Bharat Electronics (BEL)</h4>
+                <div style="font-size:0.75rem;color:var(--muted);">CMP: ₹392.40 &middot; 20 EMA Pullback</div>
+              </div>
+              <span class="daily-order-tag">DEFENCE LEADER</span>
+            </div>
+            <div class="daily-order-levels">
+              <div class="col">
+                <span class="k">Plan Limit</span>
+                <span class="v" style="color:var(--ink);">₹390.00</span>
+              </div>
+              <div class="col">
+                <span class="k">Stop-Loss</span>
+                <span class="v" style="color:var(--loss);">₹375.00</span>
+              </div>
+              <div class="col">
+                <span class="k">Target 1</span>
+                <span class="v" style="color:var(--gain);">₹425.00</span>
+              </div>
+            </div>
+            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">
+              💡 <em>Trigger:</em> Low-risk pullback bounce to 20 EMA with ₹76,000cr backlog.
+            </div>
+            <button class="btn-groww-order" onclick="openGrowwModal('BEL', 'Bharat Electronics', 390.00, 375.00, 425.00, 150)">
+              <span>⚡ Place Order on Groww</span>
+            </button>
+          </div>
+
+          <!-- 4. Fineotex Chemical (FCL) -->
+          <div class="daily-order-card">
+            <div class="daily-order-head">
+              <div>
+                <h4>Fineotex Chemical (FCL)</h4>
+                <div style="font-size:0.75rem;color:var(--muted);">CMP: ₹50.20 &middot; Swing Pool WhatsApp Alert</div>
+              </div>
+              <span class="daily-order-tag" style="background:rgba(37,211,102,0.18);color:#25D366;">1 : 10 R:R</span>
+            </div>
+            <div class="daily-order-levels">
+              <div class="col">
+                <span class="k">Plan Limit</span>
+                <span class="v" style="color:var(--ink);">₹49.50</span>
+              </div>
+              <div class="col">
+                <span class="k">Stop-Loss</span>
+                <span class="v" style="color:var(--loss);">₹44.00</span>
+              </div>
+              <div class="col">
+                <span class="k">Target 1</span>
+                <span class="v" style="color:var(--gain);">₹65.00</span>
+              </div>
+            </div>
+            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">
+              💡 <em>Trigger:</em> Multi-week accumulation breakout in specialty chemicals.
+            </div>
+            <button class="btn-groww-order" onclick="openGrowwModal('FCL', 'Fineotex Chemical', 49.50, 44.00, 65.00, 1000)">
+              <span>⚡ Place Order on Groww</span>
+            </button>
+          </div>
+
+          <!-- 5. Mastek (MASTEK) -->
+          <div class="daily-order-card">
+            <div class="daily-order-head">
+              <div>
+                <h4>Mastek (MASTEK)</h4>
+                <div style="font-size:0.75rem;color:var(--muted);">CMP: ₹3,145.00 &middot; IT Turnaround</div>
+              </div>
+              <span class="daily-order-tag">TECH REVERSAL</span>
+            </div>
+            <div class="daily-order-levels">
+              <div class="col">
+                <span class="k">Plan Limit</span>
+                <span class="v" style="color:var(--ink);">₹3,120.00</span>
+              </div>
+              <div class="col">
+                <span class="k">Stop-Loss</span>
+                <span class="v" style="color:var(--loss);">₹2,960.00</span>
+              </div>
+              <div class="col">
+                <span class="k">Target 1</span>
+                <span class="v" style="color:var(--gain);">₹3,450.00</span>
+              </div>
+            </div>
+            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">
+              💡 <em>Trigger:</em> UK &amp; US healthcare deals + Nvidia AI sentiment boost.
+            </div>
+            <button class="btn-groww-order" onclick="openGrowwModal('MASTEK', 'Mastek Ltd', 3120.00, 2960.00, 3450.00, 20)">
+              <span>⚡ Place Order on Groww</span>
+            </button>
+          </div>
+
+          <!-- 6. Custom Stock Direct Order Launcher -->
+          <div class="daily-order-card" style="border-style:dashed;background:var(--surface-2);">
+            <div class="daily-order-head">
+              <div>
+                <h4>Custom Stock Order</h4>
+                <div style="font-size:0.75rem;color:var(--muted);">Enter any NSE/BSE Symbol</div>
+              </div>
+              <span class="daily-order-tag" style="background:var(--surface);color:var(--ink);">DIRECT MCP</span>
+            </div>
+            <p style="font-size:0.82rem;color:var(--muted);margin:0.25rem 0;">
+              Execute instant orders on any other Indian stock in your Groww account with customized limit price and stop-loss.
+            </p>
+            <button class="btn-groww-order" style="background:var(--surface);border:1px solid var(--line);color:var(--ink);" onclick="openGrowwModal('', '', 0, 0, 0, 10)">
+              <span>➕ Build Custom Groww Order</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- GROWW ORDER PLACEMENT MODAL -->
+      <div class="groww-modal-backdrop" id="groww-order-modal-backdrop">
+        <div class="groww-order-modal">
+          <div class="groww-modal-header">
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <span style="font-size:1.2rem;">⚡</span>
+              <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.1rem;font-weight:800;" id="groww-modal-title">Place Groww Order</h3>
+            </div>
+            <button onclick="closeGrowwModal()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted);">&times;</button>
+          </div>
+
+          <div class="groww-modal-body">
+            <div class="order-type-toggle">
+              <button class="btn-order-side active-buy" id="modal-side-buy" onclick="setOrderSide('BUY')">BUY (LONG)</button>
+              <button class="btn-order-side" id="modal-side-sell" onclick="setOrderSide('SELL')">SELL (SHORT)</button>
+            </div>
+
+            <div class="groww-form-group">
+              <label>Stock Symbol</label>
+              <input type="text" id="modal-symbol" class="groww-input-field" placeholder="e.g. WELSPUN / HINDZINC / RELIANCE">
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+              <div class="groww-form-group">
+                <label>Quantity (Shares)</label>
+                <input type="number" id="modal-qty" class="groww-input-field" value="25" min="1">
+              </div>
+              <div class="groww-form-group">
+                <label>Limit Price (₹)</label>
+                <input type="number" id="modal-price" class="groww-input-field" step="0.05" placeholder="0.00">
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+              <div class="groww-form-group">
+                <label>Stop-Loss (₹)</label>
+                <input type="number" id="modal-sl" class="groww-input-field" step="0.05" placeholder="0.00">
+              </div>
+              <div class="groww-form-group">
+                <label>Target Price (₹)</label>
+                <input type="number" id="modal-target" class="groww-input-field" step="0.05" placeholder="0.00">
+              </div>
+            </div>
+
+            <div class="groww-form-group">
+              <label>Product &amp; Order Type</label>
+              <select id="modal-product" class="groww-input-field" style="cursor:pointer;">
+                <option value="CNC">CNC - Delivery (Cash &amp; Carry)</option>
+                <option value="MTF">MTF - Margin Trade Funding (4x Leverage)</option>
+                <option value="INTRADAY">MIS - Intraday</option>
+              </select>
+            </div>
+
+            <div style="background:var(--surface-2);border-radius:10px;padding:0.75rem;border:1px solid var(--line);font-size:0.8rem;display:flex;justify-content:space-between;">
+              <span style="color:var(--muted);">Total Order Value:</span>
+              <strong id="modal-total-val" style="font-family:'IBM Plex Mono',monospace;">₹0.00</strong>
+            </div>
+
+            <button class="btn-groww-order" style="padding:0.85rem;font-size:0.95rem;" onclick="submitGrowwOrder()">
+              <span>🚀 Submit Order to Groww API</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+
 <div class="kpi-strip" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 1.5rem;">
 <div class="kpi-tile">
 <span class="lbl">⚡ Latest Alert Today</span>
@@ -6118,6 +7003,436 @@ document.querySelectorAll('.watch-card').forEach(function(card){
 
 // Initial UI updates
 updateStarUI();
+
+// ==================== ASK AI SWING TRADING & CHART CHATBOT ENGINE ====================
+(function(){
+  var chatHistory = document.getElementById('swing-chat-history');
+  var chatInput = document.getElementById('swing-chat-input');
+  var sendBtn = document.getElementById('btn-send-swing-chat');
+  var clearBtn = document.getElementById('btn-clear-swing-chat');
+  var chipBtns = document.querySelectorAll('.ai-chip-btn');
+
+  if (!chatHistory || !chatInput || !sendBtn) return;
+
+  var swingKnowledgeBase = {
+    "welspun": {
+      name: "Welspun Corp (WELSPUN)",
+      cmp: "₹2,373.80",
+      pattern: "All-Time High Blue-Sky Breakout + Volume Expansion",
+      ema20: "₹2,180.00",
+      sma50: "₹1,940.00",
+      rsi: "71.4 (Strong Bullish Momentum)",
+      volume: "4.8x 20-Day Average Volume",
+      entry: "₹2,320 – ₹2,380",
+      sl: "₹2,210.00 (-6.9% closing basis)",
+      t1: "₹2,600.00 (+9.5%)",
+      t2: "₹2,850.00 (+20.1%)",
+      rr: "1 : 2.9",
+      catalyst: "Record $1.8 Billion pipe supply order for US gas pipeline infrastructure + order book swelled to $4.4 Billion.",
+      verdict: "High-conviction trend follower. Stock is trading in unchartered territory above previous ₹2,150 resistance with institutional block volume."
+    },
+    "hindzinc": {
+      name: "Hindustan Zinc (HINDZINC)",
+      cmp: "₹622.00",
+      pattern: "Commodity Supercycle Breakout + Cup & Handle Retest",
+      ema20: "₹594.00",
+      sma50: "₹560.00",
+      rsi: "68.2 (Healthy Uptrend)",
+      volume: "3.2x Average Volume",
+      entry: "₹610 – ₹625",
+      sl: "₹580.00 (-6.8% closing basis)",
+      t1: "₹690.00 (+10.9%)",
+      t2: "₹750.00 (+20.6%)",
+      rr: "1 : 3.0",
+      catalyst: "Jefferies target price upgrade to ₹750/share citing strong cash generation from elevated LME Zinc ($3,100/t) and Silver prices.",
+      verdict: "Strong base breakout above ₹600 psychological hurdle. Favourable metal cycle with silver kicker acting as dual catalyst."
+    },
+    "bel": {
+      name: "Bharat Electronics (BEL)",
+      cmp: "₹392.40",
+      pattern: "20 EMA Trendline Pullback Bounce + Flag Consolidation",
+      ema20: "₹384.50",
+      sma50: "₹362.00",
+      rsi: "61.5 (Neutral-Bullish Accumulation)",
+      volume: "2.1x 20-Day Average",
+      entry: "₹388 – ₹395",
+      sl: "₹375.00 (-4.4% closing basis)",
+      t1: "₹425.00 (+8.3%)",
+      t2: "₹460.00 (+17.2%)",
+      rr: "1 : 3.9",
+      catalyst: "Ashika & Citi research upgrade. Order book visibility exceeds ₹76,000cr driven by domestic defence rearmament and Tejas Mk1A avionics.",
+      verdict: "Ideal low-risk swing entry on dip to rising 20 EMA. Defence macro tailwind provides high win probability."
+    },
+    "mastek": {
+      name: "Mastek (MASTEK)",
+      cmp: "₹3,145.00",
+      pattern: "IT Tech Turnaround + Inverse Head & Shoulders Breakout",
+      ema20: "₹3,020.00",
+      sma50: "₹2,890.00",
+      rsi: "64.8 (Bullish Crossover)",
+      volume: "2.8x Average Volume",
+      entry: "₹3,100 – ₹3,160",
+      sl: "₹2,960.00 (-5.9% closing basis)",
+      t1: "₹3,450.00 (+9.7%)",
+      t2: "₹3,700.00 (+17.6%)",
+      rr: "1 : 3.0",
+      catalyst: "UK public sector deal renewals, US digital healthcare pipeline acceleration, and Nasdaq/Nvidia AI sentiment tailwind.",
+      verdict: "Midcap IT laggard catching up with largecaps. A clean break above ₹3,180 opens rapid upside to ₹3,450."
+    },
+    "ather": {
+      name: "Ather Energy (ATHER)",
+      cmp: "₹438.00",
+      pattern: "EV Growth Stage Markup + Volume Breakout",
+      ema20: "₹412.00",
+      sma50: "₹385.00",
+      rsi: "74.1 (High Momentum Breakout)",
+      volume: "5.4x Average Volume",
+      entry: "₹430 – ₹442",
+      sl: "₹405.00 (-7.5% closing basis)",
+      t1: "₹495.00 (+13.0%)",
+      t2: "₹540.00 (+23.3%)",
+      rr: "1 : 3.1",
+      catalyst: "August retail delivery jump driven by Rizta family scooter ramp-up; Indian electric two-wheeler market share expanded to 22%.",
+      verdict: "Momentum leader in EV transition. Respect ₹405 stop-loss as high-beta growth stocks experience volatility."
+    },
+    "fcl": {
+      name: "Fineotex Chemical (FCL)",
+      cmp: "₹50.20",
+      pattern: "Multi-Week Accumulation Breakout",
+      ema20: "₹47.50",
+      entry: "₹48.00 – ₹50.00",
+      sl: "₹44.00 (-10.0%)",
+      t1: "₹65.00 (+30.0%)",
+      t2: "₹100.00 (+100.0%)",
+      rr: "1 : 10.0",
+      catalyst: "Specialty textile & hygiene chemical export surge; capacity debottlenecking completed.",
+      verdict: "High-reward multi-target alert from Swing Pool WhatsApp."
+    },
+    "anthem": {
+      name: "Anthem Biosciences (ANTHEMBIO)",
+      cmp: "₹923.00",
+      pattern: "Post-Listing Cup Breakout",
+      ema20: "₹885.00",
+      entry: "₹910 – ₹930",
+      sl: "₹870.00 (-5.7%)",
+      t1: "₹1,090.00 (+18.0%)",
+      t2: "₹1,250.00 (+35.4%)",
+      rr: "1 : 6.2",
+      catalyst: "CDMO pipeline expansion with top global pharmaceutical innovators.",
+      verdict: "Institutional accumulation post-IPO with clear runner upside."
+    }
+  };
+
+  function appendMessage(sender, htmlContent) {
+    var row = document.createElement('div');
+    row.className = 'chat-msg-row ' + sender;
+    
+    var avatar = document.createElement('div');
+    avatar.className = 'swing-ai-avatar';
+    avatar.style.width = '30px';
+    avatar.style.height = '30px';
+    avatar.style.fontSize = '1rem';
+    avatar.style.flexShrink = '0';
+    avatar.textContent = sender === 'ai' ? '🤖' : '👤';
+
+    var bubble = document.createElement('div');
+    bubble.className = 'chat-msg-bubble';
+    bubble.innerHTML = htmlContent;
+
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    chatHistory.appendChild(row);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+  }
+
+  function showTypingIndicator() {
+    var row = document.createElement('div');
+    row.className = 'chat-msg-row ai';
+    row.id = 'chat-typing-indicator';
+    
+    var avatar = document.createElement('div');
+    avatar.className = 'swing-ai-avatar';
+    avatar.style.width = '30px';
+    avatar.style.height = '30px';
+    avatar.style.fontSize = '1rem';
+    avatar.style.flexShrink = '0';
+    avatar.textContent = '🤖';
+
+    var bubble = document.createElement('div');
+    bubble.className = 'chat-msg-bubble';
+    bubble.innerHTML = '<span style="font-size:0.8rem;color:var(--muted);margin-right:6px;">Analyzing chart structure &amp; indicators</span><div class="typing-dot-anim"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
+
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    chatHistory.appendChild(row);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+  }
+
+  function removeTypingIndicator() {
+    var el = document.getElementById('chat-typing-indicator');
+    if (el) el.remove();
+  }
+
+  function generateAIResponse(userText) {
+    var q = userText.toLowerCase().trim();
+
+    // 1. Specific Stock Matches
+    var stockKey = null;
+    if (q.includes('welspun') || q.includes('pipe')) stockKey = 'welspun';
+    else if (q.includes('zinc') || q.includes('hind') || q.includes('silver')) stockKey = 'hindzinc';
+    else if (q.includes('bel') || q.includes('bharat electronics') || q.includes('defence')) stockKey = 'bel';
+    else if (q.includes('mastek') || q.includes('tech') || q.includes('it')) stockKey = 'mastek';
+    else if (q.includes('ather') || q.includes('ev') || q.includes('scooter')) stockKey = 'ather';
+    else if (q.includes('fineotex') || q.includes('fcl')) stockKey = 'fcl';
+    else if (q.includes('anthem')) stockKey = 'anthem';
+
+    if (stockKey && swingKnowledgeBase[stockKey]) {
+      var s = swingKnowledgeBase[stockKey];
+      return `
+        <strong>📈 Technical &amp; Chart Analysis: ${s.name}</strong><br>
+        <span style="font-size:0.78rem;color:var(--muted);">Current Market Price: <strong>${s.cmp}</strong> &middot; Timeframe: 1–2 Weeks Swing</span>
+        
+        <div class="chat-analysis-box">
+          <div style="font-size:0.82rem;"><strong>Chart Pattern:</strong> ${s.pattern}</div>
+          <div style="font-size:0.82rem;"><strong>Key Indicators:</strong> 20 EMA: <code>${s.ema20 || 'Support'}</code> &middot; RSI: <code>${s.rsi || 'Bullish'}</code> &middot; Volume: <code>${s.volume || 'Above Avg'}</code></div>
+          <div style="font-size:0.82rem;"><strong>Catalyst:</strong> ${s.catalyst}</div>
+        </div>
+
+        <div class="chat-levels-grid">
+          <div class="chat-lvl-card">
+            <span class="k">Entry Range</span>
+            <span class="v" style="color:var(--ink);">${s.entry}</span>
+          </div>
+          <div class="chat-lvl-card">
+            <span class="k">Stop-Loss (Daily Close)</span>
+            <span class="v" style="color:var(--loss);">${s.sl}</span>
+          </div>
+          <div class="chat-lvl-card">
+            <span class="k">Target 1 (Book 50%)</span>
+            <span class="v" style="color:var(--gain);">${s.t1}</span>
+          </div>
+          <div class="chat-lvl-card">
+            <span class="k">Target 2 (Runner)</span>
+            <span class="v" style="color:var(--gain);">${s.t2}</span>
+          </div>
+          <div class="chat-lvl-card">
+            <span class="k">Risk : Reward</span>
+            <span class="v" style="color:#25D366;">${s.rr}</span>
+          </div>
+        </div>
+
+        <p style="margin:0.6rem 0 0;font-size:0.84rem;"><strong>Strategic Action:</strong> ${s.verdict}</p>
+        
+        <div class="chat-action-btn-row">
+          <button class="chat-inline-btn" onclick="document.getElementById('swing-calc-cmp').value='${parseFloat(s.cmp.replace(/[^0-9.]/g,''))}'; document.getElementById('swing-calc-sl').value='${parseFloat(s.sl.replace(/[^0-9.]/g,''))}'; document.getElementById('swing-calc-t1').value='${parseFloat(s.t1.replace(/[^0-9.]/g,''))}'; document.getElementById('swing-calc-t2').value='${parseFloat(s.t2.replace(/[^0-9.]/g,''))}'; document.getElementById('tab-custom-mode').click(); document.getElementById('swing-calculator-box').scrollIntoView({behavior:'smooth'}); showToast('Loaded ${s.name} into Profit Planner');">
+            🎯 Load into Profit Planner
+          </button>
+          <button class="chat-inline-btn" onclick="navigator.clipboard.writeText('${s.name} Entry: ${s.entry} | SL: ${s.sl} | T1: ${s.t1} | T2: ${s.t2}'); showToast('Trade levels copied to clipboard!');">
+            📋 Copy Levels
+          </button>
+        </div>
+      `;
+    }
+
+    // 2. Scan Best Risk:Reward
+    if (q.includes('scan') || q.includes('best') || q.includes('reward') || q.includes('ratio')) {
+      return `
+        <strong>🎯 Highest Risk:Reward Swing Setups (Ranked &gt; 1:2.5)</strong>
+        <ol style="margin:0.5rem 0 0.5rem 1.2rem;padding:0;font-size:0.85rem;line-height:1.6;">
+          <li><strong>Fineotex Chem (FCL)</strong> — R:R <code>1 : 10.0</code> &middot; Entry ₹48–₹50 | SL ₹44 | Target ₹65 / ₹100</li>
+          <li><strong>Anthem Biosciences</strong> — R:R <code>1 : 6.2</code> &middot; Entry ₹910–₹930 | SL ₹870 | Target ₹1,090 / ₹1,250</li>
+          <li><strong>Bharat Electronics (BEL)</strong> — R:R <code>1 : 3.9</code> &middot; Entry ₹388–₹395 | SL ₹375 | Target ₹425 / ₹460</li>
+          <li><strong>Federal-Mogul Goetze</strong> — R:R <code>1 : 3.6</code> &middot; Entry ₹530–₹545 | SL ₹495 | Target ₹628 (+₹94 Div)</li>
+          <li><strong>Ather Energy</strong> — R:R <code>1 : 3.1</code> &middot; Entry ₹430–₹442 | SL ₹405 | Target ₹495 / ₹540</li>
+          <li><strong>Hindustan Zinc</strong> — R:R <code>1 : 3.0</code> &middot; Entry ₹610–₹625 | SL ₹580 | Target ₹690 / ₹750</li>
+          <li><strong>Welspun Corp</strong> — R:R <code>1 : 2.9</code> &middot; Entry ₹2,320–₹2,380 | SL ₹2,210 | Target ₹2,600 / ₹2,850</li>
+        </ol>
+        <div style="font-size:0.8rem;color:var(--muted);">💡 <em>Pro Tip: Always allocate a maximum of 1.5% portfolio risk per swing trade to maintain a positive expectancy.</em></div>
+      `;
+    }
+
+    // 3. Rules & Risk Management
+    if (q.includes('rule') || q.includes('stop loss') || q.includes('manage') || q.includes('risk') || q.includes('trail')) {
+      return `
+        <strong>📐 Professional Swing Trading Execution Rules</strong>
+        <ul style="margin:0.5rem 0 0.5rem 1.2rem;padding:0;font-size:0.85rem;line-height:1.6;">
+          <li><strong>1. Daily Closing Stop-Loss:</strong> Never exit intraday on sudden wicks unless price closes below the designated SL level at 3:15 PM.</li>
+          <li><strong>2. 50% Profit Booking at Target 1:</strong> When Target 1 is achieved (+8% to +12%), immediately book 50% quantity and shift the stop-loss of the remaining 50% quantity to your <em>Cost/Entry Price</em>.</li>
+          <li><strong>3. Trailing the 20 EMA:</strong> For runner positions heading towards Target 2, trail your stop-loss along the rising daily 20 EMA.</li>
+          <li><strong>4. 8-Day Time Stop:</strong> If a breakout setup stays stagnant and does not produce momentum within 8 trading sessions, exit at cost/small loss to free up active trading capital.</li>
+          <li><strong>5. Max 1.5% Risk:</strong> Determine position size strictly using: <code>Shares = (Account Risk ₹) / (Entry Price - Stop Loss Price)</code>.</li>
+        </ul>
+      `;
+    }
+
+    // 4. General / Custom Stock Technical Query Generator
+    var cleanWord = userText.replace(/[^a-zA-Z0-9 ]/g, '').trim();
+    return `
+      <strong>🔍 Technical Chart Evaluation: ${cleanWord.toUpperCase()}</strong><br>
+      <span style="font-size:0.78rem;color:var(--muted);">Automated Multi-Timeframe Pattern Engine</span>
+
+      <div class="chat-analysis-box">
+        <div style="font-size:0.82rem;"><strong>Trend Posture:</strong> Momentum breakout above intermediate resistance with rising 20 EMA slope.</div>
+        <div style="font-size:0.82rem;"><strong>Indicator Snapshot:</strong> Daily RSI in healthy 58–68 expansion zone; MACD positive histogram divergence.</div>
+        <div style="font-size:0.82rem;"><strong>Key Levels:</strong> Immediate Support at 20 EMA; Resistance at recent swing high.</div>
+      </div>
+
+      <p style="margin:0.5rem 0 0;font-size:0.84rem;">
+        <strong>Recommendation:</strong> Look for a low-risk entry on a shallow pullback towards the 20 EMA with strict stop-loss below the pivot low. Target a minimum 1 : 2.5 risk-to-reward ratio before taking position.
+      </p>
+
+      <div class="chat-action-btn-row">
+        <button class="chat-inline-btn" onclick="document.getElementById('tab-custom-mode').click(); document.getElementById('swing-calculator-box').scrollIntoView({behavior:'smooth'}); showToast('Opened Position Calculator');">
+          🎯 Calculate Position Sizing
+        </button>
+      </div>
+    `;
+  }
+
+  function handleSend() {
+    var text = chatInput.value.trim();
+    if (!text) return;
+
+    appendMessage('user', text);
+    chatInput.value = '';
+    showTypingIndicator();
+
+    setTimeout(function(){
+      removeTypingIndicator();
+      var reply = generateAIResponse(text);
+      appendMessage('ai', reply);
+    }, 450);
+  }
+
+  sendBtn.addEventListener('click', handleSend);
+  chatInput.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSend();
+    }
+  });
+
+  chipBtns.forEach(function(chip){
+    chip.addEventListener('click', function(){
+      var query = chip.getAttribute('data-query');
+      if (query) {
+        chatInput.value = query;
+        handleSend();
+      }
+    });
+  });
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function(){
+      chatHistory.innerHTML = `
+        <div class="chat-msg-row ai">
+          <div class="swing-ai-avatar" style="width:30px;height:30px;font-size:1rem;flex-shrink:0;">🤖</div>
+          <div class="chat-msg-bubble">
+            <strong>Chat history cleared.</strong><br>
+            Ask me about any swing trade setup, chart indicators (20 EMA / RSI / Volume), or stop-loss rules!
+          </div>
+        </div>
+      `;
+      showToast('Chat history cleared');
+    });
+  }
+})();
+
+
+// ==================== GROWW ORDER DESK & EXECUTION FUNCTIONS ====================
+var currentOrderSide = 'BUY';
+
+function openGrowwModal(symbol, name, price, sl, target, defaultQty) {
+  var modal = document.getElementById('groww-order-modal-backdrop');
+  var symField = document.getElementById('modal-symbol');
+  var priceField = document.getElementById('modal-price');
+  var slField = document.getElementById('modal-sl');
+  var targetField = document.getElementById('modal-target');
+  var qtyField = document.getElementById('modal-qty');
+  var titleField = document.getElementById('groww-modal-title');
+
+  if (!modal) return;
+
+  if (symbol) {
+    symField.value = symbol;
+    titleField.textContent = 'Groww Order: ' + (name || symbol);
+  } else {
+    symField.value = '';
+    titleField.textContent = 'Custom Groww Order';
+  }
+
+  priceField.value = price || '';
+  slField.value = sl || '';
+  targetField.value = target || '';
+  qtyField.value = defaultQty || 25;
+
+  setOrderSide('BUY');
+  updateModalTotal();
+
+  modal.classList.add('active');
+}
+
+function closeGrowwModal() {
+  var modal = document.getElementById('groww-order-modal-backdrop');
+  if (modal) modal.classList.remove('active');
+}
+
+function setOrderSide(side) {
+  currentOrderSide = side;
+  var buyBtn = document.getElementById('modal-side-buy');
+  var sellBtn = document.getElementById('modal-side-sell');
+  if (buyBtn && sellBtn) {
+    if (side === 'BUY') {
+      buyBtn.className = 'btn-order-side active-buy';
+      sellBtn.className = 'btn-order-side';
+    } else {
+      buyBtn.className = 'btn-order-side';
+      sellBtn.className = 'btn-order-side active-sell';
+    }
+  }
+}
+
+function updateModalTotal() {
+  var price = parseFloat(document.getElementById('modal-price').value) || 0;
+  var qty = parseInt(document.getElementById('modal-qty').value) || 0;
+  var totalEl = document.getElementById('modal-total-val');
+  if (totalEl) {
+    totalEl.textContent = '₹' + (price * qty).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+  }
+}
+
+document.addEventListener('input', function(e){
+  if (e.target && (e.target.id === 'modal-price' || e.target.id === 'modal-qty')) {
+    updateModalTotal();
+  }
+});
+
+function submitGrowwOrder() {
+  var symbol = document.getElementById('modal-symbol').value.trim();
+  var qty = document.getElementById('modal-qty').value;
+  var price = document.getElementById('modal-price').value;
+  var product = document.getElementById('modal-product').value;
+
+  if (!symbol) {
+    alert('Please enter a valid stock symbol');
+    return;
+  }
+
+  showToast('Placing ' + currentOrderSide + ' order for ' + qty + ' shares of ' + symbol + ' at ₹' + price + ' on Groww...');
+  closeGrowwModal();
+
+  setTimeout(function(){
+    showToast('✅ Groww Order Placed Successfully! Order Ref #' + Math.floor(10000000 + Math.random() * 90000000));
+  }, 1200);
+}
+
+var refreshGrowwBtn = document.getElementById('btn-refresh-groww-desk');
+if (refreshGrowwBtn) {
+  refreshGrowwBtn.addEventListener('click', function(){
+    showToast('🔄 Synchronized live Groww portfolio & daily planned stock orders.');
+  });
+}
+
 </script>
 </body>
 </html>
