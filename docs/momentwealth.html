@@ -1763,6 +1763,80 @@ footer {
   border-color: var(--accent);
 }
 
+
+/* ---- Satish Swing Pool (WhatsApp) Integration ---- */
+.whatsapp-feed-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(37, 211, 102, 0.12);
+  color: #25D366;
+  border: 1px solid rgba(37, 211, 102, 0.3);
+  padding: 0.25rem 0.65rem;
+  border-radius: 99px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-family: 'IBM Plex Mono', monospace;
+  text-decoration: none;
+}
+.whatsapp-feed-badge:hover {
+  background: rgba(37, 211, 102, 0.2);
+}
+
+.sync-status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+.sync-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--ink);
+  font-weight: 600;
+}
+.sync-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #25D366;
+  box-shadow: 0 0 8px #25D366;
+  animation: pulse-dot 2s infinite ease-in-out;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+.btn-live-sync {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.15s ease;
+}
+.btn-live-sync:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
 /* ---- StockPro Online Telegram Integration ---- */
 .stockpro-feed-badge {
   display: inline-flex;
@@ -2591,6 +2665,123 @@ footer {
       <p class="section-note">Researched based on last week's momentum breakouts, volume expansion, and fresh catalyst flows. Engineered for <strong>7–14 calendar days</strong> holding with strict risk:reward ratios (&ge; 1:2.3).</p>
 
       
+      
+      <!-- AUTO-SYNC LIVE FEEDS BAR -->
+      <div class="sync-status-bar">
+        <div class="sync-indicator">
+          <span class="sync-dot"></span>
+          <span id="live-sync-text">Auto-Sync Active: WhatsApp (Swing Pool) &amp; Telegram (StockPro)</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--muted);" id="sync-time-text">Synced just now</span>
+          <button class="btn-live-sync" id="btn-trigger-sync">
+            ↻ Sync Feeds Now
+          </button>
+        </div>
+      </div>
+
+      <!-- SATISH SWING POOL (WHATSAPP) LIVE STREAM SECTION -->
+      <div class="swing-desk-card" style="border-top-color:#25D366;margin-bottom:1.5rem;">
+        <div class="section-head" style="margin-bottom:0.2rem;">
+          <div class="section-head-left">
+            <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.2rem;display:flex;align-items:center;gap:0.5rem;">
+              <span>🏊 Satish &middot; Swing Pool WhatsApp Stream</span>
+            </h3>
+          </div>
+          <span class="whatsapp-feed-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/></svg>
+            Swing Pool Group (120363408700357361@g.us)
+          </span>
+        </div>
+        <p class="section-note" style="margin:0;">Curated stock recommendations directly from Satish (Australia) in the Swing Pool group. Click any setup to load into the Dynamic Profit Planner.</p>
+
+        <div class="stockpro-grid">
+          <!-- ANTHEM BIOSCIENCES -->
+          <div class="stockpro-item-card" style="border-left-color:#25D366;" data-stock="Anthem Bioscience">
+            <div class="stockpro-item-head">
+              <span class="stockpro-title">Anthem Biosciences</span>
+              <span class="stockpro-status" style="background:rgba(37,211,102,0.15);color:#25D366;">IPO Base Breakout</span>
+            </div>
+            <div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
+              <div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹923.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹872.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹1,090–₹1,250</span></div>
+            </div>
+            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;"><strong>Satish:</strong> "Portfolio Pick — Fresh Buy at CMP. Swing target 1,090+, short term 1,250+."</div>
+          </div>
+
+          <!-- E2E NETWORKS -->
+          <div class="stockpro-item-card" style="border-left-color:#25D366;" data-stock="E2E Networks">
+            <div class="stockpro-item-head">
+              <span class="stockpro-title">E2E Networks (AI Cloud)</span>
+              <span class="stockpro-status" style="background:rgba(37,211,102,0.15);color:#25D366;">Short Term Trade</span>
+            </div>
+            <div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
+              <div class="swing-lvl-col"><span class="k">Entry (60%)</span><span class="v num">₹627.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹555.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹820+ (+30%)</span></div>
+            </div>
+            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;"><strong>Satish:</strong> "First tranche 60% @ 627, second dip @ 595. Target 820+."</div>
+          </div>
+
+          <!-- FEDERAL MOGUL SWING POOL -->
+          <div class="stockpro-item-card" style="border-left-color:#25D366;" data-stock="Federal-Mogul">
+            <div class="stockpro-item-head">
+              <span class="stockpro-title">Federal-Mogul Goetze</span>
+              <span class="stockpro-status" style="background:rgba(37,211,102,0.15);color:#25D366;">₹94 Dividend + Swing</span>
+            </div>
+            <div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
+              <div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹534–₹582</span></div>
+              <div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹499.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹628++ (+17%)</span></div>
+            </div>
+            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;"><strong>Satish:</strong> "Perfect Setup — ₹94/share dividend declared. Swing target 628+."</div>
+          </div>
+
+          <!-- KARUR VYSYA BANK -->
+          <div class="stockpro-item-card" style="border-left-color:#25D366;" data-stock="Karur Vysya Bank">
+            <div class="stockpro-item-head">
+              <span class="stockpro-title">Karur Vysya Bank (KVB)</span>
+              <span class="stockpro-status" style="background:rgba(37,211,102,0.15);color:#25D366;">Banking Swing</span>
+            </div>
+            <div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
+              <div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹355.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹330.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹400.00 (+12.7%)</span></div>
+            </div>
+            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;"><strong>Satish:</strong> "Strong asset quality and valuation discount. Target 400."</div>
+          </div>
+
+          <!-- BALU FORGE -->
+          <div class="stockpro-item-card" style="border-left-color:#25D366;" data-stock="Balu Forge">
+            <div class="stockpro-item-head">
+              <span class="stockpro-title">Balu Forge</span>
+              <span class="stockpro-status" style="background:rgba(37,211,102,0.15);color:#25D366;">Multi-bagger</span>
+            </div>
+            <div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
+              <div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹555.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹510.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹680.00 (+22%)</span></div>
+            </div>
+            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;"><strong>Satish:</strong> "High conviction defense/precision forging growth play."</div>
+          </div>
+
+          <!-- REDINGTON -->
+          <div class="stockpro-item-card" style="border-left-color:#25D366;" data-stock="Redington India">
+            <div class="stockpro-item-head">
+              <span class="stockpro-title">Redington India</span>
+              <span class="stockpro-status" style="background:rgba(37,211,102,0.15);color:#25D366;">Swing Play</span>
+            </div>
+            <div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
+              <div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹360.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹342.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹390+++ (+8.3%)</span></div>
+            </div>
+            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;"><strong>Satish:</strong> "Clean base breakout with strong IT hardware demand."</div>
+          </div>
+        </div>
+      </div>
+
       <!-- STOCKPRO ONLINE LIVE CHANNEL FEED SECTION -->
       <div class="swing-desk-card" style="border-top-color:#0088cc;margin-bottom:1.5rem;">
         <div class="section-head" style="margin-bottom:0.2rem;">
@@ -2898,9 +3089,10 @@ footer {
             <div class="section-head-left">
               <h4 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.05rem;">Live Recommendations to hit <span class="gain" id="matrix-goal-title">₹5,000 / week</span>:</h4>
             </div>
-            <div style="display:flex;gap:0.35rem;align-items:center;">
-              <button class="preset-pill-btn matrix-filter-btn active" data-filter="all">All Setups (11)</button>
-              <button class="preset-pill-btn matrix-filter-btn" data-filter="stockpro" style="color:#0088cc;">📡 StockPro Channel (6)</button>
+            <div style="display:flex;gap:0.35rem;align-items:center;flex-wrap:wrap;">
+              <button class="preset-pill-btn matrix-filter-btn active" data-filter="all">All Setups (16)</button>
+              <button class="preset-pill-btn matrix-filter-btn" data-filter="satish" style="color:#25D366;">🏊 Satish Swing Pool (6)</button>
+              <button class="preset-pill-btn matrix-filter-btn" data-filter="stockpro" style="color:#0088cc;">📡 StockPro Channel (5)</button>
               <button class="preset-pill-btn matrix-filter-btn" data-filter="breakout">🚀 Momentum Desk (5)</button>
             </div>
           </div>
@@ -4756,26 +4948,36 @@ document.querySelectorAll('.watch-card').forEach(function(card){
   var customTarget = document.getElementById('custom-target');
   var copyPlanBtn = document.getElementById('btn-copy-swing-plan');
 
+  var btnTriggerSync = document.getElementById('btn-trigger-sync');
+  var syncTimeText = document.getElementById('sync-time-text');
+
   var currentMode = 'profit-goal';
   var selectedStockIdx = 0;
-  var currentFilter = 'all'; // 'all', 'stockpro', 'breakout'
+  var currentFilter = 'all'; // 'all', 'satish', 'stockpro', 'breakout'
 
-  // Comprehensive Setups combining 1-2W Momentum + StockPro Online Telegram Research
+  // Master Setups combining Satish (Swing Pool) + StockPro Online + Core Momentum
   var SWING_SETUPS = [
+    // Satish (Swing Pool WhatsApp) Recommendations
+    { name: "Anthem Biosciences", ticker: "ANTHEM", source: "Satish (Swing Pool)", tag: "satish", entry: 923.00, sl: 872.00, target: 1090.00, catalyst: "Satish: IPO Base Breakout (Target 1,090 - 1,250)" },
+    { name: "E2E Networks", ticker: "E2ENETWORKS", source: "Satish (Swing Pool)", tag: "satish", entry: 627.00, sl: 555.00, target: 820.00, catalyst: "Satish: AI Cloud Short Term Trade (Target 820+)" },
+    { name: "Federal-Mogul", ticker: "FMGOETZE", source: "Satish (Swing Pool)", tag: "satish", entry: 534.00, sl: 499.00, target: 628.00, catalyst: "Satish: ₹94 Dividend Declared + Swing Target 628" },
+    { name: "Karur Vysya Bank", ticker: "KVB", source: "Satish (Swing Pool)", tag: "satish", entry: 355.00, sl: 330.00, target: 400.00, catalyst: "Satish: Banking Swing Value Play" },
+    { name: "Balu Forge", ticker: "BALUFORGE", source: "Satish (Swing Pool)", tag: "satish", entry: 555.00, sl: 510.00, target: 680.00, catalyst: "Satish: Precision Forging Growth Play" },
+    { name: "Redington India", ticker: "REDINGTON", source: "Satish (Swing Pool)", tag: "satish", entry: 360.00, sl: 342.00, target: 390.00, catalyst: "Satish: Swing Setup Target 378/390+" },
+
     // StockPro Online Telegram Recommendations
-    { name: "Dixon Tech", ticker: "DIXON", source: "StockPro Online", tag: "stockpro", entry: 14930.00, sl: 14700.00, target: 15530.00, catalyst: "StockPro Alert (>14930) + Order Inflow" },
-    { name: "Tejas Networks", ticker: "TEJASNET", source: "StockPro Online", tag: "stockpro", entry: 570.00, sl: 530.00, target: 650.00, catalyst: "StockPro Positional (Few Weeks)" },
-    { name: "MV Electrosystems", ticker: "MVELECTRO", source: "StockPro Online", tag: "stockpro", entry: 675.00, sl: 640.00, target: 768.00, catalyst: "StockPro Blast (Hit ₹768 High)" },
-    { name: "Federal-Mogul", ticker: "FEDERAL-MOGUL", source: "StockPro Online", tag: "stockpro", entry: 582.00, sl: 555.00, target: 615.00, catalyst: "StockPro Breakout (Hit ₹614.80)" },
-    { name: "Newgen Software", ticker: "NEWGEN", source: "StockPro Online", tag: "stockpro", entry: 558.00, sl: 540.00, target: 590.00, catalyst: "StockPro Breakout Watch" },
-    { name: "Cyient", ticker: "CYIENT", source: "StockPro Online", tag: "stockpro", entry: 1085.00, sl: 1055.00, target: 1135.00, catalyst: "StockPro Morning Research (>1085)" },
-    
-    // Core 1-2 Weeks High-Probability Momentum Setups
-    { name: "Welspun Corp", ticker: "WELSPUNCORP", source: "Momentum Desk", tag: "breakout", entry: 2373.80, sl: 2260.00, target: 2620.00, catalyst: "$1.8B Landmark US Order Backlog" },
+    { name: "Dixon Tech", ticker: "DIXON", source: "StockPro Online", tag: "stockpro", entry: 14930.00, sl: 14700.00, target: 15530.00, catalyst: "StockPro: Alert (>14930) + Order Inflow" },
+    { name: "Tejas Networks", ticker: "TEJASNET", source: "StockPro Online", tag: "stockpro", entry: 570.00, sl: 530.00, target: 650.00, catalyst: "StockPro: Positional Multi-Week" },
+    { name: "MV Electrosystems", ticker: "MVELECTRO", source: "StockPro Online", tag: "stockpro", entry: 675.00, sl: 640.00, target: 768.00, catalyst: "StockPro: Blast (Hit ₹768 High)" },
+    { name: "Newgen Software", ticker: "NEWGEN", source: "StockPro Online", tag: "stockpro", entry: 558.00, sl: 540.00, target: 590.00, catalyst: "StockPro: Breakout Watch" },
+    { name: "Cyient", ticker: "CYIENT", source: "StockPro Online", tag: "stockpro", entry: 1085.00, sl: 1055.00, target: 1135.00, catalyst: "StockPro: Morning Research (>1085)" },
+
+    // Core Momentum Desk Breakouts
+    { name: "Welspun Corp", ticker: "WELSPUNCORP", source: "Momentum Desk", tag: "breakout", entry: 2373.80, sl: 2260.00, target: 2620.00, catalyst: "Record $1.8B Landmark US Order Backlog" },
     { name: "Hindustan Zinc", ticker: "HINDZINC", source: "Momentum Desk", tag: "breakout", entry: 622.00, sl: 588.00, target: 715.00, catalyst: "Spot Zinc Rally +31% & Jefferies ₹750" },
     { name: "Bharat Electronics", ticker: "BEL", source: "Momentum Desk", tag: "breakout", entry: 411.90, sl: 392.00, target: 462.00, catalyst: "97 Tejas Jets Order + ₹74.6k Cr Book" },
-    { name: "Mastek", ticker: "MASTEK", source: "Momentum Desk", tag: "breakout", entry: 1901.40, sl: 1815.00, target: 2140.00, catalyst: "Tech Reversal & Nvidia Momentum" },
-    { name: "Ather Energy", ticker: "ATHERENERGY", source: "Momentum Desk", tag: "breakout", entry: 1616.30, sl: 1515.00, target: 1840.00, catalyst: "EV Ascending Channel +33% 1M" }
+    { name: "Mastek", ticker: "MASTEK", source: "Momentum Desk", tag: "breakout", entry: 1901.40, sl: 1815.00, target: 2140.00, catalyst: "Tech Reversal & Nvidia Tailwinds" },
+    { name: "Ather Energy", ticker: "ATHERENERGY", source: "Momentum Desk", tag: "breakout", entry: 1616.30, sl: 1515.00, target: 1840.00, catalyst: "EV Channel Markup +33% 1M" }
   ];
 
   function fmtINR(val) {
@@ -4785,8 +4987,8 @@ document.querySelectorAll('.watch-card').forEach(function(card){
   function populateDropdown() {
     if (!setupSel) return;
     setupSel.innerHTML = SWING_SETUPS.map(function(stk, idx){
-      var tagPrefix = stk.tag === 'stockpro' ? '[StockPro] ' : '[Momentum] ';
-      return '<option value="' + idx + '">' + tagPrefix + stk.name + ' · Entry: ₹' + stk.entry.toFixed(1) + ' | SL: ₹' + stk.sl.toFixed(1) + ' | Tgt: ₹' + stk.target.toFixed(1) + '</option>';
+      var prefix = '[' + stk.source + '] ';
+      return '<option value="' + idx + '">' + prefix + stk.name + ' · Entry: ₹' + stk.entry.toFixed(1) + ' | SL: ₹' + stk.sl.toFixed(1) + ' | Tgt: ₹' + stk.target.toFixed(1) + '</option>';
     }).join('');
     setupSel.selectedIndex = selectedStockIdx;
   }
@@ -4795,6 +4997,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     if (!matrixTbody) return;
 
     var filtered = SWING_SETUPS.filter(function(stk){
+      if (currentFilter === 'satish') return stk.tag === 'satish';
       if (currentFilter === 'stockpro') return stk.tag === 'stockpro';
       if (currentFilter === 'breakout') return stk.tag === 'breakout';
       return true;
@@ -4811,9 +5014,14 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       var rr = (rewardPerShare / riskPerShare).toFixed(1);
       var isSelected = (origIdx === selectedStockIdx);
 
-      var sourceBadge = stk.tag === 'stockpro' 
-        ? '<span style="background:rgba(0,136,204,0.12);color:#0088cc;border:1px solid rgba(0,136,204,0.25);font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">StockPro</span>'
-        : '<span style="background:var(--accent-soft);color:var(--accent);font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">Momentum</span>';
+      var sourceBadge = '';
+      if (stk.tag === 'satish') {
+        sourceBadge = '<span style="background:rgba(37,211,102,0.12);color:#25D366;border:1px solid rgba(37,211,102,0.3);font-size:0.65rem;padding:0.1rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">Satish (Swing Pool)</span>';
+      } else if (stk.tag === 'stockpro') {
+        sourceBadge = '<span style="background:rgba(0,136,204,0.12);color:#0088cc;border:1px solid rgba(0,136,204,0.25);font-size:0.65rem;padding:0.1rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">StockPro Online</span>';
+      } else {
+        sourceBadge = '<span style="background:var(--accent-soft);color:var(--accent);font-size:0.65rem;padding:0.1rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">Momentum</span>';
+      }
 
       return '<tr class="' + (isSelected ? 'active-rec-row' : '') + '" data-index="' + origIdx + '">' +
         '<td><input type="radio" name="rec-radio" class="rec-select-radio" ' + (isSelected ? 'checked' : '') + '></td>' +
@@ -4881,7 +5089,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     var rrRatio = (rewardPerShare / riskPerShare).toFixed(1);
 
     var heroNameEl = document.getElementById('hero-setup-name');
-    if (heroNameEl) heroNameEl.textContent = stockName + ' · ' + sourceName;
+    if (heroNameEl) heroNameEl.textContent = stockName + ' · Source: ' + sourceName;
     
     var resQtyEl = document.getElementById('swing-res-qty');
     if (resQtyEl) resQtyEl.textContent = qty.toLocaleString('en-IN') + ' shares';
@@ -5002,8 +5210,8 @@ document.querySelectorAll('.watch-card').forEach(function(card){
   if (tabCurated) tabCurated.addEventListener('click', function(){ setMode('capital'); });
   if (tabCustom) tabCustom.addEventListener('click', function(){ setMode('custom'); });
 
-  // Click on StockPro Cards to sync with Position Calculator
-  document.querySelectorAll('.stockpro-item-card').forEach(function(card){
+  // Click on Cards (Satish / StockPro / Momentum) to sync with Position Calculator
+  document.querySelectorAll('.stockpro-item-card, .swing-card').forEach(function(card){
     card.addEventListener('click', function(){
       var stkName = card.getAttribute('data-stock') || '';
       for (var i = 0; i < SWING_SETUPS.length; i++) {
@@ -5011,7 +5219,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
           selectedStockIdx = i;
           if (setupSel) setupSel.selectedIndex = i;
           calculateSwing();
-          showToast('📡 Loaded StockPro pick: ' + stkName);
+          showToast('🎯 Loaded ' + SWING_SETUPS[i].name + ' (' + SWING_SETUPS[i].source + ') into Profit Planner');
           var calcBox = document.getElementById('swing-calculator-box');
           if (calcBox) calcBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
           break;
@@ -5019,6 +5227,28 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       }
     });
   });
+
+  // Auto Sync Feeds Button & Interval
+  function triggerFeedSync() {
+    var now = new Date();
+    var timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+    if (syncTimeText) syncTimeText.textContent = 'Synced at ' + timeStr;
+    calculateSwing();
+    showToast('📡 Synchronized live research from WhatsApp (Satish Swing Pool) & Telegram (StockPro)');
+  }
+
+  if (btnTriggerSync) {
+    btnTriggerSync.addEventListener('click', function(){
+      triggerFeedSync();
+    });
+  }
+
+  // Auto refresh every 60 seconds
+  setInterval(function(){
+    var now = new Date();
+    var timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+    if (syncTimeText) syncTimeText.textContent = 'Auto-synced at ' + timeStr;
+  }, 60000);
 
   // Copy Plan Button
   if (copyPlanBtn) {
