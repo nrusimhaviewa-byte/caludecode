@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper Form Digitizer — 2026 Wealth Hackathon</title>
+<style>
+  :root{
+    --paper:#eef1f0; --paper-raised:#ffffff; --ink:#14181f; --ink-soft:#4c5750; --ink-faint:#7c8983;
+    --line:#d7dcd8; --line-soft:#e3e7e4;
+    --product:#1f6f66; --product-bg:#e4efec;
+    --frontline:#b5532c; --frontline-bg:#f5e9e1;
+    --gold:#8a6a20; --gold-bg:#f1e8d2;
+    --bad:#a5342a; --bad-bg:#f6e3e0;
+    --focus:#1f6f66;
+    --font-display:'Iowan Old Style','Palatino Linotype',Georgia,serif;
+    --font-body:'Segoe UI',system-ui,-apple-system,sans-serif;
+    --font-mono:Consolas,'SF Mono',Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#12161a; --paper-raised:#191f24; --ink:#e8ece9; --ink-soft:#a3aca5; --ink-faint:#6d7873;
+      --line:#2a3138; --line-soft:#20262c;
+      --product:#4bb3a3; --product-bg:#172422;
+      --frontline:#e08a5c; --frontline-bg:#271b14;
+      --gold:#d4af5a; --gold-bg:#26210f;
+      --bad:#e0796c; --bad-bg:#2a1714;
+      --focus:#4bb3a3;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#12161a; --paper-raised:#191f24; --ink:#e8ece9; --ink-soft:#a3aca5; --ink-faint:#6d7873;
+    --line:#2a3138; --line-soft:#20262c;
+    --product:#4bb3a3; --product-bg:#172422;
+    --frontline:#e08a5c; --frontline-bg:#271b14;
+    --gold:#d4af5a; --gold-bg:#26210f;
+    --bad:#e0796c; --bad-bg:#2a1714;
+    --focus:#4bb3a3;
+  }
+  :root[data-theme="light"]{
+    --paper:#eef1f0; --paper-raised:#ffffff; --ink:#14181f; --ink-soft:#4c5750; --ink-faint:#7c8983;
+    --line:#d7dcd8; --line-soft:#e3e7e4;
+    --product:#1f6f66; --product-bg:#e4efec;
+    --frontline:#b5532c; --frontline-bg:#f5e9e1;
+    --gold:#8a6a20; --gold-bg:#f1e8d2;
+    --bad:#a5342a; --bad-bg:#f6e3e0;
+    --focus:#1f6f66;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--font-body); font-size:15px; line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; }
+  button{ font-family:inherit; }
+  :focus-visible{ outline:2px solid var(--focus); outline-offset:2px; }
+
+  .masthead{
+    border-bottom:1px solid var(--line);
+    padding:28px clamp(16px,4vw,48px) 22px;
+    background:var(--paper);
+  }
+  .eyebrow{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-faint); margin:0 0 8px;
+  }
+  h1{
+    font-family:var(--font-display); font-weight:600; font-size:clamp(24px,3.2vw,34px);
+    margin:0 0 8px; text-wrap:balance; letter-spacing:.01em;
+  }
+  .dek{ max-width:74ch; color:var(--ink-soft); margin:0 0 16px; font-size:15px; }
+  .tags{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+  .tag{
+    font-family:var(--font-mono); font-size:10px; letter-spacing:.04em; padding:3px 8px; border-radius:20px;
+    white-space:nowrap; text-transform:uppercase;
+  }
+  .tag-conf{ background:var(--gold-bg); color:var(--gold); }
+  .tag-hitl{ background:var(--frontline-bg); color:var(--frontline); }
+  .tag-priv{ background:var(--line-soft); color:var(--ink-soft); }
+  .toplinks{ margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; }
+  .navlink{ font-family:var(--font-mono); font-size:12px; color:var(--product); text-decoration:none; }
+  .navlink:hover{ text-decoration:underline; }
+
+  .wrap{ max-width:1080px; margin:0 auto; padding:26px clamp(16px,4vw,32px) 70px; }
+
+  .pitch{
+    display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:28px;
+  }
+  @media (max-width:760px){ .pitch{ grid-template-columns:1fr; } }
+  .pitch-card{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:10px; padding:16px 18px;
+  }
+  .pitch-card h3{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--ink-faint); margin:0 0 8px;
+  }
+  .pitch-card p{ margin:0; font-size:13.5px; color:var(--ink-soft); }
+
+  section.tool{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:12px; overflow:hidden;
+  }
+  .tool-head{ padding:18px 22px; border-bottom:1px solid var(--line-soft); }
+  .tool-head h2{ font-family:var(--font-display); font-size:19px; margin:0 0 4px; }
+  .tool-head p{ margin:0; color:var(--ink-soft); font-size:13.5px; }
+
+  .drop{
+    margin:20px; border:1.5px dashed var(--line); border-radius:10px; padding:34px 20px;
+    text-align:center; cursor:pointer; transition:border-color .15s, background .15s;
+  }
+  .drop.drag{ border-color:var(--product); background:var(--product-bg); }
+  .drop svg{ opacity:.5; margin-bottom:10px; }
+  .drop p{ margin:0 0 4px; font-size:14px; color:var(--ink-soft); }
+  .drop .hint{ font-size:12px; color:var(--ink-faint); font-family:var(--font-mono); }
+  .drop input{ display:none; }
+  .drop-actions{ display:flex; gap:10px; justify-content:center; margin-top:14px; flex-wrap:wrap; }
+  .btn{
+    border:1px solid var(--line); background:var(--paper); color:var(--ink);
+    padding:9px 15px; border-radius:7px; font-size:13px; cursor:pointer;
+  }
+  .btn:hover{ border-color:var(--ink-faint); }
+  .btn.primary{ background:var(--product); color:#fff; border-color:var(--product); }
+  .btn.primary:hover{ opacity:.92; }
+  .btn:disabled{ opacity:.5; cursor:not-allowed; }
+
+  .preview-row{ display:grid; grid-template-columns:260px 1fr; gap:20px; padding:0 20px 20px; }
+  @media (max-width:760px){ .preview-row{ grid-template-columns:1fr; } }
+  .preview-img{
+    border:1px solid var(--line); border-radius:8px; overflow:hidden; background:var(--paper);
+    max-height:420px; display:flex; align-items:center; justify-content:center;
+  }
+  .preview-img img{ width:100%; height:auto; display:block; }
+
+  .progress-wrap{ display:none; padding:0 20px 20px; }
+  .progress-wrap.show{ display:block; }
+  .progress-label{ font-family:var(--font-mono); font-size:12px; color:var(--ink-soft); margin-bottom:6px; display:flex; justify-content:space-between; }
+  .progress-bar{ height:7px; border-radius:4px; background:var(--line-soft); overflow:hidden; }
+  .progress-fill{ height:100%; background:var(--product); width:0%; transition:width .2s; }
+
+  .fields-wrap{ display:none; padding:4px 20px 22px; }
+  .fields-wrap.show{ display:block; }
+  .fields-head{ display:flex; justify-content:space-between; align-items:baseline; margin:14px 0 10px; flex-wrap:wrap; gap:8px; }
+  .fields-head h3{ font-family:var(--font-display); font-size:16px; margin:0; }
+  .fields-head .sub{ font-size:12px; color:var(--ink-faint); font-family:var(--font-mono); }
+
+  table.fields{ width:100%; border-collapse:collapse; }
+  table.fields th{
+    text-align:left; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--ink-faint); padding:6px 8px; border-bottom:1px solid var(--line);
+  }
+  table.fields td{ padding:5px 8px; border-bottom:1px solid var(--line-soft); vertical-align:middle; }
+  table.fields input[type="text"]{
+    width:100%; padding:7px 9px; border-radius:6px; border:1px solid var(--line); background:var(--paper);
+    color:var(--ink); font-size:13.5px; font-family:var(--font-body);
+  }
+  table.fields input[type="text"]:focus{ border-color:var(--product); }
+  .conf-pill{
+    font-family:var(--font-mono); font-size:11px; padding:2px 7px; border-radius:20px; white-space:nowrap;
+  }
+  .conf-hi{ background:var(--product-bg); color:var(--product); }
+  .conf-mid{ background:var(--gold-bg); color:var(--gold); }
+  .conf-lo{ background:var(--bad-bg); color:var(--bad); }
+  .row-del{
+    border:none; background:none; color:var(--ink-faint); cursor:pointer; font-size:16px; line-height:1; padding:4px 6px;
+  }
+  .row-del:hover{ color:var(--bad); }
+
+  .add-row-btn{
+    margin-top:10px; font-family:var(--font-mono); font-size:12px; color:var(--product); background:none;
+    border:1px dashed var(--line); border-radius:7px; padding:7px 12px; cursor:pointer;
+  }
+  .add-row-btn:hover{ border-color:var(--product); }
+
+  .export-row{ display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; }
+
+  .rawtext{ margin-top:18px; }
+  .rawtext summary{ font-family:var(--font-mono); font-size:12px; color:var(--ink-soft); cursor:pointer; }
+  .rawtext pre{
+    margin-top:8px; background:var(--paper); border:1px solid var(--line-soft); border-radius:8px;
+    padding:12px 14px; font-size:12px; white-space:pre-wrap; word-break:break-word; color:var(--ink-soft);
+    max-height:220px; overflow:auto;
+  }
+
+  .note{
+    margin:20px; padding:14px 16px; border-radius:8px; background:var(--gold-bg); color:var(--gold);
+    font-size:12.5px; border:1px solid transparent;
+  }
+  .note a{ color:inherit; text-decoration:underline; }
+
+  .privacy-note{
+    margin:0 20px 20px; font-size:12px; color:var(--ink-faint); font-family:var(--font-mono);
+  }
+
+  footer{
+    max-width:1080px; margin:0 auto; padding:20px clamp(16px,4vw,32px) 50px;
+    color:var(--ink-faint); font-size:12px; border-top:1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">2026 Wealth Hackathon &middot; Idea + Working Prototype</p>
+  <h1>Paper Form Digitizer — snap a photo, get structured fields.</h1>
+  <p class="dek">Onboarding, KYC, and account-servicing paper forms still get keyed in by hand. This is a working, in-browser prototype: upload or photograph a paper form, OCR runs entirely client-side, likely fields get auto-matched, and a human confirms or corrects every value before it's exported — nothing is ever auto-submitted.</p>
+  <div class="tags">
+    <span class="tag tag-conf">Confidence-flag</span>
+    <span class="tag tag-hitl">Human-in-loop</span>
+    <span class="tag tag-priv">Runs in-browser, no server upload</span>
+  </div>
+  <div class="toplinks">
+    <a class="navlink" href="index.html">&larr; idea bank</a>
+    <a class="navlink" href="idea-repo-map.html">idea &rarr; repo map</a>
+    <a class="navlink" href="repos.html">starter repos &amp; flagship builds</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="pitch">
+    <div class="pitch-card">
+      <h3>Problem</h3>
+      <p>Ops teams still retype names, addresses, dates, and account numbers off scanned or photographed paper forms — slow, error-prone, and a bottleneck at onboarding.</p>
+    </div>
+    <div class="pitch-card">
+      <h3>Solution</h3>
+      <p>Client-side OCR (Tesseract.js) reads the image in the browser, a lightweight matcher maps recognized lines to expected form fields, and every field ships with a confidence score.</p>
+    </div>
+    <div class="pitch-card">
+      <h3>Why it's safe to demo</h3>
+      <p>Nothing is auto-approved. Low-confidence fields are flagged red, every value is editable, and the image never leaves the browser — no backend, no upload, no PII in transit.</p>
+    </div>
+  </div>
+
+  <section class="tool">
+    <div class="tool-head">
+      <h2>Try it</h2>
+      <p>Upload a photo or scan of any form (invoice, application, ID, intake sheet). Works best with printed text; handwriting recognition is limited — see the production note below.</p>
+    </div>
+
+    <div class="drop" id="drop">
+      <input type="file" id="fileInput" accept="image/*" capture="environment">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      <p>Drop a form image here, or click to choose a file</p>
+      <p class="hint">JPG, PNG, or WEBP &middot; processed entirely in your browser</p>
+      <div class="drop-actions">
+        <button class="btn primary" id="chooseBtn" type="button">Choose image</button>
+        <button class="btn" id="cameraBtn" type="button">Use camera</button>
+      </div>
+    </div>
+
+    <div class="preview-row" id="previewRow" style="display:none;">
+      <div class="preview-img"><img id="previewImg" alt="Uploaded form preview"></div>
+      <div>
+        <div class="progress-wrap" id="progressWrap">
+          <div class="progress-label"><span id="progressStage">Starting OCR&hellip;</span><span id="progressPct">0%</span></div>
+          <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+        <div id="afterOcr" style="display:none;">
+          <p style="font-size:13px;color:var(--ink-soft);margin:0 0 10px;">
+            Detected <b id="lineCount">0</b> text lines. Matched <b id="matchCount">0</b> to expected fields automatically — review and correct below, then export.
+          </p>
+          <button class="btn" id="rescanBtn" type="button">Upload a different form</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-wrap" id="progressWrapMobile"></div>
+
+    <div class="fields-wrap" id="fieldsWrap">
+      <div class="fields-head">
+        <h3>Extracted fields</h3>
+        <span class="sub">confidence below 60% is flagged — verify before trusting</span>
+      </div>
+      <table class="fields" id="fieldsTable">
+        <thead><tr><th style="width:26%">Field</th><th>Value</th><th style="width:110px">Confidence</th><th style="width:36px"></th></tr></thead>
+        <tbody id="fieldsBody"></tbody>
+      </table>
+      <button class="add-row-btn" id="addRowBtn" type="button">+ Add field</button>
+
+      <div class="export-row">
+        <button class="btn primary" id="exportJsonBtn" type="button">Export JSON</button>
+        <button class="btn" id="exportCsvBtn" type="button">Export CSV</button>
+        <button class="btn" id="copyBtn" type="button">Copy as text</button>
+      </div>
+
+      <details class="rawtext">
+        <summary>Show raw OCR text</summary>
+        <pre id="rawText"></pre>
+      </details>
+    </div>
+
+    <div class="note">
+      <b>Production upgrade path:</b> Tesseract.js is enough to prove the pattern in a browser with zero backend. For messy handwriting, multi-page PDFs, or higher accuracy at scale, swap in
+      <a href="https://github.com/NanoNets/docstrange" target="_blank" rel="noopener">docstrange</a>,
+      <a href="https://github.com/CatchTheTornado/text-extract-api" target="_blank" rel="noopener">text-extract-api</a>, or
+      <a href="https://github.com/shcherbak-ai/contextgem" target="_blank" rel="noopener">contextgem</a> —
+      the same three repos already picked for the Operations, Lending, and Legal document-extraction ideas in the
+      <a href="idea-repo-map.html">idea&nbsp;&rarr;&nbsp;repo map</a>.
+    </div>
+
+    <p class="privacy-note">No image or extracted data is sent to any server by this page. OCR runs locally via WebAssembly. Closing or refreshing the tab discards everything.</p>
+  </section>
+
+  <footer>
+    Part of the <a href="index.html" style="color:var(--product);">2026 Wealth Hackathon idea bank</a>. Matches the confidence-flagged, human-reviewed extraction pattern used across Operations ("Document Extraction QA"), Lending ("Collateral Document Extractor"), and CPB onboarding ("Onboarding Document Extractor") ideas.
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+<script>
+(function(){
+  const drop = document.getElementById('drop');
+  const fileInput = document.getElementById('fileInput');
+  const chooseBtn = document.getElementById('chooseBtn');
+  const cameraBtn = document.getElementById('cameraBtn');
+  const previewRow = document.getElementById('previewRow');
+  const previewImg = document.getElementById('previewImg');
+  const progressWrap = document.getElementById('progressWrap');
+  const progressStage = document.getElementById('progressStage');
+  const progressPct = document.getElementById('progressPct');
+  const progressFill = document.getElementById('progressFill');
+  const afterOcr = document.getElementById('afterOcr');
+  const rescanBtn = document.getElementById('rescanBtn');
+  const fieldsWrap = document.getElementById('fieldsWrap');
+  const fieldsBody = document.getElementById('fieldsBody');
+  const addRowBtn = document.getElementById('addRowBtn');
+  const rawText = document.getElementById('rawText');
+  const lineCount = document.getElementById('lineCount');
+  const matchCount = document.getElementById('matchCount');
+
+  const FIELD_ALIASES = [
+    { label: 'Full Name', keys: ['name', 'full name', 'applicant name', 'client name', 'customer name'] },
+    { label: 'Date of Birth', keys: ['date of birth', 'dob', 'birth date'] },
+    { label: 'Address', keys: ['address', 'street address', 'residential address', 'home address'] },
+    { label: 'City', keys: ['city', 'town'] },
+    { label: 'State', keys: ['state', 'province'] },
+    { label: 'Zip / Postal Code', keys: ['zip', 'zip code', 'postal code'] },
+    { label: 'Phone', keys: ['phone', 'phone number', 'telephone', 'mobile'] },
+    { label: 'Email', keys: ['email', 'e-mail', 'email address'] },
+    { label: 'Account Number', keys: ['account number', 'account no', 'acct number', 'acct no'] },
+    { label: 'SSN / Tax ID', keys: ['ssn', 'social security', 'tax id', 'tin'] },
+    { label: 'Amount', keys: ['amount', 'total', 'total amount'] },
+    { label: 'Date', keys: ['date', 'signed date', 'form date'] },
+    { label: 'Signature', keys: ['signature', 'signed by'] },
+    { label: 'ID Number', keys: ['id number', 'identification number', 'passport number', 'license number'] },
+  ];
+
+  let currentFile = null;
+
+  function resetTool(){
+    fieldsWrap.classList.remove('show');
+    fieldsBody.innerHTML = '';
+    afterOcr.style.display = 'none';
+    progressWrap.classList.remove('show');
+    progressFill.style.width = '0%';
+    previewRow.style.display = 'none';
+    fileInput.value = '';
+    currentFile = null;
+  }
+
+  chooseBtn.addEventListener('click', () => fileInput.click());
+  cameraBtn.addEventListener('click', () => { fileInput.setAttribute('capture','environment'); fileInput.click(); });
+  drop.addEventListener('click', (e) => { if (e.target === drop) fileInput.click(); });
+
+  ['dragenter','dragover'].forEach(evt => drop.addEventListener(evt, (e) => {
+    e.preventDefault(); e.stopPropagation(); drop.classList.add('drag');
+  }));
+  ['dragleave','drop'].forEach(evt => drop.addEventListener(evt, (e) => {
+    e.preventDefault(); e.stopPropagation(); drop.classList.remove('drag');
+  }));
+  drop.addEventListener('drop', (e) => {
+    const f = e.dataTransfer.files && e.dataTransfer.files[0];
+    if (f) handleFile(f);
+  });
+  fileInput.addEventListener('change', (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (f) handleFile(f);
+  });
+  rescanBtn.addEventListener('click', resetTool);
+
+  function handleFile(file){
+    if (!file.type.startsWith('image/')){
+      alert('Please choose an image file (JPG, PNG, or WEBP).');
+      return;
+    }
+    currentFile = file;
+    const url = URL.createObjectURL(file);
+    previewImg.src = url;
+    previewRow.style.display = 'grid';
+    fieldsWrap.classList.remove('show');
+    afterOcr.style.display = 'none';
+    runOcr(file);
+  }
+
+  async function runOcr(file){
+    progressWrap.classList.add('show');
+    progressFill.style.width = '0%';
+    progressStage.textContent = 'Loading OCR engine…';
+    progressPct.textContent = '0%';
+
+    try {
+      const result = await Tesseract.recognize(file, 'eng', {
+        logger: (m) => {
+          if (m.status) progressStage.textContent = m.status.replace(/^\w/, c => c.toUpperCase()) + '…';
+          if (typeof m.progress === 'number'){
+            const pct = Math.round(m.progress * 100);
+            progressFill.style.width = pct + '%';
+            progressPct.textContent = pct + '%';
+          }
+        }
+      });
+      onOcrDone(result.data);
+    } catch (err) {
+      progressStage.textContent = 'OCR failed — ' + (err && err.message ? err.message : 'try a clearer image.');
+      console.error(err);
+    }
+  }
+
+  function onOcrDone(data){
+    progressWrap.classList.remove('show');
+    afterOcr.style.display = 'block';
+    rawText.textContent = data.text || '(no text detected)';
+
+    const lines = buildLinesWithConfidence(data);
+    lineCount.textContent = lines.length;
+
+    const matched = matchFields(lines);
+    matchCount.textContent = matched.filter(m => m.value).length;
+
+    renderFields(matched);
+    fieldsWrap.classList.add('show');
+  }
+
+  function buildLinesWithConfidence(data){
+    const out = [];
+    if (data.lines && data.lines.length){
+      data.lines.forEach(l => {
+        const text = (l.text || '').trim();
+        if (text) out.push({ text, confidence: l.confidence != null ? l.confidence : 50 });
+      });
+    } else {
+      (data.text || '').split('\n').forEach(t => {
+        const text = t.trim();
+        if (text) out.push({ text, confidence: 50 });
+      });
+    }
+    return out;
+  }
+
+  function splitLabelValue(text){
+    let m = text.match(/^([A-Za-z][A-Za-z .\/'-]{1,40}?)\s*[:\-]\s*(.+)$/);
+    if (m) return { label: m[1].trim(), value: m[2].trim() };
+    m = text.match(/^([A-Za-z][A-Za-z .\/'-]{1,40}?)\s{2,}(.+)$/);
+    if (m) return { label: m[1].trim(), value: m[2].trim() };
+    return null;
+  }
+
+  function matchFields(lines){
+    const results = FIELD_ALIASES.map(f => ({ label: f.label, value: '', confidence: null, keys: f.keys }));
+    const leftovers = [];
+
+    lines.forEach(line => {
+      const split = splitLabelValue(line.text);
+      if (!split){ leftovers.push(line); return; }
+      const labelLower = split.label.toLowerCase();
+      const target = results.find(r => r.keys.some(k => labelLower === k || labelLower.includes(k)));
+      if (target && !target.value && split.value){
+        target.value = split.value;
+        target.confidence = line.confidence;
+      } else {
+        leftovers.push({ text: split.label + ': ' + split.value, confidence: line.confidence });
+      }
+    });
+
+    const fields = results.map(r => ({ label: r.label, value: r.value, confidence: r.confidence }));
+    leftovers.slice(0, 8).forEach(l => {
+      fields.push({ label: 'Other text', value: l.text, confidence: l.confidence });
+    });
+    return fields;
+  }
+
+  function confClass(c){
+    if (c == null) return 'conf-mid';
+    if (c >= 75) return 'conf-hi';
+    if (c >= 60) return 'conf-mid';
+    return 'conf-lo';
+  }
+  function confLabel(c){
+    return c == null ? 'manual' : Math.round(c) + '%';
+  }
+
+  function renderFields(fields){
+    fieldsBody.innerHTML = '';
+    fields.forEach(f => addFieldRow(f.label, f.value, f.confidence));
+  }
+
+  function addFieldRow(label, value, confidence){
+    const tr = document.createElement('tr');
+
+    const labelTd = document.createElement('td');
+    const labelInput = document.createElement('input');
+    labelInput.type = 'text'; labelInput.value = label || ''; labelInput.placeholder = 'Field name';
+    labelTd.appendChild(labelInput);
+
+    const valueTd = document.createElement('td');
+    const valueInput = document.createElement('input');
+    valueInput.type = 'text'; valueInput.value = value || ''; valueInput.placeholder = 'Not detected — fill in manually';
+    valueTd.appendChild(valueInput);
+
+    const confTd = document.createElement('td');
+    const pill = document.createElement('span');
+    pill.className = 'conf-pill ' + confClass(confidence);
+    pill.textContent = confLabel(confidence);
+    confTd.appendChild(pill);
+
+    const delTd = document.createElement('td');
+    const delBtn = document.createElement('button');
+    delBtn.className = 'row-del'; delBtn.type = 'button'; delBtn.title = 'Remove field';
+    delBtn.textContent = '×';
+    delBtn.addEventListener('click', () => tr.remove());
+    delTd.appendChild(delBtn);
+
+    tr.appendChild(labelTd); tr.appendChild(valueTd); tr.appendChild(confTd); tr.appendChild(delTd);
+    fieldsBody.appendChild(tr);
+  }
+
+  addRowBtn.addEventListener('click', () => addFieldRow('', '', null));
+
+  function collectFields(){
+    const rows = Array.from(fieldsBody.querySelectorAll('tr'));
+    return rows.map(tr => {
+      const inputs = tr.querySelectorAll('input[type="text"]');
+      return { field: inputs[0].value.trim(), value: inputs[1].value.trim() };
+    }).filter(r => r.field || r.value);
+  }
+
+  function download(filename, content, mime){
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  document.getElementById('exportJsonBtn').addEventListener('click', () => {
+    const data = collectFields();
+    const obj = {};
+    data.forEach(r => obj[r.field] = r.value);
+    download('form-data.json', JSON.stringify(obj, null, 2), 'application/json');
+  });
+
+  document.getElementById('exportCsvBtn').addEventListener('click', () => {
+    const data = collectFields();
+    const esc = (s) => '"' + String(s).replace(/"/g, '""') + '"';
+    const csv = 'Field,Value\n' + data.map(r => esc(r.field) + ',' + esc(r.value)).join('\n');
+    download('form-data.csv', csv, 'text/csv');
+  });
+
+  document.getElementById('copyBtn').addEventListener('click', async () => {
+    const data = collectFields();
+    const text = data.map(r => r.field + ': ' + r.value).join('\n');
+    try {
+      await navigator.clipboard.writeText(text);
+      const btn = document.getElementById('copyBtn');
+      const original = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = original; }, 1500);
+    } catch (e) {
+      alert(text);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

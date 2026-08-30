@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project AURA — Interactive Pipeline Simulator</title>
+<style>
+  :root{
+    --paper:#eef1f0; --paper-raised:#ffffff; --ink:#14181f; --ink-soft:#4c5750; --ink-faint:#7c8983;
+    --line:#d7dcd8; --line-soft:#e3e7e4;
+    --product:#1f6f66; --product-bg:#e4efec;
+    --frontline:#b5532c; --frontline-bg:#f5e9e1;
+    --gold:#8a6a20; --gold-bg:#f1e8d2;
+    --bad:#a5342a; --bad-bg:#f6e3e0;
+    --focus:#1f6f66;
+    --font-display:'Iowan Old Style','Palatino Linotype',Georgia,serif;
+    --font-body:'Segoe UI',system-ui,-apple-system,sans-serif;
+    --font-mono:Consolas,'SF Mono',Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#12161a; --paper-raised:#191f24; --ink:#e8ece9; --ink-soft:#a3aca5; --ink-faint:#6d7873;
+      --line:#2a3138; --line-soft:#20262c;
+      --product:#4bb3a3; --product-bg:#172422;
+      --frontline:#e08a5c; --frontline-bg:#271b14;
+      --gold:#d4af5a; --gold-bg:#26210f;
+      --bad:#e0796c; --bad-bg:#2a1714;
+      --focus:#4bb3a3;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#12161a; --paper-raised:#191f24; --ink:#e8ece9; --ink-soft:#a3aca5; --ink-faint:#6d7873;
+    --line:#2a3138; --line-soft:#20262c;
+    --product:#4bb3a3; --product-bg:#172422;
+    --frontline:#e08a5c; --frontline-bg:#271b14;
+    --gold:#d4af5a; --gold-bg:#26210f;
+    --bad:#e0796c; --bad-bg:#2a1714;
+    --focus:#4bb3a3;
+  }
+  :root[data-theme="light"]{
+    --paper:#eef1f0; --paper-raised:#ffffff; --ink:#14181f; --ink-soft:#4c5750; --ink-faint:#7c8983;
+    --line:#d7dcd8; --line-soft:#e3e7e4;
+    --product:#1f6f66; --product-bg:#e4efec;
+    --frontline:#b5532c; --frontline-bg:#f5e9e1;
+    --gold:#8a6a20; --gold-bg:#f1e8d2;
+    --bad:#a5342a; --bad-bg:#f6e3e0;
+    --focus:#1f6f66;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--font-body); font-size:15px; line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; }
+  button{ font-family:inherit; }
+  :focus-visible{ outline:2px solid var(--focus); outline-offset:2px; }
+
+  .masthead{ border-bottom:1px solid var(--line); padding:28px clamp(16px,4vw,48px) 22px; background:var(--paper); }
+  .eyebrow{ font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 8px; }
+  h1{ font-family:var(--font-display); font-weight:600; font-size:clamp(24px,3.2vw,34px); margin:0 0 8px; text-wrap:balance; letter-spacing:.01em; }
+  .dek{ max-width:76ch; color:var(--ink-soft); margin:0 0 16px; font-size:15px; }
+  .tags{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+  .tag{ font-family:var(--font-mono); font-size:10px; letter-spacing:.04em; padding:3px 8px; border-radius:20px; white-space:nowrap; text-transform:uppercase; }
+  .tag-guard{ background:var(--gold-bg); color:var(--gold); }
+  .tag-hitl{ background:var(--frontline-bg); color:var(--frontline); }
+  .tag-priv{ background:var(--line-soft); color:var(--ink-soft); }
+  .toplinks{ margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; }
+  .navlink{ font-family:var(--font-mono); font-size:12px; color:var(--product); text-decoration:none; }
+  .navlink:hover{ text-decoration:underline; }
+
+  .wrap{ max-width:1180px; margin:0 auto; padding:26px clamp(16px,4vw,32px) 70px; }
+
+  .pitch{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:26px; }
+  @media (max-width:820px){ .pitch{ grid-template-columns:1fr; } }
+  .pitch-card{ background:var(--paper-raised); border:1px solid var(--line); border-radius:10px; padding:16px 18px; }
+  .pitch-card h3{ font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 8px; }
+  .pitch-card p{ margin:0; font-size:13.5px; color:var(--ink-soft); }
+
+  .panel{ background:var(--paper-raised); border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-bottom:20px; }
+  .panel-head{ padding:16px 20px; border-bottom:1px solid var(--line-soft); }
+  .panel-head h2{ font-family:var(--font-display); font-size:18px; margin:0 0 4px; }
+  .panel-head p{ margin:0; color:var(--ink-soft); font-size:13.5px; }
+  .panel-body{ padding:18px 20px; }
+
+  /* sandbox controls */
+  .presets{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+  .preset-btn{
+    border:1px solid var(--line); background:var(--paper); color:var(--ink);
+    padding:8px 13px; border-radius:20px; font-size:12.5px; cursor:pointer; font-family:var(--font-mono);
+  }
+  .preset-btn:hover{ border-color:var(--product); color:var(--product); }
+  .preset-btn.active{ background:var(--product-bg); border-color:var(--product); color:var(--product); }
+
+  .fields-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px 24px; }
+  @media (max-width:760px){ .fields-grid{ grid-template-columns:1fr; } }
+  .fgroup{ border:1px solid var(--line-soft); border-radius:9px; padding:12px 14px; }
+  .fgroup h4{ margin:0 0 10px; font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); }
+  .frow{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:9px; font-size:13px; }
+  .frow:last-child{ margin-bottom:0; }
+  .frow label{ color:var(--ink-soft); flex:0 0 auto; }
+  .frow .ctl{ display:flex; align-items:center; gap:8px; flex:1 1 auto; justify-content:flex-end; }
+  .frow input[type="range"]{ width:120px; accent-color:var(--product); }
+  .frow input[type="number"]{ width:60px; padding:5px 7px; border-radius:6px; border:1px solid var(--line); background:var(--paper); color:var(--ink); }
+  .frow select{ padding:6px 8px; border-radius:6px; border:1px solid var(--line); background:var(--paper); color:var(--ink); font-size:12.5px; }
+  .frow input[type="checkbox"]{ accent-color:var(--product); width:16px; height:16px; }
+  .valpill{ font-family:var(--font-mono); font-size:11.5px; color:var(--ink-faint); min-width:34px; text-align:right; }
+
+  .run-row{ display:flex; gap:10px; margin-top:16px; align-items:center; flex-wrap:wrap; }
+  .btn{ border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:10px 18px; border-radius:7px; font-size:13.5px; cursor:pointer; }
+  .btn:hover{ border-color:var(--ink-faint); }
+  .btn.primary{ background:var(--product); color:#fff; border-color:var(--product); font-weight:600; }
+  .btn.primary:hover{ opacity:.92; }
+  .run-hint{ font-size:12px; color:var(--ink-faint); font-family:var(--font-mono); }
+
+  /* stepper */
+  .stepper{ display:flex; align-items:stretch; gap:8px; overflow-x:auto; padding:4px 2px 10px; }
+  .step{
+    flex:0 0 auto; min-width:150px; border:1px solid var(--line); border-radius:9px; background:var(--paper);
+    padding:12px 13px; opacity:.4; transition:opacity .25s, border-color .25s, transform .25s;
+  }
+  .step.active{ opacity:1; border-color:var(--product); transform:translateY(-2px); box-shadow:0 2px 10px rgba(0,0,0,.06); }
+  .step.done{ opacity:1; }
+  .step-name{ font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:6px; }
+  .step-badge{ font-family:var(--font-mono); font-size:12px; font-weight:700; padding:3px 8px; border-radius:20px; display:inline-block; }
+  .badge-pass{ background:var(--product-bg); color:var(--product); }
+  .badge-withhold{ background:var(--bad-bg); color:var(--bad); }
+  .badge-escalate{ background:var(--gold-bg); color:var(--gold); }
+  .badge-approve{ background:var(--product-bg); color:var(--product); }
+  .badge-blocked{ background:var(--line-soft); color:var(--ink-faint); }
+  .step-arrow{ display:flex; align-items:center; color:var(--ink-faint); flex:0 0 auto; }
+
+  /* field verdict table */
+  table.verdicts{ width:100%; border-collapse:collapse; font-size:13px; }
+  table.verdicts th{ text-align:left; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); padding:7px 8px; border-bottom:1px solid var(--line); }
+  table.verdicts td{ padding:8px; border-bottom:1px solid var(--line-soft); vertical-align:top; }
+  .vpill{ font-family:var(--font-mono); font-size:11px; font-weight:700; padding:2px 8px; border-radius:20px; white-space:nowrap; }
+  .ctx-yes{ color:var(--product); font-family:var(--font-mono); font-size:12px; }
+  .ctx-no{ color:var(--bad); font-family:var(--font-mono); font-size:12px; text-decoration:line-through; opacity:.8; }
+
+  /* hitl */
+  .hitl-item{ display:flex; justify-content:space-between; gap:14px; padding:10px 0; border-bottom:1px solid var(--line-soft); font-size:13px; }
+  .hitl-item:last-child{ border-bottom:none; }
+  .hitl-item.fired{ }
+  .hitl-item .t{ font-weight:600; }
+  .hitl-item .meta{ font-family:var(--font-mono); font-size:11.5px; color:var(--ink-faint); }
+  .fire-dot{ display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:8px; background:var(--line); }
+  .fired .fire-dot{ background:var(--frontline); }
+  .hitl-empty{ color:var(--ink-faint); font-size:13px; font-style:italic; }
+
+  /* decision + account creation */
+  .decision-box{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .decision-badge{ font-family:var(--font-mono); font-size:18px; font-weight:700; padding:8px 18px; border-radius:9px; }
+  .basis-list{ margin:10px 0 0; padding-left:18px; font-size:13px; color:var(--ink-soft); }
+  .basis-list li{ margin-bottom:3px; }
+
+  pre.json{
+    background:var(--paper); border:1px solid var(--line-soft); border-radius:8px; padding:12px 14px;
+    font-size:12px; color:var(--ink-soft); overflow:auto; max-height:220px; margin:10px 0 0;
+  }
+
+  /* audit log */
+  table.audit{ width:100%; border-collapse:collapse; font-size:12.5px; }
+  table.audit th{ text-align:left; font-family:var(--font-mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); padding:6px 8px; border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--paper-raised); }
+  table.audit td{ padding:6px 8px; border-bottom:1px solid var(--line-soft); font-family:var(--font-mono); }
+  .audit-wrap{ max-height:260px; overflow:auto; border:1px solid var(--line-soft); border-radius:8px; }
+
+  .note{ margin:0; padding:14px 16px; border-radius:8px; background:var(--gold-bg); color:var(--gold); font-size:12.5px; }
+  .note b{ display:block; margin-bottom:4px; }
+  .note ul{ margin:6px 0 0; padding-left:18px; }
+  .note li{ margin-bottom:3px; }
+
+  footer{ max-width:1180px; margin:0 auto; padding:20px clamp(16px,4vw,32px) 50px; color:var(--ink-faint); font-size:12px; border-top:1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">2026 Wealth Hackathon &middot; Idea + Working Prototype</p>
+  <h1>Project AURA — the safety architecture, running in your browser.</h1>
+  <p class="dek">Project AURA's v2 proposal replaced nine unlabeled agent boxes with contracts: every agent declares what it reads, what structured object it emits, and what it's forbidden from doing. This simulator makes that contract visible — configure an applicant, run the pipeline, and watch a WITHHELD field actually disappear from every downstream agent's context instead of just being flagged.</p>
+  <div class="tags">
+    <span class="tag tag-guard">Deterministic guardrail</span>
+    <span class="tag tag-hitl">Human-in-loop, with real triggers</span>
+    <span class="tag tag-priv">Runs client-side, synthetic data only</span>
+  </div>
+  <div class="toplinks">
+    <a class="navlink" href="index.html">&larr; idea bank</a>
+    <a class="navlink" href="idea-repo-map.html">idea &rarr; repo map</a>
+    <a class="navlink" href="repos.html">starter repos &amp; flagship builds</a>
+    <a class="navlink" href="paper-form-extractor.html">paper form digitizer &rarr;</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="pitch">
+    <div class="pitch-card">
+      <h3>Problem</h3>
+      <p>Account-opening pipelines that name agents (KYC, AML, Risk) without defining what evidence gates each decision are impossible for a judge — or a regulator — to trust. v1 of this proposal was exactly that.</p>
+    </div>
+    <div class="pitch-card">
+      <h3>Solution</h3>
+      <p>Data Sentinel is a validation gate, not a vibe: four deterministic checks (missing, stale, low-confidence, inconsistent) produce PASS / WITHHOLD / ESCALATE, and WITHHOLD fields become structurally inaccessible downstream.</p>
+    </div>
+    <div class="pitch-card">
+      <h3>Why this demo is honest</h3>
+      <p>No agent, LLM call, or core-banking system is real. This is the deterministic threshold logic from the v2 spec, executed in JS against synthetic applicants — proving the design, not the model.</p>
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>1. Configure an applicant</h2>
+      <p>Pick a preset that exercises a specific failure mode, or drag the controls yourself and press Run.</p>
+    </div>
+    <div class="panel-body">
+      <div class="presets" id="presets">
+        <button class="preset-btn" data-preset="clean">Clean approve</button>
+        <button class="preset-btn" data-preset="stale">Stale + low-confidence</button>
+        <button class="preset-btn" data-preset="conflict">CRM/document conflict</button>
+        <button class="preset-btn" data-preset="sanctions">Sanctions/PEP match</button>
+        <button class="preset-btn" data-preset="highrisk">High risk tier</button>
+      </div>
+
+      <div class="fields-grid">
+        <div class="fgroup">
+          <h4>Extractor output — identity &amp; address</h4>
+          <div class="frow">
+            <label>Full name present</label>
+            <div class="ctl"><input type="checkbox" id="nameMissing"><span class="valpill" id="nameMissingLbl">present</span></div>
+          </div>
+          <div class="frow">
+            <label>Name extraction confidence</label>
+            <div class="ctl"><input type="range" id="nameConf" min="0" max="1" step="0.01" value="0.95"><span class="valpill" id="nameConfLbl">0.95</span></div>
+          </div>
+          <div class="frow">
+            <label>Address last verified (years ago)</label>
+            <div class="ctl"><input type="number" id="addrStale" min="0" max="10" value="1"><span class="valpill">yrs</span></div>
+          </div>
+          <div class="frow">
+            <label>Address confidence</label>
+            <div class="ctl"><input type="range" id="addrConf" min="0" max="1" step="0.01" value="0.9"><span class="valpill" id="addrConfLbl">0.90</span></div>
+          </div>
+        </div>
+
+        <div class="fgroup">
+          <h4>Extractor output — holdings &amp; ownership</h4>
+          <div class="frow">
+            <label>Cost basis present on holdings record</label>
+            <div class="ctl"><input type="checkbox" id="costBasisPresent" checked></div>
+          </div>
+          <div class="frow">
+            <label>CRM ownership type</label>
+            <div class="ctl"><select id="crmOwnership"><option>Single-member LLC</option><option>Joint</option></select></div>
+          </div>
+          <div class="frow">
+            <label>Document ownership type</label>
+            <div class="ctl"><select id="docOwnership"><option>Single-member LLC</option><option>Joint</option></select></div>
+          </div>
+          <div class="frow">
+            <label>Currency amount OCR confidence</label>
+            <div class="ctl"><input type="range" id="amtConf" min="0" max="1" step="0.01" value="0.88"><span class="valpill" id="amtConfLbl">0.88</span></div>
+          </div>
+        </div>
+
+        <div class="fgroup">
+          <h4>AML / Sanctions Agent</h4>
+          <div class="frow">
+            <label>Sanctions / PEP list match</label>
+            <div class="ctl"><input type="checkbox" id="sanctionsMatch"></div>
+          </div>
+          <div class="frow">
+            <label>Match confidence</label>
+            <div class="ctl"><input type="range" id="sanctionsConf" min="0" max="1" step="0.01" value="0.9"><span class="valpill" id="sanctionsConfLbl">0.90</span></div>
+          </div>
+        </div>
+
+        <div class="fgroup">
+          <h4>Risk Agent</h4>
+          <div class="frow">
+            <label>Risk tier</label>
+            <div class="ctl">
+              <select id="riskTier"><option value="Low">Low</option><option value="Medium">Medium</option><option value="High">High</option></select>
+            </div>
+          </div>
+          <div class="frow">
+            <label>Contributing factor</label>
+            <div class="ctl"><input type="text" id="riskFactor" value="Thin credit file" style="padding:6px 8px;border-radius:6px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:12.5px;width:150px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="run-row">
+        <button class="btn primary" id="runBtn" type="button">Run pipeline</button>
+        <button class="btn" id="resetBtn" type="button">Reset audit log</button>
+        <span class="run-hint">All checks run instantly and locally — the stepper animation is just paced for readability.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>2. Pipeline</h2>
+      <p>Supervisor sequence: Extractor &rarr; Data Sentinel &rarr; {KYC, AML/Sanctions, Risk} (parallel) &rarr; Decision &rarr; Account Creation.</p>
+    </div>
+    <div class="panel-body">
+      <div class="stepper" id="stepper"></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>3. Data Sentinel — per-field verdicts</h2>
+      <p>A WITHHELD field is not flagged and passed on — it is removed from every downstream agent's context window.</p>
+    </div>
+    <div class="panel-body">
+      <table class="verdicts">
+        <thead><tr><th>Field</th><th>Check</th><th>Verdict</th><th>Reason</th><th>Downstream context</th></tr></thead>
+        <tbody id="verdictsBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>4. Human-in-the-loop triggers</h2>
+      <p>The actual escalation logic from the v2 spec — not a general "human reviews it" principle.</p>
+    </div>
+    <div class="panel-body" id="hitlBody"></div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>5. Decision &amp; Account Creation</h2>
+      <p>Decision Agent cannot reach APPROVE if its basis includes a WITHHELD or ESCALATED required field — structurally, not by convention.</p>
+    </div>
+    <div class="panel-body">
+      <div class="decision-box">
+        <span class="decision-badge" id="decisionBadge">—</span>
+        <span id="decisionSub" style="color:var(--ink-soft);font-size:13px;"></span>
+      </div>
+      <ul class="basis-list" id="basisList"></ul>
+      <pre class="json" id="decisionJson"></pre>
+      <div style="margin-top:14px;">
+        <b style="font-size:13px;">Account Creation Agent</b>
+        <pre class="json" id="accountJson"></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>6. Audit log <span style="font-family:var(--font-mono);font-size:11px;color:var(--ink-faint);">(append-only, this session)</span></h2>
+      <p>Written before any downstream agent runs — what makes "why was this approved/rejected" answerable.</p>
+    </div>
+    <div class="panel-body">
+      <div class="audit-wrap">
+        <table class="audit">
+          <thead><tr><th>Time</th><th>Agent</th><th>Field / Scope</th><th>Result</th><th>Detail</th></tr></thead>
+          <tbody id="auditBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <div class="note">
+    <b>What this simulator is and isn't</b>
+    <ul>
+      <li>Every check here is the deterministic threshold logic described in Project AURA v2 — no LLM call, no ADK agent, no Gemini API, no core-banking system is actually invoked.</li>
+      <li>Cross-source reconciliation is "LLM-assisted, schema-constrained" in the real design; this demo runs it as a plain equality check between CRM and document ownership type as a stand-in.</li>
+      <li>The confidence bands (&lt;0.55 WITHHOLD, 0.55&ndash;0.79 ESCALATE, &ge;0.80 PASS) resolve an overlap between the v2 spec's two threshold tables into one consistent rule — treat it as a proposed reading, not a ratified one.</li>
+      <li>The spec defines APPROVE (by construction) and ESCALATE (human-routed) paths in detail but never specifies a deterministic REJECT trigger — this demo doesn't invent one either, matching that gap rather than papering over it.</li>
+      <li>All applicant data on this page is synthetic and entered by you; nothing is transmitted anywhere.</li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  Built from <a href="#" style="color:var(--product);">Project AURA — Revised Proposal (v2)</a>, a hackathon judging revision for AI-powered retail account opening on Google ADK. This page demonstrates the agent-contract and verdict-gating design described there; it is not the production system, which the source document itself states has no working code built against it yet.
+</footer>
+
+<script>
+(function(){
+  const $ = (id) => document.getElementById(id);
+
+  const ctrl = {
+    nameMissing: $('nameMissing'), nameConf: $('nameConf'),
+    addrStale: $('addrStale'), addrConf: $('addrConf'),
+    costBasisPresent: $('costBasisPresent'),
+    crmOwnership: $('crmOwnership'), docOwnership: $('docOwnership'),
+    amtConf: $('amtConf'),
+    sanctionsMatch: $('sanctionsMatch'), sanctionsConf: $('sanctionsConf'),
+    riskTier: $('riskTier'), riskFactor: $('riskFactor'),
+  };
+
+  function syncLabels(){
+    $('nameMissingLbl').textContent = ctrl.nameMissing.checked ? 'MISSING' : 'present';
+    $('nameConfLbl').textContent = parseFloat(ctrl.nameConf.value).toFixed(2);
+    $('addrConfLbl').textContent = parseFloat(ctrl.addrConf.value).toFixed(2);
+    $('amtConfLbl').textContent = parseFloat(ctrl.amtConf.value).toFixed(2);
+    $('sanctionsConfLbl').textContent = parseFloat(ctrl.sanctionsConf.value).toFixed(2);
+  }
+  Object.values(ctrl).forEach(el => el.addEventListener('input', syncLabels));
+  syncLabels();
+
+  const PRESETS = {
+    clean: { nameMissing:false, nameConf:0.95, addrStale:1, addrConf:0.92, costBasisPresent:true,
+      crmOwnership:'Single-member LLC', docOwnership:'Single-member LLC', amtConf:0.9,
+      sanctionsMatch:false, sanctionsConf:0.1, riskTier:'Low', riskFactor:'Stable income, low leverage' },
+    stale: { nameMissing:false, nameConf:0.9, addrStale:5, addrConf:0.85, costBasisPresent:false,
+      crmOwnership:'Single-member LLC', docOwnership:'Single-member LLC', amtConf:0.62,
+      sanctionsMatch:false, sanctionsConf:0.1, riskTier:'Medium', riskFactor:'Missing cost-basis history' },
+    conflict: { nameMissing:false, nameConf:0.93, addrStale:1, addrConf:0.9, costBasisPresent:true,
+      crmOwnership:'Single-member LLC', docOwnership:'Joint', amtConf:0.88,
+      sanctionsMatch:false, sanctionsConf:0.1, riskTier:'Low', riskFactor:'Ownership structure under review' },
+    sanctions: { nameMissing:false, nameConf:0.96, addrStale:1, addrConf:0.94, costBasisPresent:true,
+      crmOwnership:'Joint', docOwnership:'Joint', amtConf:0.91,
+      sanctionsMatch:true, sanctionsConf:0.91, riskTier:'Low', riskFactor:'N/A — sanctions blocks first' },
+    highrisk: { nameMissing:false, nameConf:0.94, addrStale:0, addrConf:0.93, costBasisPresent:true,
+      crmOwnership:'Joint', docOwnership:'Joint', amtConf:0.9,
+      sanctionsMatch:false, sanctionsConf:0.1, riskTier:'High', riskFactor:'Rapid inbound wires, new relationship' },
+  };
+
+  function applyPreset(name){
+    const p = PRESETS[name]; if (!p) return;
+    ctrl.nameMissing.checked = p.nameMissing;
+    ctrl.nameConf.value = p.nameConf;
+    ctrl.addrStale.value = p.addrStale;
+    ctrl.addrConf.value = p.addrConf;
+    ctrl.costBasisPresent.checked = p.costBasisPresent;
+    ctrl.crmOwnership.value = p.crmOwnership;
+    ctrl.docOwnership.value = p.docOwnership;
+    ctrl.amtConf.value = p.amtConf;
+    ctrl.sanctionsMatch.checked = p.sanctionsMatch;
+    ctrl.sanctionsConf.value = p.sanctionsConf;
+    ctrl.riskTier.value = p.riskTier;
+    ctrl.riskFactor.value = p.riskFactor;
+    syncLabels();
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.toggle('active', b.dataset.preset === name));
+    runPipeline();
+  }
+
+  document.querySelectorAll('.preset-btn').forEach(b => b.addEventListener('click', () => applyPreset(b.dataset.preset)));
+
+  function evaluateField(f){
+    if (f.missing) return { verdict:'WITHHOLD', reason:'Missing: required field not present on any source document.', layer:'Deterministic' };
+    if (f.staleYears != null && f.staleYears >= f.freshnessThreshold)
+      return { verdict:'WITHHOLD', reason:`Stale: last verified ${f.staleYears}y ago (>${f.freshnessThreshold}y threshold).`, layer:'Deterministic' };
+    if (f.conflict) return { verdict:'ESCALATE', reason:'Inconsistent: CRM value conflicts with source document value.', layer:'LLM-assisted, schema-constrained' };
+    if (f.confidence != null){
+      if (f.confidence < 0.55) return { verdict:'WITHHOLD', reason:`Low-confidence extraction: ${f.confidence.toFixed(2)} (below 0.55 floor).`, layer:'Deterministic' };
+      if (f.confidence < 0.80) return { verdict:'ESCALATE', reason:`Borderline confidence: ${f.confidence.toFixed(2)} (0.55–0.79 range).`, layer:'Deterministic' };
+    }
+    return { verdict:'PASS', reason:'All four checks clear.', layer:'—' };
+  }
+
+  const STEP_IDS = ['extractor','sentinel','kyc','aml','risk','decision','account'];
+  const STEP_LABELS = {
+    extractor:'Extractor', sentinel:'Data Sentinel', kyc:'KYC Agent',
+    aml:'AML / Sanctions', risk:'Risk Agent', decision:'Decision Agent', account:'Account Creation'
+  };
+
+  function renderStepperShell(){
+    const stepper = $('stepper');
+    stepper.innerHTML = '';
+    STEP_IDS.forEach((id, i) => {
+      if (i > 0){
+        const arrow = document.createElement('div');
+        arrow.className = 'step-arrow';
+        arrow.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+        stepper.appendChild(arrow);
+      }
+      const step = document.createElement('div');
+      step.className = 'step'; step.id = 'step-' + id;
+      step.innerHTML = `<div class="step-name">${STEP_LABELS[id]}</div><div class="badge-slot">—</div>`;
+      stepper.appendChild(step);
+    });
+  }
+  renderStepperShell();
+
+  function setStep(id, state, badgeText, badgeClass){
+    const el = $('step-' + id);
+    el.classList.remove('active');
+    if (state === 'active') el.classList.add('active');
+    if (state === 'done') el.classList.add('done');
+    const slot = el.querySelector('.badge-slot');
+    slot.innerHTML = `<span class="step-badge ${badgeClass}">${badgeText}</span>`;
+  }
+
+  let auditRows = [];
+  function logAudit(agent, scope, result, detail){
+    const t = new Date().toLocaleTimeString();
+    auditRows.push({ t, agent, scope, result, detail });
+    renderAudit();
+  }
+  function renderAudit(){
+    const body = $('auditBody');
+    body.innerHTML = auditRows.map(r =>
+      `<tr><td>${r.t}</td><td>${r.agent}</td><td>${r.scope}</td><td>${r.result}</td><td>${r.detail}</td></tr>`
+    ).join('');
+    const wrap = document.querySelector('.audit-wrap');
+    wrap.scrollTop = wrap.scrollHeight;
+  }
+  $('resetBtn').addEventListener('click', () => { auditRows = []; renderAudit(); });
+
+  function verdictPillClass(v){
+    return v === 'PASS' ? 'badge-pass' : v === 'WITHHOLD' ? 'badge-withhold' : 'badge-escalate';
+  }
+
+  async function runPipeline(){
+    const fields = {
+      full_name: { label:'Full Name', missing: ctrl.nameMissing.checked, confidence: parseFloat(ctrl.nameConf.value) },
+      address: { label:'Address', staleYears: parseFloat(ctrl.addrStale.value), freshnessThreshold: 4, confidence: parseFloat(ctrl.addrConf.value) },
+      cost_basis: { label:'Holdings Cost Basis', missing: !ctrl.costBasisPresent.checked },
+      ownership_type: { label:'Ownership Type', conflict: ctrl.crmOwnership.value !== ctrl.docOwnership.value },
+      currency_amount: { label:'Currency Amount (OCR)', confidence: parseFloat(ctrl.amtConf.value) },
+    };
+
+    const verdicts = {};
+    Object.entries(fields).forEach(([k, f]) => { verdicts[k] = evaluateField(f); });
+
+    // --- Step: Extractor ---
+    setStep('extractor', 'active', 'emitting', 'badge-pass');
+    logAudit('Extractor', 'all fields', 'EMITTED', `${Object.keys(fields).length} fields with confidence scores attached`);
+    await sleep(350);
+    setStep('extractor', 'done', 'done', 'badge-pass');
+
+    // --- Step: Data Sentinel ---
+    setStep('sentinel', 'active', 'evaluating', 'badge-escalate');
+    await sleep(400);
+    const vBody = $('verdictsBody');
+    vBody.innerHTML = '';
+    Object.entries(fields).forEach(([k, f]) => {
+      const v = verdicts[k];
+      const accessible = v.verdict === 'PASS';
+      vBody.innerHTML += `<tr>
+        <td><b>${f.label}</b></td>
+        <td>${v.layer}</td>
+        <td><span class="vpill ${verdictPillClass(v.verdict)}">${v.verdict}</span></td>
+        <td>${v.reason}</td>
+        <td>${accessible ? '<span class="ctx-yes">accessible</span>' : '<span class="ctx-no">removed from context</span>'}</td>
+      </tr>`;
+      logAudit('Data Sentinel', f.label, v.verdict, v.reason);
+    });
+    const anyWithheldOrEscalate = Object.values(verdicts).some(v => v.verdict !== 'PASS');
+    setStep('sentinel', 'done', anyWithheldOrEscalate ? Object.values(verdicts).filter(v=>v.verdict==='WITHHOLD').length + ' withheld' : 'all clear',
+      anyWithheldOrEscalate ? 'badge-escalate' : 'badge-pass');
+
+    // --- Step: KYC ---
+    setStep('kyc', 'active', 'checking', 'badge-escalate');
+    await sleep(350);
+    const identityOk = verdicts.full_name.verdict === 'PASS' && verdicts.address.verdict === 'PASS';
+    const kycResult = identityOk ? 'CLEAR' : 'BLOCKED';
+    setStep('kyc', 'done', kycResult, identityOk ? 'badge-pass' : 'badge-blocked');
+    logAudit('KYC Agent', 'full_name, address', kycResult, identityOk ? 'Both Sentinel-approved; check_id KYC-001 passed' : 'Cannot read a WITHHELD field — required identity field unavailable');
+
+    // --- Step: AML / Sanctions ---
+    setStep('aml', 'active', 'screening', 'badge-escalate');
+    await sleep(350);
+    let amlResult, amlDetail, amlBadge;
+    if (verdicts.full_name.verdict !== 'PASS'){
+      amlResult = 'BLOCKED'; amlBadge = 'badge-blocked';
+      amlDetail = 'full_name withheld by Data Sentinel — AML Agent forbidden from reading a withheld field';
+    } else if (ctrl.sanctionsMatch.checked){
+      amlResult = 'MATCH'; amlBadge = 'badge-withhold';
+      amlDetail = `match=true, confidence ${parseFloat(ctrl.sanctionsConf.value).toFixed(2)} — cannot auto-clear, routes to compliance`;
+    } else {
+      amlResult = 'CLEAR'; amlBadge = 'badge-pass';
+      amlDetail = 'match=false — no sanctions/PEP hit';
+    }
+    setStep('aml', 'done', amlResult, amlBadge);
+    logAudit('AML / Sanctions Agent', 'full_name', amlResult, amlDetail);
+
+    // --- Step: Risk ---
+    setStep('risk', 'active', 'scoring', 'badge-escalate');
+    await sleep(350);
+    const riskTier = ctrl.riskTier.value;
+    const riskBadge = riskTier === 'High' ? 'badge-escalate' : 'badge-pass';
+    setStep('risk', 'done', riskTier, riskBadge);
+    logAudit('Risk Agent', 'sentinel + KYC/AML output', riskTier + ' risk', `contributing_factors: [${ctrl.riskFactor.value}]`);
+
+    // --- HITL triggers ---
+    const triggers = [
+      { name:'Sanctions/PEP match, any confidence', to:'Compliance reviewer', sla:'Blocks decision until cleared',
+        fired: amlResult === 'MATCH' },
+      { name:'Data Sentinel ESCALATE (conflict or 0.55–0.79 confidence)', to:'Data steward queue', sla:'Blocks the specific field, not the full application',
+        fired: Object.values(verdicts).some(v => v.verdict === 'ESCALATE') },
+      { name:'Risk tier = High', to:'Risk analyst', sla:'Blocks decision until reviewed',
+        fired: riskTier === 'High' },
+      { name:'Decision basis includes any WITHHELD required field', to:'Cannot reach APPROVE by construction', sla:'N/A — structurally prevented',
+        fired: Object.values(verdicts).some(v => v.verdict === 'WITHHOLD') },
+    ];
+    $('hitlBody').innerHTML = triggers.map(t => `
+      <div class="hitl-item ${t.fired ? 'fired' : ''}">
+        <div><span class="fire-dot"></span><span class="t">${t.name}</span></div>
+        <div class="meta">${t.fired ? 'FIRED → ' : 'not triggered · '}${t.to} · ${t.sla}</div>
+      </div>
+    `).join('') || '<p class="hitl-empty">No triggers.</p>';
+    triggers.filter(t => t.fired).forEach(t => logAudit('Supervisor', t.name, 'ESCALATION FIRED', `routed to ${t.to} — ${t.sla}`));
+
+    // --- Decision ---
+    setStep('decision', 'active', 'deciding', 'badge-escalate');
+    await sleep(400);
+    let decision, basis;
+    if (amlResult === 'MATCH'){
+      decision = 'ESCALATE'; basis = ['Sanctions/PEP match requires compliance clearance before any decision.'];
+    } else if (kycResult === 'BLOCKED' || Object.values(verdicts).some(v => v.verdict !== 'PASS')){
+      decision = 'ESCALATE';
+      basis = Object.entries(verdicts).filter(([,v]) => v.verdict !== 'PASS')
+        .map(([k, v]) => `${fields[k].label}: ${v.verdict} — ${v.reason}`);
+    } else if (riskTier === 'High'){
+      decision = 'ESCALATE'; basis = ['Risk tier High requires risk analyst review before decision.'];
+    } else {
+      decision = 'APPROVE'; basis = ['All fields PASS at Data Sentinel.', 'AML/Sanctions: no match.', `Risk tier ${riskTier} within auto-approve range.`];
+    }
+    const decisionBadgeClass = decision === 'APPROVE' ? 'badge-approve' : 'badge-escalate';
+    setStep('decision', 'done', decision, decisionBadgeClass);
+    logAudit('Decision Agent', 'all upstream output', decision, basis.join(' | '));
+
+    $('decisionBadge').textContent = decision;
+    $('decisionBadge').style.background = decision === 'APPROVE' ? 'var(--product-bg)' : 'var(--gold-bg)';
+    $('decisionBadge').style.color = decision === 'APPROVE' ? 'var(--product)' : 'var(--gold)';
+    $('decisionSub').textContent = decision === 'APPROVE' ? 'No required field withheld or escalated — Account Creation Agent may proceed.' : 'At least one basis item blocks APPROVE by construction.';
+    $('basisList').innerHTML = basis.map(b => `<li>${b}</li>`).join('');
+    $('decisionJson').textContent = JSON.stringify({ decision, basis }, null, 2);
+
+    // --- Account Creation ---
+    await sleep(350);
+    if (decision === 'APPROVE'){
+      setStep('account', 'done', 'created', 'badge-approve');
+      const record = { account_id: 'ACC-' + Math.floor(100000 + Math.random()*900000), status:'CREATED', opened_at: new Date().toISOString() };
+      $('accountJson').textContent = JSON.stringify(record, null, 2);
+      logAudit('Account Creation Agent', 'core banking', 'WRITE', `account_id ${record.account_id} created`);
+    } else {
+      setStep('account', 'done', 'not invoked', 'badge-blocked');
+      $('accountJson').textContent = JSON.stringify({ status:'NOT_INVOKED', reason:'Account Creation Agent is forbidden from writing to core banking on anything but APPROVE.' }, null, 2);
+      logAudit('Account Creation Agent', 'core banking', 'SKIPPED', 'Decision was not APPROVE — forbidden from writing');
+    }
+  }
+
+  function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+  $('runBtn').addEventListener('click', () => { document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active')); runPipeline(); });
+
+  // initial run with the clean preset
+  applyPreset('clean');
+})();
+</script>
+
+</body>
+</html>
