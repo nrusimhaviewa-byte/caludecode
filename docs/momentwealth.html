@@ -4827,8 +4827,9 @@ function getSwingScript() {
       if (isSpeaking) {
         stopSpeech();
       } else {
-        var script = currentMode === 'swing' ? getSwingScript() : (currentMode === 'stocks' ? getStockRecommendationsScript() :
-                     (currentMode === 'news' ? getNewsSummaryScript() : getFullSummaryScript());
+        var script = (currentMode === 'swing') ? getSwingScript() :
+                     ((currentMode === 'stocks') ? getStockRecommendationsScript() :
+                     ((currentMode === 'news') ? getNewsSummaryScript() : getFullSummaryScript()));
         speakScript(script);
         showToast('🎙️ AI Voice Agent is speaking...');
       }
@@ -4845,8 +4846,9 @@ function getSwingScript() {
       btnText.textContent = currentMode === 'stocks' ? 'Read Stock Recommendations' : (currentMode === 'news' ? 'Read News Brief' : 'Read Full Summary');
       
       if (isSpeaking) {
-        var script = currentMode === 'swing' ? getSwingScript() : (currentMode === 'stocks' ? getStockRecommendationsScript() :
-                     (currentMode === 'news' ? getNewsSummaryScript() : getFullSummaryScript());
+        var script = (currentMode === 'swing') ? getSwingScript() :
+                     ((currentMode === 'stocks') ? getStockRecommendationsScript() :
+                     ((currentMode === 'news') ? getNewsSummaryScript() : getFullSummaryScript()));
         speakScript(script);
       } else {
         teleText.textContent = 'Selected ' + (currentMode === 'stocks' ? 'Stock Recommendations' : (currentMode === 'news' ? 'Live News Brief' : 'Full Summary')) + '. Click play to listen.';
