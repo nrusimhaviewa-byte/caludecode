@@ -2892,13 +2892,17 @@ footer {
           </div>
         </div>
 
-        <!-- DYNAMIC ALL-STOCK RECOMMENDATIONS MATRIX (NEW) -->
+        <!-- DYNAMIC ALL-STOCK RECOMMENDATIONS MATRIX -->
         <div class="recommendations-matrix-wrap" id="recommendations-matrix-box">
           <div class="section-head" style="margin-bottom:0.4rem;">
             <div class="section-head-left">
-              <h4 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.05rem;">Live Stock Recommendations to hit <span class="gain" id="matrix-goal-title">₹5,000 / week</span>:</h4>
+              <h4 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.05rem;">Live Recommendations to hit <span class="gain" id="matrix-goal-title">₹5,000 / week</span>:</h4>
             </div>
-            <span style="font-size:0.75rem;color:var(--muted);font-family:'IBM Plex Mono',monospace;">Click any row to select &amp; view plan</span>
+            <div style="display:flex;gap:0.35rem;align-items:center;">
+              <button class="preset-pill-btn matrix-filter-btn active" data-filter="all">All Setups (11)</button>
+              <button class="preset-pill-btn matrix-filter-btn" data-filter="stockpro" style="color:#0088cc;">📡 StockPro Channel (6)</button>
+              <button class="preset-pill-btn matrix-filter-btn" data-filter="breakout">🚀 Momentum Desk (5)</button>
+            </div>
           </div>
 
           <div class="matrix-table-wrap">
@@ -4754,25 +4758,50 @@ document.querySelectorAll('.watch-card').forEach(function(card){
 
   var currentMode = 'profit-goal';
   var selectedStockIdx = 0;
+  var currentFilter = 'all'; // 'all', 'stockpro', 'breakout'
 
+  // Comprehensive Setups combining 1-2W Momentum + StockPro Online Telegram Research
   var SWING_SETUPS = [
-    { name: "Welspun Corp", ticker: "WELSPUNCORP", entry: 2373.80, sl: 2260.00, target: 2620.00, catalyst: "$1.8B US Order" },
-    { name: "Dixon Tech", ticker: "DIXON (StockPro)", entry: 14930.00, sl: 14700.00, target: 15530.00, catalyst: "StockPro Alert (>14930)" },
-    { name: "Tejas Networks", ticker: "TEJASNET (StockPro)", entry: 570.00, sl: 530.00, target: 650.00, catalyst: "StockPro Positional" },
-    { name: "Hindustan Zinc", ticker: "HINDZINC", entry: 622.00, sl: 588.00, target: 715.00, catalyst: "Zinc Squeeze +31%" },
-    { name: "Bharat Electronics", ticker: "BEL", entry: 411.90, sl: 392.00, target: 462.00, catalyst: "Tejas 97 Jet Book" },
-    { name: "Mastek", ticker: "MASTEK", entry: 1901.40, sl: 1815.00, target: 2140.00, catalyst: "Tech Reversal" },
-    { name: "Ather Energy", ticker: "ATHERENERGY", entry: 1616.30, sl: 1515.00, target: 1840.00, catalyst: "EV Share Expansion" }
+    // StockPro Online Telegram Recommendations
+    { name: "Dixon Tech", ticker: "DIXON", source: "StockPro Online", tag: "stockpro", entry: 14930.00, sl: 14700.00, target: 15530.00, catalyst: "StockPro Alert (>14930) + Order Inflow" },
+    { name: "Tejas Networks", ticker: "TEJASNET", source: "StockPro Online", tag: "stockpro", entry: 570.00, sl: 530.00, target: 650.00, catalyst: "StockPro Positional (Few Weeks)" },
+    { name: "MV Electrosystems", ticker: "MVELECTRO", source: "StockPro Online", tag: "stockpro", entry: 675.00, sl: 640.00, target: 768.00, catalyst: "StockPro Blast (Hit ₹768 High)" },
+    { name: "Federal-Mogul", ticker: "FEDERAL-MOGUL", source: "StockPro Online", tag: "stockpro", entry: 582.00, sl: 555.00, target: 615.00, catalyst: "StockPro Breakout (Hit ₹614.80)" },
+    { name: "Newgen Software", ticker: "NEWGEN", source: "StockPro Online", tag: "stockpro", entry: 558.00, sl: 540.00, target: 590.00, catalyst: "StockPro Breakout Watch" },
+    { name: "Cyient", ticker: "CYIENT", source: "StockPro Online", tag: "stockpro", entry: 1085.00, sl: 1055.00, target: 1135.00, catalyst: "StockPro Morning Research (>1085)" },
+    
+    // Core 1-2 Weeks High-Probability Momentum Setups
+    { name: "Welspun Corp", ticker: "WELSPUNCORP", source: "Momentum Desk", tag: "breakout", entry: 2373.80, sl: 2260.00, target: 2620.00, catalyst: "$1.8B Landmark US Order Backlog" },
+    { name: "Hindustan Zinc", ticker: "HINDZINC", source: "Momentum Desk", tag: "breakout", entry: 622.00, sl: 588.00, target: 715.00, catalyst: "Spot Zinc Rally +31% & Jefferies ₹750" },
+    { name: "Bharat Electronics", ticker: "BEL", source: "Momentum Desk", tag: "breakout", entry: 411.90, sl: 392.00, target: 462.00, catalyst: "97 Tejas Jets Order + ₹74.6k Cr Book" },
+    { name: "Mastek", ticker: "MASTEK", source: "Momentum Desk", tag: "breakout", entry: 1901.40, sl: 1815.00, target: 2140.00, catalyst: "Tech Reversal & Nvidia Momentum" },
+    { name: "Ather Energy", ticker: "ATHERENERGY", source: "Momentum Desk", tag: "breakout", entry: 1616.30, sl: 1515.00, target: 1840.00, catalyst: "EV Ascending Channel +33% 1M" }
   ];
 
   function fmtINR(val) {
     return '₹' + Math.round(val).toLocaleString('en-IN');
   }
 
+  function populateDropdown() {
+    if (!setupSel) return;
+    setupSel.innerHTML = SWING_SETUPS.map(function(stk, idx){
+      var tagPrefix = stk.tag === 'stockpro' ? '[StockPro] ' : '[Momentum] ';
+      return '<option value="' + idx + '">' + tagPrefix + stk.name + ' · Entry: ₹' + stk.entry.toFixed(1) + ' | SL: ₹' + stk.sl.toFixed(1) + ' | Tgt: ₹' + stk.target.toFixed(1) + '</option>';
+    }).join('');
+    setupSel.selectedIndex = selectedStockIdx;
+  }
+
   function renderMatrix(desiredProfit) {
     if (!matrixTbody) return;
-    
-    matrixTbody.innerHTML = SWING_SETUPS.map(function(stk, idx){
+
+    var filtered = SWING_SETUPS.filter(function(stk){
+      if (currentFilter === 'stockpro') return stk.tag === 'stockpro';
+      if (currentFilter === 'breakout') return stk.tag === 'breakout';
+      return true;
+    });
+
+    matrixTbody.innerHTML = filtered.map(function(stk){
+      var origIdx = SWING_SETUPS.indexOf(stk);
       var rewardPerShare = stk.target - stk.entry;
       var riskPerShare = stk.entry - stk.sl;
       var qty = Math.max(1, Math.ceil(desiredProfit / rewardPerShare));
@@ -4780,16 +4809,20 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       var risk = qty * riskPerShare;
       var profit = qty * rewardPerShare;
       var rr = (rewardPerShare / riskPerShare).toFixed(1);
-      var isSelected = (idx === selectedStockIdx);
+      var isSelected = (origIdx === selectedStockIdx);
 
-      return '<tr class="' + (isSelected ? 'active-rec-row' : '') + '" data-index="' + idx + '">' +
+      var sourceBadge = stk.tag === 'stockpro' 
+        ? '<span style="background:rgba(0,136,204,0.12);color:#0088cc;border:1px solid rgba(0,136,204,0.25);font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">StockPro</span>'
+        : '<span style="background:var(--accent-soft);color:var(--accent);font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">Momentum</span>';
+
+      return '<tr class="' + (isSelected ? 'active-rec-row' : '') + '" data-index="' + origIdx + '">' +
         '<td><input type="radio" name="rec-radio" class="rec-select-radio" ' + (isSelected ? 'checked' : '') + '></td>' +
-        '<td><strong>' + stk.name + '</strong> <span class="cat" style="font-size:0.75rem;margin-left:0.25rem;">' + stk.ticker + '</span></td>' +
-        '<td class="price num"><strong>' + qty.toLocaleString('en-IN') + ' shares</strong></td>' +
-        '<td class="price num">' + fmtINR(cap) + '</td>' +
-        '<td class="price num">₹' + stk.entry.toFixed(2) + '</td>' +
-        '<td class="price num loss">-₹' + (riskPerShare).toFixed(2) + ' (₹' + stk.sl.toFixed(2) + ')</td>' +
-        '<td class="price num gain">+' + fmtINR(profit) + ' (₹' + stk.target.toFixed(2) + ')</td>' +
+        '<td><strong>' + stk.name + '</strong> <span class="cat" style="font-size:0.75rem;margin-left:0.25rem;">' + stk.ticker + '</span> ' + sourceBadge + '<div style="font-size:0.72rem;color:var(--muted);margin-top:0.15rem;">' + stk.catalyst + '</div></td>' +
+        '<td class="price num"><strong style="color:var(--accent);font-size:0.95rem;">' + qty.toLocaleString('en-IN') + ' shares</strong></td>' +
+        '<td class="price num"><strong>' + fmtINR(cap) + '</strong></td>' +
+        '<td class="price num">₹' + stk.entry.toLocaleString('en-IN', {minimumFractionDigits:1}) + '</td>' +
+        '<td class="price num loss">-₹' + (riskPerShare).toFixed(1) + ' (₹' + stk.sl.toLocaleString('en-IN', {minimumFractionDigits:1}) + ')</td>' +
+        '<td class="price num gain">+' + fmtINR(profit) + ' (₹' + stk.target.toLocaleString('en-IN', {minimumFractionDigits:1}) + ')</td>' +
         '<td class="price num"><strong>1 : ' + rr + '</strong></td>' +
       '</tr>';
     }).join('');
@@ -4815,13 +4848,15 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     var entry = stk.entry;
     var sl = stk.sl;
     var target = stk.target;
-    var stockName = stk.name;
+    var stockName = stk.name + ' (' + stk.ticker + ')';
+    var sourceName = stk.source;
 
     if (currentMode === 'custom') {
       entry = parseFloat(customEntry.value) || 1000;
       sl = parseFloat(customSL.value) || 950;
       target = parseFloat(customTarget.value) || 1120;
-      stockName = 'Custom Stock';
+      stockName = 'Custom Stock Setup';
+      sourceName = 'User Defined';
     }
 
     var rewardPerShare = Math.max(0.05, target - entry);
@@ -4846,7 +4881,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     var rrRatio = (rewardPerShare / riskPerShare).toFixed(1);
 
     var heroNameEl = document.getElementById('hero-setup-name');
-    if (heroNameEl) heroNameEl.textContent = stockName + ' Position';
+    if (heroNameEl) heroNameEl.textContent = stockName + ' · ' + sourceName;
     
     var resQtyEl = document.getElementById('swing-res-qty');
     if (resQtyEl) resQtyEl.textContent = qty.toLocaleString('en-IN') + ' shares';
@@ -4865,13 +4900,13 @@ document.querySelectorAll('.watch-card').forEach(function(card){
 
     // Payoff bar values
     var slValEl = document.getElementById('payoff-sl-val');
-    if (slValEl) slValEl.textContent = '₹' + sl.toLocaleString('en-IN');
+    if (slValEl) slValEl.textContent = '₹' + sl.toLocaleString('en-IN', {minimumFractionDigits:1});
     
     var entryValEl = document.getElementById('payoff-entry-val');
-    if (entryValEl) entryValEl.textContent = '₹' + entry.toLocaleString('en-IN');
+    if (entryValEl) entryValEl.textContent = '₹' + entry.toLocaleString('en-IN', {minimumFractionDigits:1});
     
     var tgtValEl = document.getElementById('payoff-tgt-val');
-    if (tgtValEl) tgtValEl.textContent = '₹' + target.toLocaleString('en-IN');
+    if (tgtValEl) tgtValEl.textContent = '₹' + target.toLocaleString('en-IN', {minimumFractionDigits:1});
 
     var totalSpan = (target - sl) || 1;
     var slPct = Math.max(15, Math.min(85, ((entry - sl) / totalSpan) * 100));
@@ -4911,7 +4946,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
 
   if (setupSel) {
     setupSel.addEventListener('change', function(){
-      selectedStockIdx = setupSel.selectedIndex;
+      selectedStockIdx = parseInt(setupSel.value) || 0;
       calculateSwing();
     });
   }
@@ -4919,6 +4954,16 @@ document.querySelectorAll('.watch-card').forEach(function(card){
   if (customEntry) customEntry.addEventListener('input', calculateSwing);
   if (customSL) customSL.addEventListener('input', calculateSwing);
   if (customTarget) customTarget.addEventListener('input', calculateSwing);
+
+  // Filter Buttons for Matrix
+  document.querySelectorAll('.matrix-filter-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.matrix-filter-btn').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      currentFilter = btn.getAttribute('data-filter') || 'all';
+      calculateSwing();
+    });
+  });
 
   // Mode Switcher
   function setMode(mode) {
@@ -4957,6 +5002,24 @@ document.querySelectorAll('.watch-card').forEach(function(card){
   if (tabCurated) tabCurated.addEventListener('click', function(){ setMode('capital'); });
   if (tabCustom) tabCustom.addEventListener('click', function(){ setMode('custom'); });
 
+  // Click on StockPro Cards to sync with Position Calculator
+  document.querySelectorAll('.stockpro-item-card').forEach(function(card){
+    card.addEventListener('click', function(){
+      var stkName = card.getAttribute('data-stock') || '';
+      for (var i = 0; i < SWING_SETUPS.length; i++) {
+        if (SWING_SETUPS[i].name.toLowerCase().indexOf(stkName.toLowerCase()) > -1) {
+          selectedStockIdx = i;
+          if (setupSel) setupSel.selectedIndex = i;
+          calculateSwing();
+          showToast('📡 Loaded StockPro pick: ' + stkName);
+          var calcBox = document.getElementById('swing-calculator-box');
+          if (calcBox) calcBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          break;
+        }
+      }
+    });
+  });
+
   // Copy Plan Button
   if (copyPlanBtn) {
     copyPlanBtn.addEventListener('click', function(){
@@ -4968,6 +5031,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
 
       var plan = '🎯 *SWING TRADE EXECUTION ORDER*\n' +
                  '• Stock: ' + stk.name + ' (' + stk.ticker + ')\n' +
+                 '• Research Source: ' + stk.source + '\n' +
                  '• Buy Quantity: ' + qty + '\n' +
                  '• Entry Price: ₹' + stk.entry.toFixed(2) + '\n' +
                  '• Stop-Loss: ₹' + stk.sl.toFixed(2) + ' (Max Risk: ' + risk + ')\n' +
@@ -4985,10 +5049,12 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     });
   }
 
+  // Initialize
+  populateDropdown();
   calculateSwing();
 })();
 
-function getSwingScript() {
+  function getSwingScript() {
   return [
     "Here is your momentWealth One to Two Week Swing Trading Briefing based on last week's momentum research.",
     "First setup: Welspun Corp. All-time high breakout. Enter between 2,360 and 2,385 rupees. Stop-loss at 2,260 rupees. Target 1 at 2,520, final target 2,620 rupees for a 10.5% gain.",
