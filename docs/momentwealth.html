@@ -428,6 +428,21 @@ body{
 }
 .tenure-btn:hover{color:var(--ink);}
 .tenure-btn.active{background:var(--accent);color:var(--bg);}
+.cat-btn{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.75rem;
+  font-weight:600;
+  letter-spacing:0.02em;
+  background:none;
+  border:none;
+  color:var(--muted);
+  padding:0.4rem 0.85rem;
+  border-radius:99px;
+  cursor:pointer;
+}
+.cat-btn:hover{color:var(--ink);}
+.cat-btn.active{background:var(--accent);color:var(--bg);}
+td.cat, th.cat{font-size:0.78rem;color:var(--muted);}
 
 /* ---- Gainers table ---- */
 .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface);}
@@ -981,6 +996,15 @@ a:focus-visible, [tabindex]:focus-visible{outline:2px solid var(--accent);outlin
       <div class="section-head"><h2>Mutual fund screener</h2><span class="count">18 funds · switch tenure</span></div>
       <p class="section-note">Spans six of the most-held equity categories — Nifty 50 index, large cap, flexi cap, mid cap, small cap and ELSS (tax saver) — three funds each, ranked by AUM within category. NAV, AUM and trailing direct-plan returns cross-checked live via INDmoney's mutual-fund API, 30 Aug 2026 (NAV date 28 Aug 2026). 3Y is annualised (CAGR), not cumulative.</p>
       <div class="screener">
+        <div class="screener-toolbar cat-toolbar" role="tablist" aria-label="Fund category">
+          <button class="cat-btn active" data-cat="all" role="tab" aria-selected="true">All</button>
+          <button class="cat-btn" data-cat="index" role="tab" aria-selected="false">Index</button>
+          <button class="cat-btn" data-cat="large-cap" role="tab" aria-selected="false">Large Cap</button>
+          <button class="cat-btn" data-cat="flexi-cap" role="tab" aria-selected="false">Flexi Cap</button>
+          <button class="cat-btn" data-cat="mid-cap" role="tab" aria-selected="false">Mid Cap</button>
+          <button class="cat-btn" data-cat="small-cap" role="tab" aria-selected="false">Small Cap</button>
+          <button class="cat-btn" data-cat="elss" role="tab" aria-selected="false">ELSS</button>
+        </div>
         <div class="screener-toolbar" role="tablist" aria-label="Return period">
           <button class="tenure-btn" data-period="d1" role="tab" aria-selected="false">1D</button>
           <button class="tenure-btn" data-period="m1" role="tab" aria-selected="false">1M</button>
@@ -991,26 +1015,26 @@ a:focus-visible, [tabindex]:focus-visible{outline:2px solid var(--accent);outlin
         </div>
         <div class="table-wrap">
           <table class="screener-table">
-            <thead><tr><th>Fund</th><th class="price">NAV (₹)</th><th class="price">AUM</th><th class="price">Change %</th></tr></thead>
+            <thead><tr><th>Fund</th><th class="cat">Category</th><th class="price">NAV (₹)</th><th class="price">AUM</th><th class="price">Change %</th></tr></thead>
             <tbody>
-              <tr data-d1="0.35" data-m1="0.90" data-m3="1.72" data-m6="-3.30" data-y1="-0.44" data-y3="8.80"><td>UTI Nifty 50 Index Fund</td><td class="price num">170.23</td><td class="price num">₹29,603 cr</td><td class="price num chg"></td></tr>
-              <tr data-d1="0.35" data-m1="0.89" data-m3="1.68" data-m6="-3.36" data-y1="-0.53" data-y3="8.75"><td>HDFC Nifty 50 Index Fund</td><td class="price num">236.61</td><td class="price num">₹24,190 cr</td><td class="price num chg"></td></tr>
-              <tr data-d1="0.35" data-m1="0.90" data-m3="1.70" data-m6="-3.32" data-y1="-0.48" data-y3="8.75"><td>ICICI Prudential Nifty 50 Index Fund</td><td class="price num">255.87</td><td class="price num">₹17,353 cr</td><td class="price num chg"></td></tr>
-              <tr data-d1="0.12" data-m1="0.86" data-m3="1.88" data-m6="-2.58" data-y1="0.34" data-y3="12.89"><td>ICICI Prudential Large Cap Fund</td><td class="price num">120.41</td><td class="price num">₹80,962 cr</td><td class="price num chg"></td></tr>
-              <tr data-d1="0.07" data-m1="1.34" data-m3="2.43" data-m6="-0.56" data-y1="4.18" data-y3="10.97"><td>SBI Large Cap Fund</td><td class="price num">104.97</td><td class="price num">₹55,431 cr</td><td class="price num chg"></td></tr>
-              <tr data-d1="0.19" data-m1="1.14" data-m3="1.58" data-m6="-1.86" data-y1="0.83" data-y3="12.90"><td>Nippon India Large Cap Fund</td><td class="price num">101.38</td><td class="price num">₹54,225 cr</td><td class="price num chg"></td></tr>
-              <tr data-d1="0.54" data-m1="0.89" data-m3="0.21" data-m6="-0.85" data-y1="0.00" data-y3="14.45"><td>Parag Parikh Flexi Cap Fund</td><td class="price num">91.18</td><td class="price num">₹1,48,429 cr</td><td class="price num chg"></td></tr>
-              <tr data-d1="0.11" data-m1="2.80" data-m3="6.48" data-m6="1.69" data-y1="6.56" data-y3="17.67"><td>HDFC Flexi Cap Fund</td><td class="price num">2,299.73</td><td class="price num">₹1,10,736 cr</td><td class="price num chg"></td></tr>
-              <tr data-d1="0.07" data-m1="2.01" data-m3="2.42" data-m6="-0.53" data-y1="5.18" data-y3="13.49"><td>Kotak Flexi Cap Fund</td><td class="price num">98.09</td><td class="price num">₹56,119 cr</td><td class="price num chg"></td></tr>
-              <tr data-d1="0.06" data-m1="2.66" data-m3="6.03" data-m6="5.85" data-y1="12.83" data-y3="19.44"><td>HDFC Mid Cap Fund</td><td class="price num">237.07</td><td class="price num">₹1,05,143 cr</td><td class="price num chg"></td></tr>
-              <tr data-d1="-0.33" data-m1="2.22" data-m3="5.38" data-m6="8.91" data-y1="11.47" data-y3="19.52"><td>Kotak Mid Cap Fund</td><td class="price num">173.63</td><td class="price num">₹69,283 cr</td><td class="price num chg"></td></tr>
-              <tr data-d1="-0.22" data-m1="2.02" data-m3="2.99" data-m6="6.28" data-y1="13.22" data-y3="20.80"><td>Nippon India Growth Mid Cap Fund</td><td class="price num">5,045.84</td><td class="price num">₹50,751 cr</td><td class="price num chg"></td></tr>
-              <tr data-d1="0.07" data-m1="4.93" data-m3="6.66" data-m6="15.38" data-y1="13.89" data-y3="17.12"><td>Nippon India Small Cap Fund</td><td class="price num">210.64</td><td class="price num">₹78,957 cr</td><td class="price num chg"></td></tr>
-              <tr data-d1="0.28" data-m1="1.32" data-m3="4.96" data-m6="5.38" data-y1="1.60" data-y3="12.08"><td>HDFC Small Cap Fund</td><td class="price num">161.23</td><td class="price num">₹41,679 cr</td><td class="price num chg"></td></tr>
-              <tr data-d1="0.14" data-m1="4.96" data-m3="10.89" data-m6="17.07" data-y1="11.21" data-y3="13.45"><td>SBI Small Cap Fund</td><td class="price num">216.29</td><td class="price num">₹39,955 cr</td><td class="price num chg"></td></tr>
-              <tr data-d1="-0.00" data-m1="3.01" data-m3="6.33" data-m6="3.39" data-y1="4.80" data-y3="13.06"><td>Axis ELSS Tax Saver Fund</td><td class="price num">112.63</td><td class="price num">₹32,592 cr</td><td class="price num chg"></td></tr>
-              <tr data-d1="-0.06" data-m1="0.09" data-m3="1.22" data-m6="-2.11" data-y1="2.30" data-y3="15.98"><td>SBI ELSS Tax Saver Fund</td><td class="price num">472.39</td><td class="price num">₹32,300 cr</td><td class="price num chg"></td></tr>
-              <tr data-d1="0.22" data-m1="2.37" data-m3="4.09" data-m6="3.26" data-y1="7.53" data-y3="14.26"><td>Mirae Asset ELSS Tax Saver Fund</td><td class="price num">58.33</td><td class="price num">₹26,373 cr</td><td class="price num chg"></td></tr>
+              <tr data-category="index" data-d1="0.35" data-m1="0.90" data-m3="1.72" data-m6="-3.30" data-y1="-0.44" data-y3="8.80"><td>UTI Nifty 50 Index Fund</td><td class="cat">Index</td><td class="price num">170.23</td><td class="price num">₹29,603 cr</td><td class="price num chg"></td></tr>
+              <tr data-category="index" data-d1="0.35" data-m1="0.89" data-m3="1.68" data-m6="-3.36" data-y1="-0.53" data-y3="8.75"><td>HDFC Nifty 50 Index Fund</td><td class="cat">Index</td><td class="price num">236.61</td><td class="price num">₹24,190 cr</td><td class="price num chg"></td></tr>
+              <tr data-category="index" data-d1="0.35" data-m1="0.90" data-m3="1.70" data-m6="-3.32" data-y1="-0.48" data-y3="8.75"><td>ICICI Prudential Nifty 50 Index Fund</td><td class="cat">Index</td><td class="price num">255.87</td><td class="price num">₹17,353 cr</td><td class="price num chg"></td></tr>
+              <tr data-category="large-cap" data-d1="0.12" data-m1="0.86" data-m3="1.88" data-m6="-2.58" data-y1="0.34" data-y3="12.89"><td>ICICI Prudential Large Cap Fund</td><td class="cat">Large Cap</td><td class="price num">120.41</td><td class="price num">₹80,962 cr</td><td class="price num chg"></td></tr>
+              <tr data-category="large-cap" data-d1="0.07" data-m1="1.34" data-m3="2.43" data-m6="-0.56" data-y1="4.18" data-y3="10.97"><td>SBI Large Cap Fund</td><td class="cat">Large Cap</td><td class="price num">104.97</td><td class="price num">₹55,431 cr</td><td class="price num chg"></td></tr>
+              <tr data-category="large-cap" data-d1="0.19" data-m1="1.14" data-m3="1.58" data-m6="-1.86" data-y1="0.83" data-y3="12.90"><td>Nippon India Large Cap Fund</td><td class="cat">Large Cap</td><td class="price num">101.38</td><td class="price num">₹54,225 cr</td><td class="price num chg"></td></tr>
+              <tr data-category="flexi-cap" data-d1="0.54" data-m1="0.89" data-m3="0.21" data-m6="-0.85" data-y1="0.00" data-y3="14.45"><td>Parag Parikh Flexi Cap Fund</td><td class="cat">Flexi Cap</td><td class="price num">91.18</td><td class="price num">₹1,48,429 cr</td><td class="price num chg"></td></tr>
+              <tr data-category="flexi-cap" data-d1="0.11" data-m1="2.80" data-m3="6.48" data-m6="1.69" data-y1="6.56" data-y3="17.67"><td>HDFC Flexi Cap Fund</td><td class="cat">Flexi Cap</td><td class="price num">2,299.73</td><td class="price num">₹1,10,736 cr</td><td class="price num chg"></td></tr>
+              <tr data-category="flexi-cap" data-d1="0.07" data-m1="2.01" data-m3="2.42" data-m6="-0.53" data-y1="5.18" data-y3="13.49"><td>Kotak Flexi Cap Fund</td><td class="cat">Flexi Cap</td><td class="price num">98.09</td><td class="price num">₹56,119 cr</td><td class="price num chg"></td></tr>
+              <tr data-category="mid-cap" data-d1="0.06" data-m1="2.66" data-m3="6.03" data-m6="5.85" data-y1="12.83" data-y3="19.44"><td>HDFC Mid Cap Fund</td><td class="cat">Mid Cap</td><td class="price num">237.07</td><td class="price num">₹1,05,143 cr</td><td class="price num chg"></td></tr>
+              <tr data-category="mid-cap" data-d1="-0.33" data-m1="2.22" data-m3="5.38" data-m6="8.91" data-y1="11.47" data-y3="19.52"><td>Kotak Mid Cap Fund</td><td class="cat">Mid Cap</td><td class="price num">173.63</td><td class="price num">₹69,283 cr</td><td class="price num chg"></td></tr>
+              <tr data-category="mid-cap" data-d1="-0.22" data-m1="2.02" data-m3="2.99" data-m6="6.28" data-y1="13.22" data-y3="20.80"><td>Nippon India Growth Mid Cap Fund</td><td class="cat">Mid Cap</td><td class="price num">5,045.84</td><td class="price num">₹50,751 cr</td><td class="price num chg"></td></tr>
+              <tr data-category="small-cap" data-d1="0.07" data-m1="4.93" data-m3="6.66" data-m6="15.38" data-y1="13.89" data-y3="17.12"><td>Nippon India Small Cap Fund</td><td class="cat">Small Cap</td><td class="price num">210.64</td><td class="price num">₹78,957 cr</td><td class="price num chg"></td></tr>
+              <tr data-category="small-cap" data-d1="0.28" data-m1="1.32" data-m3="4.96" data-m6="5.38" data-y1="1.60" data-y3="12.08"><td>HDFC Small Cap Fund</td><td class="cat">Small Cap</td><td class="price num">161.23</td><td class="price num">₹41,679 cr</td><td class="price num chg"></td></tr>
+              <tr data-category="small-cap" data-d1="0.14" data-m1="4.96" data-m3="10.89" data-m6="17.07" data-y1="11.21" data-y3="13.45"><td>SBI Small Cap Fund</td><td class="cat">Small Cap</td><td class="price num">216.29</td><td class="price num">₹39,955 cr</td><td class="price num chg"></td></tr>
+              <tr data-category="elss" data-d1="-0.00" data-m1="3.01" data-m3="6.33" data-m6="3.39" data-y1="4.80" data-y3="13.06"><td>Axis ELSS Tax Saver Fund</td><td class="cat">ELSS</td><td class="price num">112.63</td><td class="price num">₹32,592 cr</td><td class="price num chg"></td></tr>
+              <tr data-category="elss" data-d1="-0.06" data-m1="0.09" data-m3="1.22" data-m6="-2.11" data-y1="2.30" data-y3="15.98"><td>SBI ELSS Tax Saver Fund</td><td class="cat">ELSS</td><td class="price num">472.39</td><td class="price num">₹32,300 cr</td><td class="price num chg"></td></tr>
+              <tr data-category="elss" data-d1="0.22" data-m1="2.37" data-m3="4.09" data-m6="3.26" data-y1="7.53" data-y3="14.26"><td>Mirae Asset ELSS Tax Saver Fund</td><td class="cat">ELSS</td><td class="price num">58.33</td><td class="price num">₹26,373 cr</td><td class="price num chg"></td></tr>
             </tbody>
           </table>
         </div>
@@ -1247,12 +1271,31 @@ a:focus-visible, [tabindex]:focus-visible{outline:2px solid var(--accent);outlin
     var table = scr.querySelector('table');
     if (table && table._reapplySort) table._reapplySort();
   }
+  function applyCategory(scr, cat){
+    scr.querySelectorAll('.cat-btn').forEach(function(b){
+      var on = b.getAttribute('data-cat') === cat;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    scr.querySelectorAll('tbody tr').forEach(function(row){
+      var rowCat = row.getAttribute('data-category');
+      row.style.display = (cat === 'all' || rowCat === cat) ? '' : 'none';
+    });
+  }
   document.querySelectorAll('.screener').forEach(function(scr){
     scr.querySelectorAll('.tenure-btn').forEach(function(btn){
       btn.addEventListener('click', function(){ applyTenure(scr, btn.getAttribute('data-period')); });
     });
     var initial = scr.querySelector('.tenure-btn.active');
     applyTenure(scr, initial ? initial.getAttribute('data-period') : 'm1');
+
+    if (scr.querySelector('.cat-btn')) {
+      scr.querySelectorAll('.cat-btn').forEach(function(btn){
+        btn.addEventListener('click', function(){ applyCategory(scr, btn.getAttribute('data-cat')); });
+      });
+      var initialCat = scr.querySelector('.cat-btn.active');
+      applyCategory(scr, initialCat ? initialCat.getAttribute('data-cat') : 'all');
+    }
   });
 
   function cellSortValue(row, index, numeric){
