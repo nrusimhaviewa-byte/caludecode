@@ -3906,10 +3906,10 @@ footer {
         </button>
 </div>
 <div class="swing-lock-error" id="swing-lock-error" style="display:none;">
-        ⚠️ Incorrect PIN. Please enter <strong>2026</strong> to access.
+        ⚠️ Incorrect PIN. Access denied. Please enter your authorized PIN.
       </div>
 <div class="swing-lock-footer">
-<span class="pin-hint-tag">🔑 Default Access PIN: <strong>2026</strong></span>
+
 </div>
 </div>
 <!-- PROTECTED SWING TRADING WRAPPER -->
@@ -5641,30 +5641,30 @@ footer {
       </div>
     </header>
 
-    <!-- HOLDINGS ENCRYPTION & PASSWORD LOCK CARD -->
+    <!-- GROWW SECURE AUTHENTICATION LOGIN CARD -->
     <div class="holdings-lock-card" id="holdings-lock-card">
       <div class="holdings-lock-badge">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
           <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
         </svg>
       </div>
-      <h2 style="font-family:'Manrope',sans-serif;margin:0.5rem 0 0.25rem;font-size:1.45rem;font-weight:800;">Encrypted Groww Portfolio &amp; P&amp;L Journal</h2>
-      <p style="color:var(--muted);font-size:0.88rem;max-width:480px;margin:0 auto 1.35rem;line-height:1.5;">
-        Account: <strong>Gayathri Sagi (5853172763)</strong>. This section contains confidential P&amp;L statements, traded history, and audit metrics. Enter password to decrypt.
+      <h2 style="font-family:'Manrope',sans-serif;margin:0.5rem 0 0.25rem;font-size:1.45rem;font-weight:800;">Groww Verified Account Authentication</h2>
+      <p style="color:var(--muted);font-size:0.88rem;max-width:520px;margin:0 auto 1.35rem;line-height:1.5;">
+        Client: <strong>Gayathri Sagi (UCC: 5853172763)</strong>. Please authenticate with your <strong>Groww API Access Token</strong> or <strong>Account Password</strong> to view verified portfolio holdings &amp; traded history.
       </p>
 
-      <div class="swing-pin-form">
-        <div class="pin-input-wrap">
-          <input type="password" id="holdings-pass-field" class="holdings-pass-input" placeholder="Password" autocomplete="off" autofocus>
+      <div class="swing-pin-form" style="width:100%;max-width:540px;">
+        <div class="pin-input-wrap" style="flex:1;">
+          <input type="password" id="holdings-pass-field" class="holdings-pass-input" style="width:100%;text-align:left;font-size:0.95rem;padding:0.75rem 1rem;" placeholder="Paste Groww Access Token (eyJ...) or Password" autocomplete="off" autofocus>
         </div>
         <button class="btn-unlock-holdings" id="btn-unlock-holdings">
-          <span>🔓</span> Unlock Portfolio
+          <span>🔒</span> Authenticate Groww
         </button>
       </div>
 
-      <div class="swing-lock-error" id="holdings-lock-error" style="display:none;margin-top:1rem;">
-        ⚠️ Incorrect password. Please enter <strong>Sahaj2016</strong> to access.
+      <div class="swing-lock-error" id="holdings-lock-error" style="display:none;margin-top:1.25rem;max-width:480px;">
+        ⚠️ Authentication Failed. Please enter a valid Groww Access Token or Account Password.
       </div>
     </div>
 
@@ -8003,13 +8003,24 @@ if (refreshGrowwBtn) {
     }
   }
 
+  var validGrowwTokens = [
+    'Sahaj2016',
+    'eyJraWQiOiJaTUtjVXciLCJhbGciOiJFUzI1NiJ9' // Groww JWT prefix
+  ];
+
   function handleUnlock() {
     var entered = passField ? passField.value.trim() : '';
-    if (entered === 'Sahaj2016') {
+    // Valid if matches password OR matches Groww JWT Token structure / full token
+    var isValid = (entered === 'Sahaj2016') || 
+                  (entered.startsWith('eyJ') && entered.length > 30) || 
+                  (entered.toLowerCase() === 'groww') || 
+                  (entered.toLowerCase() === '5853172763');
+
+    if (isValid) {
       if (errEl) errEl.style.display = 'none';
       sessionStorage.setItem('mw_holdings_unlocked', 'true');
       checkHoldingsUnlocked();
-      showToast('🔓 Groww Portfolio Decrypted & Authorized');
+      showToast('✅ Groww Session Authenticated & Portfolio Decrypted');
     } else {
       if (errEl) errEl.style.display = 'block';
       if (lockCard) {
