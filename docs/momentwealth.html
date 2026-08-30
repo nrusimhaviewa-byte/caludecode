@@ -2793,14 +2793,32 @@ footer {
             <p class="section-note" style="margin:0.2rem 0 0;">Dual interactive controls: adjust sliders, type numbers directly, or select any setup card above.</p>
           </div>
           <div class="swing-calc-mode-tabs" role="tablist">
-            <button class="swing-mode-tab active" id="tab-curated-mode">Curated Setups</button>
-            <button class="swing-mode-tab" id="tab-custom-mode">Custom Trade Setup</button>
+            <button class="swing-mode-tab active" id="tab-profit-goal-mode">🎯 Target Weekly Profit Mode</button>
+            <button class="swing-mode-tab" id="tab-curated-mode">By Account Capital</button>
+            <button class="swing-mode-tab" id="tab-custom-mode">Custom Stock</button>
           </div>
         </div>
 
         <div class="swing-calc-body">
           <!-- Inputs Column -->
           <div class="swing-input-card">
+                        <!-- TARGET PROFIT GOAL SECTION (NEW) -->
+            <div class="calc-input-group" id="profit-goal-wrapper">
+              <div class="calc-label-row">
+                <label for="swing-target-profit-num">Target Weekly Profit Goal (₹)</label>
+                <div class="input-num-row">
+                  <span>₹</span>
+                  <input type="number" id="swing-target-profit-num" class="num-input-styled" min="500" max="500000" step="500" value="5000" style="color:var(--gain);font-size:1.15rem;width:130px;">
+                </div>
+              </div>
+              <div class="preset-pills-row">
+                <button class="preset-pill-btn" data-goal="2500">₹2,500 / week</button>
+                <button class="preset-pill-btn active" data-goal="5000">₹5,000 / week (Popular)</button>
+                <button class="preset-pill-btn" data-goal="10000">₹10,000 / week</button>
+                <button class="preset-pill-btn" data-goal="25000">₹25,000 / week</button>
+              </div>
+            </div>
+
             <!-- Capital Input -->
             <div class="calc-input-group">
               <div class="calc-label-row">
@@ -4326,16 +4344,20 @@ document.querySelectorAll('.watch-card').forEach(function(card){
 
   // Generate dynamic contextual scripts
   
-// ---- Upgraded Swing Trading Position Sizer & Interactive Engine ----
+// ---- Upgraded Swing Trading Position Sizer & Target Profit Engine ----
 (function(){
   var capSlider = document.getElementById('swing-capital');
   var capNum = document.getElementById('swing-cap-num');
   var riskSlider = document.getElementById('swing-risk-pct');
   var riskNum = document.getElementById('swing-risk-num');
   var setupSel = document.getElementById('swing-select-setup');
+  var profitGoalNum = document.getElementById('swing-target-profit-num');
   
+  var tabProfitGoal = document.getElementById('tab-profit-goal-mode');
   var tabCurated = document.getElementById('tab-curated-mode');
   var tabCustom = document.getElementById('tab-custom-mode');
+
+  var profitGoalWrap = document.getElementById('profit-goal-wrapper');
   var curatedWrap = document.getElementById('curated-setup-wrapper');
   var customWrap = document.getElementById('custom-setup-wrapper');
 
@@ -4344,61 +4366,59 @@ document.querySelectorAll('.watch-card').forEach(function(card){
   var customTarget = document.getElementById('custom-target');
   var copyPlanBtn = document.getElementById('btn-copy-swing-plan');
 
-  var isCustomMode = false;
+  var currentMode = 'profit-goal'; // 'profit-goal', 'capital', 'custom'
 
   function fmtINR(val) {
     return '₹' + Math.round(val).toLocaleString('en-IN');
   }
 
   function calculateSwing() {
-    var totalCap = parseFloat(capNum.value) || 500000;
-    var riskPct = parseFloat(riskNum.value) || 1.5;
+    var stockName = 'Welspun Corp';
+    var entry = 2373.80;
+    var sl = 2260.00;
+    var target = 2620.00;
 
-    // Sync sliders
-    if (capSlider && parseFloat(capSlider.value) !== totalCap) capSlider.value = totalCap;
-    if (riskSlider && parseFloat(riskSlider.value) !== riskPct) riskSlider.value = riskPct;
-
-    var stockName = 'Custom Stock';
-    var entry = 1000;
-    var sl = 950;
-    var target = 1120;
-
-    if (!isCustomMode && setupSel) {
+    if (currentMode !== 'custom' && setupSel) {
       var parts = setupSel.value.split(',');
       stockName = parts[0];
-      entry = parseFloat(parts[1]) || 1000;
-      sl = parseFloat(parts[2]) || 950;
-      target = parseFloat(parts[3]) || 1120;
-    } else if (isCustomMode) {
+      entry = parseFloat(parts[1]) || 2373.80;
+      sl = parseFloat(parts[2]) || 2260.00;
+      target = parseFloat(parts[3]) || 2620.00;
+    } else if (currentMode === 'custom') {
       entry = parseFloat(customEntry.value) || 1000;
       sl = parseFloat(customSL.value) || 950;
       target = parseFloat(customTarget.value) || 1120;
     }
 
-    var maxRiskINR = totalCap * (riskPct / 100);
-    var riskPerShare = Math.max(0.05, entry - sl);
     var rewardPerShare = Math.max(0.05, target - entry);
+    var riskPerShare = Math.max(0.05, entry - sl);
+    var qty = 1;
+    var totalCap = parseFloat(capNum.value) || 500000;
+    var riskPct = parseFloat(riskNum.value) || 1.5;
 
-    // Quantity based on risk, but capped by total capital
-    var qtyByRisk = Math.floor(maxRiskINR / riskPerShare);
-    var maxQtyByCap = Math.floor(totalCap / entry);
-    var qty = Math.max(1, Math.min(qtyByRisk, maxQtyByCap));
+    if (currentMode === 'profit-goal') {
+      var desiredProfit = parseFloat(profitGoalNum.value) || 5000;
+      qty = Math.max(1, Math.ceil(desiredProfit / rewardPerShare));
+    } else {
+      var maxRiskINR = totalCap * (riskPct / 100);
+      var qtyByRisk = Math.floor(maxRiskINR / riskPerShare);
+      var maxQtyByCap = Math.floor(totalCap / entry);
+      qty = Math.max(1, Math.min(qtyByRisk, maxQtyByCap));
+    }
 
     var capitalDeployed = qty * entry;
     var totalRisk = qty * riskPerShare;
     var totalReward = qty * rewardPerShare;
-    var actualRiskPct = totalCap > 0 ? (totalRisk / totalCap) * 100 : riskPct;
     var returnPct = entry > 0 ? ((target - entry) / entry) * 100 : 0;
     var rrRatio = (rewardPerShare / riskPerShare).toFixed(1);
-    var utilPct = totalCap > 0 ? ((capitalDeployed / totalCap) * 100).toFixed(1) : '0';
 
     // Update UI elements
     document.getElementById('swing-res-qty').textContent = qty.toLocaleString('en-IN') + ' shares';
     document.getElementById('swing-res-cost').textContent = fmtINR(capitalDeployed);
-    document.getElementById('swing-res-risk').textContent = '-' + fmtINR(totalRisk) + ' (' + actualRiskPct.toFixed(2) + '%)';
+    document.getElementById('swing-res-risk').textContent = '-' + fmtINR(totalRisk) + ' (Max Risk)';
     document.getElementById('swing-res-profit').textContent = '+' + fmtINR(totalReward) + ' (+' + returnPct.toFixed(1) + '%)';
     document.getElementById('swing-res-rr').textContent = '1 : ' + rrRatio;
-    document.getElementById('swing-res-util').textContent = utilPct + '% of capital';
+    document.getElementById('swing-res-util').textContent = 'Needs ' + fmtINR(capitalDeployed) + ' capital';
 
     // Payoff bar values
     document.getElementById('payoff-sl-val').textContent = '₹' + sl.toLocaleString('en-IN');
@@ -4412,7 +4432,8 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     document.getElementById('payoff-gain-bar').style.width = gainPct + '%';
   }
 
-  // Sync Slider to Num Input
+  // Event Listeners
+  if (profitGoalNum) profitGoalNum.addEventListener('input', calculateSwing);
   if (capSlider && capNum) {
     capSlider.addEventListener('input', function(){ capNum.value = this.value; calculateSwing(); });
     capNum.addEventListener('input', function(){ calculateSwing(); });
@@ -4426,6 +4447,17 @@ document.querySelectorAll('.watch-card').forEach(function(card){
   if (customEntry) customEntry.addEventListener('input', calculateSwing);
   if (customSL) customSL.addEventListener('input', calculateSwing);
   if (customTarget) customTarget.addEventListener('input', calculateSwing);
+
+  // Profit Goal Presets
+  document.querySelectorAll('.preset-pill-btn[data-goal]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.preset-pill-btn[data-goal]').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      profitGoalNum.value = btn.getAttribute('data-goal');
+      calculateSwing();
+      showToast('🎯 Set weekly profit target to ' + btn.textContent.split('(')[0].trim());
+    });
+  });
 
   // Capital Presets
   document.querySelectorAll('.preset-pill-btn[data-cap]').forEach(function(btn){
@@ -4449,25 +4481,33 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     });
   });
 
-  // Mode Switcher
-  if (tabCurated && tabCustom) {
-    tabCurated.addEventListener('click', function(){
-      tabCurated.classList.add('active');
-      tabCustom.classList.remove('active');
-      curatedWrap.style.display = 'flex';
-      customWrap.style.display = 'none';
-      isCustomMode = false;
-      calculateSwing();
-    });
-    tabCustom.addEventListener('click', function(){
-      tabCustom.classList.add('active');
-      tabCurated.classList.remove('active');
-      curatedWrap.style.display = 'none';
-      customWrap.style.display = 'flex';
-      isCustomMode = true;
-      calculateSwing();
-    });
+  // Mode Switcher Tabs
+  function setMode(mode) {
+    currentMode = mode;
+    [tabProfitGoal, tabCurated, tabCustom].forEach(function(t){ if (t) t.classList.remove('active'); });
+    
+    if (mode === 'profit-goal') {
+      if (tabProfitGoal) tabProfitGoal.classList.add('active');
+      if (profitGoalWrap) profitGoalWrap.style.display = 'flex';
+      if (curatedWrap) curatedWrap.style.display = 'flex';
+      if (customWrap) customWrap.style.display = 'none';
+    } else if (mode === 'capital') {
+      if (tabCurated) tabCurated.classList.add('active');
+      if (profitGoalWrap) profitGoalWrap.style.display = 'none';
+      if (curatedWrap) curatedWrap.style.display = 'flex';
+      if (customWrap) customWrap.style.display = 'none';
+    } else if (mode === 'custom') {
+      if (tabCustom) tabCustom.classList.add('active');
+      if (profitGoalWrap) profitGoalWrap.style.display = 'none';
+      if (curatedWrap) curatedWrap.style.display = 'none';
+      if (customWrap) customWrap.style.display = 'flex';
+    }
+    calculateSwing();
   }
+
+  if (tabProfitGoal) tabProfitGoal.addEventListener('click', function(){ setMode('profit-goal'); });
+  if (tabCurated) tabCurated.addEventListener('click', function(){ setMode('capital'); });
+  if (tabCustom) tabCustom.addEventListener('click', function(){ setMode('custom'); });
 
   // Click on Setup Card auto-selects in calculator
   document.querySelectorAll('.swing-card').forEach(function(card){
@@ -4477,9 +4517,8 @@ document.querySelectorAll('.watch-card').forEach(function(card){
         for (var i = 0; i < setupSel.options.length; i++) {
           if (setupSel.options[i].text.indexOf(stk) > -1) {
             setupSel.selectedIndex = i;
-            if (tabCurated) tabCurated.click();
             calculateSwing();
-            showToast('🎯 Loaded ' + stk + ' setup into Position Sizer');
+            showToast('🎯 Loaded ' + stk + ' setup into Profit Planner');
             var calcBox = document.getElementById('swing-calculator-box');
             if (calcBox) calcBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
             break;
@@ -4500,12 +4539,12 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       var sl = document.getElementById('payoff-sl-val').textContent;
       var target = document.getElementById('payoff-tgt-val').textContent;
 
-      var plan = '🎯 *SWING TRADE ORDER PLAN (1-2 Weeks)*\n' +
+      var plan = '🎯 *SWING TRADE ORDER PLAN (Weekly Profit Goal)*\n' +
                  '• Setup: ' + (setupSel ? setupSel.options[setupSel.selectedIndex].text.split('·')[0].trim() : 'Custom Setup') + '\n' +
                  '• Entry: ' + entry + '\n' +
                  '• Stop-Loss: ' + sl + '\n' +
                  '• Target: ' + target + '\n' +
-                 '• Quantity: ' + qty + ' (Capital: ' + cost + ')\n' +
+                 '• Quantity: ' + qty + ' (Capital Required: ' + cost + ')\n' +
                  '• Max Risk: ' + risk + '\n' +
                  '• Target Profit: ' + profit + '\n' +
                  'Generated by momentWealth Terminal';
@@ -4523,7 +4562,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
   calculateSwing();
 })();
 
-function getSwingScript() {
+  function getSwingScript() {
   return [
     "Here is your momentWealth One to Two Week Swing Trading Briefing based on last week's momentum research.",
     "First setup: Welspun Corp. All-time high breakout. Enter between 2,360 and 2,385 rupees. Stop-loss at 2,260 rupees. Target 1 at 2,520, final target 2,620 rupees for a 10.5% gain.",
