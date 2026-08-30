@@ -7,7 +7,24 @@ const ACTOR_ID = process.env.APIFY_ACTOR_ID || 'mrE0hmRF359AXBWtl';
 const CACHE_TTL_MS = Number(process.env.CACHE_TTL_MS || 15 * 60 * 1000); // 15 mins
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || '*';
 
+const GCP_PROJECT = process.env.GCP_PROJECT || 'protean-fabric-467500-a5';
+const VERTEX_REGION = process.env.VERTEX_REGION || 'us-central1';
+const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+const TTS_VOICE = process.env.TTS_VOICE || 'en-IN-Neural2-A';
+const BRIEFING_TTL_MS = Number(process.env.BRIEFING_TTL_MS || 30 * 60 * 1000);
+
 let cache = { data: [], fetchedAt: 0, error: null, refreshing: null };
+let briefingCache = { text: null, audioBase64: null, fetchedAt: 0, error: null, refreshing: null };
+
+async function getAccessToken() {
+  const resp = await fetch(
+    'http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token',
+    { headers: { 'Metadata-Flavor': 'Google' } }
+  );
+  if (!resp.ok) throw new Error(`Metadata token fetch failed: ${resp.status}`);
+  const json = await resp.json();
+  return json.access_token;
+}
 
 // Known Indian Stock Tickers & Companies Map for automatic tagging
 const STOCK_PATTERNS = [
@@ -198,6 +215,73 @@ async function refreshAllFeeds() {
   }
 }
 
+// Curated multi-firm analyst calls behind the momentum watchlist on the page
+// (docs/momentwealth.html, "Momentum watchlist for next week" section) --
+// kept in sync by hand alongside that section, not independently sourced here.
+const STOCK_RECOMMENDATIONS = [
+  'Nuvama Institutional Equities: Welspun Corp, BUY, target Rs 2,656, after the company\'s record $1.8 billion US pipe order lifted FY27-29 EPS estimates 3 to 20 percent.',
+  'Jefferies: Hindustan Zinc, BUY, target raised to Rs 750 from Rs 660, on firm zinc and silver prices lifting FY27-29 EPS estimates 10 to 11 percent.',
+  'HDFC Securities: Bharat Electronics, Add, target Rs 490; Mazagon Dock Shipbuilders, Add, target Rs 2,950; part of an eight-stock defence coverage initiation.',
+  'Ashika Institutional Research: turned broadly bullish on the whole defence pack -- HAL, BEL, Mazagon Dock -- on a "global rearmament" theme as order books lengthen.',
+].join('\n');
+
+async function summarizeForVoice(items, token) {
+  const newsSource = items.slice(0, 10).map((it) => `- ${it.title}: ${it.summary || ''}`).join('\n');
+  const prompt = `You are a calm financial-news narrator for an India-markets portal. ` +
+    `Turn this into a natural, spoken-style briefing script of about 60-90 seconds when read aloud ` +
+    `(roughly 160-220 words), covering two segments in order: first the day's policy/markets headlines, ` +
+    `then a "here's what brokerages are saying" segment covering the analyst stock calls below, naming the ` +
+    `firm, the stock, the rating, and the target price for each. No markdown, no bullet points, no headers -- ` +
+    `just plain prose someone would speak out loud, in a natural conversational flow, grouping related items ` +
+    `and skipping anything trivial. Start directly with the content, no "here is your briefing" preamble.\n\n` +
+    `POLICY & MARKETS NEWS:\n${newsSource}\n\nANALYST STOCK CALLS:\n${STOCK_RECOMMENDATIONS}`;
+
+  const url = `https://${VERTEX_REGION}-aiplatform.googleapis.com/v1/projects/${GCP_PROJECT}/locations/${VERTEX_REGION}/publishers/google/models/${GEMINI_MODEL}:generateContent`;
+  const resp = await fetch(url, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: prompt }] }] }),
+  });
+  if (!resp.ok) throw new Error(`Vertex AI generateContent failed: ${resp.status} ${await resp.text()}`);
+  const json = await resp.json();
+  const text = json?.candidates?.[0]?.content?.parts?.map((p) => p.text).join('') || '';
+  if (!text) throw new Error('Vertex AI returned no text');
+  return text.trim();
+}
+
+async function synthesizeSpeech(text, token) {
+  const resp = await fetch('https://texttospeech.googleapis.com/v1/text:synthesize', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      input: { text },
+      voice: { languageCode: 'en-IN', name: TTS_VOICE },
+      audioConfig: { audioEncoding: 'MP3', speakingRate: 1.0 },
+    }),
+  });
+  if (!resp.ok) throw new Error(`Text-to-Speech synthesize failed: ${resp.status} ${await resp.text()}`);
+  const json = await resp.json();
+  if (!json.audioContent) throw new Error('Text-to-Speech returned no audio');
+  return json.audioContent; // base64 MP3
+}
+
+async function refreshBriefing() {
+  try {
+    if (!cache.data || cache.data.length === 0) {
+      if (!cache.refreshing) cache.refreshing = refreshAllFeeds();
+      await cache.refreshing;
+    }
+    const items = cache.data || [];
+    if (items.length === 0) throw new Error('No news items available to summarize');
+    const token = await getAccessToken();
+    const text = await summarizeForVoice(items, token);
+    const audioBase64 = await synthesizeSpeech(text, token);
+    briefingCache = { text, audioBase64, fetchedAt: Date.now(), error: null, refreshing: null };
+  } catch (err) {
+    briefingCache = { ...briefingCache, error: String(err && err.message ? err.message : err), refreshing: null };
+  }
+}
+
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -245,6 +329,21 @@ app.get('/api/news', async (req, res) => {
     error: cache.error,
     sources: ['Economic Times', 'Moneycontrol', 'Business Standard'],
     total: items.length,
+  });
+});
+
+app.get('/api/briefing', async (req, res) => {
+  const age = Date.now() - briefingCache.fetchedAt;
+  const stale = age > BRIEFING_TTL_MS || !briefingCache.fetchedAt;
+  if (stale) {
+    if (!briefingCache.refreshing) briefingCache.refreshing = refreshBriefing();
+    await briefingCache.refreshing;
+  }
+  res.json({
+    text: briefingCache.text,
+    audioBase64: briefingCache.audioBase64,
+    fetchedAt: briefingCache.fetchedAt ? new Date(briefingCache.fetchedAt).toISOString() : null,
+    error: briefingCache.error,
   });
 });
 

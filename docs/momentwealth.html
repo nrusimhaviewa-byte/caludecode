@@ -621,6 +621,70 @@ body {
 .heatmap-name { font-size: 0.85rem; font-weight: 700; }
 .heatmap-change { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; font-weight: 600; margin-top: 0.35rem; }
 .heatmap-desc { font-size: 0.7rem; color: var(--muted); margin-top: 0.2rem; }
+.livewire-status{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.7rem;
+  color:var(--faint);
+  letter-spacing:0.02em;
+}
+.livewire-voice{
+  display:flex;
+  align-items:center;
+  gap:0.6rem;
+  flex-wrap:wrap;
+  margin-bottom:0.75rem;
+  padding-bottom:0.75rem;
+  border-bottom:1px solid var(--line);
+}
+.lw-voice-btn{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.75rem;
+  font-weight:600;
+  letter-spacing:0.02em;
+  background:var(--accent-soft);
+  color:var(--accent);
+  border:1px solid transparent;
+  padding:0.4rem 0.85rem;
+  border-radius:99px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:0.4rem;
+}
+.lw-voice-btn:hover{border-color:var(--accent);}
+.lw-voice-btn:disabled{opacity:0.6;cursor:default;}
+.lw-voice-status{font-size:0.72rem;color:var(--muted);}
+.livewire-list{display:flex;flex-direction:column;gap:0;max-height:380px;overflow-y:auto;}
+.livewire-item{padding:0.6rem 0;border-bottom:1px solid var(--line);font-size:0.85rem;}
+.livewire-item:last-child{border-bottom:none;}
+.livewire-item .lw-row{display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem;}
+.livewire-item a{color:var(--ink);text-decoration:none;font-weight:600;}
+.livewire-item a:hover{color:var(--accent);text-decoration:underline;}
+.livewire-item.read a{color:var(--muted);}
+.livewire-item .lw-toggle{
+  background:none;
+  border:none;
+  color:var(--faint);
+  cursor:pointer;
+  font-size:0.7rem;
+  line-height:1;
+  padding:0.15rem 0.3rem;
+  flex-shrink:0;
+}
+.livewire-item .lw-toggle:hover{color:var(--accent);}
+.livewire-item.collapsed .lw-meta,
+.livewire-item.collapsed .lw-summary{display:none;}
+.livewire-item .lw-meta{font-size:0.72rem;color:var(--muted);margin-top:0.15rem;display:flex;gap:0.5rem;align-items:center;}
+.livewire-item .lw-summary{font-size:0.8rem;color:var(--muted);margin-top:0.35rem;line-height:1.45;}
+.livewire-item .lw-cat{
+  font-family:'IBM Plex Mono',monospace;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+  background:var(--surface-2);
+  padding:0.1rem 0.4rem;
+  border-radius:4px;
+}
+.livewire-empty{font-size:0.85rem;color:var(--muted);padding:0.5rem 0;}
 
 /* ---- Section heading ---- */
 .section-head {
@@ -3934,6 +3998,11 @@ footer {
 <button class="lw-ticker-chip" data-ticker="BEL">BEL</button>
 </div>
 </div>
+<div class="livewire-voice">
+<button class="lw-voice-btn" id="voice-briefing-btn" type="button">&#128266; Listen to briefing</button>
+<span class="lw-voice-status" id="voice-briefing-status"></span>
+<audio id="voice-briefing-audio" style="display:none;"></audio>
+</div>
 <div class="livewire-list" id="livewire-list">
 <div class="livewire-empty">Loading latest intelligence wire…</div>
 </div>
@@ -7236,8 +7305,11 @@ document.querySelectorAll('.watch-card').forEach(function(card){
 
 // ---- Livewire News Polling & Multi-Source Intelligence Engine (ET, Moneycontrol, BS) ----
 (function(){
-  var NEWS_API = 'https://momentwealth-backend-47jvhx2odq-el.a.run.app/api/news';
-  var STOCK_NEWS_API = 'https://momentwealth-backend-47jvhx2odq-el.a.run.app/api/stock-news';
+  var BACKEND = 'https://momentwealth-backend-47jvhx2odq-el.a.run.app';
+  var NEWS_API = BACKEND + '/api/news';
+  var STOCK_NEWS_API = BACKEND + '/api/stock-news';
+  var BRIEFING_API = BACKEND + '/api/briefing';
+  var READ_KEY = 'momentwealth_read_news';
   var listEl = document.getElementById('livewire-list');
   var statusEl = document.getElementById('livewire-status');
   var refreshBtn = document.getElementById('livewire-refresh-btn');
@@ -7245,6 +7317,9 @@ document.querySelectorAll('.watch-card').forEach(function(card){
   var searchClearBtn = document.getElementById('livewire-search-clear');
   var sourcePills = document.querySelectorAll('.lw-source-pill');
   var tickerChips = document.querySelectorAll('.lw-ticker-chip');
+  var voiceBtn = document.getElementById('voice-briefing-btn');
+  var voiceStatusEl = document.getElementById('voice-briefing-status');
+  var voiceAudio = document.getElementById('voice-briefing-audio');
   if (!listEl || !statusEl) return;
 
   var currentSource = 'all';
@@ -8310,6 +8385,51 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       }
     });
   });
+
+  if (voiceBtn && voiceAudio) {
+    var briefingLoaded = false;
+    voiceBtn.addEventListener('click', function(){
+      if (briefingLoaded) {
+        if (voiceAudio.paused) { voiceAudio.play(); voiceBtn.textContent = '⏸️ Pause briefing'; }
+        else { voiceAudio.pause(); voiceBtn.textContent = '🔊 Resume briefing'; }
+        return;
+      }
+      voiceBtn.disabled = true;
+      voiceStatusEl.textContent = 'Summarizing news + analyst calls, generating audio…';
+      fetch(BRIEFING_API, { cache: 'no-store' })
+        .then(function(r){ return r.json(); })
+        .then(function(payload){
+          voiceBtn.disabled = false;
+          if (payload.error || !payload.audioBase64) {
+            voiceStatusEl.textContent = 'Briefing unavailable (' + (payload.error || 'no audio') + ')';
+            return;
+          }
+          voiceAudio.src = 'data:audio/mp3;base64,' + payload.audioBase64;
+          voiceAudio.controls = true;
+          voiceAudio.style.display = '';
+          briefingLoaded = true;
+          var ago = timeAgo(payload.fetchedAt);
+          var playPromise = voiceAudio.play();
+          if (playPromise && playPromise.then) {
+            playPromise.then(function(){
+              voiceBtn.textContent = '⏸️ Pause briefing';
+              voiceStatusEl.textContent = ago ? ('briefing generated ' + ago) : 'briefing ready';
+            }).catch(function(){
+              voiceBtn.textContent = '🔊 Listen to briefing';
+              voiceStatusEl.textContent = 'Ready — tap play below (browser blocked auto-play).';
+            });
+          } else {
+            voiceBtn.textContent = '⏸️ Pause briefing';
+            voiceStatusEl.textContent = ago ? ('briefing generated ' + ago) : 'briefing ready';
+          }
+        })
+        .catch(function(){
+          voiceBtn.disabled = false;
+          voiceStatusEl.textContent = 'Briefing service unreachable.';
+        });
+    });
+    voiceAudio.addEventListener('ended', function(){ voiceBtn.textContent = '🔊 Listen to briefing'; briefingLoaded = false; });
+  }
 })();
 
 // Initial UI updates
