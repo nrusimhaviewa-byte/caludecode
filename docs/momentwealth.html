@@ -516,6 +516,10 @@ th.sortable.sort-desc::after{content:'\25BC';opacity:1;color:var(--accent);}
 .watch-field{font-size:0.85rem;}
 .watch-field .k{color:var(--muted);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:0.15rem;}
 .watch-field .v{color:var(--ink);}
+.watch-field .v a{color:var(--accent);text-decoration:none;font-weight:600;}
+.watch-field .v a:hover{text-decoration:underline;}
+.watch-field.src{padding-top:0.3rem;border-top:1px solid var(--line);}
+.watch-field.src .v{font-size:0.78rem;color:var(--muted);}
 
 /* ---- News ---- */
 .news-cols{
@@ -854,31 +858,35 @@ a:focus-visible, [tabindex]:focus-visible{outline:2px solid var(--accent);outlin
 
   <section id="watchlist-anchor">
     <div class="section-head"><h2>Momentum watchlist for next week</h2><span class="count">4 names</span></div>
-    <p class="section-note">Screened for a live catalyst plus follow-through room — a reason a further ~5% move is plausible, not a forecast. Ranked by how fresh and firm the catalyst is; the last card is a higher-risk contrarian idea.</p>
+    <p class="section-note">Screened for a live catalyst plus follow-through room — a reason a further ~5% move is plausible, not a forecast. Ranked by how fresh and firm the catalyst is; the last card is a higher-risk contrarian idea. Cross-checked across INDmoney (live prices, via MCP) and Business Standard (catalyst news); Economic Times' own site blocks this environment's fetch tool for company-specific coverage, so it isn't cited per-name — see the News section above for how that gap was covered.</p>
     <div class="watch-grid">
       <div class="watch-card">
         <div class="watch-head"><h3>Welspun Corp</h3><span class="watch-conviction">Catalyst live</span></div>
-        <div class="watch-field"><span class="k">What happened</span><span class="v">Record $1.8bn US pipe order (21 Aug) took the order book to $4.4bn; stock jumped 12.4% to a fresh high the same day.</span></div>
-        <div class="watch-field"><span class="k">Why it could extend</span><span class="v">Order backlog re-rating typically plays out over several sessions as brokerages update estimates.</span></div>
+        <div class="watch-field"><span class="k">What happened</span><span class="v">Record $1.8bn US pipe order (21 Aug) took the order book to $4.4bn (~₹42,100cr); stock jumped 12.4% to a fresh high the same day. A second, smaller ₹1,400cr India-facility order followed days later.</span></div>
+        <div class="watch-field"><span class="k">Why it could extend</span><span class="v">Nuvama lifted FY27–29E EPS by 3–20% and raised its target to ₹2,656 (BUY) after the order, flagging a path to ~₹50bn EBITDA over 3–4 years — that kind of estimate-revision cycle typically plays out over several sessions, not one.</span></div>
         <div class="watch-field"><span class="k">Key risk</span><span class="v">Stock is up 173% YTD — a lot of good news may already be priced; watch for profit-booking near highs.</span></div>
+        <div class="watch-field src"><span class="k">Sources</span><span class="v">INDmoney live price · <a href="https://www.business-standard.com/companies/news/welspun-corp-bags-record-1-8-billion-pipe-supply-order-for-us-facility-126082100265_1.html" target="_blank" rel="noopener">Business Standard — $1.8bn order</a> · <a href="https://www.business-standard.com/markets/news/welspun-corp-extends-rise-jumps-4-to-new-high-on-robust-order-book-126082400388_1.html" target="_blank" rel="noopener">Nuvama target ↗</a></span></div>
       </div>
       <div class="watch-card">
         <div class="watch-head"><h3>Hindustan Zinc</h3><span class="watch-conviction">Broker upgrade</span></div>
         <div class="watch-field"><span class="k">What happened</span><span class="v">Jefferies raised its target to ₹750 (from ₹660) on firm zinc/silver prices — ~26% implied upside from ₹592.60, and prefers it over Hindalco.</span></div>
-        <div class="watch-field"><span class="k">Why it could extend</span><span class="v">Metal-price-led earnings upgrades tend to draw follow-on buying from other desks over the following days.</span></div>
+        <div class="watch-field"><span class="k">Why it could extend</span><span class="v">Spot zinc is up 31% since March on supply constraints (declining mine output, limited project development outside China); Jefferies raised FY27–29E EPS 10–11% and sees further upside if that supply story holds.</span></div>
         <div class="watch-field"><span class="k">Key risk</span><span class="v">Thesis is commodity-price dependent — a pullback in zinc/silver removes the catalyst fast.</span></div>
+        <div class="watch-field src"><span class="k">Sources</span><span class="v">INDmoney live price · <a href="https://www.business-standard.com/markets/news/hindustan-zinc-share-price-rises-5-as-jefferies-sees-earnings-boost-from-favourable-zinc-silver-prices-126082600288_1.html" target="_blank" rel="noopener">Business Standard — Jefferies upgrade</a></span></div>
       </div>
       <div class="watch-card">
         <div class="watch-head"><h3>BEL / HAL / Mazagon Dock</h3><span class="watch-conviction">Sector tailwind</span></div>
-        <div class="watch-field"><span class="k">What happened</span><span class="v">HAL delivered the first Tejas Mk1A; HAL's order book stands at ₹94,000cr, BEL's at ₹75,000cr. Ashika turned bullish on the whole defence pack.</span></div>
-        <div class="watch-field"><span class="k">Why it could extend</span><span class="v">Multi-year order visibility keeps the group in rotation whenever the broader market is risk-off, as this week was.</span></div>
+        <div class="watch-field"><span class="k">What happened</span><span class="v">HAL delivered the first Tejas Mk1A and separately secured MoD's follow-on order for 97 more LCA Mk1A jets (₹62,400cr), taking its total order book to ~₹2.45 lakh crore. BEL's book stands at ₹74,600cr. Ashika turned bullish on the whole defence pack.</span></div>
+        <div class="watch-field"><span class="k">Why it could extend</span><span class="v">HDFC Securities initiated Add ratings across the pack — BEL target ₹490, Mazagon Dock target ₹2,950 — and multi-year order visibility keeps the group in rotation whenever the broader market is risk-off, as this week was.</span></div>
         <div class="watch-field"><span class="k">Key risk</span><span class="v">Defence names are already up sharply YTD (HAL +28.4%); crowded trade, valuations are rich.</span></div>
+        <div class="watch-field src"><span class="k">Sources</span><span class="v">INDmoney live price · <a href="https://www.business-standard.com/markets/news/analysts-see-strong-boost-to-hal-s-orderbook-after-mod-orders-97-tejas-jets-125092600263_1.html" target="_blank" rel="noopener">Business Standard — HAL 97-jet order</a> · <a href="https://www.business-standard.com/markets/news/defence-shares-hal-bel-bharat-dynamics-mazagon-dock-data-patterns-share-price-nse-bse-hdfc-securities-126030900104_1.html" target="_blank" rel="noopener">HDFC Sec targets ↗</a></span></div>
       </div>
       <div class="watch-card caution">
         <div class="watch-head"><h3>HCLTech (IT bounce candidate)</h3><span class="watch-conviction">Contrarian</span></div>
-        <div class="watch-field"><span class="k">What happened</span><span class="v">Fell 5.12% this week on US bond-yield pressure even as Nifty IT sits on a 21%+ bounce from its July low.</span></div>
-        <div class="watch-field"><span class="k">Why it could extend</span><span class="v">A sharp single-stock drop inside a sector that's otherwise recovering can mean-revert if yield pressure eases.</span></div>
+        <div class="watch-field"><span class="k">What happened</span><span class="v">Fell 5.12% this week on US bond-yield pressure even as Nifty IT sits on a 21%+ bounce from its July low (Nifty IT was up 12% in July alone, with HCLTech and Tech Mahindra up ~20% off their 52-week lows).</span></div>
+        <div class="watch-field"><span class="k">Why it could extend</span><span class="v">HCLTech inked a $1.14bn multi-year deal with a Fortune Global 50 client in July and reaffirmed FY27 revenue growth guidance of 1–4% CC — a sharp single-stock drop inside a sector that's otherwise recovering can mean-revert if yield pressure eases.</span></div>
         <div class="watch-field"><span class="k">Key risk</span><span class="v">Wipro and Infosys both gave cautious FY27 guidance — the sector recovery is selective, not broad-based. This is the shakiest idea on the list.</span></div>
+        <div class="watch-field src"><span class="k">Sources</span><span class="v">INDmoney live price · <a href="https://www.business-standard.com/markets/news/hcl-tech-rallies-6-on-inking-1-14bn-deal-with-fortune-global-50-firm-126070300330_1.html" target="_blank" rel="noopener">Business Standard — $1.14bn deal</a> · <a href="https://www.business-standard.com/markets/news/nifty-it-index-up-12-in-july-hcl-tech-techm-gain-20-from-52-week-lows-126071700446_1.html" target="_blank" rel="noopener">Nifty IT July rebound ↗</a></span></div>
       </div>
     </div>
   </section>
