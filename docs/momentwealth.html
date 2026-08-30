@@ -1670,6 +1670,250 @@ footer {
 }
 
 
+
+/* ---- Upgraded Interactive Swing Position Sizer & Risk Manager ---- */
+.swing-calc-container {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+  border-top: 4px solid var(--accent);
+}
+.swing-calc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.swing-calc-mode-tabs {
+  display: inline-flex;
+  gap: 0.25rem;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  padding: 0.2rem;
+  border-radius: 99px;
+}
+.swing-mode-tab {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: none;
+  border: none;
+  color: var(--muted);
+  padding: 0.35rem 0.85rem;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.swing-mode-tab.active {
+  background: var(--accent);
+  color: #FFFFFF;
+}
+
+.swing-calc-body {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .swing-calc-body { grid-template-columns: 1fr; }
+}
+
+.swing-input-card {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.input-num-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.num-input-styled {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  width: 140px;
+  outline: none;
+  text-align: right;
+}
+.num-input-styled:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+.preset-pills-row {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+.preset-pill-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  padding: 0.2rem 0.55rem;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.preset-pill-btn:hover, .preset-pill-btn.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.custom-inputs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.65rem;
+}
+.custom-input-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.custom-input-box label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--muted);
+  font-weight: 700;
+}
+.custom-input-box input {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  text-align: right;
+  width: 100%;
+}
+
+.swing-output-card {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.output-hero-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1rem 1.15rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.output-hero-box .k {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--muted);
+  font-weight: 700;
+}
+.output-hero-box .v {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.output-metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+.out-tile {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.75rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.out-tile .k { font-size: 0.68rem; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; color: var(--muted); }
+.out-tile .v { font-family: 'IBM Plex Mono', monospace; font-size: 1.1rem; font-weight: 700; }
+.out-tile.loss .v { color: var(--loss); }
+.out-tile.gain .v { color: var(--gain); }
+
+/* Visual Payoff Bar */
+.payoff-bar-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.75rem 0.85rem;
+}
+.payoff-track {
+  height: 10px;
+  border-radius: 99px;
+  background: var(--surface-3);
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+.payoff-sl { background: var(--loss); height: 100%; }
+.payoff-profit { background: var(--gain); height: 100%; }
+.payoff-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.copy-plan-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: all 0.15s ease;
+}
+.copy-plan-btn:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
 /* ---- Swing Trading Block (1-2 Weeks Horizon) ---- */
 .swing-desk-card {
   background: var(--surface);
@@ -2541,64 +2785,143 @@ footer {
         </div>
       </div>
 
-      <!-- Interactive Swing Position Sizer & Risk Calculator -->
-      <div class="swing-desk-card" style="margin-top:1.25rem;">
-        <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.15rem;">🎯 Interactive Swing Position Sizer &amp; Risk Manager</h3>
-        <p class="section-note" style="margin:0;">Calculate your exact share quantity and capital allocation before executing any 1–2 week swing trade.</p>
-        
-        <div class="swing-calc-wrap">
-          <div class="calc-form">
-            <div class="calc-input-group">
-              <div class="calc-label-row">
-                <label for="swing-capital">Total Trading Account Capital (₹)</label>
-                <span class="calc-val-display" id="swing-cap-val">₹5,00,000</span>
-              </div>
-              <input type="range" id="swing-capital" class="calc-slider" min="50000" max="2500000" step="25000" value="500000">
-            </div>
-
-            <div class="calc-input-group">
-              <div class="calc-label-row">
-                <label for="swing-risk-pct">Max Risk Per Trade (%)</label>
-                <span class="calc-val-display" id="swing-risk-val">1.5%</span>
-              </div>
-              <input type="range" id="swing-risk-pct" class="calc-slider" min="0.5" max="3.0" step="0.25" value="1.5">
-            </div>
-
-            <div class="calc-input-group">
-              <div class="calc-label-row">
-                <label for="swing-select-setup">Select Setup</label>
-              </div>
-              <select class="voice-select" id="swing-select-setup" style="max-width:100%;padding:0.5rem 0.75rem;font-size:0.85rem;">
-                <option value="2373.80,2260,2620">Welspun Corp (Entry: ₹2,373.80 | SL: ₹2,260 | Tgt: ₹2,620)</option>
-                <option value="622.00,588,715">Hindustan Zinc (Entry: ₹622.00 | SL: ₹588 | Tgt: ₹715)</option>
-                <option value="411.90,392,462">Bharat Electronics (Entry: ₹411.90 | SL: ₹392 | Tgt: ₹462)</option>
-                <option value="1901.40,1815,2140">Mastek (Entry: ₹1,901.40 | SL: ₹1,815 | Tgt: ₹2,140)</option>
-                <option value="1616.30,1515,1840">Ather Energy (Entry: ₹1,616.30 | SL: ₹1,515 | Tgt: ₹1,840)</option>
-              </select>
-            </div>
+      <!-- UPGRADED INTERACTIVE POSITION SIZER & RISK MANAGER -->
+      <div class="swing-calc-container" id="swing-calculator-box">
+        <div class="swing-calc-header">
+          <div>
+            <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.25rem;">🎯 Interactive Swing Position Sizer &amp; Risk Manager</h3>
+            <p class="section-note" style="margin:0.2rem 0 0;">Dual interactive controls: adjust sliders, type numbers directly, or select any setup card above.</p>
           </div>
-
-          <div class="result-breakdown-grid" style="grid-template-columns:1fr 1fr;">
-            <div class="breakdown-tile">
-              <span class="k">Recommended Quantity</span>
-              <span class="v num" id="swing-res-qty">65 shares</span>
-            </div>
-            <div class="breakdown-tile">
-              <span class="k">Capital Deployed</span>
-              <span class="v num" id="swing-res-cost">₹1,54,297</span>
-            </div>
-            <div class="breakdown-tile">
-              <span class="k">Max Risk (If SL hits)</span>
-              <span class="v num loss" id="swing-res-risk">-₹7,397 (1.48%)</span>
-            </div>
-            <div class="breakdown-tile gain-tile">
-              <span class="k">Potential Gain (At Target)</span>
-              <span class="v num gain" id="swing-res-profit">+₹16,003 (R:R 1:2.2)</span>
-            </div>
+          <div class="swing-calc-mode-tabs" role="tablist">
+            <button class="swing-mode-tab active" id="tab-curated-mode">Curated Setups</button>
+            <button class="swing-mode-tab" id="tab-custom-mode">Custom Trade Setup</button>
           </div>
         </div>
 
-        <div class="swing-rules-grid">
+        <div class="swing-calc-body">
+          <!-- Inputs Column -->
+          <div class="swing-input-card">
+            <!-- Capital Input -->
+            <div class="calc-input-group">
+              <div class="calc-label-row">
+                <label for="swing-cap-num">Total Trading Account Capital (₹)</label>
+                <div class="input-num-row">
+                  <span>₹</span>
+                  <input type="number" id="swing-cap-num" class="num-input-styled" min="10000" max="10000000" step="10000" value="500000">
+                </div>
+              </div>
+              <input type="range" id="swing-capital" class="calc-slider" min="50000" max="2500000" step="25000" value="500000">
+              <div class="preset-pills-row">
+                <button class="preset-pill-btn" data-cap="100000">₹1 Lakh</button>
+                <button class="preset-pill-btn" data-cap="250000">₹2.5 Lakh</button>
+                <button class="preset-pill-btn active" data-cap="500000">₹5 Lakh</button>
+                <button class="preset-pill-btn" data-cap="1000000">₹10 Lakh</button>
+                <button class="preset-pill-btn" data-cap="2500000">₹25 Lakh</button>
+              </div>
+            </div>
+
+            <!-- Risk % Input -->
+            <div class="calc-input-group">
+              <div class="calc-label-row">
+                <label for="swing-risk-num">Max Risk Per Trade (%)</label>
+                <div class="input-num-row">
+                  <input type="number" id="swing-risk-num" class="num-input-styled" min="0.25" max="5.0" step="0.25" value="1.5" style="width:90px;">
+                  <span>%</span>
+                </div>
+              </div>
+              <input type="range" id="swing-risk-pct" class="calc-slider" min="0.5" max="3.0" step="0.25" value="1.5">
+              <div class="preset-pills-row">
+                <button class="preset-pill-btn" data-risk="1.0">1.0% (Conservative)</button>
+                <button class="preset-pill-btn active" data-risk="1.5">1.5% (Standard)</button>
+                <button class="preset-pill-btn" data-risk="2.0">2.0% (Aggressive)</button>
+              </div>
+            </div>
+
+            <!-- Curated Select Mode -->
+            <div class="calc-input-group" id="curated-setup-wrapper">
+              <div class="calc-label-row">
+                <label for="swing-select-setup">Choose Curated Setup</label>
+              </div>
+              <select class="voice-select" id="swing-select-setup" style="max-width:100%;padding:0.6rem 0.85rem;font-size:0.88rem;background:var(--surface);border-radius:8px;">
+                <option value="Welspun Corp,2373.80,2260,2620">Welspun Corp &middot; Entry: ₹2,373.80 | SL: ₹2,260 | Target: ₹2,620</option>
+                <option value="Hindustan Zinc,622.00,588,715">Hindustan Zinc &middot; Entry: ₹622.00 | SL: ₹588 | Target: ₹715</option>
+                <option value="Bharat Electronics,411.90,392,462">Bharat Electronics &middot; Entry: ₹411.90 | SL: ₹392 | Target: ₹462</option>
+                <option value="Mastek,1901.40,1815,2140">Mastek &middot; Entry: ₹1,901.40 | SL: ₹1,815 | Target: ₹2,140</option>
+                <option value="Ather Energy,1616.30,1515,1840">Ather Energy &middot; Entry: ₹1,616.30 | SL: ₹1,515 | Target: ₹1,840</option>
+              </select>
+            </div>
+
+            <!-- Custom Trade Mode (Hidden by default) -->
+            <div class="calc-input-group" id="custom-setup-wrapper" style="display:none;">
+              <div class="custom-inputs-grid">
+                <div class="custom-input-box">
+                  <label for="custom-entry">Entry (₹)</label>
+                  <input type="number" id="custom-entry" step="0.05" value="1000.00">
+                </div>
+                <div class="custom-input-box">
+                  <label for="custom-sl">Stop-Loss (₹)</label>
+                  <input type="number" id="custom-sl" step="0.05" value="950.00">
+                </div>
+                <div class="custom-input-box">
+                  <label for="custom-target">Target (₹)</label>
+                  <input type="number" id="custom-target" step="0.05" value="1120.00">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Outputs Column -->
+          <div class="swing-output-card">
+            <div class="output-hero-box">
+              <div>
+                <span class="k">Recommended Position</span>
+                <div class="v num" id="swing-res-qty">65 shares</div>
+              </div>
+              <div style="text-align:right;">
+                <span class="k">Capital Deployed</span>
+                <div class="num" id="swing-res-cost" style="font-weight:700;font-size:1.15rem;">₹1,54,297</div>
+              </div>
+            </div>
+
+            <div class="output-metrics-grid">
+              <div class="out-tile loss">
+                <span class="k">Max Risk (If SL hits)</span>
+                <span class="v num" id="swing-res-risk">-₹7,397 (1.48%)</span>
+              </div>
+              <div class="out-tile gain">
+                <span class="k">Expected Profit</span>
+                <span class="v num" id="swing-res-profit">+₹16,003 (+10.4%)</span>
+              </div>
+              <div class="out-tile">
+                <span class="k">Risk-to-Reward (R:R)</span>
+                <span class="v num" id="swing-res-rr">1 : 2.2</span>
+              </div>
+              <div class="out-tile">
+                <span class="k">Capital Utilization</span>
+                <span class="v num" id="swing-res-util">30.9% of account</span>
+              </div>
+            </div>
+
+            <!-- Payoff Bar -->
+            <div class="payoff-bar-wrap">
+              <div class="payoff-labels">
+                <span style="color:var(--loss);">SL: <strong id="payoff-sl-val">₹2,260</strong></span>
+                <span>Entry: <strong id="payoff-entry-val">₹2,373.80</strong></span>
+                <span style="color:var(--gain);">Target: <strong id="payoff-tgt-val">₹2,620</strong></span>
+              </div>
+              <div class="payoff-track">
+                <div class="payoff-sl" id="payoff-sl-bar" style="width:30%;"></div>
+                <div class="payoff-profit" id="payoff-gain-bar" style="width:70%;"></div>
+              </div>
+            </div>
+
+            <button class="copy-plan-btn" id="btn-copy-swing-plan">
+              📋 Copy Execution Order &amp; Risk Plan
+            </button>
+          </div>
+        </div>
+
+        <div class="swing-rules-grid" style="margin-top:0.75rem;">
           <div class="swing-rule-item"><strong>RULE #1:</strong> Never risk &gt;1.5% of total account equity on any single swing setup.</div>
           <div class="swing-rule-item"><strong>RULE #2:</strong> Move Stop-Loss to Cost Price once Target 1 is hit; lock in 50% gains.</div>
           <div class="swing-rule-item"><strong>RULE #3:</strong> Check volume is &gt;1.5x average on breakout days for authentic institutional accumulation.</div>
@@ -4003,50 +4326,201 @@ document.querySelectorAll('.watch-card').forEach(function(card){
 
   // Generate dynamic contextual scripts
   
-// ---- Swing Trading Position Sizer & Voice Script ----
+// ---- Upgraded Swing Trading Position Sizer & Interactive Engine ----
 (function(){
-  var capInp = document.getElementById('swing-capital');
-  var riskInp = document.getElementById('swing-risk-pct');
+  var capSlider = document.getElementById('swing-capital');
+  var capNum = document.getElementById('swing-cap-num');
+  var riskSlider = document.getElementById('swing-risk-pct');
+  var riskNum = document.getElementById('swing-risk-num');
   var setupSel = document.getElementById('swing-select-setup');
+  
+  var tabCurated = document.getElementById('tab-curated-mode');
+  var tabCustom = document.getElementById('tab-custom-mode');
+  var curatedWrap = document.getElementById('curated-setup-wrapper');
+  var customWrap = document.getElementById('custom-setup-wrapper');
+
+  var customEntry = document.getElementById('custom-entry');
+  var customSL = document.getElementById('custom-sl');
+  var customTarget = document.getElementById('custom-target');
+  var copyPlanBtn = document.getElementById('btn-copy-swing-plan');
+
+  var isCustomMode = false;
 
   function fmtINR(val) {
     return '₹' + Math.round(val).toLocaleString('en-IN');
   }
 
-  function updateSwingCalc() {
-    if (!capInp || !riskInp || !setupSel) return;
-    var totalCap = parseFloat(capInp.value) || 500000;
-    var maxRiskPct = parseFloat(riskInp.value) || 1.5;
-    
-    document.getElementById('swing-cap-val').textContent = fmtINR(totalCap);
-    document.getElementById('swing-risk-val').textContent = maxRiskPct.toFixed(2) + '%';
+  function calculateSwing() {
+    var totalCap = parseFloat(capNum.value) || 500000;
+    var riskPct = parseFloat(riskNum.value) || 1.5;
 
-    var maxRiskINR = totalCap * (maxRiskPct / 100);
-    
-    var parts = setupSel.value.split(',');
-    var entry = parseFloat(parts[0]);
-    var sl = parseFloat(parts[1]);
-    var tgt = parseFloat(parts[2]);
+    // Sync sliders
+    if (capSlider && parseFloat(capSlider.value) !== totalCap) capSlider.value = totalCap;
+    if (riskSlider && parseFloat(riskSlider.value) !== riskPct) riskSlider.value = riskPct;
 
-    var riskPerShare = Math.max(0.1, entry - sl);
-    var rewardPerShare = Math.max(0.1, tgt - entry);
-    var qty = Math.max(1, Math.floor(maxRiskINR / riskPerShare));
+    var stockName = 'Custom Stock';
+    var entry = 1000;
+    var sl = 950;
+    var target = 1120;
+
+    if (!isCustomMode && setupSel) {
+      var parts = setupSel.value.split(',');
+      stockName = parts[0];
+      entry = parseFloat(parts[1]) || 1000;
+      sl = parseFloat(parts[2]) || 950;
+      target = parseFloat(parts[3]) || 1120;
+    } else if (isCustomMode) {
+      entry = parseFloat(customEntry.value) || 1000;
+      sl = parseFloat(customSL.value) || 950;
+      target = parseFloat(customTarget.value) || 1120;
+    }
+
+    var maxRiskINR = totalCap * (riskPct / 100);
+    var riskPerShare = Math.max(0.05, entry - sl);
+    var rewardPerShare = Math.max(0.05, target - entry);
+
+    // Quantity based on risk, but capped by total capital
+    var qtyByRisk = Math.floor(maxRiskINR / riskPerShare);
+    var maxQtyByCap = Math.floor(totalCap / entry);
+    var qty = Math.max(1, Math.min(qtyByRisk, maxQtyByCap));
+
     var capitalDeployed = qty * entry;
     var totalRisk = qty * riskPerShare;
     var totalReward = qty * rewardPerShare;
+    var actualRiskPct = totalCap > 0 ? (totalRisk / totalCap) * 100 : riskPct;
+    var returnPct = entry > 0 ? ((target - entry) / entry) * 100 : 0;
     var rrRatio = (rewardPerShare / riskPerShare).toFixed(1);
+    var utilPct = totalCap > 0 ? ((capitalDeployed / totalCap) * 100).toFixed(1) : '0';
 
-    document.getElementById('swing-res-qty').textContent = qty + ' shares';
+    // Update UI elements
+    document.getElementById('swing-res-qty').textContent = qty.toLocaleString('en-IN') + ' shares';
     document.getElementById('swing-res-cost').textContent = fmtINR(capitalDeployed);
-    document.getElementById('swing-res-risk').textContent = '-' + fmtINR(totalRisk) + ' (' + ((totalRisk/totalCap)*100).toFixed(2) + '%)';
-    document.getElementById('swing-res-profit').textContent = '+' + fmtINR(totalReward) + ' (R:R 1:' + rrRatio + ')';
+    document.getElementById('swing-res-risk').textContent = '-' + fmtINR(totalRisk) + ' (' + actualRiskPct.toFixed(2) + '%)';
+    document.getElementById('swing-res-profit').textContent = '+' + fmtINR(totalReward) + ' (+' + returnPct.toFixed(1) + '%)';
+    document.getElementById('swing-res-rr').textContent = '1 : ' + rrRatio;
+    document.getElementById('swing-res-util').textContent = utilPct + '% of capital';
+
+    // Payoff bar values
+    document.getElementById('payoff-sl-val').textContent = '₹' + sl.toLocaleString('en-IN');
+    document.getElementById('payoff-entry-val').textContent = '₹' + entry.toLocaleString('en-IN');
+    document.getElementById('payoff-tgt-val').textContent = '₹' + target.toLocaleString('en-IN');
+
+    var totalSpan = (target - sl) || 1;
+    var slPct = Math.max(15, Math.min(85, ((entry - sl) / totalSpan) * 100));
+    var gainPct = 100 - slPct;
+    document.getElementById('payoff-sl-bar').style.width = slPct + '%';
+    document.getElementById('payoff-gain-bar').style.width = gainPct + '%';
   }
 
-  [capInp, riskInp, setupSel].forEach(function(el){
-    if (el) el.addEventListener('input', updateSwingCalc);
-    if (el) el.addEventListener('change', updateSwingCalc);
+  // Sync Slider to Num Input
+  if (capSlider && capNum) {
+    capSlider.addEventListener('input', function(){ capNum.value = this.value; calculateSwing(); });
+    capNum.addEventListener('input', function(){ calculateSwing(); });
+  }
+  if (riskSlider && riskNum) {
+    riskSlider.addEventListener('input', function(){ riskNum.value = this.value; calculateSwing(); });
+    riskNum.addEventListener('input', function(){ calculateSwing(); });
+  }
+
+  if (setupSel) setupSel.addEventListener('change', calculateSwing);
+  if (customEntry) customEntry.addEventListener('input', calculateSwing);
+  if (customSL) customSL.addEventListener('input', calculateSwing);
+  if (customTarget) customTarget.addEventListener('input', calculateSwing);
+
+  // Capital Presets
+  document.querySelectorAll('.preset-pill-btn[data-cap]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.preset-pill-btn[data-cap]').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      capNum.value = btn.getAttribute('data-cap');
+      capSlider.value = btn.getAttribute('data-cap');
+      calculateSwing();
+    });
   });
-  updateSwingCalc();
+
+  // Risk Presets
+  document.querySelectorAll('.preset-pill-btn[data-risk]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.preset-pill-btn[data-risk]').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      riskNum.value = btn.getAttribute('data-risk');
+      riskSlider.value = btn.getAttribute('data-risk');
+      calculateSwing();
+    });
+  });
+
+  // Mode Switcher
+  if (tabCurated && tabCustom) {
+    tabCurated.addEventListener('click', function(){
+      tabCurated.classList.add('active');
+      tabCustom.classList.remove('active');
+      curatedWrap.style.display = 'flex';
+      customWrap.style.display = 'none';
+      isCustomMode = false;
+      calculateSwing();
+    });
+    tabCustom.addEventListener('click', function(){
+      tabCustom.classList.add('active');
+      tabCurated.classList.remove('active');
+      curatedWrap.style.display = 'none';
+      customWrap.style.display = 'flex';
+      isCustomMode = true;
+      calculateSwing();
+    });
+  }
+
+  // Click on Setup Card auto-selects in calculator
+  document.querySelectorAll('.swing-card').forEach(function(card){
+    card.addEventListener('click', function(){
+      var stk = card.getAttribute('data-stock');
+      if (setupSel) {
+        for (var i = 0; i < setupSel.options.length; i++) {
+          if (setupSel.options[i].text.indexOf(stk) > -1) {
+            setupSel.selectedIndex = i;
+            if (tabCurated) tabCurated.click();
+            calculateSwing();
+            showToast('🎯 Loaded ' + stk + ' setup into Position Sizer');
+            var calcBox = document.getElementById('swing-calculator-box');
+            if (calcBox) calcBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            break;
+          }
+        }
+      }
+    });
+  });
+
+  // Copy Plan Button
+  if (copyPlanBtn) {
+    copyPlanBtn.addEventListener('click', function(){
+      var qty = document.getElementById('swing-res-qty').textContent;
+      var cost = document.getElementById('swing-res-cost').textContent;
+      var risk = document.getElementById('swing-res-risk').textContent;
+      var profit = document.getElementById('swing-res-profit').textContent;
+      var entry = document.getElementById('payoff-entry-val').textContent;
+      var sl = document.getElementById('payoff-sl-val').textContent;
+      var target = document.getElementById('payoff-tgt-val').textContent;
+
+      var plan = '🎯 *SWING TRADE ORDER PLAN (1-2 Weeks)*\n' +
+                 '• Setup: ' + (setupSel ? setupSel.options[setupSel.selectedIndex].text.split('·')[0].trim() : 'Custom Setup') + '\n' +
+                 '• Entry: ' + entry + '\n' +
+                 '• Stop-Loss: ' + sl + '\n' +
+                 '• Target: ' + target + '\n' +
+                 '• Quantity: ' + qty + ' (Capital: ' + cost + ')\n' +
+                 '• Max Risk: ' + risk + '\n' +
+                 '• Target Profit: ' + profit + '\n' +
+                 'Generated by momentWealth Terminal';
+
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(plan).then(function(){
+          showToast('📋 Copied Trade Execution Plan to Clipboard!');
+        });
+      } else {
+        showToast('Plan ready!');
+      }
+    });
+  }
+
+  calculateSwing();
 })();
 
 function getSwingScript() {
