@@ -403,12 +403,13 @@ body{
   color:var(--faint);
   letter-spacing:0.02em;
 }
-.livewire-list{display:flex;flex-direction:column;gap:0;max-height:260px;overflow-y:auto;}
+.livewire-list{display:flex;flex-direction:column;gap:0;max-height:380px;overflow-y:auto;}
 .livewire-item{padding:0.6rem 0;border-bottom:1px solid var(--line);font-size:0.85rem;}
 .livewire-item:last-child{border-bottom:none;}
 .livewire-item a{color:var(--ink);text-decoration:none;font-weight:600;}
 .livewire-item a:hover{color:var(--accent);text-decoration:underline;}
 .livewire-item .lw-meta{font-size:0.72rem;color:var(--muted);margin-top:0.15rem;display:flex;gap:0.5rem;align-items:center;}
+.livewire-item .lw-summary{font-size:0.8rem;color:var(--muted);margin-top:0.35rem;line-height:1.45;}
 .livewire-item .lw-cat{
   font-family:'IBM Plex Mono',monospace;
   text-transform:uppercase;
@@ -1546,17 +1547,27 @@ a:focus-visible, [tabindex]:focus-visible{outline:2px solid var(--accent);outlin
       statusEl.textContent = 'offline';
       return;
     }
-    if (items.length === 0) {
-      listEl.innerHTML = '<div class="livewire-empty">No live items yet.</div>';
+    // Drop items with no real summary — in this feed they're consistently
+    // low-value noise (horoscopes, calculator tool pages, bare name links)
+    // rather than actual articles, and a bare headline alone isn't enough
+    // context to be useful.
+    var usable = items.filter(function(it){
+      var s = it && it.summary;
+      return s && s !== 'No summary available';
+    });
+    if (usable.length === 0) {
+      listEl.innerHTML = '<div class="livewire-empty">No live items with a full summary right now.</div>';
     } else {
-      listEl.innerHTML = items.slice(0, 8).map(function(it){
+      listEl.innerHTML = usable.slice(0, 8).map(function(it){
         var title = escapeHtml(it.title || 'Untitled');
         var url = escapeHtml(it.url || '#');
         var cat = escapeHtml(it.category || '');
         var src = escapeHtml(it.source || '');
+        var summary = escapeHtml(it.summary || '');
         return '<div class="livewire-item">' +
           '<a href="' + url + '" target="_blank" rel="noopener">' + title + '</a>' +
           '<div class="lw-meta">' + (cat ? '<span class="lw-cat">' + cat + '</span>' : '') + '<span>' + src + '</span></div>' +
+          '<div class="lw-summary">' + summary + '</div>' +
         '</div>';
       }).join('');
     }
