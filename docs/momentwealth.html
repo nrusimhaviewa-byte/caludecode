@@ -1765,6 +1765,35 @@ footer {
 
 
 
+
+/* ---- IPO Category (@stockmarket_ipo / ET / INDmoney) ---- */
+.ipo-feed-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(245, 166, 35, 0.12);
+  color: #F5A623;
+  border: 1px solid rgba(245, 166, 35, 0.3);
+  padding: 0.25rem 0.65rem;
+  border-radius: 99px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-family: 'IBM Plex Mono', monospace;
+  text-decoration: none;
+}
+.ipo-feed-badge:hover {
+  background: rgba(245, 166, 35, 0.2);
+}
+.gmp-badge {
+  background: rgba(37, 211, 102, 0.15);
+  color: #25D366;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+}
+
 /* ---- Instagram (@stockmarket_times) Integration ---- */
 .instagram-feed-badge {
   display: inline-flex;
@@ -2803,6 +2832,114 @@ footer {
       </div>
 
       
+      
+      <!-- IPO WATCH & GMP RADAR (ET / INDMONEY / @stockmarket_ipo) -->
+      <div class="swing-desk-card" style="border-top-color:#F5A623;margin-bottom:1.5rem;">
+        <div class="section-head" style="margin-bottom:0.2rem;">
+          <div class="section-head-left">
+            <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.2rem;display:flex;align-items:center;gap:0.5rem;">
+              <span>🟡 IPO Watch &amp; GMP Radar &middot; Economic Times, INDmoney &amp; Instagram</span>
+            </h3>
+          </div>
+          <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+            <a href="https://www.instagram.com/stockmarket_ipo/" target="_blank" rel="noopener" class="ipo-feed-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              @stockmarket_ipo
+            </a>
+            <span class="ipo-feed-badge" style="background:rgba(255,255,255,0.05);color:var(--muted);border-color:var(--line);">
+              Economic Times &amp; INDmoney Synced
+            </span>
+          </div>
+        </div>
+        <p class="section-note" style="margin:0;">Live Grey Market Premiums (GMP), subscription demand ratios, and post-listing swing opportunities. Click any card to load into the Profit Planner.</p>
+
+        <div class="stockpro-grid">
+          <!-- TEMPSENS INSTRUMENTS -->
+          <div class="stockpro-item-card" style="border-left-color:#F5A623;" data-stock="Tempsens Instruments">
+            <div class="stockpro-item-head">
+              <span class="stockpro-title">Tempsens Instruments</span>
+              <span class="gmp-badge">+111.3% Debut</span>
+            </div>
+            <div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
+              <div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹640.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹595.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹740.00 (+15.6%)</span></div>
+            </div>
+            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Listed at ₹634 against ₹300 IPO issue price. High-volume delivery markup continuation.</div>
+          </div>
+
+          <!-- HERO MOTORS -->
+          <div class="stockpro-item-card" style="border-left-color:#F5A623;" data-stock="Hero Motors">
+            <div class="stockpro-item-head">
+              <span class="stockpro-title">Hero Motors</span>
+              <span class="ipo-feed-badge" style="padding:0.1rem 0.4rem;font-size:0.65rem;">₹1,000 Cr Issue</span>
+            </div>
+            <div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
+              <div class="swing-lvl-col"><span class="k">Est. Band</span><span class="v num">₹4,850.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹4,680.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹5,300.00 (+9.3%)</span></div>
+            </div>
+            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Revised IPO size to ₹1,000 Cr (Fresh ₹600 Cr + OFS ₹400 Cr). Major auto components proxy.</div>
+          </div>
+
+          <!-- SKYWAYS AIR SERVICES -->
+          <div class="stockpro-item-card" style="border-left-color:#F5A623;" data-stock="Skyways Air Services">
+            <div class="stockpro-item-head">
+              <span class="stockpro-title">Skyways Air Services</span>
+              <span class="gmp-badge">GMP +32%</span>
+            </div>
+            <div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
+              <div class="swing-lvl-col"><span class="k">Issue Price</span><span class="v num">₹138.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹128.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Est. Listing</span><span class="v num gain">₹182.00 (+32%)</span></div>
+            </div>
+            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Air cargo logistics &amp; international freight forwarding. Heavy HNI subscription oversubscription.</div>
+          </div>
+
+          <!-- SYMBIOTEC PHARMALAB -->
+          <div class="stockpro-item-card" style="border-left-color:#F5A623;" data-stock="Symbiotec Pharmalab">
+            <div class="stockpro-item-head">
+              <span class="stockpro-title">Symbiotec Pharmalab</span>
+              <span class="gmp-badge">GMP +27%</span>
+            </div>
+            <div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
+              <div class="swing-lvl-col"><span class="k">Issue Price</span><span class="v num">₹960.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹910.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Est. Listing</span><span class="v num gain">₹1,220.00 (+27%)</span></div>
+            </div>
+            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Active Pharmaceutical Ingredients (APIs) &amp; steroid formulation global supplier.</div>
+          </div>
+
+          <!-- HY-TECH ENGINEERS -->
+          <div class="stockpro-item-card" style="border-left-color:#F5A623;" data-stock="Hy-Tech Engineers">
+            <div class="stockpro-item-head">
+              <span class="stockpro-title">Hy-Tech Engineers</span>
+              <span class="gmp-badge">GMP +85%</span>
+            </div>
+            <div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
+              <div class="swing-lvl-col"><span class="k">Issue Price</span><span class="v num">₹53.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹48.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Est. Listing</span><span class="v num gain">₹98.00 (+85%)</span></div>
+            </div>
+            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Aerospace CNC machining &amp; precision components. 138x retail oversubscription.</div>
+          </div>
+
+          <!-- ANTHEM BIOSCIENCES IPO -->
+          <div class="stockpro-item-card" style="border-left-color:#F5A623;" data-stock="Anthem Biosciences">
+            <div class="stockpro-item-head">
+              <span class="stockpro-title">Anthem Biosciences</span>
+              <span class="gmp-badge">Base Breakout</span>
+            </div>
+            <div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
+              <div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹923.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹872.00</span></div>
+              <div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹1,090–₹1,250</span></div>
+            </div>
+            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">CDMO biology platform post-listing base formation with robust institutional accumulation.</div>
+          </div>
+        </div>
+      </div>
+
       <!-- INSTAGRAM (@stockmarket_times) LIVE CHANNEL FEED SECTION -->
       <div class="swing-desk-card" style="border-top-color:#E1306C;margin-bottom:1.5rem;">
         <div class="section-head" style="margin-bottom:0.2rem;">
@@ -3220,7 +3357,8 @@ footer {
               <h4 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.05rem;">Live Recommendations to hit <span class="gain" id="matrix-goal-title">₹5,000 / week</span>:</h4>
             </div>
             <div style="display:flex;gap:0.35rem;align-items:center;flex-wrap:wrap;">
-              <button class="preset-pill-btn matrix-filter-btn active" data-filter="all">All Sources (22)</button>
+              <button class="preset-pill-btn matrix-filter-btn active" data-filter="all">All Sources (27)</button>
+              <button class="preset-pill-btn matrix-filter-btn" data-filter="ipo" style="color:#F5A623;">🟡 IPO &amp; GMP (6)</button>
               <button class="preset-pill-btn matrix-filter-btn" data-filter="whatsapp" style="color:#25D366;">🟢 WhatsApp &middot; Satish (6)</button>
               <button class="preset-pill-btn matrix-filter-btn" data-filter="telegram" style="color:#0088cc;">🔵 Telegram &middot; StockPro &amp; SMT (7)</button>
               <button class="preset-pill-btn matrix-filter-btn" data-filter="instagram" style="color:#E1306C;">🟣 Instagram &middot; StockMarket Times (4)</button>
@@ -5084,12 +5222,19 @@ document.querySelectorAll('.watch-card').forEach(function(card){
 
   var currentMode = 'profit-goal';
   var selectedStockIdx = 0;
-  var currentFilter = 'all'; // 'all', 'whatsapp', 'telegram', 'instagram', 'breakout'
+  var currentFilter = 'all'; // 'all', 'ipo', 'whatsapp', 'telegram', 'instagram', 'breakout'
 
-  // Master Universe: WhatsApp (Satish) + Telegram (StockPro & StockMarket Times) + Instagram + Momentum
+  // Master Universe: IPO Watch (ET/INDmoney/@stockmarket_ipo) + WhatsApp + Telegram + Instagram + Momentum
   var SWING_SETUPS = [
+    // 🟡 IPO Watch & GMP Radar (Economic Times / INDmoney / @stockmarket_ipo)
+    { name: "Tempsens Instruments", ticker: "TEMPSENS", channel: "IPO Watch", source: "ET & INDmoney", tag: "ipo", entry: 640.00, sl: 595.00, target: 740.00, catalyst: "Bumper Debut +111% (Listed at ₹634 vs ₹300 IPO)" },
+    { name: "Hero Motors", ticker: "HEROMOTORS", channel: "IPO Watch", source: "Economic Times", tag: "ipo", entry: 4850.00, sl: 4680.00, target: 5300.00, catalyst: "IPO Size Revised to ₹1,000 Cr (Fresh ₹600Cr)" },
+    { name: "Skyways Air Services", ticker: "SKYWAYS", channel: "IPO Watch", source: "INDmoney / @stockmarket_ipo", tag: "ipo", entry: 138.00, sl: 128.00, target: 182.00, catalyst: "GMP +32% (Air Cargo Logistics Growth)" },
+    { name: "Symbiotec Pharmalab", ticker: "SYMBIOTEC", channel: "IPO Watch", source: "INDmoney / @stockmarket_ipo", tag: "ipo", entry: 960.00, sl: 910.00, target: 1220.00, catalyst: "GMP +27% (Steroid API & Global Pharma)" },
+    { name: "Hy-Tech Engineers", ticker: "HYTECH", channel: "IPO Watch", source: "@stockmarket_ipo", tag: "ipo", entry: 53.00, sl: 48.00, target: 98.00, catalyst: "GMP +85% (138x Retail Subscription)" },
+    { name: "Anthem Biosciences", ticker: "ANTHEM", channel: "IPO Watch", source: "ET & Satish (Swing Pool)", tag: "ipo", entry: 923.00, sl: 872.00, target: 1090.00, catalyst: "Post-Listing Base Breakout (Target 1,090 - 1,250)" },
+
     // 🟢 WhatsApp (Satish - Swing Pool) Recommendations
-    { name: "Anthem Biosciences", ticker: "ANTHEM", channel: "WhatsApp", source: "Satish (Swing Pool)", tag: "whatsapp", entry: 923.00, sl: 872.00, target: 1090.00, catalyst: "Satish: IPO Base Breakout (Target 1,090 - 1,250)" },
     { name: "E2E Networks", ticker: "E2ENETWORKS", channel: "WhatsApp", source: "Satish (Swing Pool)", tag: "whatsapp", entry: 627.00, sl: 555.00, target: 820.00, catalyst: "Satish: AI Cloud Short Term Trade (Target 820+)" },
     { name: "Federal-Mogul", ticker: "FMGOETZE", channel: "WhatsApp", source: "Satish (Swing Pool)", tag: "whatsapp", entry: 534.00, sl: 499.00, target: 628.00, catalyst: "Satish: ₹94 Dividend Declared + Swing Target 628" },
     { name: "Karur Vysya Bank", ticker: "KVB", channel: "WhatsApp", source: "Satish (Swing Pool)", tag: "whatsapp", entry: 355.00, sl: 330.00, target: 400.00, catalyst: "Satish: Banking Swing Value Play (Target 400)" },
@@ -5136,6 +5281,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     if (!matrixTbody) return;
 
     var filtered = SWING_SETUPS.filter(function(stk){
+      if (currentFilter === 'ipo') return stk.tag === 'ipo';
       if (currentFilter === 'whatsapp') return stk.tag === 'whatsapp';
       if (currentFilter === 'telegram') return stk.tag === 'telegram';
       if (currentFilter === 'instagram') return stk.tag === 'instagram';
@@ -5155,7 +5301,9 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       var isSelected = (origIdx === selectedStockIdx);
 
       var sourceBadge = '';
-      if (stk.tag === 'whatsapp') {
+      if (stk.tag === 'ipo') {
+        sourceBadge = '<span style="background:rgba(245,166,35,0.12);color:#F5A623;border:1px solid rgba(245,166,35,0.3);font-size:0.65rem;padding:0.1rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">🟡 IPO &amp; GMP (' + stk.source + ')</span>';
+      } else if (stk.tag === 'whatsapp') {
         sourceBadge = '<span style="background:rgba(37,211,102,0.12);color:#25D366;border:1px solid rgba(37,211,102,0.3);font-size:0.65rem;padding:0.1rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">🟢 WhatsApp (Satish)</span>';
       } else if (stk.tag === 'telegram') {
         sourceBadge = '<span style="background:rgba(0,136,204,0.12);color:#0088cc;border:1px solid rgba(0,136,204,0.25);font-size:0.65rem;padding:0.1rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">🔵 Telegram (' + stk.source + ')</span>';
@@ -5376,7 +5524,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     var timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
     if (syncTimeText) syncTimeText.textContent = 'Synced at ' + timeStr;
     calculateSwing();
-    showToast('📡 Synchronized live feeds: WhatsApp (Satish) + Telegram (StockPro & StockMarket Times) + Instagram');
+    showToast('📡 Synchronized live feeds: IPO Radar (ET/INDmoney/@stockmarket_ipo) + WhatsApp + Telegram + Instagram');
   }
 
   if (btnTriggerSync) {
@@ -5403,7 +5551,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
 
       var plan = '🎯 *SWING TRADE EXECUTION ORDER*\n' +
                  '• Stock: ' + stk.name + ' (' + stk.ticker + ')\n' +
-                 '• Channel: ' + stk.channel + ' (' + stk.source + ')\n' +
+                 '• Category: ' + stk.channel + ' (' + stk.source + ')\n' +
                  '• Buy Quantity: ' + qty + '\n' +
                  '• Entry Price: ₹' + stk.entry.toFixed(2) + '\n' +
                  '• Stop-Loss: ₹' + stk.sl.toFixed(2) + ' (Max Risk: ' + risk + ')\n' +
