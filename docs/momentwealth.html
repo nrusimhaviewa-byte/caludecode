@@ -1671,6 +1671,83 @@ footer {
 
 
 
+
+/* ---- Dynamic Multi-Stock Recommendation Matrix ---- */
+.profit-slider-hero {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.15rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.profit-slider-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.profit-slider-head label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.profit-display-box {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--gain);
+}
+
+.recommendations-matrix-wrap {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.matrix-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 580px;
+}
+.matrix-table th {
+  background: var(--surface-2);
+  padding: 0.75rem 1rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  font-weight: 700;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+.matrix-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.88rem;
+}
+.matrix-table tr:last-child td { border-bottom: none; }
+.matrix-table tbody tr {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.matrix-table tbody tr:hover, .matrix-table tbody tr.active-rec-row {
+  background: var(--accent-soft);
+}
+.matrix-table tbody tr.active-rec-row td {
+  font-weight: 600;
+}
+.rec-select-radio {
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
 /* ---- Upgraded Interactive Swing Position Sizer & Risk Manager ---- */
 .swing-calc-container {
   background: var(--surface);
@@ -2789,40 +2866,70 @@ footer {
       <div class="swing-calc-container" id="swing-calculator-box">
         <div class="swing-calc-header">
           <div>
-            <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.25rem;">🎯 Interactive Swing Position Sizer &amp; Risk Manager</h3>
-            <p class="section-note" style="margin:0.2rem 0 0;">Dual interactive controls: adjust sliders, type numbers directly, or select any setup card above.</p>
+            <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.25rem;">🎯 Dynamic Swing Profit Planner &amp; Multi-Stock Recommendation Engine</h3>
+            <p class="section-note" style="margin:0.2rem 0 0;">Move the profit slider to instantly calculate exact shares, stop-loss, and capital across all 5 setups simultaneously.</p>
           </div>
           <div class="swing-calc-mode-tabs" role="tablist">
-            <button class="swing-mode-tab active" id="tab-profit-goal-mode">🎯 Target Weekly Profit Mode</button>
+            <button class="swing-mode-tab active" id="tab-profit-goal-mode">🎯 Target Weekly Profit Slider</button>
             <button class="swing-mode-tab" id="tab-curated-mode">By Account Capital</button>
             <button class="swing-mode-tab" id="tab-custom-mode">Custom Stock</button>
           </div>
         </div>
 
-        <div class="swing-calc-body">
-          <!-- Inputs Column -->
-          <div class="swing-input-card">
-                        <!-- TARGET PROFIT GOAL SECTION (NEW) -->
-            <div class="calc-input-group" id="profit-goal-wrapper">
-              <div class="calc-label-row">
-                <label for="swing-target-profit-num">Target Weekly Profit Goal (₹)</label>
-                <div class="input-num-row">
-                  <span>₹</span>
-                  <input type="number" id="swing-target-profit-num" class="num-input-styled" min="500" max="500000" step="500" value="5000" style="color:var(--gain);font-size:1.15rem;width:130px;">
-                </div>
-              </div>
-              <div class="preset-pills-row">
-                <button class="preset-pill-btn" data-goal="2500">₹2,500 / week</button>
-                <button class="preset-pill-btn active" data-goal="5000">₹5,000 / week (Popular)</button>
-                <button class="preset-pill-btn" data-goal="10000">₹10,000 / week</button>
-                <button class="preset-pill-btn" data-goal="25000">₹25,000 / week</button>
-              </div>
-            </div>
+        <!-- PROFIT GOAL SLIDER HERO (ACTIVE BY DEFAULT) -->
+        <div class="profit-slider-hero" id="profit-goal-wrapper">
+          <div class="profit-slider-head">
+            <label for="swing-profit-slider">Slide Your Target Weekly Profit Goal:</label>
+            <div class="profit-display-box num" id="swing-profit-display">₹5,000 / week</div>
+          </div>
+          <input type="range" id="swing-profit-slider" class="calc-slider" min="1000" max="50000" step="500" value="5000">
+          <div class="preset-pills-row">
+            <button class="preset-pill-btn" data-goal="2500">₹2,500 / week</button>
+            <button class="preset-pill-btn active" data-goal="5000">₹5,000 / week (Recommended)</button>
+            <button class="preset-pill-btn" data-goal="10000">₹10,000 / week</button>
+            <button class="preset-pill-btn" data-goal="15000">₹15,000 / week</button>
+            <button class="preset-pill-btn" data-goal="25000">₹25,000 / week</button>
+          </div>
+        </div>
 
-            <!-- Capital Input -->
-            <div class="calc-input-group">
+        <!-- DYNAMIC ALL-STOCK RECOMMENDATIONS MATRIX (NEW) -->
+        <div class="recommendations-matrix-wrap" id="recommendations-matrix-box">
+          <div class="section-head" style="margin-bottom:0.4rem;">
+            <div class="section-head-left">
+              <h4 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.05rem;">Live Stock Recommendations to hit <span class="gain" id="matrix-goal-title">₹5,000 / week</span>:</h4>
+            </div>
+            <span style="font-size:0.75rem;color:var(--muted);font-family:'IBM Plex Mono',monospace;">Click any row to select &amp; view plan</span>
+          </div>
+
+          <div class="matrix-table-wrap">
+            <table class="matrix-table" id="matrix-table">
+              <thead>
+                <tr>
+                  <th style="width:30px;"></th>
+                  <th>Stock &amp; Ticker</th>
+                  <th class="price">Buy Quantity</th>
+                  <th class="price">Capital Required</th>
+                  <th class="price">Entry Price</th>
+                  <th class="price">Stop-Loss (Risk)</th>
+                  <th class="price">Target (Profit)</th>
+                  <th class="price">R:R Ratio</th>
+                </tr>
+              </thead>
+              <tbody id="matrix-table-body">
+                <!-- Dynamically Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- CAPITAL & CUSTOM INPUTS WRAPPER -->
+        <div class="swing-calc-body" id="detailed-calc-body" style="margin-top:0.5rem;">
+          <!-- Left: Secondary Controls -->
+          <div class="swing-input-card">
+            <!-- Account Capital Section -->
+            <div class="calc-input-group" id="capital-input-group" style="display:none;">
               <div class="calc-label-row">
-                <label for="swing-cap-num">Total Trading Account Capital (₹)</label>
+                <label for="swing-cap-num">Total Account Capital (₹)</label>
                 <div class="input-num-row">
                   <span>₹</span>
                   <input type="number" id="swing-cap-num" class="num-input-styled" min="10000" max="10000000" step="10000" value="500000">
@@ -2830,16 +2937,15 @@ footer {
               </div>
               <input type="range" id="swing-capital" class="calc-slider" min="50000" max="2500000" step="25000" value="500000">
               <div class="preset-pills-row">
-                <button class="preset-pill-btn" data-cap="100000">₹1 Lakh</button>
-                <button class="preset-pill-btn" data-cap="250000">₹2.5 Lakh</button>
-                <button class="preset-pill-btn active" data-cap="500000">₹5 Lakh</button>
-                <button class="preset-pill-btn" data-cap="1000000">₹10 Lakh</button>
-                <button class="preset-pill-btn" data-cap="2500000">₹25 Lakh</button>
+                <button class="preset-pill-btn" data-cap="100000">₹1L</button>
+                <button class="preset-pill-btn" data-cap="250000">₹2.5L</button>
+                <button class="preset-pill-btn active" data-cap="500000">₹5L</button>
+                <button class="preset-pill-btn" data-cap="1000000">₹10L</button>
               </div>
             </div>
 
             <!-- Risk % Input -->
-            <div class="calc-input-group">
+            <div class="calc-input-group" id="risk-input-group" style="display:none;">
               <div class="calc-label-row">
                 <label for="swing-risk-num">Max Risk Per Trade (%)</label>
                 <div class="input-num-row">
@@ -2848,17 +2954,12 @@ footer {
                 </div>
               </div>
               <input type="range" id="swing-risk-pct" class="calc-slider" min="0.5" max="3.0" step="0.25" value="1.5">
-              <div class="preset-pills-row">
-                <button class="preset-pill-btn" data-risk="1.0">1.0% (Conservative)</button>
-                <button class="preset-pill-btn active" data-risk="1.5">1.5% (Standard)</button>
-                <button class="preset-pill-btn" data-risk="2.0">2.0% (Aggressive)</button>
-              </div>
             </div>
 
-            <!-- Curated Select Mode -->
+            <!-- Curated Dropdown -->
             <div class="calc-input-group" id="curated-setup-wrapper">
               <div class="calc-label-row">
-                <label for="swing-select-setup">Choose Curated Setup</label>
+                <label for="swing-select-setup">Active Focus Setup</label>
               </div>
               <select class="voice-select" id="swing-select-setup" style="max-width:100%;padding:0.6rem 0.85rem;font-size:0.88rem;background:var(--surface);border-radius:8px;">
                 <option value="Welspun Corp,2373.80,2260,2620">Welspun Corp &middot; Entry: ₹2,373.80 | SL: ₹2,260 | Target: ₹2,620</option>
@@ -2869,7 +2970,7 @@ footer {
               </select>
             </div>
 
-            <!-- Custom Trade Mode (Hidden by default) -->
+            <!-- Custom Mode Inputs -->
             <div class="calc-input-group" id="custom-setup-wrapper" style="display:none;">
               <div class="custom-inputs-grid">
                 <div class="custom-input-box">
@@ -2888,35 +2989,35 @@ footer {
             </div>
           </div>
 
-          <!-- Outputs Column -->
+          <!-- Right: Execution Summary -->
           <div class="swing-output-card">
             <div class="output-hero-box">
               <div>
-                <span class="k">Recommended Position</span>
-                <div class="v num" id="swing-res-qty">65 shares</div>
+                <span class="k" id="hero-setup-name">Welspun Corp Position</span>
+                <div class="v num" id="swing-res-qty">21 shares</div>
               </div>
               <div style="text-align:right;">
-                <span class="k">Capital Deployed</span>
-                <div class="num" id="swing-res-cost" style="font-weight:700;font-size:1.15rem;">₹1,54,297</div>
+                <span class="k">Capital Required</span>
+                <div class="num" id="swing-res-cost" style="font-weight:700;font-size:1.2rem;">₹49,850</div>
               </div>
             </div>
 
             <div class="output-metrics-grid">
               <div class="out-tile loss">
                 <span class="k">Max Risk (If SL hits)</span>
-                <span class="v num" id="swing-res-risk">-₹7,397 (1.48%)</span>
+                <span class="v num" id="swing-res-risk">-₹2,390</span>
               </div>
               <div class="out-tile gain">
                 <span class="k">Expected Profit</span>
-                <span class="v num" id="swing-res-profit">+₹16,003 (+10.4%)</span>
+                <span class="v num" id="swing-res-profit">+₹5,170 (+10.4%)</span>
               </div>
               <div class="out-tile">
                 <span class="k">Risk-to-Reward (R:R)</span>
                 <span class="v num" id="swing-res-rr">1 : 2.2</span>
               </div>
               <div class="out-tile">
-                <span class="k">Capital Utilization</span>
-                <span class="v num" id="swing-res-util">30.9% of account</span>
+                <span class="k">Required Win Rate</span>
+                <span class="v num" id="swing-res-util">&ge; 35% profitable</span>
               </div>
             </div>
 
@@ -2934,7 +3035,7 @@ footer {
             </div>
 
             <button class="copy-plan-btn" id="btn-copy-swing-plan">
-              📋 Copy Execution Order &amp; Risk Plan
+              📋 Copy Trade Order Plan to Clipboard
             </button>
           </div>
         </div>
@@ -4344,20 +4445,27 @@ document.querySelectorAll('.watch-card').forEach(function(card){
 
   // Generate dynamic contextual scripts
   
-// ---- Upgraded Swing Trading Position Sizer & Target Profit Engine ----
+// ---- Dynamic Profit Slider & Multi-Stock Recommendation Matrix Engine ----
 (function(){
+  var profitSlider = document.getElementById('swing-profit-slider');
+  var profitDisplay = document.getElementById('swing-profit-display');
+  var matrixGoalTitle = document.getElementById('matrix-goal-title');
+  var matrixTbody = document.getElementById('matrix-table-body');
+  
   var capSlider = document.getElementById('swing-capital');
   var capNum = document.getElementById('swing-cap-num');
   var riskSlider = document.getElementById('swing-risk-pct');
   var riskNum = document.getElementById('swing-risk-num');
   var setupSel = document.getElementById('swing-select-setup');
-  var profitGoalNum = document.getElementById('swing-target-profit-num');
-  
+
   var tabProfitGoal = document.getElementById('tab-profit-goal-mode');
   var tabCurated = document.getElementById('tab-curated-mode');
   var tabCustom = document.getElementById('tab-custom-mode');
 
   var profitGoalWrap = document.getElementById('profit-goal-wrapper');
+  var matrixBox = document.getElementById('recommendations-matrix-box');
+  var capGroup = document.getElementById('capital-input-group');
+  var riskGroup = document.getElementById('risk-input-group');
   var curatedWrap = document.getElementById('curated-setup-wrapper');
   var customWrap = document.getElementById('custom-setup-wrapper');
 
@@ -4366,38 +4474,83 @@ document.querySelectorAll('.watch-card').forEach(function(card){
   var customTarget = document.getElementById('custom-target');
   var copyPlanBtn = document.getElementById('btn-copy-swing-plan');
 
-  var currentMode = 'profit-goal'; // 'profit-goal', 'capital', 'custom'
+  var currentMode = 'profit-goal';
+  var selectedStockIdx = 0;
+
+  var SWING_SETUPS = [
+    { name: "Welspun Corp", ticker: "WELSPUNCORP", entry: 2373.80, sl: 2260.00, target: 2620.00, catalyst: "$1.8B US Order" },
+    { name: "Hindustan Zinc", ticker: "HINDZINC", entry: 622.00, sl: 588.00, target: 715.00, catalyst: "Zinc Squeeze +31%" },
+    { name: "Bharat Electronics", ticker: "BEL", entry: 411.90, sl: 392.00, target: 462.00, catalyst: "Tejas 97 Jet Book" },
+    { name: "Mastek", ticker: "MASTEK", entry: 1901.40, sl: 1815.00, target: 2140.00, catalyst: "Tech Reversal" },
+    { name: "Ather Energy", ticker: "ATHERENERGY", entry: 1616.30, sl: 1515.00, target: 1840.00, catalyst: "EV Share Expansion" }
+  ];
 
   function fmtINR(val) {
     return '₹' + Math.round(val).toLocaleString('en-IN');
   }
 
-  function calculateSwing() {
-    var stockName = 'Welspun Corp';
-    var entry = 2373.80;
-    var sl = 2260.00;
-    var target = 2620.00;
+  function renderMatrix(desiredProfit) {
+    if (!matrixTbody) return;
+    
+    matrixTbody.innerHTML = SWING_SETUPS.map(function(stk, idx){
+      var rewardPerShare = stk.target - stk.entry;
+      var riskPerShare = stk.entry - stk.sl;
+      var qty = Math.max(1, Math.ceil(desiredProfit / rewardPerShare));
+      var cap = qty * stk.entry;
+      var risk = qty * riskPerShare;
+      var profit = qty * rewardPerShare;
+      var rr = (rewardPerShare / riskPerShare).toFixed(1);
+      var isSelected = (idx === selectedStockIdx);
 
-    if (currentMode !== 'custom' && setupSel) {
-      var parts = setupSel.value.split(',');
-      stockName = parts[0];
-      entry = parseFloat(parts[1]) || 2373.80;
-      sl = parseFloat(parts[2]) || 2260.00;
-      target = parseFloat(parts[3]) || 2620.00;
-    } else if (currentMode === 'custom') {
+      return '<tr class="' + (isSelected ? 'active-rec-row' : '') + '" data-index="' + idx + '">' +
+        '<td><input type="radio" name="rec-radio" class="rec-select-radio" ' + (isSelected ? 'checked' : '') + '></td>' +
+        '<td><strong>' + stk.name + '</strong> <span class="cat" style="font-size:0.75rem;margin-left:0.25rem;">' + stk.ticker + '</span></td>' +
+        '<td class="price num"><strong>' + qty.toLocaleString('en-IN') + ' shares</strong></td>' +
+        '<td class="price num">' + fmtINR(cap) + '</td>' +
+        '<td class="price num">₹' + stk.entry.toFixed(2) + '</td>' +
+        '<td class="price num loss">-₹' + (riskPerShare).toFixed(2) + ' (₹' + stk.sl.toFixed(2) + ')</td>' +
+        '<td class="price num gain">+' + fmtINR(profit) + ' (₹' + stk.target.toFixed(2) + ')</td>' +
+        '<td class="price num"><strong>1 : ' + rr + '</strong></td>' +
+      '</tr>';
+    }).join('');
+
+    // Add click event to rows
+    matrixTbody.querySelectorAll('tr').forEach(function(row){
+      row.addEventListener('click', function(){
+        selectedStockIdx = parseInt(row.getAttribute('data-index')) || 0;
+        if (setupSel) setupSel.selectedIndex = selectedStockIdx;
+        calculateSwing();
+      });
+    });
+  }
+
+  function calculateSwing() {
+    var desiredProfit = parseFloat(profitSlider ? profitSlider.value : 5000) || 5000;
+    if (profitDisplay) profitDisplay.textContent = fmtINR(desiredProfit) + ' / week';
+    if (matrixGoalTitle) matrixGoalTitle.textContent = fmtINR(desiredProfit) + ' / week';
+
+    renderMatrix(desiredProfit);
+
+    var stk = SWING_SETUPS[selectedStockIdx] || SWING_SETUPS[0];
+    var entry = stk.entry;
+    var sl = stk.sl;
+    var target = stk.target;
+    var stockName = stk.name;
+
+    if (currentMode === 'custom') {
       entry = parseFloat(customEntry.value) || 1000;
       sl = parseFloat(customSL.value) || 950;
       target = parseFloat(customTarget.value) || 1120;
+      stockName = 'Custom Stock';
     }
 
     var rewardPerShare = Math.max(0.05, target - entry);
     var riskPerShare = Math.max(0.05, entry - sl);
     var qty = 1;
-    var totalCap = parseFloat(capNum.value) || 500000;
-    var riskPct = parseFloat(riskNum.value) || 1.5;
+    var totalCap = parseFloat(capNum ? capNum.value : 500000) || 500000;
+    var riskPct = parseFloat(riskNum ? riskNum.value : 1.5) || 1.5;
 
     if (currentMode === 'profit-goal') {
-      var desiredProfit = parseFloat(profitGoalNum.value) || 5000;
       qty = Math.max(1, Math.ceil(desiredProfit / rewardPerShare));
     } else {
       var maxRiskINR = totalCap * (riskPct / 100);
@@ -4412,28 +4565,61 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     var returnPct = entry > 0 ? ((target - entry) / entry) * 100 : 0;
     var rrRatio = (rewardPerShare / riskPerShare).toFixed(1);
 
-    // Update UI elements
-    document.getElementById('swing-res-qty').textContent = qty.toLocaleString('en-IN') + ' shares';
-    document.getElementById('swing-res-cost').textContent = fmtINR(capitalDeployed);
-    document.getElementById('swing-res-risk').textContent = '-' + fmtINR(totalRisk) + ' (Max Risk)';
-    document.getElementById('swing-res-profit').textContent = '+' + fmtINR(totalReward) + ' (+' + returnPct.toFixed(1) + '%)';
-    document.getElementById('swing-res-rr').textContent = '1 : ' + rrRatio;
-    document.getElementById('swing-res-util').textContent = 'Needs ' + fmtINR(capitalDeployed) + ' capital';
+    var heroNameEl = document.getElementById('hero-setup-name');
+    if (heroNameEl) heroNameEl.textContent = stockName + ' Position';
+    
+    var resQtyEl = document.getElementById('swing-res-qty');
+    if (resQtyEl) resQtyEl.textContent = qty.toLocaleString('en-IN') + ' shares';
+    
+    var resCostEl = document.getElementById('swing-res-cost');
+    if (resCostEl) resCostEl.textContent = fmtINR(capitalDeployed);
+    
+    var resRiskEl = document.getElementById('swing-res-risk');
+    if (resRiskEl) resRiskEl.textContent = '-' + fmtINR(totalRisk) + ' (Max Risk)';
+    
+    var resProfitEl = document.getElementById('swing-res-profit');
+    if (resProfitEl) resProfitEl.textContent = '+' + fmtINR(totalReward) + ' (+' + returnPct.toFixed(1) + '%)';
+    
+    var resRREl = document.getElementById('swing-res-rr');
+    if (resRREl) resRREl.textContent = '1 : ' + rrRatio;
 
     // Payoff bar values
-    document.getElementById('payoff-sl-val').textContent = '₹' + sl.toLocaleString('en-IN');
-    document.getElementById('payoff-entry-val').textContent = '₹' + entry.toLocaleString('en-IN');
-    document.getElementById('payoff-tgt-val').textContent = '₹' + target.toLocaleString('en-IN');
+    var slValEl = document.getElementById('payoff-sl-val');
+    if (slValEl) slValEl.textContent = '₹' + sl.toLocaleString('en-IN');
+    
+    var entryValEl = document.getElementById('payoff-entry-val');
+    if (entryValEl) entryValEl.textContent = '₹' + entry.toLocaleString('en-IN');
+    
+    var tgtValEl = document.getElementById('payoff-tgt-val');
+    if (tgtValEl) tgtValEl.textContent = '₹' + target.toLocaleString('en-IN');
 
     var totalSpan = (target - sl) || 1;
     var slPct = Math.max(15, Math.min(85, ((entry - sl) / totalSpan) * 100));
     var gainPct = 100 - slPct;
-    document.getElementById('payoff-sl-bar').style.width = slPct + '%';
-    document.getElementById('payoff-gain-bar').style.width = gainPct + '%';
+    
+    var slBar = document.getElementById('payoff-sl-bar');
+    if (slBar) slBar.style.width = slPct + '%';
+    
+    var gainBar = document.getElementById('payoff-gain-bar');
+    if (gainBar) gainBar.style.width = gainPct + '%';
   }
 
-  // Event Listeners
-  if (profitGoalNum) profitGoalNum.addEventListener('input', calculateSwing);
+  // Dynamic Slider Event
+  if (profitSlider) {
+    profitSlider.addEventListener('input', calculateSwing);
+  }
+
+  // Preset Buttons
+  document.querySelectorAll('.preset-pill-btn[data-goal]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.preset-pill-btn[data-goal]').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      if (profitSlider) profitSlider.value = btn.getAttribute('data-goal');
+      calculateSwing();
+      showToast('🎯 Set weekly profit target to ' + btn.textContent.split('(')[0].trim());
+    });
+  });
+
   if (capSlider && capNum) {
     capSlider.addEventListener('input', function(){ capNum.value = this.value; calculateSwing(); });
     capNum.addEventListener('input', function(){ calculateSwing(); });
@@ -4443,45 +4629,18 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     riskNum.addEventListener('input', function(){ calculateSwing(); });
   }
 
-  if (setupSel) setupSel.addEventListener('change', calculateSwing);
+  if (setupSel) {
+    setupSel.addEventListener('change', function(){
+      selectedStockIdx = setupSel.selectedIndex;
+      calculateSwing();
+    });
+  }
+
   if (customEntry) customEntry.addEventListener('input', calculateSwing);
   if (customSL) customSL.addEventListener('input', calculateSwing);
   if (customTarget) customTarget.addEventListener('input', calculateSwing);
 
-  // Profit Goal Presets
-  document.querySelectorAll('.preset-pill-btn[data-goal]').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      document.querySelectorAll('.preset-pill-btn[data-goal]').forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
-      profitGoalNum.value = btn.getAttribute('data-goal');
-      calculateSwing();
-      showToast('🎯 Set weekly profit target to ' + btn.textContent.split('(')[0].trim());
-    });
-  });
-
-  // Capital Presets
-  document.querySelectorAll('.preset-pill-btn[data-cap]').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      document.querySelectorAll('.preset-pill-btn[data-cap]').forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
-      capNum.value = btn.getAttribute('data-cap');
-      capSlider.value = btn.getAttribute('data-cap');
-      calculateSwing();
-    });
-  });
-
-  // Risk Presets
-  document.querySelectorAll('.preset-pill-btn[data-risk]').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      document.querySelectorAll('.preset-pill-btn[data-risk]').forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
-      riskNum.value = btn.getAttribute('data-risk');
-      riskSlider.value = btn.getAttribute('data-risk');
-      calculateSwing();
-    });
-  });
-
-  // Mode Switcher Tabs
+  // Mode Switcher
   function setMode(mode) {
     currentMode = mode;
     [tabProfitGoal, tabCurated, tabCustom].forEach(function(t){ if (t) t.classList.remove('active'); });
@@ -4489,16 +4648,25 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     if (mode === 'profit-goal') {
       if (tabProfitGoal) tabProfitGoal.classList.add('active');
       if (profitGoalWrap) profitGoalWrap.style.display = 'flex';
+      if (matrixBox) matrixBox.style.display = 'flex';
+      if (capGroup) capGroup.style.display = 'none';
+      if (riskGroup) riskGroup.style.display = 'none';
       if (curatedWrap) curatedWrap.style.display = 'flex';
       if (customWrap) customWrap.style.display = 'none';
     } else if (mode === 'capital') {
       if (tabCurated) tabCurated.classList.add('active');
       if (profitGoalWrap) profitGoalWrap.style.display = 'none';
+      if (matrixBox) matrixBox.style.display = 'none';
+      if (capGroup) capGroup.style.display = 'flex';
+      if (riskGroup) riskGroup.style.display = 'flex';
       if (curatedWrap) curatedWrap.style.display = 'flex';
       if (customWrap) customWrap.style.display = 'none';
     } else if (mode === 'custom') {
       if (tabCustom) tabCustom.classList.add('active');
       if (profitGoalWrap) profitGoalWrap.style.display = 'none';
+      if (matrixBox) matrixBox.style.display = 'none';
+      if (capGroup) capGroup.style.display = 'flex';
+      if (riskGroup) riskGroup.style.display = 'flex';
       if (curatedWrap) curatedWrap.style.display = 'none';
       if (customWrap) customWrap.style.display = 'flex';
     }
@@ -4509,49 +4677,27 @@ document.querySelectorAll('.watch-card').forEach(function(card){
   if (tabCurated) tabCurated.addEventListener('click', function(){ setMode('capital'); });
   if (tabCustom) tabCustom.addEventListener('click', function(){ setMode('custom'); });
 
-  // Click on Setup Card auto-selects in calculator
-  document.querySelectorAll('.swing-card').forEach(function(card){
-    card.addEventListener('click', function(){
-      var stk = card.getAttribute('data-stock');
-      if (setupSel) {
-        for (var i = 0; i < setupSel.options.length; i++) {
-          if (setupSel.options[i].text.indexOf(stk) > -1) {
-            setupSel.selectedIndex = i;
-            calculateSwing();
-            showToast('🎯 Loaded ' + stk + ' setup into Profit Planner');
-            var calcBox = document.getElementById('swing-calculator-box');
-            if (calcBox) calcBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            break;
-          }
-        }
-      }
-    });
-  });
-
   // Copy Plan Button
   if (copyPlanBtn) {
     copyPlanBtn.addEventListener('click', function(){
+      var stk = SWING_SETUPS[selectedStockIdx] || SWING_SETUPS[0];
       var qty = document.getElementById('swing-res-qty').textContent;
       var cost = document.getElementById('swing-res-cost').textContent;
       var risk = document.getElementById('swing-res-risk').textContent;
       var profit = document.getElementById('swing-res-profit').textContent;
-      var entry = document.getElementById('payoff-entry-val').textContent;
-      var sl = document.getElementById('payoff-sl-val').textContent;
-      var target = document.getElementById('payoff-tgt-val').textContent;
 
-      var plan = '🎯 *SWING TRADE ORDER PLAN (Weekly Profit Goal)*\n' +
-                 '• Setup: ' + (setupSel ? setupSel.options[setupSel.selectedIndex].text.split('·')[0].trim() : 'Custom Setup') + '\n' +
-                 '• Entry: ' + entry + '\n' +
-                 '• Stop-Loss: ' + sl + '\n' +
-                 '• Target: ' + target + '\n' +
-                 '• Quantity: ' + qty + ' (Capital Required: ' + cost + ')\n' +
-                 '• Max Risk: ' + risk + '\n' +
-                 '• Target Profit: ' + profit + '\n' +
+      var plan = '🎯 *SWING TRADE EXECUTION ORDER*\n' +
+                 '• Stock: ' + stk.name + ' (' + stk.ticker + ')\n' +
+                 '• Buy Quantity: ' + qty + '\n' +
+                 '• Entry Price: ₹' + stk.entry.toFixed(2) + '\n' +
+                 '• Stop-Loss: ₹' + stk.sl.toFixed(2) + ' (Max Risk: ' + risk + ')\n' +
+                 '• Target Price: ₹' + stk.target.toFixed(2) + ' (Target Profit: ' + profit + ')\n' +
+                 '• Capital Required: ' + cost + '\n' +
                  'Generated by momentWealth Terminal';
 
       if (navigator.clipboard) {
         navigator.clipboard.writeText(plan).then(function(){
-          showToast('📋 Copied Trade Execution Plan to Clipboard!');
+          showToast('📋 Copied Execution Order to Clipboard!');
         });
       } else {
         showToast('Plan ready!');
@@ -4562,7 +4708,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
   calculateSwing();
 })();
 
-  function getSwingScript() {
+function getSwingScript() {
   return [
     "Here is your momentWealth One to Two Week Swing Trading Briefing based on last week's momentum research.",
     "First setup: Welspun Corp. All-time high breakout. Enter between 2,360 and 2,385 rupees. Stop-loss at 2,260 rupees. Target 1 at 2,520, final target 2,620 rupees for a 10.5% gain.",
