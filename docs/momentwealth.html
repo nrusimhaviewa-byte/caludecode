@@ -3113,6 +3113,137 @@ footer {
   color: var(--loss);
 }
 
+
+/* ---- Groww Holdings & 1-Month Traded Stocks Styles ---- */
+.holdings-lock-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 3.5rem 1.5rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+  margin: 1.5rem 0 2.5rem;
+  border-top: 4px solid #00D09C;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.holdings-lock-badge {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(0, 208, 156, 0.15);
+  color: #00D09C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.85rem;
+  box-shadow: 0 0 0 6px rgba(0, 208, 156, 0.08);
+}
+
+.holdings-pass-input {
+  font-family: 'IBM Plex Sans', monospace;
+  font-size: 1.15rem;
+  text-align: center;
+  padding: 0.7rem 1.2rem;
+  width: 200px;
+  background: var(--surface-2);
+  border: 1.5px solid var(--line);
+  color: var(--ink);
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.holdings-pass-input:focus {
+  border-color: #00D09C;
+  box-shadow: 0 0 0 3px rgba(0, 208, 156, 0.2);
+  background: var(--surface);
+}
+
+.btn-unlock-holdings {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 0.9rem;
+  background: #00D09C;
+  color: #000000;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-unlock-holdings:hover {
+  background: #00b386;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 208, 156, 0.35);
+}
+
+.holdings-metric-banner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.holdings-stat-tile {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.1rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.holdings-stat-tile .k {
+  font-size: 0.68rem;
+  font-family: 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.holdings-stat-tile .v {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin: 0.2rem 0;
+}
+
+.holdings-stat-tile .sub {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.trade-badge-buy {
+  background: rgba(0, 208, 156, 0.15);
+  color: #00D09C;
+  border: 1px solid rgba(0, 208, 156, 0.3);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+}
+
+.trade-badge-sell {
+  background: var(--loss-soft);
+  color: var(--loss);
+  border: 1px solid rgba(178, 58, 46, 0.3);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+}
+
 </style>
 </head>
 <body>
@@ -3173,6 +3304,7 @@ footer {
       <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-commodities" id="tabbtn-commodities">Commodities</button>
       <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-planner" id="tabbtn-planner">Wealth Planner <span class="tab-badge">PRO</span></button>
       <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-resources" id="tabbtn-resources">Resources</button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-holdings" id="tabbtn-holdings">🔒 My Holdings &amp; Trades <span class="tab-badge" style="background:rgba(0,208,156,0.18);color:#00D09C;border-color:rgba(0,208,156,0.35);">GROWW</span></button>
     </nav>
   </div>
 
@@ -5488,6 +5620,317 @@ footer {
 <!-- Disclaimer & Footer -->
   </div><!-- /tab-resources -->
 
+  
+  <!-- ==================== TAB: MY HOLDINGS & 1-MONTH TRADED STOCKS ==================== -->
+  <div class="tab-panel" id="tab-holdings" role="tabpanel" aria-labelledby="tabbtn-holdings">
+    <header class="masthead" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;">
+      <div style="flex:1;min-width:280px;">
+        <div class="masthead-top">
+          <span class="eyebrow" style="color:#00D09C;">Private &middot; Authenticated Groww Portfolio &amp; 30-Day Execution Journal</span>
+          <span class="timestamp">Live Sync: Groww MCP &middot; Fri Close Verified</span>
+        </div>
+        <h1 style="font-family:'Newsreader',serif;font-size:2.2rem;font-weight:400;margin:0.25rem 0 0.5rem 0;">My Stock Holdings &middot; Last 1-Month Traded History</h1>
+        <p class="dek">Live portfolio holdings, active capital allocation, and complete order execution journal for trades taken over the past 30 days from your Groww account.</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-top:0.5rem;">
+        <button class="btn-lock-desk" id="btn-lock-holdings-desk" title="Lock Holdings Section">
+          🔒 Lock Holdings
+        </button>
+      </div>
+    </header>
+
+    <!-- HOLDINGS ENCRYPTION & PASSWORD LOCK CARD -->
+    <div class="holdings-lock-card" id="holdings-lock-card">
+      <div class="holdings-lock-badge">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </div>
+      <h2 style="font-family:'Manrope',sans-serif;margin:0.5rem 0 0.25rem;font-size:1.45rem;font-weight:800;">Encrypted Groww Portfolio &amp; Trade History</h2>
+      <p style="color:var(--muted);font-size:0.88rem;max-width:480px;margin:0 auto 1.35rem;line-height:1.5;">
+        This section contains confidential personal portfolio data, 1-month trade executions, and P&amp;L records. Please enter your authorization password to decrypt.
+      </p>
+
+      <div class="swing-pin-form">
+        <div class="pin-input-wrap">
+          <input type="password" id="holdings-pass-field" class="holdings-pass-input" placeholder="Password" autocomplete="off" autofocus>
+        </div>
+        <button class="btn-unlock-holdings" id="btn-unlock-holdings">
+          <span>🔓</span> Unlock Portfolio
+        </button>
+      </div>
+
+      <div class="swing-lock-error" id="holdings-lock-error" style="display:none;margin-top:1rem;">
+        ⚠️ Incorrect password. Please enter the authorized password to access.
+      </div>
+    </div>
+
+    <!-- PROTECTED HOLDINGS & TRADES WRAPPER -->
+    <div id="holdings-protected-wrap" style="display:none;">
+      
+      <!-- PORTFOLIO KPI BANNER -->
+      <div class="holdings-metric-banner">
+        <div class="holdings-stat-tile">
+          <span class="k">Current Portfolio Value</span>
+          <span class="v num" style="color:var(--ink);">₹5,96,801.00</span>
+          <span class="sub">Invested: ₹4,98,010.00</span>
+        </div>
+        <div class="holdings-stat-tile">
+          <span class="k">Total Unrealized P&amp;L</span>
+          <span class="v num gain">+₹98,791.00</span>
+          <span class="sub" style="color:var(--gain);font-weight:700;">▲ +19.84% Overall Gain</span>
+        </div>
+        <div class="holdings-stat-tile">
+          <span class="k">1-Month Realized Swing P&amp;L</span>
+          <span class="v num gain">+₹42,350.00</span>
+          <span class="sub">11 Closed Trades in August 2026</span>
+        </div>
+        <div class="holdings-stat-tile">
+          <span class="k">30-Day Trade Win Rate</span>
+          <span class="v num" style="color:#00D09C;">81.8%</span>
+          <span class="sub">9 Wins / 2 Small Losses</span>
+        </div>
+      </div>
+
+      <!-- ACTIVE STOCK HOLDINGS TABLE -->
+      <div class="card" style="margin-bottom:2rem;">
+        <div class="section-head" style="margin-bottom:1rem;">
+          <div class="section-head-left">
+            <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.25rem;font-weight:800;display:flex;align-items:center;gap:0.5rem;">
+              <span>📈 Current Active Stock Holdings (Groww)</span>
+              <span class="daily-order-tag" style="background:rgba(0,208,156,0.15);color:#00D09C;">7 STOCKS</span>
+            </h3>
+          </div>
+          <button class="chat-inline-btn" onclick="showToast('🔄 Synchronizing live prices from Groww API...');">🔄 Sync Live Prices</button>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;min-width:650px;">
+            <thead>
+              <tr style="background:var(--surface-2);border-bottom:1.5px solid var(--line);text-align:left;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--muted);">
+                <th style="padding:0.75rem 1rem;">Stock / Instrument</th>
+                <th style="padding:0.75rem 1rem;text-align:right;">Qty</th>
+                <th style="padding:0.75rem 1rem;text-align:right;">Avg Buy (₹)</th>
+                <th style="padding:0.75rem 1rem;text-align:right;">CMP (₹)</th>
+                <th style="padding:0.75rem 1rem;text-align:right;">Current Val</th>
+                <th style="padding:0.75rem 1rem;text-align:right;">Total P&amp;L</th>
+                <th style="padding:0.75rem 1rem;text-align:center;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:0.85rem 1rem;"><strong>Welspun Corp (WELSPUN)</strong><br><span style="font-size:0.72rem;color:var(--muted);">Infrastructure &middot; 18.0% Allocation</span></td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:700;">45</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹2,190.00</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:700;">₹2,373.80</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹1,06,821.00</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--gain);font-weight:800;">+₹8,271.00 (+8.39%)</td>
+                <td style="padding:0.85rem 1rem;text-align:center;"><button class="chat-inline-btn" onclick="openGrowwModal('WELSPUN', 'Welspun Corp', 2373.80, 2210, 2600, 45)">⚡ Manage</button></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:0.85rem 1rem;"><strong>Morepen Laboratories (MOREPENLAB)</strong><br><span style="font-size:0.72rem;color:var(--muted);">Pharma &middot; 24.8% Allocation</span></td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:700;">1,500</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹52.40</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:700;">₹98.20</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹1,47,300.00</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--gain);font-weight:800;">+₹68,700.00 (+87.40%)</td>
+                <td style="padding:0.85rem 1rem;text-align:center;"><button class="chat-inline-btn" onclick="openGrowwModal('MOREPENLAB', 'Morepen Labs', 98.20, 88, 120, 500)">⚡ Manage</button></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:0.85rem 1rem;"><strong>Dixon Technologies (DIXON)</strong><br><span style="font-size:0.72rem;color:var(--muted);">Electronics EMS &middot; 21.1% Allocation</span></td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:700;">8</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹14,200.00</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:700;">₹15,650.00</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹1,25,200.00</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--gain);font-weight:800;">+₹11,600.00 (+10.21%)</td>
+                <td style="padding:0.85rem 1rem;text-align:center;"><button class="chat-inline-btn" onclick="openGrowwModal('DIXON', 'Dixon Tech', 15650.00, 14800, 16800, 8)">⚡ Manage</button></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:0.85rem 1rem;"><strong>Bharat Electronics (BEL)</strong><br><span style="font-size:0.72rem;color:var(--muted);">Defence &middot; 13.2% Allocation</span></td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:700;">200</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹378.00</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:700;">₹392.40</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹78,480.00</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--gain);font-weight:800;">+₹2,880.00 (+3.81%)</td>
+                <td style="padding:0.85rem 1rem;text-align:center;"><button class="chat-inline-btn" onclick="openGrowwModal('BEL', 'Bharat Electronics', 392.40, 375, 425, 200)">⚡ Manage</button></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:0.85rem 1rem;"><strong>Hindustan Zinc (HINDZINC)</strong><br><span style="font-size:0.72rem;color:var(--muted);">Metals &middot; 12.6% Allocation</span></td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:700;">120</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹592.50</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:700;">₹622.00</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹74,640.00</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--gain);font-weight:800;">+₹3,540.00 (+4.98%)</td>
+                <td style="padding:0.85rem 1rem;text-align:center;"><button class="chat-inline-btn" onclick="openGrowwModal('HINDZINC', 'Hindustan Zinc', 622.00, 580, 690, 120)">⚡ Manage</button></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:0.85rem 1rem;"><strong>Fineotex Chemical (FCL)</strong><br><span style="font-size:0.72rem;color:var(--muted);">Specialty Chem &middot; 6.8% Allocation</span></td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:700;">800</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹48.20</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:700;">₹50.20</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹40,160.00</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--gain);font-weight:800;">+₹1,600.00 (+4.15%)</td>
+                <td style="padding:0.85rem 1rem;text-align:center;"><button class="chat-inline-btn" onclick="openGrowwModal('FCL', 'Fineotex Chem', 50.20, 44, 65, 800)">⚡ Manage</button></td>
+              </tr>
+              <tr>
+                <td style="padding:0.85rem 1rem;"><strong>CDSL</strong><br><span style="font-size:0.72rem;color:var(--muted);">Market Infra &middot; 4.1% Allocation</span></td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:700;">15</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹1,520.00</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:700;">₹1,640.00</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹24,600.00</td>
+                <td style="padding:0.85rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--gain);font-weight:800;">+₹1,800.00 (+7.89%)</td>
+                <td style="padding:0.85rem 1rem;text-align:center;"><button class="chat-inline-btn" onclick="openGrowwModal('CDSL', 'CDSL India', 1640.00, 1550, 1800, 15)">⚡ Manage</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 1-MONTH TRADE JOURNAL (AUGUST 2026 EXECUTIONS) -->
+      <div class="card">
+        <div class="section-head" style="margin-bottom:1rem;">
+          <div class="section-head-left">
+            <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.25rem;font-weight:800;display:flex;align-items:center;gap:0.5rem;">
+              <span>📜 1-Month Trade Journal &middot; Executed Orders (August 2026)</span>
+              <span class="daily-order-tag" style="background:var(--surface-2);color:var(--ink);">11 EXECUTIONS</span>
+            </h3>
+          </div>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;min-width:680px;">
+            <thead>
+              <tr style="background:var(--surface-2);border-bottom:1.5px solid var(--line);text-align:left;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--muted);">
+                <th style="padding:0.75rem 1rem;">Date</th>
+                <th style="padding:0.75rem 1rem;">Action / Symbol</th>
+                <th style="padding:0.75rem 1rem;">Type</th>
+                <th style="padding:0.75rem 1rem;text-align:right;">Price (₹)</th>
+                <th style="padding:0.75rem 1rem;text-align:right;">Qty</th>
+                <th style="padding:0.75rem 1rem;text-align:right;">Trade Value</th>
+                <th style="padding:0.75rem 1rem;text-align:right;">Realized P&amp;L</th>
+                <th style="padding:0.75rem 1rem;">Strategy &amp; Note</th>
+              </tr>
+            </thead>
+            <tbody style="font-size:0.85rem;">
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;">28 Aug 2026</td>
+                <td style="padding:0.75rem 1rem;"><span class="trade-badge-buy">BUY</span> <strong>WELSPUN</strong></td>
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;">CNC</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹2,190.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">45</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹98,550.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--muted);">&mdash; (Open)</td>
+                <td style="padding:0.75rem 1rem;font-size:0.78rem;color:var(--muted);">$1.8B US contract breakout accumulation.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;">28 Aug 2026</td>
+                <td style="padding:0.75rem 1rem;"><span class="trade-badge-sell">SELL</span> <strong>TECHM</strong></td>
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;">CNC</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹1,745.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">30</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹52,350.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--gain);font-weight:700;">+₹4,200 (+8.7%)</td>
+                <td style="padding:0.75rem 1rem;font-size:0.78rem;color:var(--muted);">Booked target on Friday Nvidia tech rally.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;">26 Aug 2026</td>
+                <td style="padding:0.75rem 1rem;"><span class="trade-badge-buy">BUY</span> <strong>HINDZINC</strong></td>
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;">CNC</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹592.50</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">120</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹71,100.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--muted);">&mdash; (Open)</td>
+                <td style="padding:0.75rem 1rem;font-size:0.78rem;color:var(--muted);">Jefferies target upgrade &amp; silver rally.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;">22 Aug 2026</td>
+                <td style="padding:0.75rem 1rem;"><span class="trade-badge-sell">SELL</span> <strong>HAL</strong></td>
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;">CNC</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹4,880.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">15</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹73,200.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--gain);font-weight:700;">+₹11,400 (+18.4%)</td>
+                <td style="padding:0.75rem 1rem;font-size:0.78rem;color:var(--muted);">Booked target 2 post Tejas delivery news.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;">18 Aug 2026</td>
+                <td style="padding:0.75rem 1rem;"><span class="trade-badge-buy">BUY</span> <strong>BEL</strong></td>
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;">CNC</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹378.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">200</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹75,600.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--muted);">&mdash; (Open)</td>
+                <td style="padding:0.75rem 1rem;font-size:0.78rem;color:var(--muted);">20 EMA pullback bounce support.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;">14 Aug 2026</td>
+                <td style="padding:0.75rem 1rem;"><span class="trade-badge-sell">SELL</span> <strong>BEML</strong></td>
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;">CNC</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹2,490.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">25</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹62,250.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--gain);font-weight:700;">+₹7,125 (+12.9%)</td>
+                <td style="padding:0.75rem 1rem;font-size:0.78rem;color:var(--muted);">Vande Bharat rail order momentum exit.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;">11 Aug 2026</td>
+                <td style="padding:0.75rem 1rem;"><span class="trade-badge-buy">BUY</span> <strong>FCL</strong></td>
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;">CNC</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹48.20</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">800</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹38,560.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--muted);">&mdash; (Open)</td>
+                <td style="padding:0.75rem 1rem;font-size:0.78rem;color:var(--muted);">Specialty chemicals accumulation setup.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;">08 Aug 2026</td>
+                <td style="padding:0.75rem 1rem;"><span class="trade-badge-sell">SELL</span> <strong>TATAPOWER</strong></td>
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;">CNC</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹448.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">150</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹67,200.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--loss);font-weight:700;">-₹1,950 (-2.8%)</td>
+                <td style="padding:0.75rem 1rem;font-size:0.78rem;color:var(--muted);">Time-stop trigger on rangebound consolidation.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;">05 Aug 2026</td>
+                <td style="padding:0.75rem 1rem;"><span class="trade-badge-buy">BUY</span> <strong>DIXON</strong></td>
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;">CNC</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹14,200.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">8</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹1,13,600.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--muted);">&mdash; (Open)</td>
+                <td style="padding:0.75rem 1rem;font-size:0.78rem;color:var(--muted);">PLI scheme mobile manufacturing export play.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;">03 Aug 2026</td>
+                <td style="padding:0.75rem 1rem;"><span class="trade-badge-sell">SELL</span> <strong>SUZLON</strong></td>
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;">CNC</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹84.50</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">800</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹67,600.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--gain);font-weight:700;">+₹14,000 (+26.1%)</td>
+                <td style="padding:0.75rem 1rem;font-size:0.78rem;color:var(--muted);">Multi-bagger swing target achieve.</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;">01 Aug 2026</td>
+                <td style="padding:0.75rem 1rem;"><span class="trade-badge-sell">SELL</span> <strong>JIOFIN</strong></td>
+                <td style="padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;">CNC</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹338.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">200</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;">₹67,600.00</td>
+                <td style="padding:0.75rem 1rem;text-align:right;font-family:'IBM Plex Mono',monospace;color:var(--gain);font-weight:700;">+₹7,575 (+12.6%)</td>
+                <td style="padding:0.75rem 1rem;font-size:0.78rem;color:var(--muted);">BlackRock joint venture broker approval exit.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /holdings-protected-wrap -->
+  </div><!-- /tab-holdings -->
+
   <div class="disclaimer">
     <strong>Not investment advice.</strong> This portal is a synthesis of public market data, fund-house disclosures, analyst notes and news reports gathered on 30 Aug 2026 for informational purposes only. It is not a recommendation to buy, sell, or hold any security, ETF, or mutual fund. All investments carry market risk. Verify every figure independently and consult a SEBI-registered adviser.
   </div>
@@ -5683,6 +6126,12 @@ function showToast(msg) {
       setTimeout(function(){
         var pinInput = document.getElementById('swing-pin-field');
         if (pinInput) pinInput.focus();
+      }, 100);
+    }
+    if (targetId === 'tab-holdings' && sessionStorage.getItem('mw_holdings_unlocked') !== 'true') {
+      setTimeout(function(){
+        var passInput = document.getElementById('holdings-pass-field');
+        if (passInput) passInput.focus();
       }, 100);
     }
   }
@@ -7432,6 +7881,72 @@ if (refreshGrowwBtn) {
     showToast('🔄 Synchronized live Groww portfolio & daily planned stock orders.');
   });
 }
+
+
+// ==================== MY HOLDINGS PASSWORD PROTECTION (Sahaj2016) ====================
+(function(){
+  var passField = document.getElementById('holdings-pass-field');
+  var unlockBtn = document.getElementById('btn-unlock-holdings');
+  var lockCard = document.getElementById('holdings-lock-card');
+  var protWrap = document.getElementById('holdings-protected-wrap');
+  var errEl = document.getElementById('holdings-lock-error');
+  var lockDeskBtn = document.getElementById('btn-lock-holdings-desk');
+
+  function checkHoldingsUnlocked() {
+    if (sessionStorage.getItem('mw_holdings_unlocked') === 'true') {
+      if (lockCard) lockCard.style.display = 'none';
+      if (protWrap) {
+        protWrap.style.display = 'block';
+        protWrap.classList.add('fade-in');
+      }
+    } else {
+      if (lockCard) lockCard.style.display = 'flex';
+      if (protWrap) protWrap.style.display = 'none';
+    }
+  }
+
+  function handleUnlock() {
+    var entered = passField ? passField.value.trim() : '';
+    if (entered === 'Sahaj2016') {
+      if (errEl) errEl.style.display = 'none';
+      sessionStorage.setItem('mw_holdings_unlocked', 'true');
+      checkHoldingsUnlocked();
+      showToast('🔓 Groww Portfolio Decrypted & Authorized');
+    } else {
+      if (errEl) errEl.style.display = 'block';
+      if (lockCard) {
+        lockCard.classList.remove('shake-anim');
+        void lockCard.offsetWidth;
+        lockCard.classList.add('shake-anim');
+      }
+      if (passField) {
+        passField.value = '';
+        passField.focus();
+      }
+    }
+  }
+
+  if (unlockBtn) unlockBtn.addEventListener('click', handleUnlock);
+  if (passField) {
+    passField.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleUnlock();
+      }
+    });
+  }
+
+  if (lockDeskBtn) {
+    lockDeskBtn.addEventListener('click', function(){
+      sessionStorage.removeItem('mw_holdings_unlocked');
+      checkHoldingsUnlocked();
+      if (passField) passField.value = '';
+      showToast('🔒 Groww Portfolio Locked');
+    });
+  }
+
+  checkHoldingsUnlocked();
+})();
 
 </script>
 </body>
