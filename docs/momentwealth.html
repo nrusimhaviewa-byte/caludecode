@@ -1349,30 +1349,46 @@ a:focus-visible, [tabindex]:focus-visible{outline:2px solid var(--accent);outlin
   <div id="music-embed-slot"></div>
 </div>
 
+<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 <script>
 (function(){
   var toggleBtn = document.getElementById('music-toggle');
   var panel = document.getElementById('music-panel');
   var slot = document.getElementById('music-embed-slot');
-  var loaded = false;
-  if (toggleBtn && panel && slot) {
-    toggleBtn.addEventListener('click', function(){
-      var open = panel.classList.toggle('open');
-      toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      toggleBtn.classList.toggle('playing', open);
-      if (open && !loaded) {
-        var iframe = document.createElement('iframe');
-        iframe.src = 'https://open.spotify.com/embed/playlist/4MN1onNkxBKxItz4QxXymz?utm_source=generator&theme=0';
-        iframe.width = '100%';
-        iframe.height = '152';
-        iframe.frameBorder = '0';
-        iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
-        iframe.loading = 'lazy';
-        slot.appendChild(iframe);
-        loaded = true;
-      }
+  if (!toggleBtn || !panel || !slot) return;
+
+  var controller = null;
+  var wantsPlay = false;
+  var initialized = false;
+  var playing = false;
+
+  window.onSpotifyIframeApiReady = function(IFrameAPI){
+    var element = document.createElement('div');
+    slot.appendChild(element);
+    IFrameAPI.createController(element, {
+      uri: 'spotify:playlist:4MN1onNkxBKxItz4QxXymz',
+      width: '100%',
+      height: '152'
+    }, function(EmbedController){
+      controller = EmbedController;
+      controller.addListener('playback_update', function(e){
+        playing = !e.data.isPaused;
+        toggleBtn.classList.toggle('playing', playing);
+      });
+      if (wantsPlay) { controller.play(); wantsPlay = false; }
     });
-  }
+  };
+
+  toggleBtn.addEventListener('click', function(){
+    var open = panel.classList.toggle('open');
+    toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (!initialized) {
+      // First click: this user gesture is what lets Spotify's iframe autoplay.
+      initialized = true;
+      wantsPlay = true;
+      if (controller) { controller.play(); wantsPlay = false; }
+    }
+  });
 })();
 (function(){
   var buttons = document.querySelectorAll('.tab-btn');
