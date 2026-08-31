@@ -112,6 +112,9 @@ function parseRssXml(xmlText, sourceName, defaultCategory = 'MARKETS') {
   const items = [];
   const itemRegex = /<item[\s>]([\s\S]*?)<\/item>/gi;
   let match;
+  const now = Date.now();
+  const maxAgeMs = 7 * 24 * 60 * 60 * 1000; // max 7 days old to ensure 100% fresh 2026 news
+
   while ((match = itemRegex.exec(xmlText)) !== null) {
     const block = match[1];
     const titleMatch = block.match(/<title>(?:<\!\[CDATA\[([\s\S]*?)\]\]>|([^<]*))<\/title>/i);
@@ -119,10 +122,20 @@ function parseRssXml(xmlText, sourceName, defaultCategory = 'MARKETS') {
     const descMatch = block.match(/<description>(?:<\!\[CDATA\[([\s\S]*?)\]\]>|([^<]*))<\/description>/i);
     const pubDateMatch = block.match(/<pubDate>(?:<\!\[CDATA\[([\s\S]*?)\]\]>|([^<]*))<\/pubDate>/i);
 
-    const title = cleanHtml((titleMatch && (titleMatch[1] || titleMatch[2])) || '');
+    let title = cleanHtml((titleMatch && (titleMatch[1] || titleMatch[2])) || '');
+    title = title.replace(/\s*-\s*(?:Moneycontrol(?:\.com)?|INDmoney|Economic Times|Business Standard)\s*$/i, '').trim();
+
     const link = ((linkMatch && (linkMatch[1] || linkMatch[2])) || '').trim();
     const summary = cleanHtml((descMatch && (descMatch[1] || descMatch[2])) || '');
     const pubDate = ((pubDateMatch && (pubDateMatch[1] || pubDateMatch[2])) || '').trim();
+
+    // Discard any items older than 7 days or dated 2024/2025
+    if (pubDate) {
+      const pubTime = new Date(pubDate).getTime();
+      if (!isNaN(pubTime)) {
+        if (now - pubTime > maxAgeMs) continue;
+      }
+    }
 
     if (title && title.length > 5) {
       const combined = `${title} ${summary}`;
@@ -206,8 +219,8 @@ async function refreshAllFeeds() {
     const [apifyEt, etMarkets, mcMarkets, mcBusiness, bsMarkets, bsCompanies, indMoneyRss, indMoneyStocks] = await Promise.allSettled([
       fetchApifyET(),
       fetchRss('https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms', 'Economic Times', 'MARKETS'),
-      fetchRss('https://www.moneycontrol.com/rss/marketreports.xml', 'Moneycontrol', 'MARKETS'),
-      fetchRss('https://www.moneycontrol.com/rss/business.xml', 'Moneycontrol', 'STOCKS'),
+      fetchRss('https://news.google.com/rss/search?q=site:moneycontrol.com/news/business+OR+site:moneycontrol.com/news/markets+OR+site:moneycontrol.com/news/stocks&hl=en-IN&gl=IN&ceid=IN:en', 'Moneycontrol', 'MARKETS'),
+      fetchRss('https://news.google.com/rss/search?q=site:moneycontrol.com/news/recommendations+OR+site:moneycontrol.com/news/local-markets&hl=en-IN&gl=IN&ceid=IN:en', 'Moneycontrol', 'STOCKS'),
       fetchRss('https://www.business-standard.com/rss/markets-106.rss', 'Business Standard', 'MARKETS'),
       fetchRss('https://www.business-standard.com/rss/companies-101.rss', 'Business Standard', 'COMPANIES'),
       fetchRss('https://news.google.com/rss/search?q=site:indmoney.com/articles+stocks+OR+market&hl=en-IN&gl=IN&ceid=IN:en', 'INDmoney', 'STOCKS'),

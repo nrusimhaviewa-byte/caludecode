@@ -7557,6 +7557,11 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     var items = (rawNewsItems && rawNewsItems.length > 0) ? rawNewsItems : VERIFIED_LIVE_WIRE;
     
     return items.filter(function(it){
+      // Exclude stale legacy items
+      if (it.publishedAt) {
+        var pYear = new Date(it.publishedAt).getFullYear();
+        if (!isNaN(pYear) && pYear < 2026) return false;
+      }
       // Source filter
       if (currentSource === 'INDmoney' && (!it.source || it.source.indexOf('INDmoney') === -1)) return false;
       if (currentSource === 'Economic Times' && (!it.source || it.source.indexOf('Economic') === -1)) return false;
