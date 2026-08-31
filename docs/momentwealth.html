@@ -4923,10 +4923,10 @@ footer {
               <span id="tv-chart-cmp-badge" class="num gain" style="font-family:'IBM Plex Mono',monospace;font-size:1.1rem;font-weight:800;color:#00D09C;">₹622.00</span>
             </div>
             
-            <div style="flex:1;min-height:360px;position:relative;background:#0E1512;border-radius:8px;border:1px solid rgba(255,255,255,0.08);overflow:hidden;display:flex;align-items:center;justify-content:center;">
-              <svg id="tv-native-svg" viewBox="0 0 540 340" style="width:100%;height:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
-                <!-- Dynamic SVG Candlesticks & 20 EMA Rendered Here -->
-              </svg>
+            <div class="tradingview-widget-container" style="flex:1;min-height:420px;height:420px;position:relative;background:#131722;border-radius:8px;border:1px solid rgba(255,255,255,0.1);overflow:hidden;">
+              <div id="tradingview_main_chart" style="width:100%;height:100%;">
+                <iframe id="tradingview-iframe" src="https://s.tradingview.com/widgetembed/?symbol=NSE%3AHINDZINC&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=131722&studies=%5B%22MASimple%40tv-basicstudies%22%2C%22RSI%40tv-basicstudies%22%5D&theme=dark&style=1&timezone=Asia%2FKolkata&locale=in" style="width:100%;height:100%;border:none;" allowtransparency="true" scrolling="no" allowfullscreen></iframe>
+              </div>
             </div>
           </div>
 
@@ -9585,6 +9585,17 @@ if (refreshGrowwBtn) {
       if (errEl) errEl.style.display = 'none';
       sessionStorage.setItem('mw_holdings_unlocked', 'true');
       checkHoldingsUnlocked();
+
+  // Re-render chart on tab activation
+  var swingTabBtn = document.getElementById('tabbtn-swingpool');
+  if (swingTabBtn) {
+    swingTabBtn.addEventListener('click', function(){
+      setTimeout(function(){
+        loadTradingViewChart(currentTVSymbol || "NSE:HINDZINC");
+      }, 100);
+    });
+  }
+
       showToast('✅ Groww Session Authenticated & Portfolio Decrypted');
     } else {
       if (errEl) errEl.style.display = 'block';
@@ -9614,12 +9625,34 @@ if (refreshGrowwBtn) {
     lockDeskBtn.addEventListener('click', function(){
       sessionStorage.removeItem('mw_holdings_unlocked');
       checkHoldingsUnlocked();
+
+  // Re-render chart on tab activation
+  var swingTabBtn = document.getElementById('tabbtn-swingpool');
+  if (swingTabBtn) {
+    swingTabBtn.addEventListener('click', function(){
+      setTimeout(function(){
+        loadTradingViewChart(currentTVSymbol || "NSE:HINDZINC");
+      }, 100);
+    });
+  }
+
       if (passField) passField.value = '';
       showToast('🔒 Groww Portfolio Locked');
     });
   }
 
   checkHoldingsUnlocked();
+
+  // Re-render chart on tab activation
+  var swingTabBtn = document.getElementById('tabbtn-swingpool');
+  if (swingTabBtn) {
+    swingTabBtn.addEventListener('click', function(){
+      setTimeout(function(){
+        loadTradingViewChart(currentTVSymbol || "NSE:HINDZINC");
+      }, 100);
+    });
+  }
+
 })();
 
 
@@ -9895,6 +9928,24 @@ function updateSpeedometerNeedle(angleDeg) {
   needle.setAttribute('y2', y2);
 }
 
+
+// ==================== TRADINGVIEW INTERACTIVE CHART ENGINE ====================
+var currentTVSymbol = "NSE:HINDZINC";
+
+function loadTradingViewChart(symbol) {
+  currentTVSymbol = symbol;
+  var container = document.getElementById('tradingview_main_chart');
+  if (!container) return;
+  
+  var cleanSym = encodeURIComponent(symbol);
+  var iframeSrc = "https://s.tradingview.com/widgetembed/?symbol=" + cleanSym + 
+                  "&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=131722" +
+                  "&studies=%5B%22MASimple%40tv-basicstudies%22%2C%22RSI%40tv-basicstudies%22%5D" +
+                  "&theme=dark&style=1&timezone=Asia%2FKolkata&locale=in";
+
+  container.innerHTML = '<iframe id="tradingview-iframe" src="' + iframeSrc + '" style="width:100%;height:100%;border:none;" allowtransparency="true" scrolling="no" allowfullscreen></iframe>';
+}
+
 function selectStockChart(symbol, name, pattern, cmp, rating, rsi, ema, btnElement) {
   currentTVSymbol = symbol;
   var extLink = document.getElementById('tv-external-link');
@@ -9916,7 +9967,17 @@ function selectStockChart(symbol, name, pattern, cmp, rating, rsi, ema, btnEleme
     btnElement.classList.add('active');
   }
 
-  var d = tvStockData[symbol] || tvStockData["NSE:HINDZINC"];
+  var d = (typeof tvStockData !== 'undefined' && tvStockData[symbol]) ? tvStockData[symbol] : {
+    name: name || symbol,
+    cmp: cmp || 'Live',
+    pattern: pattern || 'Swing Setup',
+    rating: rating || 'BUY',
+    rsi: rsi || '65.0',
+    ema: ema || cmp,
+    osc: '2 Buy · 8 Neutral',
+    ma: '14 Buy · 1 Sell',
+    needleAngle: 45
+  };
 
   if (nameEl) nameEl.textContent = d.name;
   if (patternEl) patternEl.textContent = d.pattern;
@@ -9933,17 +9994,25 @@ function selectStockChart(symbol, name, pattern, cmp, rating, rsi, ema, btnEleme
 
   if (extLink) extLink.href = 'https://in.tradingview.com/chart/?symbol=' + encodeURIComponent(symbol);
 
-  updateSpeedometerNeedle(d.needleAngle);
-  renderSVGVectorChart(symbol);
-  showToast('📈 Loaded live chart radar for ' + d.name);
+  if (typeof updateSpeedometerNeedle === 'function') {
+    updateSpeedometerNeedle(d.needleAngle || 45);
+  }
+
+  loadTradingViewChart(symbol);
+  if (typeof showToast === 'function') {
+    showToast('📈 Loaded live TradingView chart for ' + d.name);
+  }
 }
 
 function openTradingViewWindow() {
   var sym = currentTVSymbol || 'NSE:HINDZINC';
   var url = 'https://in.tradingview.com/chart/?symbol=' + encodeURIComponent(sym);
   window.open(url, '_blank', 'noopener,noreferrer');
-  showToast('🚀 Opened TradingView window for ' + sym);
+  if (typeof showToast === 'function') {
+    showToast('🚀 Opened TradingView window for ' + sym);
+  }
 }
+
 
 // Initial Call
 setTimeout(function(){
