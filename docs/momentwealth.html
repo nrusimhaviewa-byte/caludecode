@@ -7113,11 +7113,11 @@ function openModal(data) {
       return;
     }
     newsListEl.innerHTML = items.slice(0, 4).map(function(item){
-      var title = item.title || 'Stock Update';
-      var url = item.url || '#';
-      var src = item.source || 'Verified Wire';
-      var time = item.timeAgo || 'today';
-      var summary = item.summary || '';
+      var title = escapeHtml(item.title || 'Stock Update');
+      var url = escapeHtml(item.url || '#');
+      var src = escapeHtml(item.source || 'Verified Wire');
+      var time = escapeHtml(item.timeAgo || 'today');
+      var summary = escapeHtml(item.summary || '');
       return '<div class="modal-news-card">' +
         '<a href="' + url + '" target="_blank" rel="noopener">' + title + ' ↗</a>' +
         '<div class="modal-news-meta">' +
@@ -7490,8 +7490,48 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     }
   ];
 
+  function decodeHtmlEntities(str) {
+    if (!str) return '';
+    var txt = document.createElement('textarea');
+    txt.innerHTML = str;
+    var val = txt.value || str;
+    return val.replace(/&amp;#/g, '&#')
+              .replace(/#39;/g, "'")
+              .replace(/&#39;/g, "'")
+              .replace(/&quot;/g, '"')
+              .replace(/&amp;/g, '&')
+              .replace(/&lt;/g, '<')
+              .replace(/&gt;/g, '>')
+              .replace(/&nbsp;/g, ' ')
+              .replace(/&#8216;/g, "'")
+              .replace(/&#8217;/g, "'")
+              .replace(/&#8220;/g, '"')
+              .replace(/&#8221;/g, '"')
+              .replace(/&#8211;/g, '–')
+              .replace(/&#8212;/g, '—')
+              .replace(/&apos;/g, "'");
+  }
+
+  function sanitizeNewsText(str) {
+    if (!str) return '';
+    var s = String(str);
+    s = s.replace(/<img[^>]*>/gi, '')
+         .replace(/<[^>]*>/g, ' ')
+         .replace(/&lt;img[^&]*&gt;/gi, '')
+         .replace(/&lt;[^&]*&gt;/gi, ' ');
+    s = decodeHtmlEntities(s);
+    s = s.replace(/<img[^>]*>/gi, '')
+         .replace(/<[^>]*>/g, ' ')
+         .replace(/#39;/g, "'")
+         .replace(/&#39;/g, "'")
+         .replace(/&lt;/g, '<')
+         .replace(/&gt;/g, '>');
+    return s.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+
   function escapeHtml(s){
-    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+    var cleaned = sanitizeNewsText(s);
+    return String(cleaned == null ? '' : cleaned).replace(/[&<>"']/g, function(c){
       return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
     });
   }
@@ -8485,8 +8525,8 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     var briefingLoaded = false;
     voiceBtn.addEventListener('click', function(){
       if (briefingLoaded) {
-        if (voiceAudio.paused) { voiceAudio.play(); voiceBtn.textContent = '⏸️ Pause briefing'; }
-        else { voiceAudio.pause(); voiceBtn.textContent = '🔊 Resume briefing'; }
+        if (voiceAudio.paused) { voiceAudio.play(); voiceBtn.textContent = '⏸ Pause briefing'; }
+        else { voiceAudio.pause(); voiceBtn.textContent = '▶ Resume briefing'; }
         return;
       }
       voiceBtn.disabled = true;
@@ -8507,14 +8547,14 @@ document.querySelectorAll('.watch-card').forEach(function(card){
           var playPromise = voiceAudio.play();
           if (playPromise && playPromise.then) {
             playPromise.then(function(){
-              voiceBtn.textContent = '⏸️ Pause briefing';
+              voiceBtn.textContent = '⏸ Pause briefing';
               voiceStatusEl.textContent = ago ? ('briefing generated ' + ago) : 'briefing ready';
             }).catch(function(){
               voiceBtn.textContent = '🔊 Listen to briefing';
               voiceStatusEl.textContent = 'Ready — tap play below (browser blocked auto-play).';
             });
           } else {
-            voiceBtn.textContent = '⏸️ Pause briefing';
+            voiceBtn.textContent = '⏸ Pause briefing';
             voiceStatusEl.textContent = ago ? ('briefing generated ' + ago) : 'briefing ready';
           }
         })

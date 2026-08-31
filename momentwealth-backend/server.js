@@ -75,7 +75,33 @@ function extractStocks(text) {
 
 function cleanHtml(str) {
   if (!str) return '';
-  return str.replace(/<[^>]*>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
+  let s = String(str);
+  // Decode common entity encodings
+  s = s.replace(/&amp;#/gi, '&#')
+       .replace(/&amp;/gi, '&')
+       .replace(/&#39;/gi, "'")
+       .replace(/#39;/gi, "'")
+       .replace(/&quot;/gi, '"')
+       .replace(/&apos;/gi, "'")
+       .replace(/&lt;/gi, '<')
+       .replace(/&gt;/gi, '>')
+       .replace(/&nbsp;/gi, ' ')
+       .replace(/&#8216;/gi, "'")
+       .replace(/&#8217;/gi, "'")
+       .replace(/&#8220;/gi, '"')
+       .replace(/&#8221;/gi, '"')
+       .replace(/&#8211;/gi, '–')
+       .replace(/&#8212;/gi, '—');
+  // Strip all HTML tags including images, links, scripts
+  s = s.replace(/<img[^>]*>/gi, '')
+       .replace(/<[^>]*>/g, ' ')
+       .replace(/&lt;img[^&]*&gt;/gi, '')
+       .replace(/&lt;[^&]*&gt;/gi, ' ');
+  // Re-decode in case of nested entities
+  s = s.replace(/#39;/gi, "'")
+       .replace(/&#39;/gi, "'")
+       .replace(/<[^>]*>/g, ' ');
+  return s.replace(/\s+/g, ' ').trim();
 }
 
 function parseRssXml(xmlText, sourceName, defaultCategory = 'MARKETS') {
