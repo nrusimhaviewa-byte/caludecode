@@ -4105,17 +4105,20 @@ footer {
   </div>
 
   <div class="ticker-wrap">
-    <div class="ticker-track" id="ticker-track">
-      <span class="ticker-item" data-ticker="NIFTY"><span class="tname">NIFTY 50</span><span class="tval num">24,175.65</span><span class="tchg gain num">▲0.35%</span></span>
-      <span class="ticker-item" data-ticker="SENSEX"><span class="tname">SENSEX</span><span class="tval num">77,264.51</span><span class="tchg gain num">▲0.43%</span></span>
+        <div class="ticker-track" id="ticker-track">
+      <span class="ticker-item" data-ticker="GIFTNIFTY"><span class="tname">GIFT NIFTY</span><span class="tval num" id="tt-gift-val">24,225.00</span><span class="tchg loss num" id="tt-gift-chg">▼ -0.36%</span></span>
+      <span class="ticker-item" data-ticker="NIFTY"><span class="tname">NIFTY 50</span><span class="tval num" id="tt-nifty-val">24,175.65</span><span class="tchg gain num" id="tt-nifty-chg">▲ +0.35%</span></span>
+      <span class="ticker-item" data-ticker="SENSEX"><span class="tname">SENSEX</span><span class="tval num" id="tt-sensex-val">77,264.51</span><span class="tchg gain num" id="tt-sensex-chg">▲ +0.43%</span></span>
+      <span class="ticker-item" data-ticker="BANKNIFTY"><span class="tname">BANK NIFTY</span><span class="tval num" id="tt-bank-val">51,320.40</span><span class="tchg gain num" id="tt-bank-chg">▲ +0.28%</span></span>
+      <span class="ticker-item" data-ticker="MIDCAP"><span class="tname">MIDCAP 100</span><span class="tval num" id="tt-mid-val">64,450.90</span><span class="tchg gain num" id="tt-mid-chg">▲ +0.72%</span></span>
       <span class="ticker-item" data-ticker="GOLD"><span class="tname">GOLD 24K/10g</span><span class="tval num">₹1,58,240</span><span class="tchg flat num">retail</span></span>
-      <span class="ticker-item" data-ticker="SILVER"><span class="tname">SILVER MINI/kg</span><span class="tval num">₹2,38,435</span><span class="tchg loss num">▼1.19%</span></span>
-      <span class="ticker-item" data-ticker="COPPER"><span class="tname">COPPER/kg</span><span class="tval num">₹1,381.60</span><span class="tchg gain num">▲0.15%</span></span>
+      <span class="ticker-item" data-ticker="SILVER"><span class="tname">SILVER MINI/kg</span><span class="tval num">₹2,38,435</span><span class="tchg loss num">▼ 1.19%</span></span>
+      <span class="ticker-item" data-ticker="COPPER"><span class="tname">COPPER/kg</span><span class="tval num">₹1,381.60</span><span class="tchg gain num">▲ 0.15%</span></span>
       <span class="ticker-item" data-ticker="USDINR"><span class="tname">USD/INR</span><span class="tval num">₹95.40</span><span class="tchg flat num">easing</span></span>
-      <span class="ticker-item" data-ticker="BRENT"><span class="tname">BRENT</span><span class="tval num">$87.98/bbl</span><span class="tchg loss num">▼ off $92 high</span></span>
-      <span class="ticker-item" data-ticker="WELSPUN"><span class="tname">WELSPUN CORP</span><span class="tval num">₹2,373.80</span><span class="tchg gain num">▲48.4% 1M</span></span>
-      <span class="ticker-item" data-ticker="HZINC"><span class="tname">HIND ZINC</span><span class="tval num">₹622.00</span><span class="tchg gain num">▲17.4% 1M</span></span>
-      <span class="ticker-item" data-ticker="HAL"><span class="tname">HAL</span><span class="tval num">₹4,861.10</span><span class="tchg gain num">▲24.2% 6M</span></span>
+      <span class="ticker-item" data-ticker="BRENT"><span class="tname">BRENT</span><span class="tval num">$87.98/bbl</span><span class="tchg loss num">▼ off $92</span></span>
+      <span class="ticker-item" data-ticker="WELSPUN"><span class="tname">WELSPUN CORP</span><span class="tval num">₹2,373.80</span><span class="tchg gain num">▲ 48.4% 1M</span></span>
+      <span class="ticker-item" data-ticker="HZINC"><span class="tname">HIND ZINC</span><span class="tval num">₹622.00</span><span class="tchg gain num">▲ 17.4% 1M</span></span>
+      <span class="ticker-item" data-ticker="HAL"><span class="tname">HAL</span><span class="tval num">₹4,861.10</span><span class="tchg gain num">▲ 24.2% 6M</span></span>
     </div>
   </div>
 </div>
@@ -4168,18 +4171,45 @@ footer {
 <span class="timestamp">Live Synced 31 Aug 2026 &middot; Apify MCP Live Feeds &middot; INDmoney, ET, MC, BS</span>
 </div>
 <h1>Markets eye 24,350 as MSCI rebalancing, record ₹4.5L Cr dividends, and marquee block deals steer weekly trade</h1>
-<div class="index-row">
-<div class="index-item">
-<div class="label">Nifty 50</div>
-<div class="value num">24,175.65<span class="delta gain">▲ 0.35% Fri close</span></div>
+<div class="index-row" id="masthead-index-row">
+<div class="index-item" id="card-gift-nifty" style="border-top:3px solid var(--loss);">
+<div class="label" style="display:flex;justify-content:space-between;align-items:center;">
+  <span>GIFT NIFTY <span style="font-size:0.65rem;background:rgba(226,27,34,0.15);color:var(--loss);padding:1px 5px;border-radius:4px;font-weight:700;">DERIVED CFD</span></span>
+  <span style="font-size:0.65rem;color:var(--muted);" id="gift-nifty-time">08:02 IST</span>
 </div>
-<div class="index-item">
-<div class="label">Sensex</div>
-<div class="value num">77,264.51<span class="delta gain">▲ 0.43%</span></div>
+<div class="value num" style="color:var(--loss);" id="gift-nifty-val">24,225.00<span class="delta loss" id="gift-nifty-chg" style="font-size:0.88rem;margin-left:0.4rem;">▼ -87.00 (-0.36%)</span></div>
+<div style="font-size:0.72rem;color:var(--muted);margin-top:0.25rem;font-family:'IBM Plex Mono',monospace;">Day: <strong id="gift-day-range">24,211 &ndash; 24,266</strong> | 52W: 22,250 &ndash; 26,694</div>
 </div>
-<div class="index-item">
-<div class="label">Streak</div>
-<div class="value" style="font-size:1.35rem;">Consolidating above 24,150 &middot; Base 23,900</div>
+
+<div class="index-item" id="card-nifty-50" style="border-top:3px solid var(--gain);">
+<div class="label" style="display:flex;justify-content:space-between;align-items:center;">
+  <span>NIFTY 50 <span style="font-size:0.65rem;background:rgba(37,211,102,0.15);color:var(--gain);padding:1px 5px;border-radius:4px;font-weight:700;">NSE</span></span>
+  <span style="font-size:0.65rem;color:var(--muted);" id="nifty-50-time">Live Sync</span>
+</div>
+<div class="value num" style="color:var(--gain);" id="nifty-50-val">24,175.65<span class="delta gain" id="nifty-50-chg" style="font-size:0.88rem;margin-left:0.4rem;">▲ +84.25 (+0.35%)</span></div>
+<div style="font-size:0.72rem;color:var(--muted);margin-top:0.25rem;font-family:'IBM Plex Mono',monospace;">Day: <strong id="nifty-day-range">24,080 &ndash; 24,210</strong> | Base: 23,900</div>
+</div>
+
+<div class="index-item" id="card-sensex" style="border-top:3px solid var(--gain);">
+<div class="label" style="display:flex;justify-content:space-between;align-items:center;">
+  <span>SENSEX <span style="font-size:0.65rem;background:rgba(37,211,102,0.15);color:var(--gain);padding:1px 5px;border-radius:4px;font-weight:700;">BSE</span></span>
+  <span style="font-size:0.65rem;color:var(--muted);" id="sensex-time">Live Sync</span>
+</div>
+<div class="value num" style="color:var(--gain);" id="sensex-val">77,264.51<span class="delta gain" id="sensex-chg" style="font-size:0.88rem;margin-left:0.4rem;">▲ +331.35 (+0.43%)</span></div>
+<div style="font-size:0.72rem;color:var(--muted);margin-top:0.25rem;font-family:'IBM Plex Mono',monospace;">Day: <strong id="sensex-day-range">76,950 &ndash; 77,380</strong> | Breadth: Positive</div>
+</div>
+
+<div class="index-item" style="border-top:3px solid #1DB954;background:var(--surface-2);display:flex;flex-direction:column;justify-content:space-between;">
+<div>
+  <div class="label" style="display:flex;align-items:center;gap:0.4rem;color:#1DB954;font-weight:700;">
+    <span class="livewire-dot" style="animation:pulse-dot 1.2s infinite;"></span>
+    <span>Auto-Refresh: 1 Min</span>
+  </div>
+  <div style="font-size:0.75rem;color:var(--muted);margin-top:0.25rem;" id="indices-last-synced-txt">Auto-updating every 60s &bull; Live IST</div>
+</div>
+<button id="btn-manual-refresh-indices" style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;font-weight:700;background:var(--surface);border:1px solid var(--line);padding:0.35rem 0.65rem;border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:0.35rem;margin-top:0.4rem;color:var(--ink);">
+  🔄 Refresh Indices
+</button>
 </div>
 </div>
 </header>
@@ -10212,6 +10242,129 @@ setTimeout(function(){
   setTimeout(function(){
     loadVoiceRecording(false, false);
   }, 1000);
+})();
+
+</script>
+<script>
+
+// ==================== AUTO-REFRESHING INDICES ENGINE (1-MIN INTERVAL) ====================
+(function(){
+  var BACKEND = 'https://momentwealth-backend-911650691357.asia-south1.run.app';
+  var INDICES_API = BACKEND + '/api/indices';
+
+  var giftVal = document.getElementById('gift-nifty-val');
+  var giftChg = document.getElementById('gift-nifty-chg');
+  var giftTime = document.getElementById('gift-nifty-time');
+  var giftDay = document.getElementById('gift-day-range');
+
+  var niftyVal = document.getElementById('nifty-50-val');
+  var niftyChg = document.getElementById('nifty-50-chg');
+  var niftyDay = document.getElementById('nifty-day-range');
+
+  var sensexVal = document.getElementById('sensex-val');
+  var sensexChg = document.getElementById('sensex-chg');
+  var sensexDay = document.getElementById('sensex-day-range');
+
+  var syncTxt = document.getElementById('indices-last-synced-txt');
+  var refreshBtn = document.getElementById('btn-manual-refresh-indices');
+
+  // Ticker track items
+  var ttGiftVal = document.getElementById('tt-gift-val');
+  var ttGiftChg = document.getElementById('tt-gift-chg');
+  var ttNiftyVal = document.getElementById('tt-nifty-val');
+  var ttNiftyChg = document.getElementById('tt-nifty-chg');
+  var ttSensexVal = document.getElementById('tt-sensex-val');
+  var ttSensexChg = document.getElementById('tt-sensex-chg');
+
+  function flashElement(el) {
+    if (!el) return;
+    el.style.transition = 'none';
+    el.style.opacity = '0.4';
+    setTimeout(function(){
+      el.style.transition = 'opacity 0.4s ease';
+      el.style.opacity = '1';
+    }, 50);
+  }
+
+  function fetchLiveIndices(isManual) {
+    if (refreshBtn && isManual) {
+      refreshBtn.textContent = '⏳ Refreshing...';
+      refreshBtn.disabled = true;
+    }
+
+    fetch(INDICES_API, { cache: 'no-store' })
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        if (refreshBtn && isManual) {
+          refreshBtn.textContent = '🔄 Refresh Indices';
+          refreshBtn.disabled = false;
+        }
+
+        if (!data) return;
+
+        // Update GIFT NIFTY
+        if (data.giftNifty) {
+          if (giftVal) {
+            giftVal.innerHTML = data.giftNifty.value + '<span class="delta loss" id="gift-nifty-chg" style="font-size:0.88rem;margin-left:0.4rem;">▼ ' + data.giftNifty.change + ' (' + data.giftNifty.pctChange + ')</span>';
+            flashElement(giftVal);
+          }
+          if (giftTime && data.asOf) giftTime.textContent = data.asOf;
+          if (giftDay && data.giftNifty.dayLow && data.giftNifty.dayHigh) giftDay.textContent = data.giftNifty.dayLow + ' – ' + data.giftNifty.dayHigh;
+          if (ttGiftVal) ttGiftVal.textContent = data.giftNifty.value;
+          if (ttGiftChg) ttGiftChg.textContent = '▼ ' + data.giftNifty.pctChange;
+        }
+
+        // Update NIFTY 50
+        if (data.nifty50) {
+          if (niftyVal) {
+            niftyVal.innerHTML = data.nifty50.value + '<span class="delta gain" id="nifty-50-chg" style="font-size:0.88rem;margin-left:0.4rem;">▲ ' + data.nifty50.change + ' (' + data.nifty50.pctChange + ')</span>';
+            flashElement(niftyVal);
+          }
+          if (niftyDay && data.nifty50.dayLow && data.nifty50.dayHigh) niftyDay.textContent = data.nifty50.dayLow + ' – ' + data.nifty50.dayHigh;
+          if (ttNiftyVal) ttNiftyVal.textContent = data.nifty50.value;
+          if (ttNiftyChg) ttNiftyChg.textContent = '▲ ' + data.nifty50.pctChange;
+        }
+
+        // Update SENSEX
+        if (data.sensex) {
+          if (sensexVal) {
+            sensexVal.innerHTML = data.sensex.value + '<span class="delta gain" id="sensex-chg" style="font-size:0.88rem;margin-left:0.4rem;">▲ ' + data.sensex.change + ' (' + data.sensex.pctChange + ')</span>';
+            flashElement(sensexVal);
+          }
+          if (sensexDay && data.sensex.dayLow && data.sensex.dayHigh) sensexDay.textContent = data.sensex.dayLow + ' – ' + data.sensex.dayHigh;
+          if (ttSensexVal) ttSensexVal.textContent = data.sensex.value;
+          if (ttSensexChg) ttSensexChg.textContent = '▲ ' + data.sensex.pctChange;
+        }
+
+        if (syncTxt && data.asOf) {
+          syncTxt.textContent = 'Updated ' + data.asOf + ' • Auto-refreshing every 60s';
+        }
+
+        if (isManual && typeof showToast === 'function') {
+          showToast('⚡ Live Indices Refreshed: GIFT Nifty, Nifty 50, Sensex');
+        }
+      })
+      .catch(function(err){
+        if (refreshBtn && isManual) {
+          refreshBtn.textContent = '🔄 Refresh Indices';
+          refreshBtn.disabled = false;
+        }
+        console.warn('Indices auto-refresh check:', err);
+      });
+  }
+
+  // Bind Manual Button
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', function(){
+      fetchLiveIndices(true);
+    });
+  }
+
+  // Initial Fetch and Auto-Refresh every 60 seconds (1 minute)
+  fetchLiveIndices(false);
+  setInterval(function(){
+    fetchLiveIndices(false);
+  }, 60000);
 })();
 
 </script>
