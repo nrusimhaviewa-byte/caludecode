@@ -33,7 +33,7 @@ const STOCK_PATTERNS = [
   { ticker: 'WELSPUN', names: ['Welspun', 'Welspun Corp'] },
   { ticker: 'TCS', names: ['TCS', 'Tata Consultancy'] },
   { ticker: 'RELIANCE', names: ['Reliance', 'RIL', 'Jio Financial'] },
-  { ticker: 'ZOMATO', names: ['Zomato'] },
+  { ticker: 'ZOMATO', names: ['Zomato', 'Blinkit'] },
   { ticker: 'BEL', names: ['BEL', 'Bharat Electronics'] },
   { ticker: 'BDL', names: ['BDL', 'Bharat Dynamics'] },
   { ticker: 'MAZDOCK', names: ['Mazagon Dock', 'Mazdock'] },
@@ -50,6 +50,12 @@ const STOCK_PATTERNS = [
   { ticker: 'NESTLEIND', names: ['Nestle', 'Nestle India'] },
   { ticker: 'GRASIM', names: ['Grasim'] },
   { ticker: 'HCLTECH', names: ['HCL Tech', 'HCL Technologies'] },
+  { ticker: 'KPITTECH', names: ['KPIT', 'KPIT Tech', 'KPIT Technologies'] },
+  { ticker: 'JUSTDIAL', names: ['Just Dial', 'Justdial'] },
+  { ticker: 'TEJASNET', names: ['Tejas Networks', 'Tejas'] },
+  { ticker: 'ATHER', names: ['Ather Energy', 'Ather'] },
+  { ticker: 'LENSKART', names: ['Lenskart'] },
+  { ticker: 'OLAELEC', names: ['Ola Electric', 'Ola'] },
 ];
 
 function extractStocks(text) {
@@ -167,13 +173,15 @@ async function fetchRss(url, sourceName, defaultCat = 'MARKETS') {
 
 async function refreshAllFeeds() {
   try {
-    const [apifyEt, etMarkets, mcMarkets, mcBusiness, bsMarkets, bsCompanies] = await Promise.allSettled([
+    const [apifyEt, etMarkets, mcMarkets, mcBusiness, bsMarkets, bsCompanies, indMoneyRss, indMoneyStocks] = await Promise.allSettled([
       fetchApifyET(),
       fetchRss('https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms', 'Economic Times', 'MARKETS'),
       fetchRss('https://www.moneycontrol.com/rss/marketreports.xml', 'Moneycontrol', 'MARKETS'),
       fetchRss('https://www.moneycontrol.com/rss/business.xml', 'Moneycontrol', 'STOCKS'),
       fetchRss('https://www.business-standard.com/rss/markets-106.rss', 'Business Standard', 'MARKETS'),
       fetchRss('https://www.business-standard.com/rss/companies-101.rss', 'Business Standard', 'COMPANIES'),
+      fetchRss('https://news.google.com/rss/search?q=site:indmoney.com/articles+stocks+OR+market&hl=en-IN&gl=IN&ceid=IN:en', 'INDmoney', 'STOCKS'),
+      fetchRss('https://news.google.com/rss/search?q=site:indmoney.com/blog/stocks&hl=en-IN&gl=IN&ceid=IN:en', 'INDmoney', 'STOCKS'),
     ]);
 
     const results = [];
@@ -192,6 +200,8 @@ async function refreshAllFeeds() {
     }
 
     if (apifyEt.status === 'fulfilled') addItems(apifyEt.value);
+    if (indMoneyRss.status === 'fulfilled') addItems(indMoneyRss.value);
+    if (indMoneyStocks.status === 'fulfilled') addItems(indMoneyStocks.value);
     if (mcMarkets.status === 'fulfilled') addItems(mcMarkets.value);
     if (bsMarkets.status === 'fulfilled') addItems(bsMarkets.value);
     if (etMarkets.status === 'fulfilled') addItems(etMarkets.value);
@@ -327,7 +337,7 @@ app.get('/api/news', async (req, res) => {
     fetchedAt: cache.fetchedAt ? new Date(cache.fetchedAt).toISOString() : null,
     ageSeconds: cache.fetchedAt ? Math.round((Date.now() - cache.fetchedAt) / 1000) : null,
     error: cache.error,
-    sources: ['Economic Times', 'Moneycontrol', 'Business Standard'],
+    sources: ['INDmoney', 'Economic Times', 'Moneycontrol', 'Business Standard'],
     total: items.length,
   });
 });
@@ -347,7 +357,7 @@ app.get('/api/briefing', async (req, res) => {
   });
 });
 
-// Dedicated stock-specific news endpoint (queries targeted Google News RSS for ET, Moneycontrol & BS for any stock)
+// Dedicated stock-specific news endpoint (queries targeted Google News RSS for INDmoney, ET, Moneycontrol & BS for any stock)
 app.get('/api/stock-news', async (req, res) => {
   const ticker = req.query.ticker || '';
   const company = req.query.name || '';
@@ -356,7 +366,7 @@ app.get('/api/stock-news', async (req, res) => {
   }
 
   try {
-    const query = encodeURIComponent(`${ticker} OR "${company}" (site:economictimes.indiatimes.com OR site:moneycontrol.com OR site:business-standard.com)`);
+    const query = encodeURIComponent(`${ticker} OR "${company}" (site:indmoney.com OR site:economictimes.indiatimes.com OR site:moneycontrol.com OR site:business-standard.com)`);
     const url = `https://news.google.com/rss/search?q=${query}&hl=en-IN&gl=IN&ceid=IN:en`;
     const resp = await fetch(url, {
       headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
@@ -371,7 +381,8 @@ app.get('/api/stock-news', async (req, res) => {
     // Clean and annotate items
     const annotated = items.map(it => {
       let src = 'Economic Times';
-      if (/moneycontrol/i.test(it.url) || /moneycontrol/i.test(it.title)) src = 'Moneycontrol';
+      if (/indmoney/i.test(it.url) || /indmoney/i.test(it.title)) src = 'INDmoney';
+      else if (/moneycontrol/i.test(it.url) || /moneycontrol/i.test(it.title)) src = 'Moneycontrol';
       else if (/business-standard/i.test(it.url) || /business-standard/i.test(it.title)) src = 'Business Standard';
       else if (/economictimes/i.test(it.url) || /economic times/i.test(it.title)) src = 'Economic Times';
       return {
