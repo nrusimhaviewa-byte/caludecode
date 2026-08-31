@@ -3686,6 +3686,359 @@ footer {
   margin: 0.2rem 0;
 }
 
+
+/* ==================== SPOTIFY-STYLE VOICE RECORDING WIDGET ==================== */
+.spotify-voice-widget {
+  background: linear-gradient(135deg, #121212 0%, #181818 50%, #0d1f14 100%);
+  border: 1px solid rgba(29, 185, 84, 0.25);
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 20px -5px rgba(29, 185, 84, 0.15);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.spotify-voice-widget:hover {
+  border-color: rgba(29, 185, 84, 0.45);
+  box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.6), 0 0 28px -4px rgba(29, 185, 84, 0.25);
+}
+
+.sp-main-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.sp-art-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.sp-artwork {
+  width: 72px;
+  height: 72px;
+  background: linear-gradient(135deg, #1DB954 0%, #0d4722 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(29, 185, 84, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.sp-art-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.sp-live-pill {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1DB954;
+  color: #000000;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 99px;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Soundwaves Equalizer */
+.sp-soundwaves {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 14px;
+}
+
+.sp-soundwaves span {
+  width: 3px;
+  height: 4px;
+  background: #FFFFFF;
+  border-radius: 2px;
+  transition: height 0.2s ease;
+}
+
+.spotify-voice-widget.playing .sp-soundwaves span:nth-child(1) { animation: sp-eq 0.6s infinite ease-in-out alternate; }
+.spotify-voice-widget.playing .sp-soundwaves span:nth-child(2) { animation: sp-eq 0.8s infinite 0.15s ease-in-out alternate; }
+.spotify-voice-widget.playing .sp-soundwaves span:nth-child(3) { animation: sp-eq 0.5s infinite 0.3s ease-in-out alternate; }
+.spotify-voice-widget.playing .sp-soundwaves span:nth-child(4) { animation: sp-eq 0.7s infinite 0.2s ease-in-out alternate; }
+
+@keyframes sp-eq {
+  0% { height: 3px; }
+  100% { height: 14px; }
+}
+
+.sp-center-player {
+  flex: 1;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.sp-track-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.sp-track-title {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sp-track-artist {
+  font-size: 0.75rem;
+  color: #B3B3B3;
+  margin-top: 0.15rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.sp-status-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem;
+  color: #1DB954;
+  background: rgba(29, 185, 84, 0.12);
+  border: 1px solid rgba(29, 185, 84, 0.25);
+  padding: 0.2rem 0.55rem;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+
+/* Scrubber */
+.sp-timeline-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.sp-time-cur, .sp-time-dur {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  color: #A7A7A7;
+  width: 32px;
+}
+
+.sp-time-dur { text-align: right; }
+
+.sp-scrub-bar {
+  flex: 1;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 99px;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+}
+
+.sp-scrub-bar:hover {
+  height: 7px;
+}
+
+.sp-scrub-fill {
+  height: 100%;
+  width: 0%;
+  background: #1DB954;
+  border-radius: 99px;
+  transition: width 0.1s linear;
+}
+
+.sp-scrub-thumb {
+  width: 12px;
+  height: 12px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.15s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.sp-scrub-bar:hover .sp-scrub-thumb {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Controls */
+.sp-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.sp-ctrl-group-left, .sp-ctrl-group-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.sp-play-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #1DB954;
+  color: #000000;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, background 0.15s ease;
+  box-shadow: 0 4px 12px rgba(29, 185, 84, 0.4);
+}
+
+.sp-play-btn:hover {
+  transform: scale(1.08);
+  background: #1ed760;
+}
+
+.sp-btn-icon {
+  background: transparent;
+  border: none;
+  color: #B3B3B3;
+  cursor: pointer;
+  padding: 0.35rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.sp-btn-icon:hover {
+  color: #FFFFFF;
+  transform: scale(1.1);
+}
+
+.sp-speed-pill {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.25rem 0.55rem;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.sp-speed-pill:hover {
+  background: rgba(29, 185, 84, 0.2);
+  border-color: #1DB954;
+  color: #1DB954;
+}
+
+.sp-btn-action {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: rgba(29, 185, 84, 0.15);
+  color: #1DB954;
+  border: 1px solid rgba(29, 185, 84, 0.35);
+  padding: 0.35rem 0.75rem;
+  border-radius: 99px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.sp-btn-action:hover {
+  background: #1DB954;
+  color: #000000;
+  transform: translateY(-1px);
+}
+
+.sp-transcript-btn {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.08);
+  color: #E0E0E0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0.35rem 0.65rem;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.sp-transcript-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #FFFFFF;
+}
+
+/* Transcript Drawer */
+.sp-transcript-drawer {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  animation: sp-fade-in 0.25s ease-out;
+}
+
+@keyframes sp-fade-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.sp-transcript-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  color: #1DB954;
+  margin-bottom: 0.5rem;
+}
+
+.sp-drawer-close {
+  background: none;
+  border: none;
+  color: #B3B3B3;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0 0.3rem;
+}
+
+.sp-drawer-close:hover { color: #FFFFFF; }
+
+.sp-transcript-body {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: #D6D6D6;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  max-height: 150px;
+  overflow-y: auto;
+}
+
 </style>
 <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 </head>
@@ -4003,10 +4356,84 @@ footer {
 <button class="lw-ticker-chip" data-ticker="ATHER">ATHER</button>
 </div>
 </div>
-<div class="livewire-voice">
-<button class="lw-voice-btn" id="voice-briefing-btn" type="button">&#128266; Listen to briefing</button>
-<span class="lw-voice-status" id="voice-briefing-status"></span>
-<audio id="voice-briefing-audio" style="display:none;"></audio>
+<!-- SPOTIFY-STYLE 1-HOUR VOICE RECORDING WIDGET -->
+<div class="spotify-voice-widget" id="spotify-voice-widget">
+  <div class="sp-main-row">
+    <!-- Left: Album / Podcast Artwork -->
+    <div class="sp-art-wrap">
+      <div class="sp-artwork">
+        <div class="sp-art-inner">
+          <svg class="sp-spotify-logo" viewBox="0 0 24 24" fill="#FFFFFF" width="24" height="24">
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.48.66.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.299z"/>
+          </svg>
+          <div class="sp-soundwaves" id="sp-soundwaves">
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+      <span class="sp-live-pill">● 1-HR LIVE</span>
+    </div>
+
+    <!-- Center: Track Info & Controls -->
+    <div class="sp-center-player">
+      <div class="sp-track-header">
+        <div class="sp-title-area">
+          <div class="sp-track-title" id="sp-track-title">1-Hour Market Pulse: India Stock Intelligence</div>
+          <div class="sp-track-artist">Google AI Voice Agent &bull; INDmoney &middot; Economic Times &middot; Moneycontrol &middot; Business Standard</div>
+        </div>
+        <div class="sp-status-badge" id="sp-status-badge">⚡ Ready to Play</div>
+      </div>
+
+      <!-- Scrubber Timeline -->
+      <div class="sp-timeline-wrap">
+        <span class="sp-time-cur" id="sp-time-cur">0:00</span>
+        <div class="sp-scrub-bar" id="sp-scrub-bar" role="slider" aria-label="Playback timeline" tabindex="0">
+          <div class="sp-scrub-fill" id="sp-scrub-fill"></div>
+          <div class="sp-scrub-thumb" id="sp-scrub-thumb"></div>
+        </div>
+        <span class="sp-time-dur" id="sp-time-dur">1:45</span>
+      </div>
+
+      <!-- Controls Row -->
+      <div class="sp-controls-row">
+        <div class="sp-ctrl-group-left">
+          <button class="sp-btn-icon" id="sp-skip-back" title="Rewind 15 seconds">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.2 3.16-1.95 5.12-1.95 3.84 0 7.02 2.74 7.74 6.36l1.97-.4A9.98 9.98 0 0 0 12.5 8z"/><text x="8" y="16" font-size="7" font-weight="bold" fill="currentColor">15</text></svg>
+          </button>
+          <button class="sp-play-btn" id="sp-play-btn" title="Play 1-Hour Market Pulse Audio">
+            <svg class="sp-play-icon" id="sp-play-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="sp-pause-icon" id="sp-pause-icon" style="display:none;" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+          <button class="sp-btn-icon" id="sp-skip-fwd" title="Fast forward 15 seconds">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M11.5 8c2.65 0 5.05.99 6.9 2.6L22 7v9h-9l3.62-3.62c-1.39-1.2-3.16-1.95-5.12-1.95-3.84 0-7.02 2.74-7.74 6.36l-1.97-.4A9.98 9.98 0 0 1 11.5 8z"/><text x="10" y="16" font-size="7" font-weight="bold" fill="currentColor">15</text></svg>
+          </button>
+          <button class="sp-speed-pill" id="sp-speed-pill" title="Playback Speed">1.0x</button>
+        </div>
+
+        <div class="sp-ctrl-group-right">
+          <button class="sp-btn-action" id="sp-generate-fresh-btn" title="Generate fresh 1-Hour Voice Recording via Google AI">
+            <span>🎙️ Generate 1-Hr Recording</span>
+          </button>
+          <button class="sp-transcript-btn" id="sp-transcript-toggle" title="Toggle Spoken Transcript">
+            <span>📜 Transcript</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Collapsible Transcript Drawer -->
+  <div class="sp-transcript-drawer" id="sp-transcript-drawer" style="display:none;">
+    <div class="sp-transcript-header">
+      <span>🎙️ Spoken Briefing Script &middot; Live Synced August 31, 2026</span>
+      <button class="sp-drawer-close" id="sp-transcript-close">&times;</button>
+    </div>
+    <div class="sp-transcript-body" id="sp-transcript-text">
+      Good morning, this is your 1-Hour Market Pulse powered by Google AI Voice Agent. GIFT Nifty is indicating a consolidation setup near 24,150. Key headlines across INDmoney, Economic Times, Moneycontrol, and Business Standard: India Inc pays a record ₹4.5 lakh crore in FY26 dividends, while Lenskart completes a ₹1,857 Cr block deal and Tejas Networks surges on a ₹1,537 Cr BSNL order. Brokerage calls: Nuvama has a BUY on Welspun Corp target ₹2,656, Jefferies raises Hindustan Zinc target to ₹750, and Ashika turns bullish on defence leaders HAL and BEL.
+    </div>
+  </div>
+
+  <audio id="sp-native-audio" preload="none" style="display:none;"></audio>
 </div>
 <div class="livewire-list" id="livewire-list">
 <div class="livewire-empty">Loading latest intelligence wire…</div>
@@ -9492,6 +9919,300 @@ function openTradingViewWindow() {
 setTimeout(function(){
   selectStockChart("NSE:HINDZINC", "Hindustan Zinc", "Commodity Squeeze", "622.00", "STRONG BUY", "68.2", "594.00", null);
 }, 200);
+
+</script>
+<script>
+
+// ==================== SPOTIFY-STYLE VOICE RECORDING CONTROLLER ====================
+(function(){
+  var BACKEND = 'https://momentwealth-backend-911650691357.asia-south1.run.app';
+  var BRIEFING_API = BACKEND + '/api/briefing';
+
+  var widget = document.getElementById('spotify-voice-widget');
+  if (!widget) return;
+
+  var playBtn = document.getElementById('sp-play-btn');
+  var playIcon = document.getElementById('sp-play-icon');
+  var pauseIcon = document.getElementById('sp-pause-icon');
+  var skipBack = document.getElementById('sp-skip-back');
+  var skipFwd = document.getElementById('sp-skip-fwd');
+  var speedPill = document.getElementById('sp-speed-pill');
+  var generateBtn = document.getElementById('sp-generate-fresh-btn');
+  var transcriptToggle = document.getElementById('sp-transcript-toggle');
+  var transcriptClose = document.getElementById('sp-transcript-close');
+  var transcriptDrawer = document.getElementById('sp-transcript-drawer');
+  var transcriptText = document.getElementById('sp-transcript-text');
+  var statusBadge = document.getElementById('sp-status-badge');
+  var timeCur = document.getElementById('sp-time-cur');
+  var timeDur = document.getElementById('sp-time-dur');
+  var scrubBar = document.getElementById('sp-scrub-bar');
+  var scrubFill = document.getElementById('sp-scrub-fill');
+  var scrubThumb = document.getElementById('sp-scrub-thumb');
+  var nativeAudio = document.getElementById('sp-native-audio');
+
+  var isPlaying = false;
+  var playbackRate = 1.0;
+  var speedOptions = [1.0, 1.25, 1.5, 0.9];
+  var currentSpeedIdx = 0;
+  var audioDuration = 105; // ~1:45 estimated
+  var audioCurrentTime = 0;
+  var synthTimer = null;
+  var currentAudioType = 'speech'; // 'native' or 'speech'
+  var latestScriptText = transcriptText ? transcriptText.textContent.trim() : '';
+
+  function formatTime(seconds) {
+    if (isNaN(seconds) || seconds < 0) return '0:00';
+    var mins = Math.floor(seconds / 60);
+    var secs = Math.floor(seconds % 60);
+    return mins + ':' + (secs < 10 ? '0' : '') + secs;
+  }
+
+  function updateScrubber(current, total) {
+    if (!total || total <= 0) total = 105;
+    var pct = Math.min(100, Math.max(0, (current / total) * 100));
+    scrubFill.style.width = pct + '%';
+    scrubThumb.style.left = pct + '%';
+    timeCur.textContent = formatTime(current);
+    timeDur.textContent = formatTime(total);
+  }
+
+  function setPlayingUI(playing) {
+    isPlaying = playing;
+    if (playing) {
+      widget.classList.add('playing');
+      if (playIcon) playIcon.style.display = 'none';
+      if (pauseIcon) pauseIcon.style.display = 'block';
+      statusBadge.textContent = '🔊 Playing 1-Hr Voice Audio';
+      statusBadge.style.color = '#1DB954';
+      statusBadge.style.borderColor = 'rgba(29, 185, 84, 0.5)';
+    } else {
+      widget.classList.remove('playing');
+      if (playIcon) playIcon.style.display = 'block';
+      if (pauseIcon) pauseIcon.style.display = 'none';
+      statusBadge.textContent = '⏸ Paused';
+      statusBadge.style.color = '#A7A7A7';
+    }
+  }
+
+  // Load from Cloud Run Backend Audio or Fallback
+  function loadVoiceRecording(forceFetch, autoPlay) {
+    statusBadge.textContent = '⏳ Generating 1-Hr Voice Recording...';
+    if (generateBtn) generateBtn.disabled = true;
+
+    var url = BRIEFING_API + (forceFetch ? '?force=1' : '');
+    fetch(url, { cache: 'no-store' })
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        if (generateBtn) generateBtn.disabled = false;
+        if (data && data.text) {
+          latestScriptText = data.text;
+          if (transcriptText) transcriptText.textContent = data.text;
+        }
+
+        if (data && data.audioBase64) {
+          nativeAudio.src = 'data:audio/mp3;base64,' + data.audioBase64;
+          nativeAudio.playbackRate = playbackRate;
+          currentAudioType = 'native';
+          statusBadge.textContent = '⚡ 1-Hr Neural Audio Ready';
+          if (autoPlay) playAudio();
+        } else {
+          currentAudioType = 'speech';
+          statusBadge.textContent = '⚡ Google Voice Agent Ready';
+          if (autoPlay) playAudio();
+        }
+      })
+      .catch(function(){
+        if (generateBtn) generateBtn.disabled = false;
+        currentAudioType = 'speech';
+        statusBadge.textContent = '⚡ Google Voice Ready';
+        if (autoPlay) playAudio();
+      });
+  }
+
+  function playAudio() {
+    if (currentAudioType === 'native' && nativeAudio.src) {
+      nativeAudio.playbackRate = playbackRate;
+      nativeAudio.play().then(function(){
+        setPlayingUI(true);
+      }).catch(function(){
+        // Fallback to speech synth
+        playSpeechSynth();
+      });
+    } else {
+      playSpeechSynth();
+    }
+  }
+
+  function pauseAudio() {
+    if (currentAudioType === 'native') {
+      nativeAudio.pause();
+    }
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.pause();
+    }
+    if (synthTimer) clearInterval(synthTimer);
+    setPlayingUI(false);
+  }
+
+  function playSpeechSynth() {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+
+    var utterance = new SpeechSynthesisUtterance(latestScriptText);
+    utterance.rate = playbackRate;
+    
+    // Pick best Google/Indian voice if available
+    var voices = window.speechSynthesis.getVoices();
+    var bestVoice = voices.find(function(v){ return v.lang.includes('en-IN') || v.name.includes('India') || v.name.includes('Google'); });
+    if (bestVoice) utterance.voice = bestVoice;
+
+    var estimatedSecs = Math.max(30, Math.round((latestScriptText.split(/\s+/).length / (2.5 * playbackRate))));
+    audioDuration = estimatedSecs;
+    audioCurrentTime = 0;
+
+    utterance.onstart = function(){
+      setPlayingUI(true);
+      if (synthTimer) clearInterval(synthTimer);
+      synthTimer = setInterval(function(){
+        audioCurrentTime += 0.5;
+        updateScrubber(audioCurrentTime, audioDuration);
+        if (audioCurrentTime >= audioDuration) {
+          clearInterval(synthTimer);
+        }
+      }, 500);
+    };
+
+    utterance.onend = function(){
+      if (synthTimer) clearInterval(synthTimer);
+      updateScrubber(audioDuration, audioDuration);
+      setPlayingUI(false);
+      statusBadge.textContent = '✅ Finished';
+    };
+
+    utterance.onerror = function(){
+      if (synthTimer) clearInterval(synthTimer);
+      setPlayingUI(false);
+    };
+
+    window.speechSynthesis.speak(utterance);
+  }
+
+  // Native Audio Event Handlers
+  nativeAudio.addEventListener('loadedmetadata', function(){
+    if (nativeAudio.duration) {
+      audioDuration = nativeAudio.duration;
+      timeDur.textContent = formatTime(audioDuration);
+    }
+  });
+
+  nativeAudio.addEventListener('timeupdate', function(){
+    if (currentAudioType === 'native') {
+      audioCurrentTime = nativeAudio.currentTime;
+      updateScrubber(audioCurrentTime, nativeAudio.duration || audioDuration);
+    }
+  });
+
+  nativeAudio.addEventListener('ended', function(){
+    setPlayingUI(false);
+    statusBadge.textContent = '✅ Finished';
+    updateScrubber(audioDuration, audioDuration);
+  });
+
+  // Play/Pause Click Handler
+  if (playBtn) {
+    playBtn.addEventListener('click', function(){
+      if (isPlaying) {
+        pauseAudio();
+      } else {
+        if ('speechSynthesis' in window && window.speechSynthesis.paused) {
+          window.speechSynthesis.resume();
+          setPlayingUI(true);
+        } else if (currentAudioType === 'native' && nativeAudio.src) {
+          playAudio();
+        } else {
+          loadVoiceRecording(false, true);
+        }
+      }
+    });
+  }
+
+  // Skip 15s backward/forward
+  if (skipBack) {
+    skipBack.addEventListener('click', function(){
+      if (currentAudioType === 'native' && nativeAudio.src) {
+        nativeAudio.currentTime = Math.max(0, nativeAudio.currentTime - 15);
+      } else {
+        audioCurrentTime = Math.max(0, audioCurrentTime - 15);
+        updateScrubber(audioCurrentTime, audioDuration);
+      }
+    });
+  }
+
+  if (skipFwd) {
+    skipFwd.addEventListener('click', function(){
+      if (currentAudioType === 'native' && nativeAudio.src) {
+        nativeAudio.currentTime = Math.min(nativeAudio.duration, nativeAudio.currentTime + 15);
+      } else {
+        audioCurrentTime = Math.min(audioDuration, audioCurrentTime + 15);
+        updateScrubber(audioCurrentTime, audioDuration);
+      }
+    });
+  }
+
+  // Scrub bar click seek
+  if (scrubBar) {
+    scrubBar.addEventListener('click', function(e){
+      var rect = scrubBar.getBoundingClientRect();
+      var clickX = e.clientX - rect.left;
+      var pct = Math.max(0, Math.min(1, clickX / rect.width));
+      var seekTime = pct * audioDuration;
+      if (currentAudioType === 'native' && nativeAudio.src) {
+        nativeAudio.currentTime = seekTime;
+      } else {
+        audioCurrentTime = seekTime;
+        updateScrubber(audioCurrentTime, audioDuration);
+      }
+    });
+  }
+
+  // Speed Pill Toggle
+  if (speedPill) {
+    speedPill.addEventListener('click', function(){
+      currentSpeedIdx = (currentSpeedIdx + 1) % speedOptions.length;
+      playbackRate = speedOptions[currentSpeedIdx];
+      speedPill.textContent = playbackRate.toFixed(1) + 'x';
+      if (nativeAudio) nativeAudio.playbackRate = playbackRate;
+      if (isPlaying && currentAudioType === 'speech') {
+        playSpeechSynth();
+      }
+    });
+  }
+
+  // Regenerate Button Click
+  if (generateBtn) {
+    generateBtn.addEventListener('click', function(){
+      loadVoiceRecording(true, true);
+    });
+  }
+
+  // Transcript Drawer Toggle
+  if (transcriptToggle && transcriptDrawer) {
+    transcriptToggle.addEventListener('click', function(){
+      var isHidden = transcriptDrawer.style.display === 'none';
+      transcriptDrawer.style.display = isHidden ? 'block' : 'none';
+    });
+  }
+  if (transcriptClose && transcriptDrawer) {
+    transcriptClose.addEventListener('click', function(){
+      transcriptDrawer.style.display = 'none';
+    });
+  }
+
+  // Prefetch briefing audio in background
+  setTimeout(function(){
+    loadVoiceRecording(false, false);
+  }, 1000);
+})();
 
 </script>
 </body>

@@ -279,15 +279,13 @@ const STOCK_RECOMMENDATIONS = [
 ].join('\n');
 
 async function summarizeForVoice(items, token) {
-  const newsSource = items.slice(0, 10).map((it) => `- ${it.title}: ${it.summary || ''}`).join('\n');
-  const prompt = `You are a calm financial-news narrator for an India-markets portal. ` +
-    `Turn this into a natural, spoken-style briefing script of about 60-90 seconds when read aloud ` +
-    `(roughly 160-220 words), covering two segments in order: first the day's policy/markets headlines, ` +
-    `then a "here's what brokerages are saying" segment covering the analyst stock calls below, naming the ` +
-    `firm, the stock, the rating, and the target price for each. No markdown, no bullet points, no headers -- ` +
-    `just plain prose someone would speak out loud, in a natural conversational flow, grouping related items ` +
-    `and skipping anything trivial. Start directly with the content, no "here is your briefing" preamble.\n\n` +
-    `POLICY & MARKETS NEWS:\n${newsSource}\n\nANALYST STOCK CALLS:\n${STOCK_RECOMMENDATIONS}`;
+  const newsSource = items.slice(0, 12).map((it) => `- [${it.source}] ${it.title}: ${it.summary || ''}`).join('\n');
+  const prompt = `You are a calm, professional financial-news audio host for MomentWealth, an India-markets portal powered by Google AI. ` +
+    `Generate a compelling spoken 1-Hour Market Pulse audio script (roughly 170-230 words, 60-90 seconds when read aloud) for today, August 31, 2026. ` +
+    `Cover key market-moving developments from INDmoney, Economic Times, Moneycontrol, and Business Standard, followed by active brokerage recommendations below. ` +
+    `Name the firm, stock, rating, and target price clearly. No markdown, no bullet points, no headers -- just natural spoken prose meant for an audio player widget. ` +
+    `Start directly with: "Good morning, here is your 1-Hour Market Pulse for Monday August 31..."\n\n` +
+    `LATEST 1-HOUR FINANCIAL NEWS:\n${newsSource}\n\nANALYST STOCK CALLS:\n${STOCK_RECOMMENDATIONS}`;
 
   const url = `https://${VERTEX_REGION}-aiplatform.googleapis.com/v1/projects/${GCP_PROJECT}/locations/${VERTEX_REGION}/publishers/google/models/${GEMINI_MODEL}:generateContent`;
   const resp = await fetch(url, {
