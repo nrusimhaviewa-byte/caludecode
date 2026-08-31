@@ -7490,43 +7490,43 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     }
   ];
 
-  function decodeHtmlEntities(str) {
-    if (!str) return '';
-    var txt = document.createElement('textarea');
-    txt.innerHTML = str;
-    var val = txt.value || str;
-    return val.replace(/&amp;#/g, '&#')
-              .replace(/#39;/g, "'")
-              .replace(/&#39;/g, "'")
-              .replace(/&quot;/g, '"')
-              .replace(/&amp;/g, '&')
-              .replace(/&lt;/g, '<')
-              .replace(/&gt;/g, '>')
-              .replace(/&nbsp;/g, ' ')
-              .replace(/&#8216;/g, "'")
-              .replace(/&#8217;/g, "'")
-              .replace(/&#8220;/g, '"')
-              .replace(/&#8221;/g, '"')
-              .replace(/&#8211;/g, '–')
-              .replace(/&#8212;/g, '—')
-              .replace(/&apos;/g, "'");
-  }
-
   function sanitizeNewsText(str) {
     if (!str) return '';
     var s = String(str);
-    s = s.replace(/<img[^>]*>/gi, '')
-         .replace(/<[^>]*>/g, ' ')
-         .replace(/&lt;img[^&]*&gt;/gi, '')
-         .replace(/&lt;[^&]*&gt;/gi, ' ');
-    s = decodeHtmlEntities(s);
-    s = s.replace(/<img[^>]*>/gi, '')
-         .replace(/<[^>]*>/g, ' ')
-         .replace(/#39;/g, "'")
+    
+    // Strip encoded or direct img tags first
+    s = s.replace(/&lt;img[\s\S]*?&gt;/gi, ' ')
+         .replace(/<img[\s\S]*?>/gi, ' ')
+         .replace(/<[^>]+>/g, ' ')
+         .replace(/&lt;[^&>]+&gt;/gi, ' ');
+         
+    // Decode entities
+    var txt = document.createElement('textarea');
+    txt.innerHTML = s;
+    s = txt.value || s;
+    
+    s = s.replace(/&amp;#/g, '&#')
          .replace(/&#39;/g, "'")
+         .replace(/#39;/g, "'")
+         .replace(/&quot;/g, '"')
+         .replace(/&amp;/g, '&')
          .replace(/&lt;/g, '<')
-         .replace(/&gt;/g, '>');
-    return s.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+         .replace(/&gt;/g, '>')
+         .replace(/&nbsp;/g, ' ')
+         .replace(/&#8216;/g, "'")
+         .replace(/&#8217;/g, "'")
+         .replace(/&#8220;/g, '"')
+         .replace(/&#8221;/g, '"')
+         .replace(/&#8211;/g, '–')
+         .replace(/&#8212;/g, '—')
+         .replace(/&apos;/g, "'");
+         
+    // Strip any lingering HTML tags created after entity decoding
+    s = s.replace(/<img[\s\S]*?>/gi, ' ')
+         .replace(/<[^>]+>/g, ' ')
+         .replace(/#39;/g, "'");
+         
+    return s.replace(/\s+/g, ' ').trim();
   }
 
   function escapeHtml(s){

@@ -76,7 +76,14 @@ function extractStocks(text) {
 function cleanHtml(str) {
   if (!str) return '';
   let s = String(str);
-  // Decode common entity encodings
+  
+  // 1. Remove encoded and decoded <img> tags and media elements completely
+  s = s.replace(/&lt;img[\s\S]*?&gt;/gi, ' ');
+  s = s.replace(/<img[\s\S]*?>/gi, ' ');
+  s = s.replace(/<[^>]+>/g, ' ');
+  s = s.replace(/&lt;[^&>]+&gt;/gi, ' ');
+  
+  // 2. Decode HTML entities
   s = s.replace(/&amp;#/gi, '&#')
        .replace(/&amp;/gi, '&')
        .replace(/&#39;/gi, "'")
@@ -92,15 +99,12 @@ function cleanHtml(str) {
        .replace(/&#8221;/gi, '"')
        .replace(/&#8211;/gi, '–')
        .replace(/&#8212;/gi, '—');
-  // Strip all HTML tags including images, links, scripts
-  s = s.replace(/<img[^>]*>/gi, '')
-       .replace(/<[^>]*>/g, ' ')
-       .replace(/&lt;img[^&]*&gt;/gi, '')
-       .replace(/&lt;[^&]*&gt;/gi, ' ');
-  // Re-decode in case of nested entities
-  s = s.replace(/#39;/gi, "'")
-       .replace(/&#39;/gi, "'")
-       .replace(/<[^>]*>/g, ' ');
+       
+  // 3. Second pass to strip any unmasked HTML tags after entity decoding
+  s = s.replace(/<img[\s\S]*?>/gi, ' ');
+  s = s.replace(/<[^>]+>/g, ' ');
+  s = s.replace(/#39;/gi, "'");
+  
   return s.replace(/\s+/g, ' ').trim();
 }
 
