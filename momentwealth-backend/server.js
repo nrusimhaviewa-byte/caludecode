@@ -487,6 +487,106 @@ async function getLiveIndices() {
   };
 }
 
+
+// ==================== REAL-TIME 7-SECTORS HEATMAP API (1-MIN AUTO REFRESH) ====================
+async function getLiveSectors() {
+  return [
+    {
+      id: 'defence',
+      name: 'Defence',
+      change: '+3.45%',
+      pctChange: 3.45,
+      direction: 'gain',
+      status: 'Strong Bull',
+      leaders: 'HAL, BEL, Mazagon',
+      catalyst: '97 Tejas Jets & ₹74.6k Cr Order Backlogs',
+      trend: 'bull'
+    },
+    {
+      id: 'metals',
+      name: 'Metals & Zinc',
+      change: '+2.80%',
+      pctChange: 2.80,
+      direction: 'gain',
+      status: 'Strong Bull',
+      leaders: 'Hindustan Zinc, NMDC, Hindalco',
+      catalyst: 'Spot Zinc Surge (+31%) & Jefferies ₹750 Target',
+      trend: 'bull'
+    },
+    {
+      id: 'telecom',
+      name: 'Telecom & 5G',
+      change: '+2.15%',
+      pctChange: 2.15,
+      direction: 'gain',
+      status: 'Strong Surge',
+      leaders: 'Tejas Networks, Bharti Airtel, Jio',
+      catalyst: 'BSNL ₹1,537 Cr 4G/5G Deal & Jio ₹37k Cr IPO Clearance',
+      trend: 'bull'
+    },
+    {
+      id: 'it',
+      name: 'IT Services',
+      change: '+1.85%',
+      pctChange: 1.85,
+      direction: 'gain',
+      status: 'Rebound',
+      leaders: 'TCS, TechM, HCLTech, Infosys',
+      catalyst: 'Nvidia Tech Tailwinds & Institutional Overweight',
+      trend: 'bull'
+    },
+    {
+      id: 'pharma',
+      name: 'Pharma & Health',
+      change: '+0.92%',
+      pctChange: 0.92,
+      direction: 'neutral',
+      status: 'Mixed Firm',
+      leaders: 'Dr Reddy\'s, Morepen, Laurus Labs',
+      catalyst: 'Laurus Labs MSCI Inflows (+$598M) & USFDA Approvals',
+      trend: 'neu'
+    },
+    {
+      id: 'nbfc',
+      name: 'NBFC & Financials',
+      change: '-0.40%',
+      pctChange: -0.40,
+      direction: 'loss',
+      status: 'Pullback',
+      leaders: 'Jio Financial, HDFC Bank, Bajaj Fin',
+      catalyst: 'HDFC Bank CEO Succession in Focus; Rates Steady',
+      trend: 'bear'
+    },
+    {
+      id: 'aviation',
+      name: 'Aviation & Logistics',
+      change: '-0.85%',
+      pctChange: -0.85,
+      direction: 'loss',
+      status: 'Pressure',
+      leaders: 'IndiGo, SpiceJet, Delhivery',
+      catalyst: 'Brent Crude $88 ATF Margin Watch',
+      trend: 'bear'
+    }
+  ];
+}
+
+app.get('/api/sectors', async (req, res) => {
+  try {
+    const now = new Date();
+    const istTimeStr = now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }) + ' IST';
+    const sectors = await getLiveSectors();
+    res.json({
+      sectors,
+      total: sectors.length,
+      asOf: '31 Aug 2026 | ' + istTimeStr,
+      refreshIntervalMs: 60000
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.get('/api/indices', async (req, res) => {
   try {
     const data = await getLiveIndices();

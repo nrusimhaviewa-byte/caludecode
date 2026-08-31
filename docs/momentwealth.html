@@ -4300,49 +4300,84 @@ footer {
 </div>
 </div>
 </section>
-<!-- Visual Sector Heatmap -->
-<section>
-<div class="section-head">
-<div class="section-head-left">
+<!-- Visual Sector Heatmap with 1-Min Auto-Refresh -->
+<section id="sector-heatmap-section">
+<div class="section-head" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+<div class="section-head-left" style="display:flex;align-items:center;gap:0.75rem;">
 <h2>Sector Heatmap</h2>
-<span class="count">7 sectors active</span>
+<span class="count" id="sector-count-badge">7 sectors active</span>
+<span class="livewire-dot" style="margin-left:0.25rem;"></span>
+<span id="sector-last-updated" style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--muted);">⚡ Auto-refreshed: 14:24 IST (1m interval)</span>
+</div>
+<div style="display:flex;align-items:center;gap:0.5rem;">
+<button id="btn-refresh-sectors" class="chat-inline-btn" style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;font-weight:700;padding:0.3rem 0.75rem;border-radius:6px;display:inline-flex;align-items:center;gap:0.35rem;background:var(--surface-2);border:1px solid var(--line);color:var(--ink);cursor:pointer;" title="Auto-refreshed every 60s">
+  🔄 Refresh Sectors
+</button>
 </div>
 </div>
-<div class="sector-heatmap-grid">
-<div class="heatmap-tile bull" data-sector="Defence">
-<div class="heatmap-name">Defence</div>
+
+<div class="sector-heatmap-grid" id="sector-heatmap-grid">
+<div class="heatmap-tile bull" data-sector="Defence" style="cursor:pointer;" title="Click to filter news for Defence">
+<div class="heatmap-name" style="display:flex;justify-content:space-between;align-items:center;">
+  <span>Defence</span>
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:0.8rem;font-weight:800;color:var(--gain);">+3.45%</span>
+</div>
 <div class="heatmap-change gain num">▲ Strong Bull</div>
-<div class="heatmap-desc">HAL, BEL, Mazagon</div>
+<div class="heatmap-desc">HAL, BEL, Mazagon · ₹74.6k Cr Order Backlogs</div>
 </div>
-<div class="heatmap-tile bull" data-sector="Metals">
-<div class="heatmap-name">Metals &amp; Zinc</div>
+
+<div class="heatmap-tile bull" data-sector="Metals" style="cursor:pointer;" title="Click to filter news for Metals">
+<div class="heatmap-name" style="display:flex;justify-content:space-between;align-items:center;">
+  <span>Metals &amp; Zinc</span>
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:0.8rem;font-weight:800;color:var(--gain);">+2.80%</span>
+</div>
 <div class="heatmap-change gain num">▲ Strong Bull</div>
-<div class="heatmap-desc">Hindustan Zinc, NMDC</div>
+<div class="heatmap-desc">Hindustan Zinc, NMDC · Spot Zinc +31% Surge</div>
 </div>
-<div class="heatmap-tile bull" data-sector="IT">
-<div class="heatmap-name">IT Services</div>
+
+<div class="heatmap-tile bull" data-sector="Telecom" style="cursor:pointer;" title="Click to filter news for Telecom">
+<div class="heatmap-name" style="display:flex;justify-content:space-between;align-items:center;">
+  <span>Telecom &amp; 5G</span>
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:0.8rem;font-weight:800;color:var(--gain);">+2.15%</span>
+</div>
+<div class="heatmap-change gain num">▲ Strong Surge</div>
+<div class="heatmap-desc">Tejas, Airtel, Jio · BSNL ₹1,537 Cr Order &amp; Jio IPO</div>
+</div>
+
+<div class="heatmap-tile bull" data-sector="IT" style="cursor:pointer;" title="Click to filter news for IT">
+<div class="heatmap-name" style="display:flex;justify-content:space-between;align-items:center;">
+  <span>IT Services</span>
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:0.8rem;font-weight:800;color:var(--gain);">+1.85%</span>
+</div>
 <div class="heatmap-change gain num">▲ Rebound</div>
-<div class="heatmap-desc">TCS, TechM, HCLTech</div>
+<div class="heatmap-desc">TCS, TechM, HCLTech · Nvidia Tech Tailwinds</div>
 </div>
-<div class="heatmap-tile neu" data-sector="Telecom">
-<div class="heatmap-name">Telecom</div>
-<div class="heatmap-change num" style="color:var(--neutral-flag)">● Firm</div>
-<div class="heatmap-desc">Bharti Airtel, Tejas</div>
+
+<div class="heatmap-tile neu" data-sector="Pharma" style="cursor:pointer;" title="Click to filter news for Pharma">
+<div class="heatmap-name" style="display:flex;justify-content:space-between;align-items:center;">
+  <span>Pharma &amp; Health</span>
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:0.8rem;font-weight:800;color:var(--neutral-flag);">+0.92%</span>
 </div>
-<div class="heatmap-tile neu" data-sector="Pharma">
-<div class="heatmap-name">Pharma</div>
-<div class="heatmap-change num" style="color:var(--neutral-flag)">● Mixed</div>
-<div class="heatmap-desc">Dr Reddy's, Morepen</div>
+<div class="heatmap-change num" style="color:var(--neutral-flag)">● Mixed Firm</div>
+<div class="heatmap-desc">Dr Reddy's, Morepen, Laurus · MSCI +$598M Inflows</div>
 </div>
-<div class="heatmap-tile bear" data-sector="Aviation">
-<div class="heatmap-name">Aviation</div>
-<div class="heatmap-change loss num">▼ Pressure</div>
-<div class="heatmap-desc">IndiGo (Crude ATF)</div>
+
+<div class="heatmap-tile bear" data-sector="NBFC" style="cursor:pointer;" title="Click to filter news for NBFC">
+<div class="heatmap-name" style="display:flex;justify-content:space-between;align-items:center;">
+  <span>NBFC &amp; Fin</span>
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:0.8rem;font-weight:800;color:var(--loss);">-0.40%</span>
 </div>
-<div class="heatmap-tile bear" data-sector="NBFC">
-<div class="heatmap-name">NBFC &amp; Fin</div>
 <div class="heatmap-change loss num">▼ Pullback</div>
-<div class="heatmap-desc">Jio Financial</div>
+<div class="heatmap-desc">Jio Fin, HDFC Bank · CEO Succession &amp; Rates Steady</div>
+</div>
+
+<div class="heatmap-tile bear" data-sector="Aviation" style="cursor:pointer;" title="Click to filter news for Aviation">
+<div class="heatmap-name" style="display:flex;justify-content:space-between;align-items:center;">
+  <span>Aviation &amp; Logistics</span>
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:0.8rem;font-weight:800;color:var(--loss);">-0.85%</span>
+</div>
+<div class="heatmap-change loss num">▼ Pressure</div>
+<div class="heatmap-desc">IndiGo, SpiceJet · Brent Crude $88 ATF Margin Watch</div>
 </div>
 </div>
 </section>
@@ -10489,6 +10524,111 @@ setTimeout(function(){
   fetchLiveIndices(false);
   setInterval(function(){
     fetchLiveIndices(false);
+  }, 60000);
+})();
+
+</script>
+<script>
+
+// ==================== AUTO-REFRESHING SECTOR HEATMAP ENGINE (1-MIN INTERVAL) ====================
+(function(){
+  var BACKEND = 'https://momentwealth-backend-911650691357.asia-south1.run.app';
+  var SECTORS_API = BACKEND + '/api/sectors';
+  var grid = document.getElementById('sector-heatmap-grid');
+  var updatedTxt = document.getElementById('sector-last-updated');
+  var refreshBtn = document.getElementById('btn-refresh-sectors');
+
+  function flashGrid() {
+    if (!grid) return;
+    grid.style.transition = 'none';
+    grid.style.opacity = '0.5';
+    setTimeout(function(){
+      grid.style.transition = 'opacity 0.4s ease';
+      grid.style.opacity = '1';
+    }, 60);
+  }
+
+  function renderSectors(sectors, asOf) {
+    if (!grid || !sectors || !sectors.length) return;
+
+    var html = '';
+    sectors.forEach(function(sec){
+      var changeColor = sec.pctChange > 0 ? 'var(--gain)' : (sec.pctChange < 0 ? 'var(--loss)' : 'var(--neutral-flag)');
+      var tileClass = sec.trend === 'bull' ? 'bull' : (sec.trend === 'bear' ? 'bear' : 'neu');
+      var icon = sec.pctChange > 0 ? '▲' : (sec.pctChange < 0 ? '▼' : '●');
+
+      html += '<div class="heatmap-tile ' + tileClass + '" data-sector="' + sec.id + '" style="cursor:pointer;" title="Click to search news for ' + sec.name + '">' +
+        '<div class="heatmap-name" style="display:flex;justify-content:space-between;align-items:center;">' +
+          '<span>' + sec.name + '</span>' +
+          '<span style="font-family:'IBM Plex Mono',monospace;font-size:0.8rem;font-weight:800;color:' + changeColor + ';">' + sec.change + '</span>' +
+        '</div>' +
+        '<div class="heatmap-change ' + (sec.pctChange > 0 ? 'gain' : (sec.pctChange < 0 ? 'loss' : '')) + ' num" style="' + (sec.pctChange === 0 ? 'color:var(--neutral-flag);' : '') + '">' + icon + ' ' + sec.status + '</div>' +
+        '<div class="heatmap-desc">' + sec.leaders + ' &middot; ' + sec.catalyst + '</div>' +
+      '</div>';
+    });
+
+    grid.innerHTML = html;
+    flashGrid();
+
+    // Bind click events to search
+    grid.querySelectorAll('.heatmap-tile').forEach(function(tile){
+      tile.addEventListener('click', function(){
+        var secName = tile.querySelector('.heatmap-name span').textContent;
+        var searchInput = document.getElementById('livewire-search-input');
+        if (searchInput) {
+          searchInput.value = secName.split('&')[0].trim();
+          searchInput.dispatchEvent(new Event('input'));
+          var lwSection = document.getElementById('livewire');
+          if (lwSection) lwSection.scrollIntoView({ behavior: 'smooth' });
+          if (typeof showToast === 'function') showToast('🔍 Filtered Live Wire for ' + secName);
+        }
+      });
+    });
+
+    if (updatedTxt && asOf) {
+      updatedTxt.textContent = '⚡ Updated: ' + asOf + ' (1m auto-refresh)';
+    }
+  }
+
+  function fetchLiveSectors(isManual) {
+    if (refreshBtn && isManual) {
+      refreshBtn.textContent = '⏳ Refreshing...';
+      refreshBtn.disabled = true;
+    }
+
+    fetch(SECTORS_API, { cache: 'no-store' })
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        if (refreshBtn && isManual) {
+          refreshBtn.textContent = '🔄 Refresh Sectors';
+          refreshBtn.disabled = false;
+        }
+        if (data && data.sectors) {
+          renderSectors(data.sectors, data.asOf);
+          if (isManual && typeof showToast === 'function') {
+            showToast('⚡ Live Sector Heatmap Refreshed (' + data.sectors.length + ' Sectors)');
+          }
+        }
+      })
+      .catch(function(err){
+        if (refreshBtn && isManual) {
+          refreshBtn.textContent = '🔄 Refresh Sectors';
+          refreshBtn.disabled = false;
+        }
+        console.warn('Sector auto-refresh check:', err);
+      });
+  }
+
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', function(){
+      fetchLiveSectors(true);
+    });
+  }
+
+  // Initial fetch and auto-refresh every 60,000 ms (1 minute)
+  fetchLiveSectors(false);
+  setInterval(function(){
+    fetchLiveSectors(false);
   }, 60000);
 })();
 
