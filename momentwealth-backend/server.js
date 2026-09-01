@@ -575,9 +575,10 @@ async function getLiveSectors() {
 // ==================== MULTI-CHANNEL SWING TRADING API (WHATSAPP, TELEGRAM, INSTAGRAM) ====================
 async function getLiveSwingSetups() {
   return [
-        // 🏊 Swing Pool PRO (WhatsApp 120363408700357361@g.us)
-    { name: "APL Apollo Tubes", ticker: "APLAPOLLO", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 2265.00, sl: 2140.00, target: 2455.00, catalyst: "🍁 Fresh Sept 2026 Alert: Buy 2265-2230 | SL 2140 | Target 2455/2650++ (Infra Steel Tubes Leader)", date: "1 Sep 2026" },
-    { name: "Fineotex Chemical", ticker: "FCL", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 50.00, sl: 43.00, target: 65.00, catalyst: "⚡ Fresh Alert: Swing 58/65 & Short Term 82/100 (Monthly SIP Pick)", date: "1 Sep 2026" },
+            // 🏊 WhatsApp Direct & Swing Pool (+91 9701168672)
+    { name: "Polyplex Corporation", ticker: "POLYPLEX", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 1185.00, sl: 1110.00, target: 1290.00, catalyst: "📦 Fresh 1 Sep Alert: Specialty BOPET/BOPP film cycle recovery & anti-dumping duty support (Tgt 1,290 / 1,380++)", date: "1 Sep 2026" },
+    { name: "APL Apollo Tubes", ticker: "APLAPOLLO", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 2265.00, sl: 2140.00, target: 2455.00, catalyst: "🍁 Fresh Alert: Buy 2265-2230 | SL 2140 | Target 2455/2650++ (Infra Steel Tubes Leader)", date: "1 Sep 2026" },
+    { name: "Fineotex Chemical", ticker: "FCL", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 50.00, sl: 43.00, target: 65.00, catalyst: "⚡ Fresh Alert: Swing 58/65 & Short Term 82/100 (Monthly SIP Pick)", date: "1 Sep 2026" },
     { name: "Bajaj Hindusthan Sugar", ticker: "BAJAJHIND", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 42.00, sl: 37.00, target: 55.00, catalyst: "Swing Pool: Monthly SIP Stock #1 (Ethanol Blending Expansion, Tgt 55/64)", date: "1 Sep 2026" },
     { name: "Sigachi Industries", ticker: "SIGACHI", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 58.50, sl: 52.00, target: 76.00, catalyst: "Swing Pool: Monthly SIP Stock #2 (Microcrystalline Cellulose, Tgt 76/90)", date: "1 Sep 2026" },
     { name: "Anthem Biosciences", ticker: "ANTHEM", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 923.00, sl: 872.00, target: 1090.00, catalyst: "Swing Pool: Post-Listing Base Breakout (Target 1,090 - 1,250)", date: "1 Sep 2026" },

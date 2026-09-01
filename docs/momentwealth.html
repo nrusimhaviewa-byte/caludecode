@@ -5006,6 +5006,9 @@ footer {
 
         <!-- QUICK STOCK SELECTOR TABS -->
         <div class="tv-symbol-bar">
+          <button class="btn-tv-sym" data-symbol="NSE:POLYPLEX" data-name="Polyplex Corp" onclick="selectStockChart('NSE:POLYPLEX', 'Polyplex Corp', 'BOPET Film Breakout', '1185.00', 'STRONG BUY', '64.5', '1140.00', this)">
+            <span>📦 Polyplex</span>
+          </button>
           <button class="btn-tv-sym" data-symbol="NSE:APLAPOLLO" data-name="APL Apollo Tubes" onclick="selectStockChart('NSE:APLAPOLLO', 'APL Apollo Tubes', 'Infra Tube Breakout', '2265.00', 'STRONG BUY', '66.8', '2190.00', this)">
             <span>🍁 APL Apollo</span>
           </button>
@@ -8573,15 +8576,12 @@ document.querySelectorAll('.watch-card').forEach(function(card){
 
       // Master Pure Swing Setups (28 High-Conviction Setups synced from WhatsApp, Telegram, Instagram & Momentum)
   var SWING_SETUPS = [
-    // 🏊 Swing Pool PRO (WhatsApp 120363408700357361@g.us)
-    { name: "Fineotex Chemical", ticker: "FCL", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 50.00, sl: 43.00, target: 65.00, catalyst: "⚡ Fresh Alert: Swing 58/65 & Short Term 82/100 (Monthly SIP Pick)" },
-    { name: "Anthem Biosciences", ticker: "ANTHEM", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 923.00, sl: 872.00, target: 1090.00, catalyst: "Swing Pool: Post-Listing Base Breakout (Target 1,090 - 1,250)" },
-    { name: "E2E Networks", ticker: "E2ENETWORKS", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 627.00, sl: 555.00, target: 820.00, catalyst: "Swing Pool: AI Cloud Short Term Trade (Target 820+)" },
-    { name: "Federal-Mogul", ticker: "FMGOETZE", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 534.00, sl: 499.00, target: 628.00, catalyst: "Swing Pool: ₹94 Dividend Declared + Swing Target 628" },
-    { name: "Karur Vysya Bank", ticker: "KVB", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 355.00, sl: 330.00, target: 400.00, catalyst: "Swing Pool: Banking Swing Value Play (Target 400)" },
-    { name: "Balu Forge", ticker: "BALUFORGE", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 555.00, sl: 510.00, target: 680.00, catalyst: "Swing Pool: Precision Forging Multi-Bagger" },
-    { name: "Redington India", ticker: "REDINGTON", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 360.00, sl: 342.00, target: 390.00, catalyst: "Swing Pool: Swing Setup Target 378/390+" },
-    { name: "Sigachi Industries", ticker: "SIGACHI", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 58.50, sl: 52.00, target: 76.00, catalyst: "Swing Pool: Monthly SIP Pick (Microcrystalline Cellulose)" },
+        // 🏊 WhatsApp Direct & Swing Pool (+91 9701168672)
+    { name: "Polyplex Corporation", ticker: "POLYPLEX", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 1185.00, sl: 1110.00, target: 1290.00, catalyst: "📦 Fresh 1 Sep Alert: Specialty BOPET/BOPP film cycle recovery & anti-dumping duty support (Tgt 1,290 / 1,380++)", date: "1 Sep 2026" },
+    { name: "APL Apollo Tubes", ticker: "APLAPOLLO", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 2265.00, sl: 2140.00, target: 2455.00, catalyst: "🍁 Fresh Alert: Buy 2265-2230 | SL 2140 | Target 2455/2650++ (Infra Steel Tubes Leader)", date: "1 Sep 2026" },
+    { name: "Fineotex Chemical", ticker: "FCL", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 50.00, sl: 43.00, target: 65.00, catalyst: "⚡ Fresh Alert: Swing 58/65 & Short Term 82/100 (Monthly SIP Pick)", date: "1 Sep 2026" },
+    { name: "Bajaj Hindusthan Sugar", ticker: "BAJAJHIND", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 42.00, sl: 37.00, target: 55.00, catalyst: "Swing Pool: Monthly SIP Stock #1 (Ethanol Blending Expansion, Tgt 55/64)", date: "1 Sep 2026" },
+    { name: "Sigachi Industries", ticker: "SIGACHI", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 58.50, sl: 52.00, target: 76.00, catalyst: "Swing Pool: Monthly SIP Stock #2 (Microcrystalline Cellulose, Tgt 76/90)", date: "1 Sep 2026" },
 
     // 🔵 Telegram (StockPro Online, Breakout Investing, StockMarket Times)
     { name: "Gabriel India", ticker: "GABRIEL", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 1450.00, sl: 1320.00, target: 1650.00, catalyst: "⚡ Fresh Positional: Cross past barriers with heavy breakout volume (Tgt 1,550-1,700)" },
@@ -9835,6 +9835,29 @@ if (refreshGrowwBtn) {
 var currentTVSymbol = "NSE:HINDZINC";
 
 var tvStockData = {
+  "NSE:POLYPLEX": {
+    name: "Polyplex Corporation",
+    cmp: "1,185.00",
+    pattern: "BOPET Film Cycle Turnaround",
+    rating: "STRONG BUY",
+    rsi: "64.5",
+    ema: "1,140.00",
+    osc: "2 Buy · 8 Neutral",
+    ma: "13 Buy · 1 Sell",
+    needleAngle: 48,
+    entry: 1185.00,
+    sl: 1110.00,
+    t1: 1290.00,
+    t2: 1380.00,
+    candles: [
+      {date: "18 Aug", o: 1060, h: 1095, l: 1050, c: 1080, v: 35},
+      {date: "19 Aug", o: 1080, h: 1120, l: 1075, c: 1110, v: 48},
+      {date: "20 Aug", o: 1110, h: 1145, l: 1100, c: 1135, v: 60},
+      {date: "21 Aug", o: 1135, h: 1170, l: 1125, c: 1155, v: 75},
+      {date: "28 Aug", o: 1155, h: 1195, l: 1145, c: 1175, v: 95},
+      {date: "1 Sep", o: 1175, h: 1210, l: 1165, c: 1185, v: 130}
+    ]
+  },
   "NSE:APLAPOLLO": {
     name: "APL Apollo Tubes",
     cmp: "2,265.00",
