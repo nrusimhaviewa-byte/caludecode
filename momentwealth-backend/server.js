@@ -404,7 +404,7 @@ app.get('/api/briefing', async (req, res) => {
 async function getLiveIndices() {
   const now = new Date();
   const istTimeStr = now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' IST';
-  const asOnDateStr = '31 Aug, 2026 | ' + now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }) + ' IST';
+  const asOnDateStr = '1 Sep, 2026 | ' + now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }) + ' IST';
 
   return {
     giftNifty: {
@@ -576,38 +576,42 @@ async function getLiveSectors() {
 async function getLiveSwingSetups() {
   return [
     // 🏊 Swing Pool PRO (WhatsApp 120363408700357361@g.us)
-    { name: "Fineotex Chemical", ticker: "FCL", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 50.00, sl: 43.00, target: 65.00, catalyst: "⚡ Fresh Alert: Swing 58/65 & Short Term 82/100 (Monthly SIP Pick)", date: "31 Aug 2026" },
-    { name: "Anthem Biosciences", ticker: "ANTHEM", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 923.00, sl: 872.00, target: 1090.00, catalyst: "Swing Pool: Post-Listing Base Breakout (Target 1,090 - 1,250)", date: "31 Aug 2026" },
-    { name: "E2E Networks", ticker: "E2ENETWORKS", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 627.00, sl: 555.00, target: 820.00, catalyst: "Swing Pool: AI Cloud Short Term Trade (Target 820+)", date: "31 Aug 2026" },
-    { name: "Federal-Mogul", ticker: "FMGOETZE", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 534.00, sl: 499.00, target: 628.00, catalyst: "Swing Pool: ₹94 Dividend Declared + Swing Target 628", date: "31 Aug 2026" },
-    { name: "Karur Vysya Bank", ticker: "KVB", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 355.00, sl: 330.00, target: 400.00, catalyst: "Swing Pool: Banking Swing Value Play (Target 400)", date: "31 Aug 2026" },
-    { name: "Balu Forge", ticker: "BALUFORGE", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 555.00, sl: 510.00, target: 680.00, catalyst: "Swing Pool: Precision Forging Multi-Bagger", date: "31 Aug 2026" },
-    { name: "Redington India", ticker: "REDINGTON", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 360.00, sl: 342.00, target: 390.00, catalyst: "Swing Pool: Swing Setup Target 378/390+", date: "31 Aug 2026" },
-    { name: "Sigachi Industries", ticker: "SIGACHI", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 58.50, sl: 52.00, target: 76.00, catalyst: "Swing Pool: Monthly SIP Pick (Microcrystalline Cellulose)", date: "31 Aug 2026" },
+    { name: "Fineotex Chemical", ticker: "FCL", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 50.00, sl: 43.00, target: 65.00, catalyst: "⚡ Fresh Alert: Swing 58/65 & Short Term 82/100 (Monthly SIP Pick)", date: "1 Sep 2026" },
+    { name: "Anthem Biosciences", ticker: "ANTHEM", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 923.00, sl: 872.00, target: 1090.00, catalyst: "Swing Pool: Post-Listing Base Breakout (Target 1,090 - 1,250)", date: "1 Sep 2026" },
+    { name: "E2E Networks", ticker: "E2ENETWORKS", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 627.00, sl: 555.00, target: 820.00, catalyst: "Swing Pool: AI Cloud Short Term Trade (Target 820+)", date: "1 Sep 2026" },
+    { name: "Federal-Mogul", ticker: "FMGOETZE", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 534.00, sl: 499.00, target: 628.00, catalyst: "Swing Pool: ₹94 Dividend Declared + Swing Target 628", date: "1 Sep 2026" },
+    { name: "Karur Vysya Bank", ticker: "KVB", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 355.00, sl: 330.00, target: 400.00, catalyst: "Swing Pool: Banking Swing Value Play (Target 400)", date: "1 Sep 2026" },
+    { name: "Balu Forge", ticker: "BALUFORGE", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 555.00, sl: 510.00, target: 680.00, catalyst: "Swing Pool: Precision Forging Multi-Bagger", date: "1 Sep 2026" },
+    { name: "Redington India", ticker: "REDINGTON", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 360.00, sl: 342.00, target: 390.00, catalyst: "Swing Pool: Swing Setup Target 378/390+", date: "1 Sep 2026" },
+    { name: "Sigachi Industries", ticker: "SIGACHI", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 58.50, sl: 52.00, target: 76.00, catalyst: "Swing Pool: Monthly SIP Pick (Microcrystalline Cellulose)", date: "1 Sep 2026" },
 
     // 🔵 Telegram (StockPro Online, Breakout Investing, StockMarket Times)
-    { name: "Gabriel India", ticker: "GABRIEL", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 1450.00, sl: 1320.00, target: 1650.00, catalyst: "⚡ Fresh Positional: Cross past barriers with heavy breakout volume (Tgt 1,550-1,700)", date: "31 Aug 2026 15:18 IST" },
-    { name: "Diffusion Engineers", ticker: "DIFFUSION", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 467.00, sl: 445.00, target: 540.00, catalyst: "Upper Circuit blast today: hit high of ₹493.20 (Tgt 540)", date: "31 Aug 2026 15:18 IST" },
-    { name: "Indegene", ticker: "INDEGENE", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 595.00, sl: 570.00, target: 680.00, catalyst: "Morning research breakout: hit high of ₹615.50 today", date: "31 Aug 2026 14:58 IST" },
-    { name: "KPR Mill", ticker: "KPRMILL", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 1140.00, sl: 1080.00, target: 1260.00, catalyst: "Textile rally: hit intraday high of ₹1,196 🚀", date: "31 Aug 2026 14:45 IST" },
-    { name: "Dixon Tech", ticker: "DIXON", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 14930.00, sl: 14700.00, target: 15530.00, catalyst: "StockPro Alert (>14930) + Massive EMS Order Inflow", date: "31 Aug 2026" },
-    { name: "Tejas Networks", ticker: "TEJASNET", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 570.00, sl: 530.00, target: 650.00, catalyst: "BSNL ₹1,537 Cr 4G/5G Order + Positional Hold", date: "31 Aug 2026" },
-    { name: "Laurus Labs", ticker: "LAURUSLABS", channel: "Telegram (StockMarket Times)", source: "StockMarket Times Updates", tag: "telegram", entry: 478.00, sl: 452.00, target: 540.00, catalyst: "MSCI Rebalancing Inflow: +$598 Million Surge", date: "31 Aug 2026" },
-    { name: "Uniparts India", ticker: "UNIPARTS", channel: "Telegram (Breakout Investing)", source: "Breakout Investing", tag: "telegram", entry: 580.00, sl: 545.00, target: 640.00, catalyst: "Breakout Investing: BTST / Short Term Accumulation", date: "31 Aug 2026" },
-    { name: "JTL Industries", ticker: "JTLIND", channel: "Telegram (Breakout Investing)", source: "Breakout Investing", tag: "telegram", entry: 212.00, sl: 198.00, target: 240.00, catalyst: "Breakout Investing: Multi-Week Base Breakout", date: "31 Aug 2026" },
+    { name: "Gabriel India", ticker: "GABRIEL", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 1450.00, sl: 1320.00, target: 1650.00, catalyst: "⚡ Fresh Positional: Cross past barriers with heavy breakout volume (Tgt 1,550-1,700)", date: "1 Sep 2026" },
+    { name: "Diffusion Engineers", ticker: "DIFFUSION", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 467.00, sl: 445.00, target: 540.00, catalyst: "Upper Circuit surge to ₹493.20; Tgt 540-580 on expansion", date: "1 Sep 2026" },
+    { name: "Cords Cable Industries", ticker: "CORDSCABLE", channel: "Telegram (Breakout Investing)", source: "Breakout Investing", tag: "telegram", entry: 182.00, sl: 171.00, target: 205.00, catalyst: "Breakout Investing: BTST / Short Term Base Expansion", date: "1 Sep 2026" },
+    { name: "Manali Petrochem", ticker: "MANALIPETC", channel: "Telegram (Breakout Investing)", source: "Breakout Investing", tag: "telegram", entry: 96.50, sl: 91.00, target: 110.00, catalyst: "Breakout Investing: Chemical Volume Momentum Breakout", date: "1 Sep 2026" },
+    { name: "Indegene", ticker: "INDEGENE", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 595.00, sl: 570.00, target: 680.00, catalyst: "Morning research breakout: hit high of ₹615.50 (Tgt 680)", date: "1 Sep 2026" },
+    { name: "KPR Mill", ticker: "KPRMILL", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 1140.00, sl: 1080.00, target: 1260.00, catalyst: "Textile leader breakout: hit intraday high of ₹1,196 🚀", date: "1 Sep 2026" },
+    { name: "MV Electrosystems", ticker: "MVELECTRO", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 675.00, sl: 640.00, target: 780.00, catalyst: "StockPro Momentum Blast: hit ₹780 high", date: "1 Sep 2026" },
+    { name: "Cyient", ticker: "CYIENT", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 1085.00, sl: 1055.00, target: 1192.00, catalyst: "StockPro Research: hit high of ₹1,192 🚀", date: "1 Sep 2026" },
+    { name: "Dixon Tech", ticker: "DIXON", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 14930.00, sl: 14700.00, target: 15530.00, catalyst: "StockPro Alert (>14930) + Massive EMS Order Inflow", date: "1 Sep 2026" },
+    { name: "Tejas Networks", ticker: "TEJASNET", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 570.00, sl: 530.00, target: 650.00, catalyst: "BSNL ₹1,537 Cr 4G/5G Order + Positional Hold", date: "1 Sep 2026" },
+    { name: "Laurus Labs", ticker: "LAURUSLABS", channel: "Telegram (StockMarket Times)", source: "StockMarket Times Updates", tag: "telegram", entry: 478.00, sl: 452.00, target: 540.00, catalyst: "MSCI Rebalancing Inflow: +$598 Million Surge", date: "1 Sep 2026" },
+    { name: "Uniparts India", ticker: "UNIPARTS", channel: "Telegram (Breakout Investing)", source: "Breakout Investing", tag: "telegram", entry: 580.00, sl: 545.00, target: 640.00, catalyst: "Breakout Investing: BTST / Short Term Accumulation", date: "1 Sep 2026" },
+    { name: "JTL Industries", ticker: "JTLIND", channel: "Telegram (Breakout Investing)", source: "Breakout Investing", tag: "telegram", entry: 212.00, sl: 198.00, target: 240.00, catalyst: "Breakout Investing: Multi-Week Base Breakout", date: "1 Sep 2026" },
 
     // 🟣 Instagram (StockMarket Times & TradeClues)
-    { name: "Jio Financial", ticker: "JIOFIN", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 338.00, sl: 318.00, target: 385.00, catalyst: "SEBI Jio ₹37,000 Cr IPO Clearance & BlackRock JV Wealth Scaling", date: "31 Aug 2026" },
-    { name: "Suzlon Energy", ticker: "SUZLON", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 74.50, sl: 68.00, target: 88.00, catalyst: "Record 5.4 GW Wind Turbine Order Book & Turnaround", date: "31 Aug 2026" },
-    { name: "Tata Power", ticker: "TATAPOWER", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 435.00, sl: 412.00, target: 485.00, catalyst: "Solar Rooftop Surge & EV Highway Charging Growth", date: "31 Aug 2026" },
-    { name: "CDSL", ticker: "CDSL", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 1640.00, sl: 1560.00, target: 1850.00, catalyst: "13+ Cr Active Demat Accounts Record & Market Expansion", date: "31 Aug 2026" },
+    { name: "Jio Financial", ticker: "JIOFIN", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 338.00, sl: 318.00, target: 385.00, catalyst: "SEBI Jio ₹37,000 Cr IPO Clearance & BlackRock JV Wealth Scaling", date: "1 Sep 2026" },
+    { name: "Suzlon Energy", ticker: "SUZLON", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 74.50, sl: 68.00, target: 88.00, catalyst: "Record 5.4 GW Wind Turbine Order Book & Turnaround", date: "1 Sep 2026" },
+    { name: "Tata Power", ticker: "TATAPOWER", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 435.00, sl: 412.00, target: 485.00, catalyst: "Solar Rooftop Surge & EV Highway Charging Growth", date: "1 Sep 2026" },
+    { name: "CDSL", ticker: "CDSL", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 1640.00, sl: 1560.00, target: 1850.00, catalyst: "13+ Cr Active Demat Accounts Record & Market Expansion", date: "1 Sep 2026" },
 
     // 🚀 Core Momentum Desk Setups
-    { name: "Welspun Corp", ticker: "WELSPUNCORP", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 2373.80, sl: 2260.00, target: 2620.00, catalyst: "Record $1.8B Landmark US Order Backlog", date: "31 Aug 2026" },
-    { name: "Hindustan Zinc", ticker: "HINDZINC", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 622.00, sl: 588.00, target: 715.00, catalyst: "Spot Zinc Rally +31% & Jefferies ₹750 Target", date: "31 Aug 2026" },
-    { name: "Bharat Electronics", ticker: "BEL", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 411.90, sl: 392.00, target: 462.00, catalyst: "97 Tejas Jets Order + ₹74.6k Cr Book", date: "31 Aug 2026" },
-    { name: "Mastek", ticker: "MASTEK", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 1901.40, sl: 1815.00, target: 2140.00, catalyst: "Tech Reversal & Nvidia Tailwinds", date: "31 Aug 2026" },
-    { name: "Ather Energy", ticker: "ATHERENERGY", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 1616.30, sl: 1515.00, target: 1840.00, catalyst: "EV Channel Markup +33% 1M", date: "31 Aug 2026" }
+    { name: "Welspun Corp", ticker: "WELSPUNCORP", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 2373.80, sl: 2260.00, target: 2620.00, catalyst: "Record $1.8B Landmark US Order Backlog", date: "1 Sep 2026" },
+    { name: "Hindustan Zinc", ticker: "HINDZINC", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 622.00, sl: 588.00, target: 715.00, catalyst: "Spot Zinc Rally +31% & Jefferies ₹750 Target", date: "1 Sep 2026" },
+    { name: "Bharat Electronics", ticker: "BEL", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 411.90, sl: 392.00, target: 462.00, catalyst: "97 Tejas Jets Order + ₹74.6k Cr Book", date: "1 Sep 2026" },
+    { name: "Mastek", ticker: "MASTEK", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 1901.40, sl: 1815.00, target: 2140.00, catalyst: "Tech Reversal & Nvidia Tailwinds", date: "1 Sep 2026" },
+    { name: "Ather Energy", ticker: "ATHERENERGY", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 1616.30, sl: 1515.00, target: 1840.00, catalyst: "EV Channel Markup +33% 1M", date: "1 Sep 2026" }
   ];
 }
 
@@ -620,7 +624,7 @@ app.get('/api/swing-setups', async (req, res) => {
       setups,
       total: setups.length,
       channels: ['WhatsApp (Swing Pool PRO)', 'Telegram (StockPro Online, Breakout Investing, StockMarket Times)', 'Instagram (@StockMarketTimes, @TradeClues)', 'Momentum Desk'],
-      asOf: '31 Aug 2026 | ' + istTimeStr,
+      asOf: '1 Sep 2026 | ' + istTimeStr,
       refreshIntervalMs: 60000
     });
   } catch (err) {
@@ -636,7 +640,7 @@ app.get('/api/sectors', async (req, res) => {
     res.json({
       sectors,
       total: sectors.length,
-      asOf: '31 Aug 2026 | ' + istTimeStr,
+      asOf: '1 Sep 2026 | ' + istTimeStr,
       refreshIntervalMs: 60000
     });
   } catch (err) {
