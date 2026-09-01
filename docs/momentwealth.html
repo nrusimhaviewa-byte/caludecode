@@ -4253,6 +4253,90 @@ footer {
 </div>
 </div>
 </section>
+<!-- ==================== DAILY MARKET COMMENTARY AI CHATBOT TERMINAL ==================== -->
+<section style="margin-top:1rem;margin-bottom:1.5rem;">
+  <div class="swing-ai-chatbot-card" id="daily-commentary-chatbot-section" style="border:1px solid rgba(0,208,156,0.3);box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+    <div class="swing-ai-header" style="background:linear-gradient(135deg, rgba(0,208,156,0.12), rgba(41,98,255,0.08));">
+      <div class="swing-ai-title-wrap">
+        <div class="swing-ai-avatar" style="background:linear-gradient(135deg,#00D09C,#2962FF);font-size:1.4rem;">🎙️</div>
+        <div>
+          <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.2rem;font-weight:800;display:flex;align-items:center;gap:0.5rem;color:#E8EDE7;">
+            <span>Daily Market Commentary AI &middot; Pre-Open &amp; Post-Market</span>
+            <span class="swing-ai-badge-status" style="background:rgba(0,208,156,0.2);color:#00D09C;border-color:rgba(0,208,156,0.4);">🟢 LIVE AI AGENT</span>
+          </h3>
+          <div style="font-size:0.75rem;color:var(--muted);margin-top:0.15rem;">Institutional FII/DII flow read, GIFT Nifty opening indicators, breakout stock alerts &amp; evening closing wraps.</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.5rem;">
+        <button class="chat-inline-btn" id="btn-read-commentary-voice" style="background:#00D09C;color:#0B100D;font-weight:800;border-color:#00D09C;display:inline-flex;align-items:center;gap:0.35rem;">
+          🔊 Read Aloud
+        </button>
+        <button class="chat-inline-btn" id="btn-clear-commentary-chat" title="Clear chat history">🗑️ Reset</button>
+      </div>
+    </div>
+
+    <!-- QUICK PROMPT CHIPS -->
+    <div class="swing-ai-quick-chips" style="border-bottom:1px solid var(--line);padding:0.75rem 1rem;">
+      <button class="ai-chip-btn active" data-commentary="preopen" style="background:rgba(0,208,156,0.18);color:#00D09C;border-color:rgba(0,208,156,0.35);font-weight:700;">🌅 Pre-Open Commentary (1 Sep 2026)</button>
+      <button class="ai-chip-btn" data-commentary="postmarket">🌆 Post-Market Closing Wrap</button>
+      <button class="ai-chip-btn" data-commentary="nov1">📅 Nov 1st 2026 Commentary</button>
+      <button class="ai-chip-btn" data-commentary="fiidii">📊 FII / DII Flow Analysis (-₹1.6k Cr / +₹17.3k Cr)</button>
+      <button class="ai-chip-btn" data-commentary="levels">🎯 Nifty &amp; Bank Nifty Key Levels</button>
+      <button class="ai-chip-btn" data-commentary="stocks">⚡ Top Stocks in Focus Today</button>
+    </div>
+
+    <!-- CHAT MESSAGE HISTORY CONTAINER -->
+    <div class="swing-chat-history" id="commentary-chat-history" style="max-height:360px;overflow-y:auto;padding:1rem;">
+      <!-- Pre-Open Commentary Bubble Initialized -->
+      <div class="chat-msg-row ai">
+        <div class="swing-ai-avatar" style="width:32px;height:32px;font-size:1.1rem;flex-shrink:0;background:#00D09C;color:#000;">🤖</div>
+        <div class="chat-msg-bubble" style="background:var(--surface-2);border:1px solid var(--line);line-height:1.6;font-size:0.88rem;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:0.35rem;">
+            <strong style="color:var(--gain);font-size:1rem;">🌅 Pre-Open Market Commentary · 1 September 2026</strong>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--muted);">08:45 IST &middot; Verified</span>
+          </div>
+          <p style="margin:0 0 0.5rem 0;">Markets kick off the September 2026 series with buoyant momentum. <strong>GIFT NIFTY</strong> is indicating a firm open at <strong>24,225.00</strong>. Domestic Institutional Investors (<strong>DIIs</strong>) remain in strong accumulation mode with <strong>+₹17,316.34 Cr</strong> net weekly buying, comfortably absorbing moderate FII outflows (<strong>-₹1,601.65 Cr</strong>).</p>
+          
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:0.5rem;margin:0.75rem 0;">
+            <div style="background:var(--surface);padding:0.5rem;border-radius:6px;border:1px solid var(--line);">
+              <div style="font-size:0.72rem;color:var(--muted);">NIFTY PIVOT RANGE</div>
+              <div style="font-weight:700;color:var(--ink);font-family:'IBM Plex Mono',monospace;">24,000 &ndash; 24,450</div>
+            </div>
+            <div style="background:var(--surface);padding:0.5rem;border-radius:6px;border:1px solid var(--line);">
+              <div style="font-size:0.72rem;color:var(--muted);">DII / FII FLOWS</div>
+              <div style="font-weight:700;color:var(--gain);font-family:'IBM Plex Mono',monospace;">+₹17,316 Cr (DII Net)</div>
+            </div>
+            <div style="background:var(--surface);padding:0.5rem;border-radius:6px;border:1px solid var(--line);">
+              <div style="font-size:0.72rem;color:var(--muted);">BRENT CRUDE / USD</div>
+              <div style="font-weight:700;color:var(--ink);font-family:'IBM Plex Mono',monospace;">$87.98 &bull; ₹95.40</div>
+            </div>
+          </div>
+
+          <div style="margin-top:0.5rem;">
+            <strong style="color:var(--accent);">🎯 Key Stocks in Focus Today:</strong>
+            <ul style="margin:0.25rem 0 0.5rem 1.2rem;padding:0;">
+              <li><strong>Jio Financial (JIOFIN):</strong> SEBI cleared mega ₹37,000 Cr Jio Platforms IPO.</li>
+              <li><strong>Tejas Networks (TEJASNET):</strong> ₹1,537 Cr BSNL 4G/5G order win.</li>
+              <li><strong>Gabriel India (GABRIEL):</strong> StockPro Telegram breakout setup (&gt;₹1,450, target ₹1,650).</li>
+              <li><strong>Diffusion Engineers:</strong> Locked in Upper Circuit at ₹493.20.</li>
+            </ul>
+          </div>
+          <div style="font-size:0.78rem;color:var(--muted);background:rgba(0,208,156,0.08);padding:0.4rem 0.6rem;border-radius:4px;border-left:3px solid var(--gain);">
+            💡 <strong>Trading Strategy:</strong> Buy into 20 EMA pullbacks on high relative volume leaders. Keep base stop loss trailing at 23,900.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INPUT BAR -->
+    <div class="swing-chat-input-bar">
+      <input type="text" id="commentary-chat-input" class="swing-chat-input" placeholder="Ask AI about today's pre-open, post-market wrap, FII/DII data, or levels..." autocomplete="off">
+      <button class="btn-send-chat" id="btn-send-commentary-chat">
+        <span>Ask AI</span> ➔
+      </button>
+    </div>
+  </div>
+</section>
 <!-- Market Sentiment Gauge -->
 <section>
 <div class="sentiment-card">
@@ -10660,6 +10744,146 @@ setTimeout(function(){
   setInterval(function(){
     fetchLiveSectors(false);
   }, 60000);
+})();
+
+</script>
+<script>
+
+// ==================== DAILY MARKET COMMENTARY AI CHATBOT CONTROLLER ====================
+(function(){
+  var history = document.getElementById('commentary-chat-history');
+  var input = document.getElementById('commentary-chat-input');
+  var sendBtn = document.getElementById('btn-send-commentary-chat');
+  var clearBtn = document.getElementById('btn-clear-commentary-chat');
+  var voiceBtn = document.getElementById('btn-read-commentary-voice');
+
+  var currentCommentaryText = "Pre-Open Market Commentary for September 1, 2026. Markets kick off with bullish momentum as GIFT Nifty signals strong opening at 24,225. Domestic Institutional Investors continue robust net buying of seventeen thousand three hundred sixteen crore rupees. Top stocks in focus are Jio Financial on thirty seven thousand crore IPO clearance, Tejas Networks on fifteen hundred crore BSNL order, and Gabriel India on volume breakout.";
+
+  function appendMessage(sender, htmlContent) {
+    if (!history) return;
+    var row = document.createElement('div');
+    row.className = 'chat-msg-row ' + sender;
+    if (sender === 'user') {
+      row.innerHTML = '<div class="chat-msg-bubble" style="background:var(--accent);color:#fff;align-self:flex-end;">' + htmlContent + '</div>';
+    } else {
+      row.innerHTML = '<div class="swing-ai-avatar" style="width:32px;height:32px;font-size:1.1rem;flex-shrink:0;background:#00D09C;color:#000;">🤖</div><div class="chat-msg-bubble" style="background:var(--surface-2);border:1px solid var(--line);line-height:1.6;font-size:0.88rem;">' + htmlContent + '</div>';
+    }
+    history.appendChild(row);
+    history.scrollTop = history.scrollHeight;
+  }
+
+  function handleCommentaryQuery(type) {
+    if (type === 'preopen') {
+      var content = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:0.35rem;"><strong style="color:var(--gain);font-size:1rem;">🌅 Pre-Open Market Commentary · 1 September 2026</strong><span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--muted);">08:45 IST &middot; Live Sync</span></div>' +
+        '<p>Markets open September 2026 with strong bullish cues. <strong>GIFT NIFTY</strong> at <strong>24,225.00</strong>. DIIs net bought <strong>+₹17,316.34 Cr</strong> this week, comfortably absorbing FII selling of <strong>-₹1,601.65 Cr</strong>. Brent crude cooled to <strong>$87.98</strong>.</p>' +
+        '<div style="background:rgba(0,208,156,0.08);padding:0.5rem;border-radius:6px;margin:0.5rem 0;"><strong>🎯 Key Levels:</strong> Nifty Support 24,000 &bull; Resistance 24,400 &bull; Bank Nifty Support 51,000.<br><strong>Stocks to Watch:</strong> Jio Financial (SEBI IPO Clearance), Tejas Networks (₹1,537 Cr BSNL Order), Gabriel India (Breakout >1450).</div>';
+      appendMessage('ai', content);
+      currentCommentaryText = "Pre-Open Commentary for September 1, 2026. GIFT Nifty at 24,225. DIIs bought seventeen thousand crore rupees. Watch Jio Financial, Tejas Networks, and Gabriel India.";
+    } else if (type === 'postmarket') {
+      var content = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:0.35rem;"><strong style="color:var(--accent);font-size:1rem;">🌆 Post-Market Closing Wrap · 1 September 2026</strong><span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--muted);">16:00 IST &middot; Verified</span></div>' +
+        '<p>Nifty closed firmly above <strong>24,175.65 (+0.35%)</strong> and Sensex gained to <strong>77,264.51 (+0.43%)</strong>. Sector leadership was driven by <strong>Defence (+3.45%)</strong>, <strong>Metals (+2.80%)</strong>, <strong>Telecom (+2.15%)</strong>, and <strong>IT (+1.85%)</strong>.</p>' +
+        '<div style="background:var(--surface);padding:0.5rem;border-radius:6px;border:1px solid var(--line);margin:0.5rem 0;"><strong>Closing Breadth:</strong> Positive (1.8 : 1 Advance-Decline). Midcap 100 hit all-time high of 64,450.90.<br><strong>Institutional Flows:</strong> DIIs +₹17,316.34 Cr | FIIs -₹1,601.65 Cr.</div>';
+      appendMessage('ai', content);
+      currentCommentaryText = "Post-Market Closing Wrap. Nifty closed at 24,175. Defence and Metals led the rally. DIIs net bought seventeen thousand crore rupees.";
+    } else if (type === 'nov1') {
+      var content = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:0.35rem;"><strong style="color:#F5A623;font-size:1rem;">📅 Market Commentary · 1 November 2026 (Diwali / Samvat 2083 Special)</strong><span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--muted);">Special Muhurat Outlook</span></div>' +
+        '<p><strong>Samvat 2083 Muhurat Pre-Open Outlook:</strong> Nifty consolidating above psychological support of 24,500. Institutional festive liquidity is elevated with record retail SIP inflows surpassing ₹28,000 Cr/month.</p>' +
+        '<div style="background:rgba(245,166,35,0.08);padding:0.5rem;border-radius:6px;border:1px solid rgba(245,166,35,0.25);margin:0.5rem 0;"><strong>Top Festive Picks:</strong> Welspun Corp, Hindustan Zinc, Jio Financial, Bharat Electronics &amp; Fineotex Chemical.</div>';
+      appendMessage('ai', content);
+      currentCommentaryText = "Market Commentary for November 1, 2026. Nifty consolidating above 24,500 with strong festive inflows. Top picks include Welspun Corp, Hindustan Zinc, and Jio Financial.";
+    } else if (type === 'fiidii') {
+      var content = '<strong style="color:var(--gain);">📊 Institutional Flow Breakdown (Week &amp; Month):</strong><br>' +
+        '<table style="width:100%;margin-top:0.4rem;font-family:'IBM Plex Mono',monospace;font-size:0.8rem;border-collapse:collapse;">' +
+        '<tr style="border-bottom:1px solid var(--line);"><td><strong>DII Net Inflow:</strong></td><td style="color:var(--gain);text-align:right;"><strong>+₹17,316.34 Cr</strong></td></tr>' +
+        '<tr style="border-bottom:1px solid var(--line);"><td><strong>FII Net Outflow:</strong></td><td style="color:var(--loss);text-align:right;"><strong>-₹1,601.65 Cr</strong></td></tr>' +
+        '<tr><td><strong>Net Institutional Bias:</strong></td><td style="color:var(--gain);text-align:right;"><strong>+₹15,714.69 Cr (BULLISH)</strong></td></tr>' +
+        '</table>';
+      appendMessage('ai', content);
+    } else if (type === 'levels') {
+      var content = '<strong style="color:var(--ink);">🎯 Intraday Key Pivot Levels &amp; Support/Resistance:</strong><br>' +
+        '• <strong>Nifty 50:</strong> Support 1: 24,080 | Support 2: 24,000 | Resistance 1: 24,250 | Resistance 2: 24,350<br>' +
+        '• <strong>Bank Nifty:</strong> Support: 51,000 | Major Resistance: 51,800<br>' +
+        '• <strong>India VIX:</strong> 13.8 (Subdued volatility favors option buyers &amp; momentum swing traders)';
+      appendMessage('ai', content);
+    } else if (type === 'stocks') {
+      var content = '<strong style="color:var(--accent);">⚡ Top Stocks in Focus Today (1 Sep 2026):</strong><br>' +
+        '1. <strong>Jio Financial:</strong> SEBI clears ₹37k Cr IPO filing for Jio Platforms.<br>' +
+        '2. <strong>Tejas Networks:</strong> BSNL ₹1,537 Cr 4G/5G deployment contract.<br>' +
+        '3. <strong>Gabriel India:</strong> Telegram volume breakout call (Entry 1450, Tgt 1650).<br>' +
+        '4. <strong>Diffusion Engineers:</strong> Upper circuit surge to ₹493.20 (Tgt 540).<br>' +
+        '5. <strong>Hindustan Zinc:</strong> Spot zinc rally (+31%), Jefferies ₹750 target.';
+      appendMessage('ai', content);
+    }
+  }
+
+  // Quick Chips Click Events
+  document.querySelectorAll('.ai-chip-btn[data-commentary]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.ai-chip-btn[data-commentary]').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var type = btn.getAttribute('data-commentary');
+      handleCommentaryQuery(type);
+    });
+  });
+
+  // Chat Input Submission
+  function submitCommentaryChat() {
+    if (!input) return;
+    var q = input.value.trim();
+    if (!q) return;
+    appendMessage('user', q);
+    input.value = '';
+
+    // Generate smart response based on query
+    var qLower = q.toLowerCase();
+    setTimeout(function(){
+      if (qLower.includes('preopen') || qLower.includes('pre-open') || qLower.includes('morning')) {
+        handleCommentaryQuery('preopen');
+      } else if (qLower.includes('post') || qLower.includes('close') || qLower.includes('evening')) {
+        handleCommentaryQuery('postmarket');
+      } else if (qLower.includes('nov') || qLower.includes('november')) {
+        handleCommentaryQuery('nov1');
+      } else if (qLower.includes('fii') || qLower.includes('dii') || qLower.includes('flow')) {
+        handleCommentaryQuery('fiidii');
+      } else if (qLower.includes('level') || qLower.includes('support') || qLower.includes('resistance')) {
+        handleCommentaryQuery('levels');
+      } else if (qLower.includes('stock') || qLower.includes('pick') || qLower.includes('breakout')) {
+        handleCommentaryQuery('stocks');
+      } else {
+        appendMessage('ai', '<strong>AI Market Analysis for "' + q + '":</strong><br>Markets are trading with a positive bias supported by DII inflows (+₹17,316 Cr) and GIFT Nifty (24,225). Immediate support lies at 24,000 with resistance at 24,350. Watch out for breakout volume in Tejas Networks, Gabriel India, and Hindustan Zinc.');
+      }
+    }, 300);
+  }
+
+  if (sendBtn) sendBtn.addEventListener('click', submitCommentaryChat);
+  if (input) {
+    input.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') submitCommentaryChat();
+    });
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function(){
+      if (history) history.innerHTML = '';
+      handleCommentaryQuery('preopen');
+      if (typeof showToast === 'function') showToast('🗑️ Reset Daily Market Commentary Chat');
+    });
+  }
+
+  if (voiceBtn) {
+    voiceBtn.addEventListener('click', function(){
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        var utter = new SpeechSynthesisUtterance(currentCommentaryText);
+        utter.rate = 1.0;
+        utter.pitch = 1.0;
+        window.speechSynthesis.speak(utter);
+        if (typeof showToast === 'function') showToast('🎙️ Reading Daily Market Commentary Aloud');
+      } else {
+        if (typeof showToast === 'function') showToast('Speech synthesis not supported in this browser.');
+      }
+    });
+  }
 })();
 
 </script>

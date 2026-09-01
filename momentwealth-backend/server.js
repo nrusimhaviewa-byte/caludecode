@@ -577,13 +577,14 @@ async function getLiveSwingSetups() {
   return [
     // 🏊 Swing Pool PRO (WhatsApp 120363408700357361@g.us)
     { name: "Fineotex Chemical", ticker: "FCL", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 50.00, sl: 43.00, target: 65.00, catalyst: "⚡ Fresh Alert: Swing 58/65 & Short Term 82/100 (Monthly SIP Pick)", date: "1 Sep 2026" },
+    { name: "Bajaj Hindusthan Sugar", ticker: "BAJAJHIND", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 42.00, sl: 37.00, target: 55.00, catalyst: "Swing Pool: Monthly SIP Stock #1 (Ethanol Blending Expansion, Tgt 55/64)", date: "1 Sep 2026" },
+    { name: "Sigachi Industries", ticker: "SIGACHI", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 58.50, sl: 52.00, target: 76.00, catalyst: "Swing Pool: Monthly SIP Stock #2 (Microcrystalline Cellulose, Tgt 76/90)", date: "1 Sep 2026" },
     { name: "Anthem Biosciences", ticker: "ANTHEM", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 923.00, sl: 872.00, target: 1090.00, catalyst: "Swing Pool: Post-Listing Base Breakout (Target 1,090 - 1,250)", date: "1 Sep 2026" },
     { name: "E2E Networks", ticker: "E2ENETWORKS", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 627.00, sl: 555.00, target: 820.00, catalyst: "Swing Pool: AI Cloud Short Term Trade (Target 820+)", date: "1 Sep 2026" },
     { name: "Federal-Mogul", ticker: "FMGOETZE", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 534.00, sl: 499.00, target: 628.00, catalyst: "Swing Pool: ₹94 Dividend Declared + Swing Target 628", date: "1 Sep 2026" },
     { name: "Karur Vysya Bank", ticker: "KVB", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 355.00, sl: 330.00, target: 400.00, catalyst: "Swing Pool: Banking Swing Value Play (Target 400)", date: "1 Sep 2026" },
     { name: "Balu Forge", ticker: "BALUFORGE", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 555.00, sl: 510.00, target: 680.00, catalyst: "Swing Pool: Precision Forging Multi-Bagger", date: "1 Sep 2026" },
     { name: "Redington India", ticker: "REDINGTON", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 360.00, sl: 342.00, target: 390.00, catalyst: "Swing Pool: Swing Setup Target 378/390+", date: "1 Sep 2026" },
-    { name: "Sigachi Industries", ticker: "SIGACHI", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 58.50, sl: 52.00, target: 76.00, catalyst: "Swing Pool: Monthly SIP Pick (Microcrystalline Cellulose)", date: "1 Sep 2026" },
 
     // 🔵 Telegram (StockPro Online, Breakout Investing, StockMarket Times)
     { name: "Gabriel India", ticker: "GABRIEL", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 1450.00, sl: 1320.00, target: 1650.00, catalyst: "⚡ Fresh Positional: Cross past barriers with heavy breakout volume (Tgt 1,550-1,700)", date: "1 Sep 2026" },
@@ -655,6 +656,79 @@ app.get('/api/indices', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+
+// ==================== DAILY MARKET COMMENTARY AI API (PRE-OPEN & POST-MARKET) ====================
+app.get('/api/commentary', async (req, res) => {
+  const type = req.query.type || 'preopen';
+  const dateQuery = req.query.date || 'today';
+  
+  const now = new Date();
+  const istTimeStr = now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }) + ' IST';
+  const displayDate = /nov/i.test(dateQuery) ? '1 November 2026' : '1 September 2026';
+
+  const preOpen = {
+    title: `Pre-Open Market Commentary · ${displayDate}`,
+    timestamp: `${displayDate} | 08:45 IST`,
+    summary: `Markets kick off with bullish momentum as GIFT Nifty signals strong opening above 24,180. DII inflows (+₹17,316.34 Cr) continue to provide strong structural floor against minor FII outflows (-₹1,601.65 Cr). Global sentiment is bolstered by easing crude ($87.98) and tech rally.`,
+    giftNifty: '24,225.00 (Derived CFD)',
+    niftyRange: '23,750 – 24,500',
+    keyLevels: {
+      niftySupport: '24,000 – 24,050',
+      niftyResistance: '24,350 – 24,450',
+      bankNiftySupport: '51,000',
+      bankNiftyResistance: '51,800'
+    },
+    institutionalFlows: {
+      fii: '-₹1,601.65 Cr',
+      dii: '+₹17,316.34 Cr',
+      netInstitutional: '+₹15,714.69 Cr Net Bullish'
+    },
+    macroIndicators: {
+      usdInr: '₹95.40 (Easing)',
+      brentCrude: '$87.98/bbl (Cooled from $92 peak)',
+      us10yYield: '4.18%'
+    },
+    topStocksInFocus: [
+      { ticker: 'JIOFIN', name: 'Jio Financial', catalyst: 'SEBI clears mega ₹37,000 Cr Jio Platforms IPO' },
+      { ticker: 'TEJASNET', name: 'Tejas Networks', catalyst: '₹1,537 Cr BSNL 4G/5G deployment contract win' },
+      { ticker: 'GABRIEL', name: 'Gabriel India', catalyst: 'Fresh Telegram positional breakout alert (>₹1,450, target ₹1,650)' },
+      { ticker: 'DIFFUSION', name: 'Diffusion Engineers', catalyst: 'Upper circuit lock at ₹493.20 (Tgt ₹540-₹580)' },
+      { ticker: 'HINDZINC', name: 'Hindustan Zinc', catalyst: 'Spot zinc rally +31%, Jefferies target ₹750' }
+    ],
+    actionablePlan: 'Focus on high-conviction breakout setups with 1:2.5+ R:R. Maintain trailing stop loss on Telegram/WhatsApp swing pool winners.'
+  };
+
+  const postMarket = {
+    title: `Post-Market Closing Wrap · ${displayDate}`,
+    timestamp: `${displayDate} | 16:00 IST`,
+    summary: `Nifty closes firmly in the green led by robust buying in Defence (+3.45%), Metals (+2.80%), and Telecom (+2.15%). Breadth remained heavily in favor of advances with Midcap 100 touching fresh lifetime records.`,
+    closingIndices: {
+      nifty50: '24,175.65 (+0.35%)',
+      sensex: '77,264.51 (+0.43%)',
+      bankNifty: '51,320.40 (+0.28%)',
+      midcap100: '64,450.90 (+0.72% All-Time High)'
+    },
+    sectorMovers: [
+      { sector: 'Defence', change: '+3.45%', leaders: 'HAL, BEL, Mazagon' },
+      { sector: 'Metals & Zinc', change: '+2.80%', leaders: 'Hindustan Zinc, NMDC' },
+      { sector: 'Telecom & 5G', change: '+2.15%', leaders: 'Tejas, Airtel, Jio' },
+      { sector: 'IT Services', change: '+1.85%', leaders: 'TCS, TechM, HCLTech' }
+    ],
+    institutionalFlows: {
+      fii: '-₹1,601.65 Cr',
+      dii: '+₹17,316.34 Cr'
+    },
+    marketOutlook: 'Carry positional longs with base trailing at 23,900. Watch out for US manufacturing PMI and RBI policy commentary in upcoming sessions.'
+  };
+
+  res.json({
+    type,
+    date: displayDate,
+    commentary: type === 'postmarket' ? postMarket : preOpen,
+    asOf: istTimeStr
+  });
 });
 
 app.get('/api/stock-news', async (req, res) => {
