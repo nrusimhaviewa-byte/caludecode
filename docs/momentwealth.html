@@ -5006,6 +5006,9 @@ footer {
 
         <!-- QUICK STOCK SELECTOR TABS -->
         <div class="tv-symbol-bar">
+          <button class="btn-tv-sym" data-symbol="NSE:APLAPOLLO" data-name="APL Apollo Tubes" onclick="selectStockChart('NSE:APLAPOLLO', 'APL Apollo Tubes', 'Infra Tube Breakout', '2265.00', 'STRONG BUY', '66.8', '2190.00', this)">
+            <span>🍁 APL Apollo</span>
+          </button>
           <button class="btn-tv-sym active" data-symbol="NSE:HINDZINC" data-name="Hindustan Zinc" onclick="selectStockChart('NSE:HINDZINC', 'Hindustan Zinc', 'Commodity Squeeze', '622.00', 'STRONG BUY', '68.2', '594.00', this)">
             <span>⚡ Hind Zinc</span>
           </button>
@@ -9832,6 +9835,29 @@ if (refreshGrowwBtn) {
 var currentTVSymbol = "NSE:HINDZINC";
 
 var tvStockData = {
+  "NSE:APLAPOLLO": {
+    name: "APL Apollo Tubes",
+    cmp: "2,265.00",
+    pattern: "Infra Tube Breakout",
+    rating: "STRONG BUY",
+    rsi: "66.8",
+    ema: "2,190.00",
+    osc: "2 Buy · 8 Neutral",
+    ma: "14 Buy · 1 Sell",
+    needleAngle: 50,
+    entry: 2265.00,
+    sl: 2140.00,
+    t1: 2455.00,
+    t2: 2650.00,
+    candles: [
+      {date: "18 Aug", o: 2080, h: 2130, l: 2060, c: 2110, v: 40},
+      {date: "19 Aug", o: 2110, h: 2160, l: 2090, c: 2145, v: 52},
+      {date: "20 Aug", o: 2145, h: 2200, l: 2130, c: 2180, v: 65},
+      {date: "21 Aug", o: 2180, h: 2240, l: 2170, c: 2210, v: 80},
+      {date: "28 Aug", o: 2210, h: 2280, l: 2200, c: 2250, v: 110},
+      {date: "1 Sep", o: 2250, h: 2295, l: 2240, c: 2265, v: 145}
+    ]
+  },
   "NSE:HINDZINC": {
     name: "Hindustan Zinc",
     cmp: "622.00",
