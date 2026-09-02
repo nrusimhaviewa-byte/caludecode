@@ -404,7 +404,7 @@ app.get('/api/briefing', async (req, res) => {
 async function getLiveIndices() {
   const now = new Date();
   const istTimeStr = now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' IST';
-  const asOnDateStr = '1 Sep, 2026 | ' + now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }) + ' IST';
+  const asOnDateStr = '2 Sep, 2026 | ' + now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }) + ' IST';
 
   return {
     giftNifty: {
@@ -627,7 +627,7 @@ app.get('/api/swing-setups', async (req, res) => {
       setups,
       total: setups.length,
       channels: ['WhatsApp (Swing Pool PRO)', 'Telegram (StockPro Online, Breakout Investing, StockMarket Times)', 'Instagram (@StockMarketTimes, @TradeClues)', 'Momentum Desk'],
-      asOf: '1 Sep 2026 | ' + istTimeStr,
+      asOf: '2 Sep 2026 | ' + istTimeStr,
       refreshIntervalMs: 60000
     });
   } catch (err) {
@@ -643,7 +643,7 @@ app.get('/api/sectors', async (req, res) => {
     res.json({
       sectors,
       total: sectors.length,
-      asOf: '1 Sep 2026 | ' + istTimeStr,
+      asOf: '2 Sep 2026 | ' + istTimeStr,
       refreshIntervalMs: 60000
     });
   } catch (err) {
@@ -668,19 +668,19 @@ app.get('/api/commentary', async (req, res) => {
   
   const now = new Date();
   const istTimeStr = now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }) + ' IST';
-  const displayDate = /nov/i.test(dateQuery) ? '1 November 2026' : '1 September 2026';
+  const displayDate = /nov/i.test(dateQuery) ? '1 November 2026' : '2 September 2026';
 
-  const preOpen = {
+    const preOpen = {
     title: `Pre-Open Market Commentary · ${displayDate}`,
     timestamp: `${displayDate} | 08:45 IST`,
-    summary: `Markets kick off with bullish momentum as GIFT Nifty signals strong opening above 24,180. DII inflows (+₹17,316.34 Cr) continue to provide strong structural floor against minor FII outflows (-₹1,601.65 Cr). Global sentiment is bolstered by easing crude ($87.98) and tech rally.`,
-    giftNifty: '24,225.00 (Derived CFD)',
-    niftyRange: '23,750 – 24,500',
+    summary: `Markets open mid-week trade with strong stock-specific momentum. Sterlite Tech in sharp focus after bagging a ₹2,750 Cr AI hyperscaler order, while ITC Infotech executes a ₹1,330 Cr merger. DII institutional buying (+₹17,316 Cr) continues to anchor the index firmly above 24,150.`,
+    giftNifty: '24,240.00 (Derived CFD)',
+    niftyRange: '24,050 – 24,450',
     keyLevels: {
-      niftySupport: '24,000 – 24,050',
+      niftySupport: '24,050 – 24,100',
       niftyResistance: '24,350 – 24,450',
-      bankNiftySupport: '51,000',
-      bankNiftyResistance: '51,800'
+      bankNiftySupport: '51,200',
+      bankNiftyResistance: '51,900'
     },
     institutionalFlows: {
       fii: '-₹1,601.65 Cr',
@@ -688,18 +688,18 @@ app.get('/api/commentary', async (req, res) => {
       netInstitutional: '+₹15,714.69 Cr Net Bullish'
     },
     macroIndicators: {
-      usdInr: '₹95.40 (Easing)',
-      brentCrude: '$87.98/bbl (Cooled from $92 peak)',
-      us10yYield: '4.18%'
+      usdInr: '₹95.38 (Steady)',
+      brentCrude: '$87.65/bbl (Off $92 peak)',
+      us10yYield: '4.17%'
     },
     topStocksInFocus: [
-      { ticker: 'JIOFIN', name: 'Jio Financial', catalyst: 'SEBI clears mega ₹37,000 Cr Jio Platforms IPO' },
-      { ticker: 'TEJASNET', name: 'Tejas Networks', catalyst: '₹1,537 Cr BSNL 4G/5G deployment contract win' },
-      { ticker: 'GABRIEL', name: 'Gabriel India', catalyst: 'Fresh Telegram positional breakout alert (>₹1,450, target ₹1,650)' },
-      { ticker: 'DIFFUSION', name: 'Diffusion Engineers', catalyst: 'Upper circuit lock at ₹493.20 (Tgt ₹540-₹580)' },
-      { ticker: 'HINDZINC', name: 'Hindustan Zinc', catalyst: 'Spot zinc rally +31%, Jefferies target ₹750' }
+      { ticker: 'STLTECH', name: 'Sterlite Tech', catalyst: 'Bagged massive ₹2,750 Cr AI Hyperscaler Optical order' },
+      { ticker: 'ITC', name: 'ITC Ltd', catalyst: '₹1,330 Cr ITC Infotech tech acquisition & consolidation' },
+      { ticker: 'APLAPOLLO', name: 'APL Apollo Tubes', catalyst: 'WhatsApp Swing Pool fresh call (Buy 2265-2230, Tgt 2455/2650++)' },
+      { ticker: 'POLYPLEX', name: 'Polyplex Corp', catalyst: 'WhatsApp Direct fresh alert (Buy 1185, Tgt 1290/1380++)' },
+      { ticker: 'TEJASNET', name: 'Tejas Networks', catalyst: 'Continued rally on ₹1,537 Cr BSNL 4G/5G deployment contract' }
     ],
-    actionablePlan: 'Focus on high-conviction breakout setups with 1:2.5+ R:R. Maintain trailing stop loss on Telegram/WhatsApp swing pool winners.'
+    actionablePlan: 'Ride breakout momentum in AI infra, optical interconnects, and specialty packaging. Trail stop-losses higher on swing winners.'
   };
 
   const postMarket = {
