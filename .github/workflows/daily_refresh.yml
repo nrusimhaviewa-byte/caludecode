@@ -1,0 +1,33 @@
+name: Daily Portal Refresh & Apify Stock News Pipeline
+
+on:
+  schedule:
+    # Runs daily at 03:00 UTC (08:30 AM IST before Indian stock market pre-open)
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  daily-refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Trigger Cloud Backend & Apify Stock News Refresh
+        env:
+          BACKEND_URL: 'https://momentwealth-backend-911650691357.asia-south1.run.app'
+        run: |
+          echo "Triggering daily refresh of Economic Times, Business Standard, INDmoney, Moneycontrol, TradingView & Social Media stock calls..."
+          curl -s -X POST "$BACKEND_URL/api/refresh-all" || echo "Backend refresh ping sent"
+
+      - name: Verify Portal Health & Cache Status
+        run: |
+          curl -s "https://momentwealth-backend-911650691357.asia-south1.run.app/health"
+
+      - name: Auto-commit Fresh Stamp (If any file changes)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore(data): daily portal stock news & social calls refresh [skip ci]"
+          git push || echo "No git changes to push"

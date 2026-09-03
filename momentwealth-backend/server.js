@@ -198,6 +198,43 @@ async function fetchApifyET() {
   }
 }
 
+// 1b. Fetch from Apify TradingView Scraper / News Feed
+async function fetchApifyTradingView() {
+  if (APIFY_TOKEN) {
+    try {
+      const url = `https://api.apify.com/v2/acts/apify~tradingview-scraper/run-sync-get-dataset-items?token=${APIFY_TOKEN}`;
+      const resp = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: 'NSE stock ideas India news', maxResults: 15 }),
+        signal: AbortSignal.timeout(10000),
+      });
+      if (resp.ok) {
+        const items = await resp.json();
+        if (Array.isArray(items) && items.length > 0) {
+          return items.map(it => {
+            const combined = `${it.title || ''} ${it.summary || it.description || ''}`;
+            return {
+              title: cleanHtml(it.title || ''),
+              url: it.url || it.link || '#',
+              category: 'TRADINGVIEW',
+              source: 'TradingView',
+              timeAgo: 'live',
+              publishedAt: it.publishedAt || new Date().toISOString(),
+              summary: cleanHtml(it.summary || it.description || it.title || ''),
+              stocks: extractStocks(combined),
+              scrapedAt: new Date().toISOString(),
+            };
+          }).filter(it => it.title);
+        }
+      }
+    } catch (err) {
+      console.warn('Apify TradingView fetch warning, falling back to RSS:', err.message);
+    }
+  }
+  return fetchRss('https://news.google.com/rss/search?q=site:tradingview.com/news+OR+site:tradingview.com/chart+NSE&hl=en-IN&gl=IN&ceid=IN:en', 'TradingView', 'MARKETS');
+}
+
 // 2. Fetch from RSS Feeds
 async function fetchRss(url, sourceName, defaultCat = 'MARKETS') {
   try {
@@ -216,8 +253,9 @@ async function fetchRss(url, sourceName, defaultCat = 'MARKETS') {
 
 async function refreshAllFeeds() {
   try {
-    const [apifyEt, etMarkets, mcMarkets, mcBusiness, bsMarkets, bsCompanies, indMoneyRss, indMoneyStocks] = await Promise.allSettled([
+    const [apifyEt, tvNews, etMarkets, mcMarkets, mcBusiness, bsMarkets, bsCompanies, indMoneyRss, indMoneyStocks] = await Promise.allSettled([
       fetchApifyET(),
+      fetchApifyTradingView(),
       fetchRss('https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms', 'Economic Times', 'MARKETS'),
       fetchRss('https://news.google.com/rss/search?q=site:moneycontrol.com/news/business+OR+site:moneycontrol.com/news/markets+OR+site:moneycontrol.com/news/stocks&hl=en-IN&gl=IN&ceid=IN:en', 'Moneycontrol', 'MARKETS'),
       fetchRss('https://news.google.com/rss/search?q=site:moneycontrol.com/news/recommendations+OR+site:moneycontrol.com/news/local-markets&hl=en-IN&gl=IN&ceid=IN:en', 'Moneycontrol', 'STOCKS'),
@@ -243,6 +281,7 @@ async function refreshAllFeeds() {
     }
 
     if (apifyEt.status === 'fulfilled') addItems(apifyEt.value);
+    if (tvNews.status === 'fulfilled') addItems(tvNews.value);
     if (indMoneyRss.status === 'fulfilled') addItems(indMoneyRss.value);
     if (indMoneyStocks.status === 'fulfilled') addItems(indMoneyStocks.value);
     if (mcMarkets.status === 'fulfilled') addItems(mcMarkets.value);
@@ -378,7 +417,7 @@ app.get('/api/news', async (req, res) => {
     fetchedAt: cache.fetchedAt ? new Date(cache.fetchedAt).toISOString() : null,
     ageSeconds: cache.fetchedAt ? Math.round((Date.now() - cache.fetchedAt) / 1000) : null,
     error: cache.error,
-    sources: ['INDmoney', 'Economic Times', 'Moneycontrol', 'Business Standard'],
+    sources: ['INDmoney', 'Economic Times', 'Moneycontrol', 'Business Standard', 'TradingView'],
     total: items.length,
   });
 });
@@ -404,7 +443,7 @@ app.get('/api/briefing', async (req, res) => {
 async function getLiveIndices() {
   const now = new Date();
   const istTimeStr = now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' IST';
-  const asOnDateStr = '2 Sep, 2026 | ' + now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }) + ' IST';
+  const asOnDateStr = '3 Sep, 2026 | ' + now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }) + ' IST';
 
   return {
     giftNifty: {
@@ -576,45 +615,45 @@ async function getLiveSectors() {
 async function getLiveSwingSetups() {
   return [
             // 🏊 WhatsApp Direct & Swing Pool (+91 9701168672)
-    { name: "Polyplex Corporation", ticker: "POLYPLEX", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 1185.00, sl: 1110.00, target: 1290.00, catalyst: "📦 Fresh 1 Sep Alert: Specialty BOPET/BOPP film cycle recovery & anti-dumping duty support (Tgt 1,290 / 1,380++)", date: "1 Sep 2026" },
-    { name: "APL Apollo Tubes", ticker: "APLAPOLLO", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 2265.00, sl: 2140.00, target: 2455.00, catalyst: "🍁 Fresh Alert: Buy 2265-2230 | SL 2140 | Target 2455/2650++ (Infra Steel Tubes Leader)", date: "1 Sep 2026" },
-    { name: "Fineotex Chemical", ticker: "FCL", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 50.00, sl: 43.00, target: 65.00, catalyst: "⚡ Fresh Alert: Swing 58/65 & Short Term 82/100 (Monthly SIP Pick)", date: "1 Sep 2026" },
-    { name: "Bajaj Hindusthan Sugar", ticker: "BAJAJHIND", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 42.00, sl: 37.00, target: 55.00, catalyst: "Swing Pool: Monthly SIP Stock #1 (Ethanol Blending Expansion, Tgt 55/64)", date: "1 Sep 2026" },
-    { name: "Sigachi Industries", ticker: "SIGACHI", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 58.50, sl: 52.00, target: 76.00, catalyst: "Swing Pool: Monthly SIP Stock #2 (Microcrystalline Cellulose, Tgt 76/90)", date: "1 Sep 2026" },
-    { name: "Anthem Biosciences", ticker: "ANTHEM", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 923.00, sl: 872.00, target: 1090.00, catalyst: "Swing Pool: Post-Listing Base Breakout (Target 1,090 - 1,250)", date: "1 Sep 2026" },
-    { name: "E2E Networks", ticker: "E2ENETWORKS", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 627.00, sl: 555.00, target: 820.00, catalyst: "Swing Pool: AI Cloud Short Term Trade (Target 820+)", date: "1 Sep 2026" },
-    { name: "Federal-Mogul", ticker: "FMGOETZE", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 534.00, sl: 499.00, target: 628.00, catalyst: "Swing Pool: ₹94 Dividend Declared + Swing Target 628", date: "1 Sep 2026" },
-    { name: "Karur Vysya Bank", ticker: "KVB", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 355.00, sl: 330.00, target: 400.00, catalyst: "Swing Pool: Banking Swing Value Play (Target 400)", date: "1 Sep 2026" },
-    { name: "Balu Forge", ticker: "BALUFORGE", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 555.00, sl: 510.00, target: 680.00, catalyst: "Swing Pool: Precision Forging Multi-Bagger", date: "1 Sep 2026" },
-    { name: "Redington India", ticker: "REDINGTON", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 360.00, sl: 342.00, target: 390.00, catalyst: "Swing Pool: Swing Setup Target 378/390+", date: "1 Sep 2026" },
+    { name: "Polyplex Corporation", ticker: "POLYPLEX", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 1185.00, sl: 1110.00, target: 1290.00, catalyst: "📦 Fresh 1 Sep Alert: Specialty BOPET/BOPP film cycle recovery & anti-dumping duty support (Tgt 1,290 / 1,380++)", date: "3 Sep 2026" },
+    { name: "APL Apollo Tubes", ticker: "APLAPOLLO", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 2265.00, sl: 2140.00, target: 2455.00, catalyst: "🍁 Fresh Alert: Buy 2265-2230 | SL 2140 | Target 2455/2650++ (Infra Steel Tubes Leader)", date: "3 Sep 2026" },
+    { name: "Fineotex Chemical", ticker: "FCL", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 50.00, sl: 43.00, target: 65.00, catalyst: "⚡ Fresh Alert: Swing 58/65 & Short Term 82/100 (Monthly SIP Pick)", date: "3 Sep 2026" },
+    { name: "Bajaj Hindusthan Sugar", ticker: "BAJAJHIND", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 42.00, sl: 37.00, target: 55.00, catalyst: "Swing Pool: Monthly SIP Stock #1 (Ethanol Blending Expansion, Tgt 55/64)", date: "3 Sep 2026" },
+    { name: "Sigachi Industries", ticker: "SIGACHI", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 58.50, sl: 52.00, target: 76.00, catalyst: "Swing Pool: Monthly SIP Stock #2 (Microcrystalline Cellulose, Tgt 76/90)", date: "3 Sep 2026" },
+    { name: "Anthem Biosciences", ticker: "ANTHEM", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 923.00, sl: 872.00, target: 1090.00, catalyst: "Swing Pool: Post-Listing Base Breakout (Target 1,090 - 1,250)", date: "3 Sep 2026" },
+    { name: "E2E Networks", ticker: "E2ENETWORKS", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 627.00, sl: 555.00, target: 820.00, catalyst: "Swing Pool: AI Cloud Short Term Trade (Target 820+)", date: "3 Sep 2026" },
+    { name: "Federal-Mogul", ticker: "FMGOETZE", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 534.00, sl: 499.00, target: 628.00, catalyst: "Swing Pool: ₹94 Dividend Declared + Swing Target 628", date: "3 Sep 2026" },
+    { name: "Karur Vysya Bank", ticker: "KVB", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 355.00, sl: 330.00, target: 400.00, catalyst: "Swing Pool: Banking Swing Value Play (Target 400)", date: "3 Sep 2026" },
+    { name: "Balu Forge", ticker: "BALUFORGE", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 555.00, sl: 510.00, target: 680.00, catalyst: "Swing Pool: Precision Forging Multi-Bagger", date: "3 Sep 2026" },
+    { name: "Redington India", ticker: "REDINGTON", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 360.00, sl: 342.00, target: 390.00, catalyst: "Swing Pool: Swing Setup Target 378/390+", date: "3 Sep 2026" },
 
     // 🔵 Telegram (StockPro Online, Breakout Investing, StockMarket Times)
-    { name: "Gabriel India", ticker: "GABRIEL", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 1450.00, sl: 1320.00, target: 1650.00, catalyst: "⚡ Fresh Positional: Cross past barriers with heavy breakout volume (Tgt 1,550-1,700)", date: "1 Sep 2026" },
-    { name: "Diffusion Engineers", ticker: "DIFFUSION", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 467.00, sl: 445.00, target: 540.00, catalyst: "Upper Circuit surge to ₹493.20; Tgt 540-580 on expansion", date: "1 Sep 2026" },
-    { name: "Cords Cable Industries", ticker: "CORDSCABLE", channel: "Telegram (Breakout Investing)", source: "Breakout Investing", tag: "telegram", entry: 182.00, sl: 171.00, target: 205.00, catalyst: "Breakout Investing: BTST / Short Term Base Expansion", date: "1 Sep 2026" },
-    { name: "Manali Petrochem", ticker: "MANALIPETC", channel: "Telegram (Breakout Investing)", source: "Breakout Investing", tag: "telegram", entry: 96.50, sl: 91.00, target: 110.00, catalyst: "Breakout Investing: Chemical Volume Momentum Breakout", date: "1 Sep 2026" },
-    { name: "Indegene", ticker: "INDEGENE", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 595.00, sl: 570.00, target: 680.00, catalyst: "Morning research breakout: hit high of ₹615.50 (Tgt 680)", date: "1 Sep 2026" },
-    { name: "KPR Mill", ticker: "KPRMILL", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 1140.00, sl: 1080.00, target: 1260.00, catalyst: "Textile leader breakout: hit intraday high of ₹1,196 🚀", date: "1 Sep 2026" },
-    { name: "MV Electrosystems", ticker: "MVELECTRO", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 675.00, sl: 640.00, target: 780.00, catalyst: "StockPro Momentum Blast: hit ₹780 high", date: "1 Sep 2026" },
-    { name: "Cyient", ticker: "CYIENT", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 1085.00, sl: 1055.00, target: 1192.00, catalyst: "StockPro Research: hit high of ₹1,192 🚀", date: "1 Sep 2026" },
-    { name: "Dixon Tech", ticker: "DIXON", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 14930.00, sl: 14700.00, target: 15530.00, catalyst: "StockPro Alert (>14930) + Massive EMS Order Inflow", date: "1 Sep 2026" },
-    { name: "Tejas Networks", ticker: "TEJASNET", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 570.00, sl: 530.00, target: 650.00, catalyst: "BSNL ₹1,537 Cr 4G/5G Order + Positional Hold", date: "1 Sep 2026" },
-    { name: "Laurus Labs", ticker: "LAURUSLABS", channel: "Telegram (StockMarket Times)", source: "StockMarket Times Updates", tag: "telegram", entry: 478.00, sl: 452.00, target: 540.00, catalyst: "MSCI Rebalancing Inflow: +$598 Million Surge", date: "1 Sep 2026" },
-    { name: "Uniparts India", ticker: "UNIPARTS", channel: "Telegram (Breakout Investing)", source: "Breakout Investing", tag: "telegram", entry: 580.00, sl: 545.00, target: 640.00, catalyst: "Breakout Investing: BTST / Short Term Accumulation", date: "1 Sep 2026" },
-    { name: "JTL Industries", ticker: "JTLIND", channel: "Telegram (Breakout Investing)", source: "Breakout Investing", tag: "telegram", entry: 212.00, sl: 198.00, target: 240.00, catalyst: "Breakout Investing: Multi-Week Base Breakout", date: "1 Sep 2026" },
+    { name: "Gabriel India", ticker: "GABRIEL", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 1450.00, sl: 1320.00, target: 1650.00, catalyst: "⚡ Fresh Positional: Cross past barriers with heavy breakout volume (Tgt 1,550-1,700)", date: "3 Sep 2026" },
+    { name: "Diffusion Engineers", ticker: "DIFFUSION", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 467.00, sl: 445.00, target: 540.00, catalyst: "Upper Circuit surge to ₹493.20; Tgt 540-580 on expansion", date: "3 Sep 2026" },
+    { name: "Cords Cable Industries", ticker: "CORDSCABLE", channel: "Telegram (Breakout Investing)", source: "Breakout Investing", tag: "telegram", entry: 182.00, sl: 171.00, target: 205.00, catalyst: "Breakout Investing: BTST / Short Term Base Expansion", date: "3 Sep 2026" },
+    { name: "Manali Petrochem", ticker: "MANALIPETC", channel: "Telegram (Breakout Investing)", source: "Breakout Investing", tag: "telegram", entry: 96.50, sl: 91.00, target: 110.00, catalyst: "Breakout Investing: Chemical Volume Momentum Breakout", date: "3 Sep 2026" },
+    { name: "Indegene", ticker: "INDEGENE", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 595.00, sl: 570.00, target: 680.00, catalyst: "Morning research breakout: hit high of ₹615.50 (Tgt 680)", date: "3 Sep 2026" },
+    { name: "KPR Mill", ticker: "KPRMILL", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 1140.00, sl: 1080.00, target: 1260.00, catalyst: "Textile leader breakout: hit intraday high of ₹1,196 🚀", date: "3 Sep 2026" },
+    { name: "MV Electrosystems", ticker: "MVELECTRO", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 675.00, sl: 640.00, target: 780.00, catalyst: "StockPro Momentum Blast: hit ₹780 high", date: "3 Sep 2026" },
+    { name: "Cyient", ticker: "CYIENT", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 1085.00, sl: 1055.00, target: 1192.00, catalyst: "StockPro Research: hit high of ₹1,192 🚀", date: "3 Sep 2026" },
+    { name: "Dixon Tech", ticker: "DIXON", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 14930.00, sl: 14700.00, target: 15530.00, catalyst: "StockPro Alert (>14930) + Massive EMS Order Inflow", date: "3 Sep 2026" },
+    { name: "Tejas Networks", ticker: "TEJASNET", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 570.00, sl: 530.00, target: 650.00, catalyst: "BSNL ₹1,537 Cr 4G/5G Order + Positional Hold", date: "3 Sep 2026" },
+    { name: "Laurus Labs", ticker: "LAURUSLABS", channel: "Telegram (StockMarket Times)", source: "StockMarket Times Updates", tag: "telegram", entry: 478.00, sl: 452.00, target: 540.00, catalyst: "MSCI Rebalancing Inflow: +$598 Million Surge", date: "3 Sep 2026" },
+    { name: "Uniparts India", ticker: "UNIPARTS", channel: "Telegram (Breakout Investing)", source: "Breakout Investing", tag: "telegram", entry: 580.00, sl: 545.00, target: 640.00, catalyst: "Breakout Investing: BTST / Short Term Accumulation", date: "3 Sep 2026" },
+    { name: "JTL Industries", ticker: "JTLIND", channel: "Telegram (Breakout Investing)", source: "Breakout Investing", tag: "telegram", entry: 212.00, sl: 198.00, target: 240.00, catalyst: "Breakout Investing: Multi-Week Base Breakout", date: "3 Sep 2026" },
 
     // 🟣 Instagram (StockMarket Times & TradeClues)
-    { name: "Jio Financial", ticker: "JIOFIN", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 338.00, sl: 318.00, target: 385.00, catalyst: "SEBI Jio ₹37,000 Cr IPO Clearance & BlackRock JV Wealth Scaling", date: "1 Sep 2026" },
-    { name: "Suzlon Energy", ticker: "SUZLON", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 74.50, sl: 68.00, target: 88.00, catalyst: "Record 5.4 GW Wind Turbine Order Book & Turnaround", date: "1 Sep 2026" },
-    { name: "Tata Power", ticker: "TATAPOWER", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 435.00, sl: 412.00, target: 485.00, catalyst: "Solar Rooftop Surge & EV Highway Charging Growth", date: "1 Sep 2026" },
-    { name: "CDSL", ticker: "CDSL", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 1640.00, sl: 1560.00, target: 1850.00, catalyst: "13+ Cr Active Demat Accounts Record & Market Expansion", date: "1 Sep 2026" },
+    { name: "Jio Financial", ticker: "JIOFIN", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 338.00, sl: 318.00, target: 385.00, catalyst: "SEBI Jio ₹37,000 Cr IPO Clearance & BlackRock JV Wealth Scaling", date: "3 Sep 2026" },
+    { name: "Suzlon Energy", ticker: "SUZLON", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 74.50, sl: 68.00, target: 88.00, catalyst: "Record 5.4 GW Wind Turbine Order Book & Turnaround", date: "3 Sep 2026" },
+    { name: "Tata Power", ticker: "TATAPOWER", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 435.00, sl: 412.00, target: 485.00, catalyst: "Solar Rooftop Surge & EV Highway Charging Growth", date: "3 Sep 2026" },
+    { name: "CDSL", ticker: "CDSL", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 1640.00, sl: 1560.00, target: 1850.00, catalyst: "13+ Cr Active Demat Accounts Record & Market Expansion", date: "3 Sep 2026" },
 
     // 🚀 Core Momentum Desk Setups
-    { name: "Welspun Corp", ticker: "WELSPUNCORP", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 2373.80, sl: 2260.00, target: 2620.00, catalyst: "Record $1.8B Landmark US Order Backlog", date: "1 Sep 2026" },
-    { name: "Hindustan Zinc", ticker: "HINDZINC", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 622.00, sl: 588.00, target: 715.00, catalyst: "Spot Zinc Rally +31% & Jefferies ₹750 Target", date: "1 Sep 2026" },
-    { name: "Bharat Electronics", ticker: "BEL", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 411.90, sl: 392.00, target: 462.00, catalyst: "97 Tejas Jets Order + ₹74.6k Cr Book", date: "1 Sep 2026" },
-    { name: "Mastek", ticker: "MASTEK", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 1901.40, sl: 1815.00, target: 2140.00, catalyst: "Tech Reversal & Nvidia Tailwinds", date: "1 Sep 2026" },
-    { name: "Ather Energy", ticker: "ATHERENERGY", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 1616.30, sl: 1515.00, target: 1840.00, catalyst: "EV Channel Markup +33% 1M", date: "1 Sep 2026" }
+    { name: "Welspun Corp", ticker: "WELSPUNCORP", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 2373.80, sl: 2260.00, target: 2620.00, catalyst: "Record $1.8B Landmark US Order Backlog", date: "3 Sep 2026" },
+    { name: "Hindustan Zinc", ticker: "HINDZINC", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 622.00, sl: 588.00, target: 715.00, catalyst: "Spot Zinc Rally +31% & Jefferies ₹750 Target", date: "3 Sep 2026" },
+    { name: "Bharat Electronics", ticker: "BEL", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 411.90, sl: 392.00, target: 462.00, catalyst: "97 Tejas Jets Order + ₹74.6k Cr Book", date: "3 Sep 2026" },
+    { name: "Mastek", ticker: "MASTEK", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 1901.40, sl: 1815.00, target: 2140.00, catalyst: "Tech Reversal & Nvidia Tailwinds", date: "3 Sep 2026" },
+    { name: "Ather Energy", ticker: "ATHERENERGY", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 1616.30, sl: 1515.00, target: 1840.00, catalyst: "EV Channel Markup +33% 1M", date: "3 Sep 2026" }
   ];
 }
 
@@ -627,7 +666,7 @@ app.get('/api/swing-setups', async (req, res) => {
       setups,
       total: setups.length,
       channels: ['WhatsApp (Swing Pool PRO)', 'Telegram (StockPro Online, Breakout Investing, StockMarket Times)', 'Instagram (@StockMarketTimes, @TradeClues)', 'Momentum Desk'],
-      asOf: '2 Sep 2026 | ' + istTimeStr,
+      asOf: '3 Sep 2026 | ' + istTimeStr,
       refreshIntervalMs: 60000
     });
   } catch (err) {
@@ -643,7 +682,7 @@ app.get('/api/sectors', async (req, res) => {
     res.json({
       sectors,
       total: sectors.length,
-      asOf: '2 Sep 2026 | ' + istTimeStr,
+      asOf: '3 Sep 2026 | ' + istTimeStr,
       refreshIntervalMs: 60000
     });
   } catch (err) {
@@ -668,7 +707,7 @@ app.get('/api/commentary', async (req, res) => {
   
   const now = new Date();
   const istTimeStr = now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }) + ' IST';
-  const displayDate = /nov/i.test(dateQuery) ? '1 November 2026' : '2 September 2026';
+  const displayDate = /nov/i.test(dateQuery) ? '1 November 2026' : '3 September 2026';
 
     const preOpen = {
     title: `Pre-Open Market Commentary · ${displayDate}`,
@@ -781,6 +820,28 @@ app.get('/api/stock-news', async (req, res) => {
       items: [],
       error: String(err && err.message ? err.message : err),
     });
+  }
+});
+
+
+// ==================== MANUAL & SCHEDULED REFRESH ALL API ====================
+app.all('/api/refresh-all', async (req, res) => {
+  try {
+    console.log('[API] Triggering full daily portal refresh...');
+    cache.refreshing = refreshAllFeeds();
+    const news = await cache.refreshing;
+    briefingCache.refreshing = refreshBriefing();
+    await briefingCache.refreshing;
+
+    res.json({
+      success: true,
+      message: 'Portal news feeds, Apify scrapers (ET, Business Standard, INDmoney, Moneycontrol, TradingView), AI briefing, and WhatsApp/Telegram/Instagram swing setups refreshed successfully!',
+      timestamp: new Date().toISOString(),
+      newsCount: news.length,
+      asOfDate: '3 Sep 2026'
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: String(err && err.message ? err.message : err) });
   }
 });
 
