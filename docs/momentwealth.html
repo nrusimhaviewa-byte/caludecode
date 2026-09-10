@@ -9156,6 +9156,10 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     });
   });
 
+  var voiceBtn = document.getElementById('voice-briefing-btn');
+  var voiceStatusEl = document.getElementById('voice-briefing-status');
+  var voiceAudio = document.getElementById('voice-briefing-audio');
+  var BRIEFING_API = 'https://momentwealth-backend-911650691357.asia-south1.run.app/api/briefing';
   if (voiceBtn && voiceAudio) {
     var briefingLoaded = false;
     voiceBtn.addEventListener('click', function(){
@@ -9178,7 +9182,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
           voiceAudio.controls = true;
           voiceAudio.style.display = '';
           briefingLoaded = true;
-          var ago = timeAgo(payload.fetchedAt);
+          var ago = (typeof timeAgo === 'function') ? timeAgo(payload.fetchedAt) : '';
           var playPromise = voiceAudio.play();
           if (playPromise && playPromise.then) {
             playPromise.then(function(){
