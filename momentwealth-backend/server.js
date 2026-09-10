@@ -185,13 +185,33 @@ function parseRssXml(xmlText, sourceName, defaultCategory = 'MARKETS') {
       else if (/it|tech|ai|nvidia|tcs|infosys/i.test(combined)) category = 'IT SERVICES';
       else if (/policy|gst|rbi|fdi|itr|tax|budget/i.test(combined)) category = 'POLICY';
 
+      let pubIso = new Date().toISOString();
+      let timeAgoStr = 'just now';
+      if (pubDate) {
+        const parsedD = new Date(pubDate);
+        if (!isNaN(parsedD.getTime())) {
+          pubIso = parsedD.toISOString();
+          const diffMs = now - parsedD.getTime();
+          if (diffMs > 0) {
+            const diffMins = Math.floor(diffMs / (60 * 1000));
+            if (diffMins < 1) timeAgoStr = 'just now';
+            else if (diffMins < 60) timeAgoStr = `${diffMins}m ago`;
+            else {
+              const diffHours = Math.floor(diffMins / 60);
+              if (diffHours < 24) timeAgoStr = `${diffHours}h ago`;
+              else timeAgoStr = `${Math.floor(diffHours / 24)}d ago`;
+            }
+          }
+        }
+      }
+
       items.push({
         title,
         url: link || '#',
         category,
         source: sourceName,
-        timeAgo: 'live',
-        publishedAt: pubDate || new Date().toISOString(),
+        timeAgo: timeAgoStr,
+        publishedAt: pubIso,
         summary: summary || title,
         stocks,
         scrapedAt: new Date().toISOString(),
@@ -222,7 +242,7 @@ async function fetchApifyET() {
         url: it.url || '#',
         category: it.category || 'POLICY',
         source: 'Economic Times',
-        timeAgo: 'live',
+        timeAgo: 'today',
         publishedAt: it.publishedAt || it.scrapedAt || new Date().toISOString(),
         summary: cleanHtml(it.summary || ''),
         stocks: extractStocks(combined),
@@ -256,7 +276,7 @@ async function fetchApifyTradingView() {
               url: it.url || it.link || '#',
               category: 'TRADINGVIEW',
               source: 'TradingView',
-              timeAgo: 'live',
+              timeAgo: 'today',
               publishedAt: it.publishedAt || new Date().toISOString(),
               summary: cleanHtml(it.summary || it.description || it.title || ''),
               stocks: extractStocks(combined),
@@ -326,6 +346,13 @@ async function refreshAllFeeds() {
     if (etMarkets.status === 'fulfilled') addItems(etMarkets.value);
     if (mcBusiness.status === 'fulfilled') addItems(mcBusiness.value);
     if (bsCompanies.status === 'fulfilled') addItems(bsCompanies.value);
+
+    // Strict sort by publication date descending (newest items first)
+    results.sort((a, b) => {
+      const tA = new Date(a.publishedAt || a.scrapedAt || 0).getTime();
+      const tB = new Date(b.publishedAt || b.scrapedAt || 0).getTime();
+      return tB - tA;
+    });
 
     cache = {
       data: results,
@@ -448,6 +475,13 @@ app.get('/api/news', async (req, res) => {
       return combined.includes(term);
     });
   }
+
+  // Sort items descending by publication date (newest first)
+  items.sort((a, b) => {
+    const tA = new Date(a.publishedAt || a.scrapedAt || 0).getTime();
+    const tB = new Date(b.publishedAt || b.scrapedAt || 0).getTime();
+    return tB - tA;
+  });
 
   res.json({
     items,

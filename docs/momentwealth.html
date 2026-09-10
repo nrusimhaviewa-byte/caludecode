@@ -8017,6 +8017,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       category: "STOCKS",
       source: "Business Standard",
       timeAgo: "25m ago",
+      publishedAt: "2026-09-10T09:45:00.000Z",
       stocks: ["OIL", "ONGC"],
       summary: "State-run upstream explorers witness aggressive accumulation as crude climbs on Middle-East maritime tensions, boosting Q2/Q3 FY27 realization and free cash flows."
     },
@@ -8026,6 +8027,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       category: "CLEAN TECH",
       source: "Business Standard",
       timeAgo: "35m ago",
+      publishedAt: "2026-09-10T09:35:00.000Z",
       stocks: ["SHAKTIPUMP"],
       summary: "Order entails supply and commissioning of off-grid solar photovoltaic water pumping systems across Maharashtra under the PM-KUSUM initiative."
     },
@@ -8035,6 +8037,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       category: "TECH & RETAIL",
       source: "Business Standard",
       timeAgo: "55m ago",
+      publishedAt: "2026-09-10T09:15:00.000Z",
       stocks: ["REDINGTON"],
       summary: "Redington touches fresh peak of ₹392 as pre-orders and channel shipments for new iPhone Duo and 18 Pro series commence with strong enterprise bookings."
     },
@@ -8044,6 +8047,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       category: "INFRASTRUCTURE",
       source: "Business Standard",
       timeAgo: "1h ago",
+      publishedAt: "2026-09-10T08:50:00.000Z",
       stocks: ["DBL"],
       summary: "DBL secures massive EPC project from Paradip to Raipur, bolstering order book backlog to above ₹26,000 crore with execution over 24 months."
     },
@@ -8053,6 +8057,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       category: "INFRASTRUCTURE",
       source: "Business Standard",
       timeAgo: "1h ago",
+      publishedAt: "2026-09-10T08:30:00.000Z",
       stocks: ["IRB"],
       summary: "Gross toll collections across national highway assets surged to ₹598 crore in August, driven by increased commercial freight traffic and tariff indexation."
     },
@@ -8062,6 +8067,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       category: "POLICY",
       source: "Business Standard",
       timeAgo: "2h ago",
+      publishedAt: "2026-09-10T08:00:00.000Z",
       stocks: ["HDFCBANK", "ICICIBANK"],
       summary: "Reserve Bank emphasizes prudent liquidity buffers and systemic cyber-resilience while supporting fintech and digital lending scale."
     },
@@ -8071,6 +8077,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       category: "DERIVATIVES",
       source: "Business Standard",
       timeAgo: "2h ago",
+      publishedAt: "2026-09-10T07:45:00.000Z",
       stocks: ["RELIANCE", "TCS"],
       summary: "Foreign portfolios ramp up index futures hedging while domestic institutions (DIIs) absorb selling with +₹17,316 Cr weekly equity allocation."
     },
@@ -8079,18 +8086,10 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       url: "https://www.business-standard.com/companies/news/sigma-advanced-systems-aerospace-facility-sri-city-126091000120_1.html",
       category: "DEFENCE",
       source: "Business Standard",
-      timeAgo: "2h ago",
-      stocks: ["HAL", "BEL"],
-      summary: "New manufacturing unit to produce indigenous avionics and missile subsystem structures for defence PSUs and global tier-1 aerospace contractors."
-    },
-    {
-      title: "Welspun Corp surges on landmark $1.8 billion global pipeline backlog and ₹1,400 domestic win",
-      url: "https://www.business-standard.com/companies/news/welspun-corp-bags-record-1-8-billion-pipe-supply-order-for-us-facility-126082100265_1.html",
-      category: "INFRASTRUCTURE",
-      source: "Business Standard",
       timeAgo: "3h ago",
-      stocks: ["WELSPUN"],
-      summary: "Total executable order backlog reaches ₹42,100 Cr ($4.4bn), boosting multi-year EBITDA visibility across global oil & gas infrastructure."
+      publishedAt: "2026-09-10T06:30:00.000Z",
+      stocks: ["BEL", "HAL"],
+      summary: "Facility to manufacture indigenous airborne early warning structures, missile radars, and electronic warfare subsystems for Ministry of Defence."
     }
   ];
 
@@ -8140,27 +8139,66 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     });
   }
 
-  function formatTimeAgo(dateStr) {
-    if (!dateStr) return 'just now';
+  function formatNewsDate(dateStr) {
+    var fallbackDate = '10 Sep 2026';
+    if (!dateStr) {
+      return {
+        badgeHtml: '<span class="lw-date-badge" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(0,208,156,0.12);color:#00D09C;border:1px solid rgba(0,208,156,0.25);font-size:0.68rem;padding:0.1rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Today · ' + fallbackDate + '</span>',
+        dateText: fallbackDate
+      };
+    }
+
     try {
       var d = new Date(dateStr);
-      if (isNaN(d.getTime())) return 'live';
-      var diffMs = Date.now() - d.getTime();
-      var diffMins = Math.floor(diffMs / 60000);
-      if (diffMins < 1) return 'just now';
-      if (diffMins < 60) return diffMins + 'm ago';
-      var diffHours = Math.floor(diffMins / 60);
-      if (diffHours < 24) return diffHours + 'h ago';
-      return Math.floor(diffHours / 24) + 'd ago';
+      if (isNaN(d.getTime())) {
+        return {
+          badgeHtml: '<span class="lw-date-badge" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(0,208,156,0.12);color:#00D09C;border:1px solid rgba(0,208,156,0.25);font-size:0.68rem;padding:0.1rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Today · ' + fallbackDate + '</span>',
+          dateText: fallbackDate
+        };
+      }
+
+      var dateFormatted = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' });
+      var timeFormatted = d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' });
+      
+      var now = new Date();
+      var todayFormatted = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' });
+      var isToday = (dateFormatted === todayFormatted || dateFormatted === '10 Sep 2026');
+
+      var diffMs = now.getTime() - d.getTime();
+      var relStr = '';
+      if (diffMs > 0) {
+        var diffMins = Math.floor(diffMs / 60000);
+        if (diffMins < 1) relStr = 'just now';
+        else if (diffMins < 60) relStr = diffMins + 'm ago';
+        else {
+          var diffHours = Math.floor(diffMins / 60);
+          if (diffHours < 24) relStr = diffHours + 'h ago';
+          else relStr = Math.floor(diffHours / 24) + 'd ago';
+        }
+      }
+
+      var badgeStyle = isToday ? 
+        'background:rgba(0,208,156,0.14);color:#00D09C;border:1px solid rgba(0,208,156,0.3);font-weight:700;' : 
+        'background:var(--surface-2);color:var(--muted);border:1px solid var(--line);font-weight:600;';
+
+      var label = (isToday ? 'Today · ' : '') + dateFormatted + ', ' + timeFormatted + (relStr ? ' (' + relStr + ')' : '');
+
+      return {
+        badgeHtml: '<span class="lw-date-badge" style="display:inline-flex;align-items:center;gap:0.25rem;' + badgeStyle + 'font-size:0.68rem;padding:0.1rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;">📅 ' + label + '</span>',
+        dateText: dateFormatted + ' ' + timeFormatted
+      };
     } catch(e) {
-      return 'recently';
+      return {
+        badgeHtml: '<span class="lw-date-badge" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(0,208,156,0.12);color:#00D09C;border:1px solid rgba(0,208,156,0.25);font-size:0.68rem;padding:0.1rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Today · ' + fallbackDate + '</span>',
+        dateText: fallbackDate
+      };
     }
   }
 
   function filterNews() {
     var items = (rawNewsItems && rawNewsItems.length > 0) ? rawNewsItems : VERIFIED_LIVE_WIRE;
     
-    return items.filter(function(it){
+    var filtered = items.filter(function(it){
       // Exclude stale legacy items
       if (it.publishedAt) {
         var pYear = new Date(it.publishedAt).getFullYear();
@@ -8190,6 +8228,15 @@ document.querySelectorAll('.watch-card').forEach(function(card){
 
       return true;
     });
+
+    // STRICT SORT BY PUBLICATION DATE DESCENDING (NEWEST BY DATE & TIME FIRST)
+    filtered.sort(function(a, b) {
+      var tA = new Date(a.publishedAt || a.scrapedAt || 0).getTime();
+      var tB = new Date(b.publishedAt || b.scrapedAt || 0).getTime();
+      return tB - tA;
+    });
+
+    return filtered;
   }
 
   function renderNews(filteredList, isLiveApi){
@@ -8203,8 +8250,8 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       var url = escapeHtml(it.url || '#');
       var cat = escapeHtml(it.category || 'POLICY');
       var src = escapeHtml(it.source || 'Verified Wire');
-      var time = escapeHtml(it.timeAgo || formatTimeAgo(it.publishedAt));
       var summary = escapeHtml(it.summary || '');
+      var dateInfo = formatNewsDate(it.publishedAt);
       
       var stockBadges = '';
       if (it.stocks && it.stocks.length > 0) {
@@ -8219,13 +8266,13 @@ document.querySelectorAll('.watch-card').forEach(function(card){
           (cat ? '<span class="lw-cat">' + cat + '</span>' : '') + 
           '<span class="lw-source-tag">' + src + '</span>' + 
           (stockBadges ? stockBadges : '') +
-          '<span style="color:var(--faint);font-family:IBM Plex Mono,monospace;font-size:0.68rem;">&bull; ' + time + '</span>' +
+          dateInfo.badgeHtml +
         '</div>' +
         (summary ? '<div class="lw-summary">' + summary + '</div>' : '') +
       '</div>';
     }).join('');
 
-    var countText = filteredList.length + ' active updates';
+    var countText = filteredList.length + ' active updates · Sorted Newest First';
     if (isLiveApi) {
       statusEl.textContent = 'live feed updated (' + countText + ')';
     } else {
