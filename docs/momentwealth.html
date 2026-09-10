@@ -6139,6 +6139,28 @@ footer {
 </div>
 <!-- DYNAMIC ALL-STOCK RECOMMENDATIONS MATRIX -->
 <div class="recommendations-matrix-wrap" id="recommendations-matrix-box">
+<!-- DAILY DATABASE ARCHIVE & HISTORICAL DATE SELECTOR -->
+<div class="db-history-bar" id="db-history-bar" style="background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:0.6rem 0.85rem;margin-bottom:0.6rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+  <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+    <span style="font-weight:700;font-size:0.8rem;color:var(--ink);display:inline-flex;align-items:center;gap:0.3rem;">
+      <span>💾 Daily Database Archive:</span>
+    </span>
+    <select id="db-date-picker" style="background:var(--surface);color:var(--ink);border:1px solid var(--line-strong);padding:0.25rem 0.6rem;border-radius:5px;font-family:IBM Plex Mono,monospace;font-size:0.78rem;font-weight:700;cursor:pointer;">
+      <option value="latest">10 Sep 2026 (Today) · Live</option>
+    </select>
+    <div id="db-quick-dates" style="display:inline-flex;gap:0.3rem;flex-wrap:wrap;">
+      <!-- Populated dynamically from database -->
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:0.45rem;">
+    <span id="db-archive-status-badge" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(37,211,102,0.14);color:#25D366;border:1px solid rgba(37,211,102,0.35);font-size:0.7rem;padding:0.15rem 0.55rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">
+      🟢 Live Session (10 Sep 2026)
+    </span>
+    <button id="btn-db-refresh" title="Reload from Database" style="background:var(--surface);border:1px solid var(--line);padding:0.2rem 0.5rem;border-radius:4px;cursor:pointer;font-size:0.72rem;font-weight:600;color:var(--muted);">
+      🔄 Re-fetch
+    </button>
+  </div>
+</div>
 <div class="section-head" style="margin-bottom:0.4rem;">
 <div class="section-head-left">
 <h4 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.05rem;">Live Recommendations to hit <span class="gain" id="matrix-goal-title">₹5,000 / week</span>:</h4>
@@ -8900,19 +8922,129 @@ document.querySelectorAll('.watch-card').forEach(function(card){
   populateDropdown();
   calculateSwing();
 
-  // Auto-fetch fresh swing setups from backend on load
-  function autoSyncSwingSetups() {
-    fetch('https://momentwealth-backend-911650691357.asia-south1.run.app/api/swing-setups')
+  // ---- Daily Database Archive & Historical Date Engine ----
+  var dbDatePicker = document.getElementById('db-date-picker');
+  var dbQuickDates = document.getElementById('db-quick-dates');
+  var dbStatusBadge = document.getElementById('db-archive-status-badge');
+  var btnDbRefresh = document.getElementById('btn-db-refresh');
+  var currentSelectedDate = 'latest';
+
+  function loadDatabaseDates() {
+    fetch('https://momentwealth-backend-911650691357.asia-south1.run.app/api/history/dates')
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        if (data && data.dates && data.dates.length && dbDatePicker) {
+          dbDatePicker.innerHTML = data.dates.map(function(d){
+            var val = d.isToday ? 'latest' : d.date;
+            var isSel = (val === currentSelectedDate);
+            return '<option value="' + val + '" ' + (isSel ? 'selected' : '') + '>' + d.label + ' (' + d.count + ' setups)</option>';
+          }).join('');
+
+          if (dbQuickDates) {
+            dbQuickDates.innerHTML = data.dates.slice(0, 4).map(function(d){
+              var val = d.isToday ? 'latest' : d.date;
+              var isAct = (val === currentSelectedDate);
+              var btnColor = d.isToday ? '#25D366' : 'var(--muted)';
+              var btnBg = isAct ? (d.isToday ? 'rgba(37,211,102,0.18)' : 'var(--accent-soft)') : 'transparent';
+              return '<button class="preset-pill-btn db-quick-date-btn ' + (isAct ? 'active' : '') + '" data-date="' + val + '" style="font-size:0.7rem;padding:0.15rem 0.45rem;color:' + btnColor + ';background:' + btnBg + ';">' + (d.isToday ? '🟢 Today' : d.date.substring(5)) + '</button>';
+            }).join('');
+
+            dbQuickDates.querySelectorAll('.db-quick-date-btn').forEach(function(btn){
+              btn.addEventListener('click', function(e){
+                e.preventDefault();
+                var targetDate = btn.getAttribute('data-date');
+                if (dbDatePicker) dbDatePicker.value = targetDate;
+                loadDateSnapshot(targetDate);
+              });
+            });
+          }
+        }
+      })
+      .catch(function(){});
+  }
+
+  function loadDateSnapshot(dateVal) {
+    currentSelectedDate = dateVal || 'latest';
+    if (dbStatusBadge) {
+      dbStatusBadge.innerHTML = '⏳ Loading from Database...';
+      dbStatusBadge.style.color = '#F5A623';
+      dbStatusBadge.style.borderColor = 'rgba(245,166,35,0.3)';
+      dbStatusBadge.style.background = 'rgba(245,166,35,0.1)';
+    }
+
+    var fetchUrl = 'https://momentwealth-backend-911650691357.asia-south1.run.app/api/swing-setups';
+    if (dateVal && dateVal !== 'latest') {
+      fetchUrl += '?date=' + encodeURIComponent(dateVal);
+    }
+
+    fetch(fetchUrl)
       .then(function(res){ return res.json(); })
       .then(function(data){
         if (data && data.setups && data.setups.length) {
           SWING_SETUPS = data.setups;
+          selectedStockIdx = 0;
           populateDropdown();
           calculateSwing();
-          if (syncTimeText) syncTimeText.textContent = 'Synced ' + data.asOf + ' (WhatsApp, Telegram & Instagram)';
+
+          if (data.isHistorical) {
+            if (dbStatusBadge) {
+              dbStatusBadge.innerHTML = '📜 Archive: ' + (data.dateStr || data.date) + ' (' + data.total + ' Setups)';
+              dbStatusBadge.style.color = '#F5A623';
+              dbStatusBadge.style.borderColor = 'rgba(245,166,35,0.35)';
+              dbStatusBadge.style.background = 'rgba(245,166,35,0.12)';
+            }
+            if (syncTimeText) {
+              syncTimeText.textContent = 'Loaded Historical Archive for ' + (data.dateStr || data.date) + ' (' + data.total + ' Setups)';
+            }
+            showToast('📜 Loaded ' + data.total + ' Setups from ' + (data.dateStr || data.date));
+          } else {
+            if (dbStatusBadge) {
+              dbStatusBadge.innerHTML = '🟢 Live Session (' + data.asOf + ')';
+              dbStatusBadge.style.color = '#25D366';
+              dbStatusBadge.style.borderColor = 'rgba(37,211,102,0.35)';
+              dbStatusBadge.style.background = 'rgba(37,211,102,0.12)';
+            }
+            if (syncTimeText) {
+              syncTimeText.textContent = 'Synced ' + data.asOf + ' (WhatsApp, Telegram & Instagram)';
+            }
+            showToast('🟢 Switched to Live Session (' + data.total + ' Setups)');
+          }
+
+          // Update active quick date pills
+          if (dbQuickDates) {
+            dbQuickDates.querySelectorAll('.db-quick-date-btn').forEach(function(b){
+              var isMatch = (b.getAttribute('data-date') === currentSelectedDate);
+              b.classList.toggle('active', isMatch);
+              b.style.background = isMatch ? 'var(--accent-soft)' : 'transparent';
+            });
+          }
         }
       })
-      .catch(function(){});
+      .catch(function(err){
+        if (dbStatusBadge) {
+          dbStatusBadge.innerHTML = '⚠️ Database Offline';
+        }
+        showToast('Database fetch error; using local cache.');
+      });
+  }
+
+  if (dbDatePicker) {
+    dbDatePicker.addEventListener('change', function(){
+      loadDateSnapshot(this.value);
+    });
+  }
+
+  if (btnDbRefresh) {
+    btnDbRefresh.addEventListener('click', function(){
+      loadDateSnapshot(dbDatePicker ? dbDatePicker.value : 'latest');
+      loadDatabaseDates();
+    });
+  }
+
+  // Auto-fetch fresh swing setups from backend on load
+  function autoSyncSwingSetups() {
+    loadDateSnapshot('latest');
+    loadDatabaseDates();
   }
   autoSyncSwingSetups();
 

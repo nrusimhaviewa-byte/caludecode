@@ -1,0 +1,66 @@
+{
+  "date": "2026-09-08",
+  "dateStr": "08 Sep 2026",
+  "asOf": "08 Sep 2026, 15:30 IST",
+  "indices": {
+    "NIFTY": 23410.5,
+    "SENSEX": 75180.0,
+    "GIFTNIFTY": 23415.0,
+    "BANKNIFTY": 50890.0,
+    "BRENT": "$97.20/bbl"
+  },
+  "setups": [
+    {
+      "name": "Dixon Tech",
+      "ticker": "DIXON",
+      "channel": "Telegram (Stockpro Online)",
+      "source": "Stockpro Online",
+      "tag": "telegram",
+      "entry": 14850.0,
+      "sl": 14600.0,
+      "target": 15400.0,
+      "catalyst": "Smartphone assembly lines operating at peak capacity for festive season",
+      "date": "08 Sep 2026",
+      "recommendedAt": "08 Sep 2026, 11:00 IST"
+    },
+    {
+      "name": "Jio Financial",
+      "ticker": "JIOFIN",
+      "channel": "Instagram (@StockMarketTimes)",
+      "source": "StockMarket Times",
+      "tag": "instagram",
+      "entry": 332.0,
+      "sl": 315.0,
+      "target": 375.0,
+      "catalyst": "Mutual fund license approval and wealth tech platform rollout",
+      "date": "08 Sep 2026",
+      "recommendedAt": "08 Sep 2026, 10:30 IST"
+    },
+    {
+      "name": "Mastek",
+      "ticker": "MASTEK",
+      "channel": "Momentum Desk",
+      "source": "Reversal Desk",
+      "tag": "breakout",
+      "entry": 1885.0,
+      "sl": 1815.0,
+      "target": 2140.0,
+      "catalyst": "UK public sector digital transformation contract pipeline",
+      "date": "08 Sep 2026",
+      "recommendedAt": "08 Sep 2026, 09:30 IST"
+    },
+    {
+      "name": "Ather Energy",
+      "ticker": "ATHERENERGY",
+      "channel": "Momentum Desk",
+      "source": "EV Momentum",
+      "tag": "breakout",
+      "entry": 1600.0,
+      "sl": 1515.0,
+      "target": 1840.0,
+      "catalyst": "Ascending channel continuation with rising EV two-wheeler registrations",
+      "date": "08 Sep 2026",
+      "recommendedAt": "08 Sep 2026, 09:30 IST"
+    }
+  ]
+}

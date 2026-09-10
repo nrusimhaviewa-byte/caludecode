@@ -26,7 +26,8 @@ function getIstDateInfo() {
   const timeStr = now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' IST';
   const shortTimeStr = now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' }) + ' IST';
   const asOnDateStr = shortDateStr + ' | ' + shortTimeStr;
-  return { now, shortDateStr, fullDateStr, timeStr, shortTimeStr, asOnDateStr };
+  const isoDateStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(now); // e.g. '2026-09-10'
+  return { now, shortDateStr, fullDateStr, timeStr, shortTimeStr, asOnDateStr, isoDateStr };
 }
 
 
@@ -404,7 +405,7 @@ async function refreshBriefing() {
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.sendStatus(204);
   next();
@@ -675,17 +676,144 @@ async function getLiveSwingSetups() {
   ];
 }
 
+// ==================== DAILY SNAPSHOT & DATABASE STORAGE ENGINE ====================
+const SNAPSHOTS_DIR = path.join(__dirname, 'data', 'snapshots');
+
+function ensureSnapshotsDir() {
+  if (!fs.existsSync(SNAPSHOTS_DIR)) {
+    fs.mkdirSync(SNAPSHOTS_DIR, { recursive: true });
+  }
+}
+
+function getStoredSnapshot(dateStr) {
+  ensureSnapshotsDir();
+  const filePath = path.join(SNAPSHOTS_DIR, `${dateStr}.json`);
+  if (fs.existsSync(filePath)) {
+    try {
+      return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    } catch (e) {
+      console.error(`Error reading snapshot for ${dateStr}:`, e);
+    }
+  }
+  return null;
+}
+
+function saveSnapshot(dateStr, data) {
+  ensureSnapshotsDir();
+  const filePath = path.join(SNAPSHOTS_DIR, `${dateStr}.json`);
+  try {
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+    return true;
+  } catch (e) {
+    console.error(`Error saving snapshot for ${dateStr}:`, e);
+    return false;
+  }
+}
+
+function listAvailableDates() {
+  ensureSnapshotsDir();
+  const files = fs.readdirSync(SNAPSHOTS_DIR).filter(f => f.endsWith('.json'));
+  const dt = getIstDateInfo();
+  const todayIso = dt.isoDateStr || '2026-09-10';
+
+  const dates = files.map(file => {
+    const dStr = file.replace('.json', '');
+    const snap = getStoredSnapshot(dStr);
+    const count = snap && snap.setups ? snap.setups.length : 0;
+    const isToday = (dStr === todayIso);
+    let label = snap && snap.dateStr ? snap.dateStr : dStr;
+    if (isToday) label += ' (Today) · Live';
+    return {
+      date: dStr,
+      label,
+      count,
+      isToday,
+      asOf: snap ? snap.asOf : ''
+    };
+  });
+
+  // Sort descending by date
+  dates.sort((a, b) => b.date.localeCompare(a.date));
+  return dates;
+}
+
+// Historical Dates Directory Endpoint
+app.get('/api/history/dates', (req, res) => {
+  try {
+    const dates = listAvailableDates();
+    res.json({
+      dates,
+      total: dates.length,
+      currentDate: getIstDateInfo().isoDateStr
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Swing Setups Endpoint supporting live today & historical dates
 app.get('/api/swing-setups', async (req, res) => {
   try {
     const dt = getIstDateInfo();
+    const reqDate = req.query.date;
+
+    // If a previous historical date is requested
+    if (reqDate && reqDate !== dt.isoDateStr && reqDate !== 'latest') {
+      const snap = getStoredSnapshot(reqDate);
+      if (snap) {
+        return res.json({
+          setups: snap.setups || [],
+          total: (snap.setups || []).length,
+          channels: ['WhatsApp (Swing Pool PRO)', 'Telegram (StockPro Online, Breakout Investing)', 'Instagram (@StockMarketTimes)', 'Momentum Desk'],
+          asOf: snap.asOf || snap.dateStr || reqDate,
+          isHistorical: true,
+          date: reqDate,
+          dateStr: snap.dateStr || reqDate,
+          refreshIntervalMs: 0
+        });
+      }
+    }
+
+    // Default to live setups for current session
     const setups = await getLiveSwingSetups();
+
+    // Automatically ensure today's snapshot is saved/updated in database
+    saveSnapshot(dt.isoDateStr, {
+      date: dt.isoDateStr,
+      dateStr: dt.shortDateStr,
+      asOf: dt.asOnDateStr,
+      setups
+    });
+
     res.json({
       setups,
       total: setups.length,
       channels: ['WhatsApp (Swing Pool PRO)', 'Telegram (StockPro Online, Breakout Investing, StockMarket Times)', 'Instagram (@StockMarketTimes, @TradeClues)', 'Momentum Desk'],
       asOf: dt.asOnDateStr,
+      isHistorical: false,
+      date: dt.isoDateStr,
+      dateStr: dt.shortDateStr,
       refreshIntervalMs: 60000
     });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Manual or automated snapshot capture endpoint
+app.post('/api/snapshot', async (req, res) => {
+  try {
+    const dt = getIstDateInfo();
+    const dateStr = (req.body && req.body.date) ? req.body.date : dt.isoDateStr;
+    const setups = (req.body && req.body.setups) ? req.body.setups : await getLiveSwingSetups();
+    const snapData = {
+      date: dateStr,
+      dateStr: (req.body && req.body.dateStr) ? req.body.dateStr : dt.shortDateStr,
+      asOf: (req.body && req.body.asOf) ? req.body.asOf : dt.asOnDateStr,
+      setups
+    };
+    saveSnapshot(dateStr, snapData);
+    res.json({ success: true, savedDate: dateStr, count: setups.length });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

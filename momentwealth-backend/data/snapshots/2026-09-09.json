@@ -1,0 +1,105 @@
+{
+  "date": "2026-09-09",
+  "dateStr": "09 Sep 2026",
+  "asOf": "09 Sep 2026, 15:30 IST (Closing Wrap)",
+  "indices": {
+    "NIFTY": 23432.2,
+    "SENSEX": 75238.15,
+    "GIFTNIFTY": 23440.0,
+    "BANKNIFTY": 50950.4,
+    "BRENT": "$98.80/bbl"
+  },
+  "setups": [
+    {
+      "name": "Welspun Corp",
+      "ticker": "WELCORP",
+      "channel": "Telegram (Stockpro Online)",
+      "source": "Stockpro Online",
+      "tag": "telegram",
+      "entry": 2245.0,
+      "sl": 2150.0,
+      "target": 2550.0,
+      "catalyst": "Breakout formation above 2,240 on massive US pipe export booking ($1.8B backlog)",
+      "date": "09 Sep 2026",
+      "recommendedAt": "09 Sep 2026, 10:15 IST"
+    },
+    {
+      "name": "Redington India",
+      "ticker": "REDINGTON",
+      "channel": "WhatsApp (Swing Pool PRO)",
+      "source": "Swing Pool PRO",
+      "tag": "swingpool",
+      "entry": 360.0,
+      "sl": 342.0,
+      "target": 390.0,
+      "catalyst": "Early accumulation ahead of Apple keynote, multi-month consolidation breakout",
+      "date": "09 Sep 2026",
+      "recommendedAt": "09 Sep 2026, 09:30 IST"
+    },
+    {
+      "name": "Shakti Pumps",
+      "ticker": "SHAKTIPUMP",
+      "channel": "WhatsApp (Swing Pool PRO)",
+      "source": "Swing Pool PRO",
+      "tag": "swingpool",
+      "entry": 4250.0,
+      "sl": 4050.0,
+      "target": 4800.0,
+      "catalyst": "MSEDCL solar contract speculation and delivery volume uptick (Target 4,800)",
+      "date": "09 Sep 2026",
+      "recommendedAt": "09 Sep 2026, 11:20 IST"
+    },
+    {
+      "name": "Oil India",
+      "ticker": "OIL",
+      "channel": "WhatsApp (+91 9701168672)",
+      "source": "WhatsApp Direct",
+      "tag": "swingpool",
+      "entry": 670.0,
+      "sl": 638.0,
+      "target": 740.0,
+      "catalyst": "Crude climbing towards $100 psychological level; high dividend yield support",
+      "date": "09 Sep 2026",
+      "recommendedAt": "09 Sep 2026, 10:45 IST"
+    },
+    {
+      "name": "Hindustan Zinc",
+      "ticker": "HINDZINC",
+      "channel": "Momentum Desk",
+      "source": "Technical Squeeze",
+      "tag": "breakout",
+      "entry": 618.0,
+      "sl": 588.0,
+      "target": 715.0,
+      "catalyst": "Global zinc supply deficits & Jefferies price upgrade to ₹750",
+      "date": "09 Sep 2026",
+      "recommendedAt": "09 Sep 2026, 09:45 IST"
+    },
+    {
+      "name": "Bharat Electronics",
+      "ticker": "BEL",
+      "channel": "Momentum Desk",
+      "source": "Technical Pullback",
+      "tag": "breakout",
+      "entry": 408.0,
+      "sl": 392.0,
+      "target": 462.0,
+      "catalyst": "Defence PSU 20-day EMA bounce; consistent institutional inflows",
+      "date": "09 Sep 2026",
+      "recommendedAt": "09 Sep 2026, 09:45 IST"
+    },
+    {
+      "name": "Tejas Networks",
+      "ticker": "TEJASNET",
+      "channel": "Telegram (Stockpro Online)",
+      "source": "Stockpro Online",
+      "tag": "telegram",
+      "entry": 565.0,
+      "sl": 530.0,
+      "target": 640.0,
+      "catalyst": "BSNL indigenous telecom network deployment acceleration",
+      "date": "09 Sep 2026",
+      "recommendedAt": "09 Sep 2026, 13:10 IST"
+    }
+  ]
+}

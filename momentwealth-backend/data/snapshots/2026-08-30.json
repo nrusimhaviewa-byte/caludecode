@@ -1,0 +1,92 @@
+{
+  "date": "2026-08-30",
+  "dateStr": "30 Aug 2026",
+  "asOf": "30 Aug 2026, 16:00 IST (Monthly Wrap)",
+  "indices": {
+    "NIFTY": 23350.0,
+    "SENSEX": 75000.0,
+    "GIFTNIFTY": 23360.0,
+    "BANKNIFTY": 50600.0,
+    "BRENT": "$94.50/bbl"
+  },
+  "setups": [
+    {
+      "name": "Fineotex Chemical",
+      "ticker": "FCL",
+      "channel": "WhatsApp (+91 9701168672)",
+      "source": "WhatsApp Direct",
+      "tag": "swingpool",
+      "entry": 48.0,
+      "sl": 43.0,
+      "target": 65.0,
+      "catalyst": "⚡ Fresh Alert: Specialty chemical compounder, swing target 58/65, short term 82/100",
+      "date": "30 Aug 2026",
+      "recommendedAt": "30 Aug 2026, 12:34 IST"
+    },
+    {
+      "name": "Anthem Biosciences",
+      "ticker": "ANTHEM",
+      "channel": "WhatsApp (Swing Pool PRO)",
+      "source": "Swing Pool PRO",
+      "tag": "swingpool",
+      "entry": 923.0,
+      "sl": 872.0,
+      "target": 1150.0,
+      "catalyst": "IPO Base Breakout: Fresh Buy at CMP. Swing target 1,090+, short term 1,250+",
+      "date": "30 Aug 2026",
+      "recommendedAt": "30 Aug 2026, 11:15 IST"
+    },
+    {
+      "name": "E2E Networks",
+      "ticker": "E2E",
+      "channel": "WhatsApp (Swing Pool PRO)",
+      "source": "Swing Pool PRO",
+      "tag": "swingpool",
+      "entry": 627.0,
+      "sl": 555.0,
+      "target": 820.0,
+      "catalyst": "AI Cloud infrastructure provider: First tranche 60% @ 627, target 820+ (+30%)",
+      "date": "30 Aug 2026",
+      "recommendedAt": "30 Aug 2026, 10:45 IST"
+    },
+    {
+      "name": "Federal-Mogul Goetze",
+      "ticker": "FMGOETZE",
+      "channel": "WhatsApp (Swing Pool PRO)",
+      "source": "Swing Pool PRO",
+      "tag": "swingpool",
+      "entry": 534.0,
+      "sl": 499.0,
+      "target": 628.0,
+      "catalyst": "Special Setup: ₹94/share dividend declared + clean base breakout",
+      "date": "30 Aug 2026",
+      "recommendedAt": "30 Aug 2026, 09:50 IST"
+    },
+    {
+      "name": "Karur Vysya Bank",
+      "ticker": "KVB",
+      "channel": "WhatsApp (Swing Pool PRO)",
+      "source": "Swing Pool PRO",
+      "tag": "swingpool",
+      "entry": 355.0,
+      "sl": 330.0,
+      "target": 400.0,
+      "catalyst": "Strong asset quality and valuation discount. Target 400 (+12.7%)",
+      "date": "30 Aug 2026",
+      "recommendedAt": "30 Aug 2026, 09:30 IST"
+    },
+    {
+      "name": "Balu Forge",
+      "ticker": "BALUFORGE",
+      "channel": "WhatsApp (Swing Pool PRO)",
+      "source": "Swing Pool PRO",
+      "tag": "swingpool",
+      "entry": 555.0,
+      "sl": 510.0,
+      "target": 680.0,
+      "catalyst": "High conviction defense/precision forging growth play (Tgt 680)",
+      "date": "30 Aug 2026",
+      "recommendedAt": "30 Aug 2026, 09:30 IST"
+    }
+  ]
+}
