@@ -4283,6 +4283,7 @@ footer {
       <button class="ai-chip-btn" data-commentary="fiidii">📊 FII / DII Flow Analysis (-₹1.6k Cr / +₹17.3k Cr)</button>
       <button class="ai-chip-btn" data-commentary="levels">🎯 Nifty &amp; Bank Nifty Key Levels</button>
       <button class="ai-chip-btn" data-commentary="stocks">⚡ Top Stocks in Focus Today</button>
+      <button class="ai-chip-btn" data-commentary="social">💬 Telegram &amp; WhatsApp Live Calls</button>
     </div>
 
     <!-- CHAT MESSAGE HISTORY CONTAINER -->
@@ -5007,6 +5008,15 @@ footer {
 
         <!-- QUICK STOCK SELECTOR TABS -->
         <div class="tv-symbol-bar">
+          <button class="btn-tv-sym" data-symbol="NSE:SHAREINDIA" data-name="Share India" onclick="selectStockChart('NSE:SHAREINDIA', 'Share India', 'Telegram Positional Breakout', '213.00', 'BUY', '66.2', '205.00', this)">
+            <span>⚡ Share India</span>
+          </button>
+          <button class="btn-tv-sym" data-symbol="NSE:SRF" data-name="SRF Limited" onclick="selectStockChart('NSE:SRF', 'SRF Ltd', 'Telegram Chemical Breakout', '2556.00', 'BUY', '67.4', '2525.00', this)">
+            <span>🧪 SRF</span>
+          </button>
+          <button class="btn-tv-sym" data-symbol="NSE:NOVARTIND" data-name="Novartis India" onclick="selectStockChart('NSE:NOVARTIND', 'Novartis India', '20% Upper Circuit', '2410.00', 'STRONG BUY', '78.5', '2300.00', this)">
+            <span>🚀 Novartis</span>
+          </button>
           <button class="btn-tv-sym" data-symbol="NSE:POLYPLEX" data-name="Polyplex Corp" onclick="selectStockChart('NSE:POLYPLEX', 'Polyplex Corp', 'BOPET Film Breakout', '1185.00', 'STRONG BUY', '64.5', '1140.00', this)">
             <span>📦 Polyplex</span>
           </button>
@@ -8516,9 +8526,9 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       // Master Pure Swing Setups (28 High-Conviction Setups synced from WhatsApp, Telegram, Instagram & Momentum)
   var SWING_SETUPS = [
     // 🏊 WhatsApp Direct & Swing Pool (+91 9701168672)
-    { name: "Redington India", ticker: "REDINGTON", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 360.00, sl: 342.00, target: 425.00, catalyst: "🚀 Target 390 Achieved (+6%)! Apple iPhone 18 launch distributor windfall; trailing SL 375, fresh target 425++", date: "10 Sep 2026" },
+    { name: "Redington India", ticker: "REDINGTON", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 360.00, sl: 342.00, target: 425.00, catalyst: "🚀 Target 390 Achieved (+6% to ₹392 ATH)! Apple iPhone 18 launch distributor windfall; trailing SL 375, fresh target 425++", date: "10 Sep 2026" },
     { name: "Shakti Pumps", ticker: "SHAKTIPUMP", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 4650.00, sl: 4380.00, target: 5200.00, catalyst: "⚡ Clean Tech Breakout: Rallied +12% on ₹236 Cr MSEDCL solar pump contract win (Tgt 5,200/5,600)", date: "10 Sep 2026" },
-    { name: "Dilip Buildcon", ticker: "DBL", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 540.00, sl: 505.00, target: 620.00, catalyst: "🏗️ Infra Breakout: Rallied +12% on Paradip-Raipur LPG Pipeline project award (Tgt 620/660)", date: "10 Sep 2026" },
+    { name: "Dilip Buildcon", ticker: "DBL", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 540.00, sl: 505.00, target: 620.00, catalyst: "🏗️ Infra Breakout: Rallied +12% on ₹1,800 Cr Paradip-Raipur LPG Pipeline LOI award (Tgt 620/660)", date: "10 Sep 2026" },
     { name: "Oil India", ticker: "OIL", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 685.00, sl: 650.00, target: 760.00, catalyst: "🛢️ Upstream Play: Brent crude surges above $100 mark; high crude net realization upside (Tgt 760/800)", date: "10 Sep 2026" },
     { name: "IRB Infrastructure", ticker: "IRB", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 68.50, sl: 64.00, target: 78.00, catalyst: "🛣️ Toll Momentum: August toll collections jumped +25% YoY to record highs (Tgt 78/84)", date: "10 Sep 2026" },
     { name: "Polyplex Corporation", ticker: "POLYPLEX", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 1185.00, sl: 1110.00, target: 1290.00, catalyst: "📦 Specialty BOPET/BOPP film cycle turnaround & anti-dumping duty support (Tgt 1,290 / 1,380++)", date: "10 Sep 2026" },
@@ -8526,27 +8536,24 @@ document.querySelectorAll('.watch-card').forEach(function(card){
     { name: "Fineotex Chemical", ticker: "FCL", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 50.00, sl: 43.00, target: 65.00, catalyst: "⚡ Specialty Chemical Compounder: Swing 58/65 & Short Term 82/100 (Monthly SIP Pick)", date: "10 Sep 2026" },
     { name: "Bajaj Hindusthan Sugar", ticker: "BAJAJHIND", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 42.00, sl: 37.00, target: 55.00, catalyst: "Swing Pool: Monthly SIP Stock #1 (Ethanol Blending Expansion, Tgt 55/64)", date: "10 Sep 2026" },
     { name: "Sigachi Industries", ticker: "SIGACHI", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 58.50, sl: 52.00, target: 76.00, catalyst: "Swing Pool: Monthly SIP Stock #2 (Microcrystalline Cellulose, Tgt 76/90)", date: "10 Sep 2026" },
-    { name: "Anthem Biosciences", ticker: "ANTHEM", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 923.00, sl: 872.00, target: 1090.00, catalyst: "Swing Pool: Post-Listing Base Breakout (Target 1,090 - 1,250)", date: "10 Sep 2026" },
-    { name: "E2E Networks", ticker: "E2ENETWORKS", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 627.00, sl: 555.00, target: 820.00, catalyst: "Swing Pool: AI Cloud Short Term Trade (Target 820+)", date: "10 Sep 2026" },
-    { name: "Federal-Mogul", ticker: "FMGOETZE", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 534.00, sl: 499.00, target: 628.00, catalyst: "Swing Pool: ₹94 Dividend Declared + Swing Target 628", date: "10 Sep 2026" },
 
-    // 🔵 Telegram (StockPro Online, Breakout Investing, StockMarket Times)
-    { name: "Gabriel India", ticker: "GABRIEL", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 1450.00, sl: 1320.00, target: 1650.00, catalyst: "⚡ Positional Breakout: High volume expansion past supply zone (Tgt 1,550-1,700)", date: "10 Sep 2026" },
-    { name: "Diffusion Engineers", ticker: "DIFFUSION", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 467.00, sl: 445.00, target: 540.00, catalyst: "Upper Circuit surge to ₹493.20; Tgt 540-580 on expansion", date: "10 Sep 2026" },
-    { name: "Tejas Networks", ticker: "TEJASNET", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 570.00, sl: 530.00, target: 650.00, catalyst: "BSNL ₹1,537 Cr 4G/5G Order + Positional Hold", date: "10 Sep 2026" },
-    { name: "Dixon Tech", ticker: "DIXON", channel: "Telegram (StockPro Online)", source: "StockPro Online", tag: "telegram", entry: 14930.00, sl: 14700.00, target: 15530.00, catalyst: "StockPro Alert (>14930) + Massive EMS Order Inflow", date: "10 Sep 2026" },
-    { name: "Cords Cable Industries", ticker: "CORDSCABLE", channel: "Telegram (Breakout Investing)", source: "Breakout Investing", tag: "telegram", entry: 182.00, sl: 171.00, target: 205.00, catalyst: "Breakout Investing: BTST / Short Term Base Expansion", date: "10 Sep 2026" },
-    { name: "Manali Petrochem", ticker: "MANALIPETC", channel: "Telegram (Breakout Investing)", source: "Breakout Investing", tag: "telegram", entry: 96.50, sl: 91.00, target: 110.00, catalyst: "Breakout Investing: Chemical Volume Momentum Breakout", date: "10 Sep 2026" },
+    // 🔵 Live Telegram Community Channels (Stockpro Online, Breakout Investing, BreakoutStreak, Univest)
+    { name: "Share India Securities", ticker: "SHAREINDIA", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 213.00, sl: 205.00, target: 228.00, catalyst: "⚡ Live 10 Sep Positional Call: Looks Good Above 213 | SL 205 | Targets 218 / 223 / 228 (High Volume Breakout)", date: "10 Sep 2026" },
+    { name: "SRF Limited", ticker: "SRF", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 2556.00, sl: 2525.00, target: 2616.00, catalyst: "⚡ Live 10 Sep Positional Call: Looks Good Above 2556 | SL 2525 | Targets 2571 / 2586 / 2601 / 2616", date: "10 Sep 2026" },
+    { name: "Novartis India", ticker: "NOVARTIND", channel: "Telegram (Breakout Investing & Stockpro)", source: "Breakout Investing", tag: "telegram", entry: 2410.00, sl: 2300.00, target: 2600.00, catalyst: "🚀 20% Upper Circuit Breakout: Looks Good Above 2410 | Targets 2450 / 2500 / 2550 / 2600 (Pharma Consolidation)", date: "10 Sep 2026" },
+    { name: "Welspun Corp", ticker: "WELCORP", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 2245.00, sl: 2620.00, target: 2850.00, catalyst: "❇️ Target Hit! Made high of 2,770 (+20.6% gain from 2,245 entry) on $1.8B US order backlog; trailing SL 2620, tgt 2850++", date: "10 Sep 2026" },
+    { name: "Molbio Diagnostics", ticker: "MOLBIO", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 1380.00, sl: 1310.00, target: 1520.00, catalyst: "🔒 Locked in Upper Circuit at 1,433.80 🚀; point-of-care molecular diagnostics demand surge", date: "10 Sep 2026" },
+    { name: "Apollo Hospitals", ticker: "APOLLOHOSP", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 8960.00, sl: 8860.00, target: 9310.00, catalyst: "⚡ Positional Research: Looks Good Above 8960 | SL 8860 | Targets 9010 / 9110 / 9260 / 9310", date: "10 Sep 2026" },
+    { name: "Confidence Petroleum", ticker: "CONFIPET", channel: "Telegram (BreakoutStreak)", source: "BreakoutStreak", tag: "telegram", entry: 88.50, sl: 82.00, target: 102.00, catalyst: "🔥 Breakout Study Setup: NISM Analyst Watchlist on Auto-LPG expansion and cylinder manufacturing volume", date: "10 Sep 2026" },
+    { name: "Gabriel India", ticker: "GABRIEL", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 1450.00, sl: 1320.00, target: 1650.00, catalyst: "⚡ Positional Breakout: High volume expansion past supply zone (Tgt 1,550-1,700)", date: "10 Sep 2026" },
+    { name: "Diffusion Engineers", ticker: "DIFFUSION", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 467.00, sl: 445.00, target: 540.00, catalyst: "Upper Circuit surge to ₹493.20; Tgt 540-580 on expansion", date: "10 Sep 2026" },
+    { name: "Tejas Networks", ticker: "TEJASNET", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 570.00, sl: 530.00, target: 650.00, catalyst: "BSNL ₹1,537 Cr 4G/5G Order + Positional Hold", date: "10 Sep 2026" },
+    { name: "Dixon Tech", ticker: "DIXON", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 14930.00, sl: 14700.00, target: 15530.00, catalyst: "Stockpro Alert (>14930) + Massive EMS Order Inflow", date: "10 Sep 2026" },
 
     // 🟣 Instagram (StockMarket Times & TradeClues)
     { name: "Jio Financial", ticker: "JIOFIN", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 338.00, sl: 318.00, target: 385.00, catalyst: "SEBI Jio ₹37,000 Cr IPO Clearance & BlackRock JV Wealth Scaling", date: "10 Sep 2026" },
     { name: "Suzlon Energy", ticker: "SUZLON", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 74.50, sl: 68.00, target: 88.00, catalyst: "Record 5.4 GW Wind Turbine Order Book & Turnaround", date: "10 Sep 2026" },
-    { name: "Tata Power", ticker: "TATAPOWER", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 435.00, sl: 412.00, target: 485.00, catalyst: "Solar Rooftop Surge & EV Highway Charging Growth", date: "10 Sep 2026" },
-
-    // 🚀 Core Momentum Desk Setups
-    { name: "Welspun Corp", ticker: "WELSPUNCORP", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 2373.80, sl: 2260.00, target: 2620.00, catalyst: "Record $1.8B Landmark US Order Backlog (Tgt 2620)", date: "10 Sep 2026" },
-    { name: "Hindustan Zinc", ticker: "HINDZINC", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 622.00, sl: 588.00, target: 715.00, catalyst: "Spot Zinc Rally +31% & Jefferies ₹750 Target", date: "10 Sep 2026" },
-    { name: "Bharat Electronics", ticker: "BEL", channel: "Momentum Desk", source: "Breakout", tag: "breakout", entry: 411.90, sl: 392.00, target: 462.00, catalyst: "97 Tejas Jets Order + ₹74.6k Cr Defence Book", date: "10 Sep 2026" }
+    { name: "Tata Power", ticker: "TATAPOWER", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 435.00, sl: 412.00, target: 485.00, catalyst: "Solar Rooftop Surge & EV Highway Charging Growth", date: "10 Sep 2026" }
   ];
 
   function fmtINR(val) {
@@ -9788,6 +9795,69 @@ if (refreshGrowwBtn) {
 var currentTVSymbol = "NSE:HINDZINC";
 
 var tvStockData = {
+  "NSE:SHAREINDIA": {
+    name: "Share India Securities",
+    cmp: "213.00",
+    pattern: "Stockpro Positional Breakout",
+    rating: "BUY",
+    rsi: "66.2",
+    ema: "207.50",
+    osc: "3 Buy · 7 Neutral",
+    ma: "12 Buy · 2 Sell",
+    needleAngle: 50,
+    entry: 213.00,
+    sl: 205.00,
+    t1: 218.00,
+    t2: 228.00,
+    candles: [
+      {date: "1 Sep", o: 198, h: 204, l: 196, c: 202, v: 45},
+      {date: "4 Sep", o: 202, h: 208, l: 200, c: 206, v: 62},
+      {date: "8 Sep", o: 206, h: 211, l: 204, c: 209, v: 85},
+      {date: "10 Sep", o: 209, h: 215, l: 208, c: 213, v: 140}
+    ]
+  },
+  "NSE:SRF": {
+    name: "SRF Limited",
+    cmp: "2,556.00",
+    pattern: "Chemical Resistance Breakout",
+    rating: "BUY",
+    rsi: "67.4",
+    ema: "2,510.00",
+    osc: "2 Buy · 8 Neutral",
+    ma: "13 Buy · 1 Sell",
+    needleAngle: 52,
+    entry: 2556.00,
+    sl: 2525.00,
+    t1: 2586.00,
+    t2: 2616.00,
+    candles: [
+      {date: "1 Sep", o: 2480, h: 2515, l: 2465, c: 2500, v: 38},
+      {date: "4 Sep", o: 2500, h: 2535, l: 2490, c: 2520, v: 55},
+      {date: "8 Sep", o: 2520, h: 2550, l: 2510, c: 2540, v: 72},
+      {date: "10 Sep", o: 2540, h: 2568, l: 2535, c: 2556, v: 115}
+    ]
+  },
+  "NSE:NOVARTIND": {
+    name: "Novartis India",
+    cmp: "2,410.00",
+    pattern: "20% Upper Circuit Breakout",
+    rating: "STRONG BUY",
+    rsi: "78.5",
+    ema: "2,280.00",
+    osc: "4 Buy · 6 Neutral",
+    ma: "14 Buy · 0 Sell",
+    needleAngle: 75,
+    entry: 2410.00,
+    sl: 2300.00,
+    t1: 2500.00,
+    t2: 2600.00,
+    candles: [
+      {date: "1 Sep", o: 2120, h: 2180, l: 2100, c: 2150, v: 25},
+      {date: "4 Sep", o: 2150, h: 2240, l: 2140, c: 2210, v: 60},
+      {date: "8 Sep", o: 2210, h: 2310, l: 2195, c: 2290, v: 95},
+      {date: "10 Sep", o: 2290, h: 2445, l: 2280, c: 2410, v: 210}
+    ]
+  },
   "NSE:POLYPLEX": {
     name: "Polyplex Corporation",
     cmp: "1,185.00",
@@ -10787,6 +10857,25 @@ setTimeout(function(){
         '<div style="background:var(--surface);padding:0.5rem;border-radius:6px;border:1px solid var(--line);margin:0.5rem 0;"><strong>Market Breadth:</strong> Stock-specific momentum. Midcap 100 gained to 63,890.50.<br><strong>Key Catalysts:</strong> Brent $100.45, USD/INR ₹95.85, DII net buying remains robust.</div>';
       appendMessage('ai', content);
       currentCommentaryText = "Post-Market Closing Wrap. Nifty at 23,446. Energy and Clean Tech led outperformance. Brent crude at 100.45 dollars.";
+    } else if (type === 'social') {
+      var content = '<strong style="color:#25D366;font-size:0.95rem;">💬 Live Telegram &amp; WhatsApp Community Calls (10 Sep 2026):</strong><br>' +
+        '<div style="background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:0.6rem;margin-top:0.4rem;font-size:0.82rem;line-height:1.6;">' +
+        '• <strong>Telegram (Stockpro Online):</strong><br>' +
+        '&nbsp;&nbsp;🎯 <strong>Share India (SHAREINDIA):</strong> Looks Good Above 213 | SL 205 | Tgt 218/223/228<br>' +
+        '&nbsp;&nbsp;🎯 <strong>SRF Limited (SRF):</strong> Looks Good Above 2556 | SL 2525 | Tgt 2571/2586/2601/2616<br>' +
+        '&nbsp;&nbsp;🎯 <strong>Welspun Corp (WELCORP):</strong> Target Hit! Made high of 2,770 (+20.6% gain) 🚀<br>' +
+        '&nbsp;&nbsp;🎯 <strong>Apollo Hospitals (APOLLOHOSP):</strong> Looks Good Above 8960 | SL 8860 | Tgt 9110/9310<br>' +
+        '&nbsp;&nbsp;🎯 <strong>Molbio Diagnostics:</strong> Locked in Upper Circuit at 1,433.80 🚀<br><br>' +
+        '• <strong>Telegram (Breakout Investing &amp; BreakoutStreak):</strong><br>' +
+        '&nbsp;&nbsp;🎯 <strong>Novartis India (NOVARTIND):</strong> 20% Upper Circuit Lock past 2410 (Tgt 2550/2600)<br>' +
+        '&nbsp;&nbsp;🎯 <strong>Confidence Petroleum (CONFIPET):</strong> LPG station expansion breakout watchlist<br><br>' +
+        '• <strong>WhatsApp (Swing Pool PRO &amp; +91 9701168672):</strong><br>' +
+        '&nbsp;&nbsp;🎯 <strong>Redington India (REDINGTON):</strong> Target 390 Achieved (+6% to ₹392 ATH)! Trailing SL 375, fresh Tgt 425++<br>' +
+        '&nbsp;&nbsp;🎯 <strong>Shakti Pumps (SHAKTIPUMP):</strong> ₹236 Cr MSEDCL order win (+12% surge to Tgt 5,200)<br>' +
+        '&nbsp;&nbsp;🎯 <strong>Dilip Buildcon (DBL):</strong> ₹1,800 Cr Paradip-Raipur LPG pipeline award (Tgt 620)<br>' +
+        '&nbsp;&nbsp;🎯 <strong>Oil India (OIL):</strong> Brent &gt;$100 upstream rally (Entry 685, Tgt 760)<br>' +
+        '</div>';
+      appendMessage('ai', content);
     } else if (type === 'nov1') {
       var content = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:0.35rem;"><strong style="color:#F5A623;font-size:1rem;">📅 Market Commentary · 1 November 2026 (Diwali / Samvat 2083 Special)</strong><span style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--muted);">Special Muhurat Outlook</span></div>' +
         '<p><strong>Samvat 2083 Muhurat Pre-Open Outlook:</strong> Nifty consolidating above psychological support of 24,500. Institutional festive liquidity is elevated with record retail SIP inflows surpassing ₹28,000 Cr/month.</p>' +
@@ -10839,7 +10928,9 @@ setTimeout(function(){
     // Generate smart response based on query
     var qLower = q.toLowerCase();
     setTimeout(function(){
-      if (qLower.includes('preopen') || qLower.includes('pre-open') || qLower.includes('morning')) {
+      if (qLower.includes('telegram') || qLower.includes('whatsapp') || qLower.includes('group') || qLower.includes('social') || qLower.includes('chat')) {
+        handleCommentaryQuery('social');
+      } else if (qLower.includes('preopen') || qLower.includes('pre-open') || qLower.includes('morning')) {
         handleCommentaryQuery('preopen');
       } else if (qLower.includes('post') || qLower.includes('close') || qLower.includes('evening')) {
         handleCommentaryQuery('postmarket');
