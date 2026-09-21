@@ -4177,8 +4177,8 @@ footer {
   <span>GIFT NIFTY <span style="font-size:0.65rem;background:rgba(226,27,34,0.15);color:var(--loss);padding:1px 5px;border-radius:4px;font-weight:700;">DERIVED CFD</span></span>
   <span style="font-size:0.65rem;color:var(--muted);" id="gift-nifty-time">08:02 IST</span>
 </div>
-<div class="value num" style="color:var(--gain);" id="gift-nifty-val">23,390.00<span class="delta gain" id="gift-nifty-chg" style="font-size:0.88rem;margin-left:0.4rem;">▲ +38.40 (+0.16%)</span></div>
-<div style="font-size:0.72rem;color:var(--muted);margin-top:0.25rem;font-family:IBM Plex Mono,monospace;">Day: <strong id="gift-day-range">23,430 &ndash; 23,510</strong> | 52W: 21,281 &ndash; 26,277</div>
+<div class="value num" style="color:var(--gain);" id="gift-nifty-val">23,410.60<span class="delta gain" id="gift-nifty-chg" style="font-size:0.88rem;margin-left:0.4rem;">▲ +64.20 (+0.27%)</span></div>
+<div style="font-size:0.72rem;color:var(--muted);margin-top:0.25rem;font-family:IBM Plex Mono,monospace;">Day: <strong id="gift-day-range">23,370 &ndash; 23,455</strong> | 52W: 21,281 &ndash; 26,277</div>
 </div>
 
 <div class="index-item" id="card-nifty-50" style="border-top:3px solid var(--gain);">
@@ -4186,8 +4186,8 @@ footer {
   <span>NIFTY 50 <span style="font-size:0.65rem;background:rgba(37,211,102,0.15);color:var(--gain);padding:1px 5px;border-radius:4px;font-weight:700;">NSE</span></span>
   <span style="font-size:0.65rem;color:var(--muted);" id="nifty-50-time">Live Sync</span>
 </div>
-<div class="value num" style="color:var(--gain);" id="nifty-50-val">23,346.40<span class="delta gain" id="nifty-50-chg" style="font-size:0.88rem;margin-left:0.4rem;">▲ +15.10 (+0.06%)</span></div>
-<div style="font-size:0.72rem;color:var(--muted);margin-top:0.25rem;font-family:IBM Plex Mono,monospace;">Day: <strong id="nifty-day-range">23,398 &ndash; 23,490</strong> | Base: 23,350</div>
+<div class="value num" style="color:var(--gain);" id="nifty-50-val">23,395.60<span class="delta gain" id="nifty-50-chg" style="font-size:0.88rem;margin-left:0.4rem;">▲ +49.20 (+0.21%)</span></div>
+<div style="font-size:0.72rem;color:var(--muted);margin-top:0.25rem;font-family:IBM Plex Mono,monospace;">Day: <strong id="nifty-day-range">23,314 &ndash; 23,410</strong> | Base: 23,350</div>
 </div>
 
 <div class="index-item" id="card-sensex" style="border-top:3px solid var(--gain);">
@@ -4195,8 +4195,8 @@ footer {
   <span>SENSEX <span style="font-size:0.65rem;background:rgba(37,211,102,0.15);color:var(--gain);padding:1px 5px;border-radius:4px;font-weight:700;">BSE</span></span>
   <span style="font-size:0.65rem;color:var(--muted);" id="sensex-time">Live Sync</span>
 </div>
-<div class="value num" style="color:var(--loss);" id="sensex-val">74,294.96<span class="delta loss" id="sensex-chg" style="font-size:0.88rem;margin-left:0.4rem;">▼ -21.40 (-0.03%)</span></div>
-<div style="font-size:0.72rem;color:var(--muted);margin-top:0.25rem;font-family:IBM Plex Mono,monospace;">Day: <strong id="sensex-day-range">75,080 &ndash; 75,340</strong> | Breadth: Selective</div>
+<div class="value num" style="color:var(--gain);" id="sensex-val">74,689.81<span class="delta gain" id="sensex-chg" style="font-size:0.88rem;margin-left:0.4rem;">▲ +394.85 (+0.53%)</span></div>
+<div style="font-size:0.72rem;color:var(--muted);margin-top:0.25rem;font-family:IBM Plex Mono,monospace;">Day: <strong id="sensex-day-range">74,454 &ndash; 74,787</strong> | Breadth: Positive</div>
 </div>
 
 <div class="index-item" style="border-top:3px solid #1DB954;background:var(--surface-2);display:flex;flex-direction:column;justify-content:space-between;">
@@ -10933,38 +10933,52 @@ setTimeout(function(){
 
         if (!data) return;
 
+        function formatDelta(item) {
+          var isUp = (item.direction === 'up' || (item.change && String(item.change).startsWith('+')));
+          var arrow = isUp ? '▲ ' : '▼ ';
+          var cls = isUp ? 'gain' : 'loss';
+          var color = isUp ? 'var(--gain)' : 'var(--loss)';
+          return { isUp: isUp, arrow: arrow, cls: cls, color: color };
+        }
+
         // Update GIFT NIFTY
         if (data.giftNifty) {
+          var gFmt = formatDelta(data.giftNifty);
           if (giftVal) {
-            giftVal.innerHTML = data.giftNifty.value + '<span class="delta loss" id="gift-nifty-chg" style="font-size:0.88rem;margin-left:0.4rem;">▼ ' + data.giftNifty.change + ' (' + data.giftNifty.pctChange + ')</span>';
+            giftVal.style.color = gFmt.color;
+            giftVal.innerHTML = data.giftNifty.value + '<span class="delta ' + gFmt.cls + '" id="gift-nifty-chg" style="font-size:0.88rem;margin-left:0.4rem;">' + gFmt.arrow + data.giftNifty.change + ' (' + data.giftNifty.pctChange + ')</span>';
             flashElement(giftVal);
           }
           if (giftTime && data.asOf) giftTime.textContent = data.asOf;
           if (giftDay && data.giftNifty.dayLow && data.giftNifty.dayHigh) giftDay.textContent = data.giftNifty.dayLow + ' – ' + data.giftNifty.dayHigh;
           if (ttGiftVal) ttGiftVal.textContent = data.giftNifty.value;
-          if (ttGiftChg) ttGiftChg.textContent = '▼ ' + data.giftNifty.pctChange;
+          if (ttGiftChg) ttGiftChg.textContent = gFmt.arrow + data.giftNifty.pctChange;
         }
 
         // Update NIFTY 50
         if (data.nifty50) {
+          var nFmt = formatDelta(data.nifty50);
           if (niftyVal) {
-            niftyVal.innerHTML = data.nifty50.value + '<span class="delta gain" id="nifty-50-chg" style="font-size:0.88rem;margin-left:0.4rem;">▲ ' + data.nifty50.change + ' (' + data.nifty50.pctChange + ')</span>';
+            niftyVal.style.color = nFmt.color;
+            niftyVal.innerHTML = data.nifty50.value + '<span class="delta ' + nFmt.cls + '" id="nifty-50-chg" style="font-size:0.88rem;margin-left:0.4rem;">' + nFmt.arrow + data.nifty50.change + ' (' + data.nifty50.pctChange + ')</span>';
             flashElement(niftyVal);
           }
           if (niftyDay && data.nifty50.dayLow && data.nifty50.dayHigh) niftyDay.textContent = data.nifty50.dayLow + ' – ' + data.nifty50.dayHigh;
           if (ttNiftyVal) ttNiftyVal.textContent = data.nifty50.value;
-          if (ttNiftyChg) ttNiftyChg.textContent = '▲ ' + data.nifty50.pctChange;
+          if (ttNiftyChg) ttNiftyChg.textContent = nFmt.arrow + data.nifty50.pctChange;
         }
 
         // Update SENSEX
         if (data.sensex) {
+          var sFmt = formatDelta(data.sensex);
           if (sensexVal) {
-            sensexVal.innerHTML = data.sensex.value + '<span class="delta gain" id="sensex-chg" style="font-size:0.88rem;margin-left:0.4rem;">▲ ' + data.sensex.change + ' (' + data.sensex.pctChange + ')</span>';
+            sensexVal.style.color = sFmt.color;
+            sensexVal.innerHTML = data.sensex.value + '<span class="delta ' + sFmt.cls + '" id="sensex-chg" style="font-size:0.88rem;margin-left:0.4rem;">' + sFmt.arrow + data.sensex.change + ' (' + data.sensex.pctChange + ')</span>';
             flashElement(sensexVal);
           }
           if (sensexDay && data.sensex.dayLow && data.sensex.dayHigh) sensexDay.textContent = data.sensex.dayLow + ' – ' + data.sensex.dayHigh;
           if (ttSensexVal) ttSensexVal.textContent = data.sensex.value;
-          if (ttSensexChg) ttSensexChg.textContent = '▲ ' + data.sensex.pctChange;
+          if (ttSensexChg) ttSensexChg.textContent = sFmt.arrow + data.sensex.pctChange;
         }
 
         if (syncTxt && data.asOf) {
