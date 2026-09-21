@@ -966,6 +966,37 @@ th.sortable.sort-desc::after { content: ' ▼'; opacity: 1; color: var(--accent)
 .watch-field.src a:hover { text-decoration: underline; }
 
 /* ---- Live wire & Multi-source Stock News ---- */
+.hourly-polling-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.25rem 0.65rem;
+  background: rgba(0, 208, 156, 0.08);
+  border: 1px solid rgba(0, 208, 156, 0.25);
+  border-radius: 9999px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  color: #00D09C;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+.hourly-polling-chip strong {
+  color: #E8EDE7;
+  font-weight: 700;
+}
+.poll-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00D09C;
+  box-shadow: 0 0 8px #00D09C;
+  animation: pollPulseAnim 2s infinite ease-in-out;
+}
+@keyframes pollPulseAnim {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.35; }
+}
 .livewire {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -5107,6 +5138,7 @@ function filterActionCards(type, btn) {
 <div class="livewire-head">
 <h2><span class="livewire-dot"></span>Live wire — INDmoney · Economic Times · Moneycontrol · Business Standard</h2>
 <div class="livewire-header-right">
+<div class="hourly-polling-chip" id="hourly-polling-chip" title="1-Hour Self-Polling Active for Latest Stock News"><span class="poll-pulse"></span> 1-Hr Stock News Sync: <strong id="poll-countdown">59m 50s</strong></div>
 <span class="livewire-status" id="livewire-status">live feed updated</span>
 <button class="livewire-refresh-btn" id="livewire-refresh-btn" title="Refresh news from Apify, INDmoney, Economic Times, Moneycontrol &amp; Business Standard (Hotkey: R)"><span class="refresh-icon">🔄</span> <span class="refresh-text">Refresh Feed</span></button>
 </div>
@@ -8798,7 +8830,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       stocks: ["EDELWEISS"],
       summary: "Retail and HNI appetite remains vigorous with Hero Motors IPO heavily oversubscribed, while Edelweiss Financial offers 10.25% yield on retail secured bonds."
     }
-  ]];
+  ];
 
   function sanitizeNewsText(str) {
     if (!str) return '';
@@ -9075,7 +9107,41 @@ document.querySelectorAll('.watch-card').forEach(function(card){
   rawNewsItems = VERIFIED_LIVE_WIRE;
   renderNews(filterNews(), false);
 
-  // Fetch live API
+  // ---- 1-Hour Autonomous Self-Polling Engine (Stock News & Livewire) ----
+  var HOURLY_POLL_INTERVAL_MS = 60 * 60 * 1000; // 1 Hour = 3,600,000 ms
+  var lastNewsPollTimestamp = Date.now();
+  var nextNewsPollTimestamp = lastNewsPollTimestamp + HOURLY_POLL_INTERVAL_MS;
+
+  function updatePollCountdownUI() {
+    var countdownEl = document.getElementById('poll-countdown');
+    if (!countdownEl) return;
+    var diffMs = Math.max(0, nextNewsPollTimestamp - Date.now());
+    var m = Math.floor(diffMs / 60000);
+    var s = Math.floor((diffMs % 60000) / 1000);
+    countdownEl.textContent = (m < 10 ? '0' : '') + m + 'm ' + (s < 10 ? '0' : '') + s + 's';
+  }
+  setInterval(updatePollCountdownUI, 1000);
+  updatePollCountdownUI();
+
+  function triggerHourlyNewsSync() {
+    console.log('[Livewire Self-Polling] ⏱️ 1-Hour interval reached: executing fresh stock news pull from wire...');
+    var chip = document.getElementById('hourly-polling-chip');
+    if (chip) chip.style.borderColor = '#00D09C';
+    fetchLivewire(true);
+    lastNewsPollTimestamp = Date.now();
+    nextNewsPollTimestamp = lastNewsPollTimestamp + HOURLY_POLL_INTERVAL_MS;
+    updatePollCountdownUI();
+  }
+  setInterval(triggerHourlyNewsSync, HOURLY_POLL_INTERVAL_MS);
+
+  // Auto-sync upon returning to active tab if >1 hour elapsed
+  document.addEventListener('visibilitychange', function(){
+    if (!document.hidden && Date.now() >= nextNewsPollTimestamp) {
+      triggerHourlyNewsSync();
+    }
+  });
+
+  // Initial fetch and 1-minute light sync for live index / tick consistency
   fetchLivewire(false);
   setInterval(function(){ fetchLivewire(false); }, 60000);
 
@@ -9330,35 +9396,25 @@ document.querySelectorAll('.watch-card').forEach(function(card){
 
       // Master Pure Swing Setups (28 High-Conviction Setups synced from WhatsApp, Telegram, Instagram & Momentum)
   var SWING_SETUPS = [
-    // 🏊 WhatsApp Direct & Swing Pool (+91 9701168672)
-    { name: "Redington India", ticker: "REDINGTON", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 360.00, sl: 342.00, target: 425.00, catalyst: "🚀 Target 390 Achieved (+6% to ₹392 ATH)! Apple iPhone 18 launch distributor windfall; trailing SL 375, fresh target 425++", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 09:18 IST" },
-    { name: "Shakti Pumps", ticker: "SHAKTIPUMP", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 4650.00, sl: 4380.00, target: 5200.00, catalyst: "⚡ Clean Tech Breakout: Rallied +12% on ₹236 Cr MSEDCL solar pump contract win (Tgt 5,200/5,600)", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 09:20 IST" },
-    { name: "Dilip Buildcon", ticker: "DBL", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 540.00, sl: 505.00, target: 620.00, catalyst: "🏗️ Infra Breakout: Rallied +12% on ₹1,800 Cr Paradip-Raipur LPG Pipeline LOI award (Tgt 620/660)", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 09:22 IST" },
-    { name: "Oil India", ticker: "OIL", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 685.00, sl: 650.00, target: 760.00, catalyst: "🛢️ Upstream Play: Brent crude surges above $100 mark; high crude net realization upside (Tgt 760/800)", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 09:25 IST" },
-    { name: "IRB Infrastructure", ticker: "IRB", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 68.50, sl: 64.00, target: 78.00, catalyst: "🛣️ Toll Momentum: August toll collections jumped +25% YoY to record highs (Tgt 78/84)", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 09:28 IST" },
-    { name: "Polyplex Corporation", ticker: "POLYPLEX", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 1185.00, sl: 1110.00, target: 1290.00, catalyst: "📦 Specialty BOPET/BOPP film cycle turnaround & anti-dumping duty support (Tgt 1,290 / 1,380++)", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 09:30 IST" },
-    { name: "APL Apollo Tubes", ticker: "APLAPOLLO", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 2265.00, sl: 2140.00, target: 2455.00, catalyst: "🍁 Structural Steel Tubes Leader: Buy 2265-2230 | SL 2140 | Target 2455/2650++", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 09:32 IST" },
-    { name: "Fineotex Chemical", ticker: "FCL", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 50.00, sl: 43.00, target: 65.00, catalyst: "⚡ Specialty Chemical Compounder: Swing 58/65 & Short Term 82/100 (Monthly SIP Pick)", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 09:35 IST" },
-    { name: "Bajaj Hindusthan Sugar", ticker: "BAJAJHIND", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 42.00, sl: 37.00, target: 55.00, catalyst: "Swing Pool: Monthly SIP Stock #1 (Ethanol Blending Expansion, Tgt 55/64)", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 09:38 IST" },
-    { name: "Sigachi Industries", ticker: "SIGACHI", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 58.50, sl: 52.00, target: 76.00, catalyst: "Swing Pool: Monthly SIP Stock #2 (Microcrystalline Cellulose, Tgt 76/90)", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 09:40 IST" },
+    // 🏊 WhatsApp Direct & Swing Pool PRO (+91 9701168672)
+    { name: "Welspun Corp", ticker: "WELCORP", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 830.00, sl: 795.00, target: 940.00, catalyst: "⚡ Mega Catalyst: Associate East Pipes wins ₹2,000 Cr Saudi Aramco line-pipe supply contract; targets 890 / 940", date: "21 Sep 2026", recommendedAt: "21 Sep 2026, 11:15 IST" },
+    { name: "Dilip Buildcon", ticker: "DBL", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 505.00, sl: 480.00, target: 610.00, catalyst: "🏗️ Power Infra: Selected for 400 KV GIS Solapur/Paranda Switching Station by REC Power; Tgt 565/610", date: "21 Sep 2026", recommendedAt: "21 Sep 2026, 11:45 IST" },
+    { name: "Shakti Pumps", ticker: "SHAKTIPUMP", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 1030.00, sl: 980.00, target: 1240.00, catalyst: "⚡ Solar EPC: Upper Circuit lock on ₹236 Cr MSEDCL solar pump order execution; Tgt 1,160/1,240", date: "21 Sep 2026", recommendedAt: "21 Sep 2026, 10:30 IST" },
+    { name: "Redington India", ticker: "REDINGTON", channel: "WhatsApp (Swing Pool PRO)", source: "Swing Pool PRO", tag: "swingpool", entry: 385.00, sl: 365.00, target: 460.00, catalyst: "🚀 Apple iPhone 18 distribution expansion; fresh momentum breakout past ATH ₹392; Tgt 435/460", date: "21 Sep 2026", recommendedAt: "21 Sep 2026, 10:15 IST" },
+    { name: "Tata Steel", ticker: "TATASTEEL", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 151.00, sl: 145.00, target: 172.00, catalyst: "🔥 CEO TV Narendran highlights world focus on Indian steel manufacturing; domestic volume rebound", date: "21 Sep 2026", recommendedAt: "21 Sep 2026, 12:30 IST" },
+    { name: "Oil India", ticker: "OIL", channel: "WhatsApp (+91 9701168672)", source: "WhatsApp Direct", tag: "swingpool", entry: 685.00, sl: 650.00, target: 760.00, catalyst: "🛢️ Upstream Play: Brent crude consolidates around $97.7/bbl; strong domestic realization tailwind", date: "21 Sep 2026", recommendedAt: "21 Sep 2026, 09:30 IST" },
 
-    // 🔵 Live Telegram Community Channels (Stockpro Online, Breakout Investing, BreakoutStreak, Univest)
-    { name: "Share India Securities", ticker: "SHAREINDIA", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 213.00, sl: 205.00, target: 228.00, catalyst: "⚡ Live 10 Sep Positional Call: Looks Good Above 213 | SL 205 | Targets 218 / 223 / 228 (High Volume Breakout)", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 10:46 IST" },
-    { name: "SRF Limited", ticker: "SRF", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 2556.00, sl: 2525.00, target: 2616.00, catalyst: "⚡ Live 10 Sep Positional Call: Looks Good Above 2556 | SL 2525 | Targets 2571 / 2586 / 2601 / 2616", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 10:45 IST" },
-    { name: "Novartis India", ticker: "NOVARTIND", channel: "Telegram (Breakout Investing & Stockpro)", source: "Breakout Investing", tag: "telegram", entry: 2410.00, sl: 2300.00, target: 2600.00, catalyst: "🚀 20% Upper Circuit Breakout: Looks Good Above 2410 | Targets 2450 / 2500 / 2550 / 2600 (Pharma Consolidation)", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 10:45 IST" },
-    { name: "Welspun Corp", ticker: "WELCORP", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 2245.00, sl: 2620.00, target: 2850.00, catalyst: "❇️ Target Hit! Made high of 2,770 (+20.6% gain from 2,245 entry) on $1.8B US order backlog; trailing SL 2620, tgt 2850++", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 10:45 IST" },
-    { name: "Molbio Diagnostics", ticker: "MOLBIO", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 1380.00, sl: 1310.00, target: 1520.00, catalyst: "🔒 Locked in Upper Circuit at 1,433.80 🚀; point-of-care molecular diagnostics demand surge", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 10:45 IST" },
-    { name: "Apollo Hospitals", ticker: "APOLLOHOSP", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 8960.00, sl: 8860.00, target: 9310.00, catalyst: "⚡ Positional Research: Looks Good Above 8960 | SL 8860 | Targets 9010 / 9110 / 9260 / 9310", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 10:45 IST" },
-    { name: "Confidence Petroleum", ticker: "CONFIPET", channel: "Telegram (BreakoutStreak)", source: "BreakoutStreak", tag: "telegram", entry: 88.50, sl: 82.00, target: 102.00, catalyst: "🔥 Breakout Study Setup: NISM Analyst Watchlist on Auto-LPG expansion and cylinder manufacturing volume", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 10:42 IST" },
-    { name: "Gabriel India", ticker: "GABRIEL", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 1450.00, sl: 1320.00, target: 1650.00, catalyst: "⚡ Positional Breakout: High volume expansion past supply zone (Tgt 1,550-1,700)", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 09:30 IST" },
-    { name: "Diffusion Engineers", ticker: "DIFFUSION", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 467.00, sl: 445.00, target: 540.00, catalyst: "Upper Circuit surge to ₹493.20; Tgt 540-580 on expansion", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 09:30 IST" },
-    { name: "Tejas Networks", ticker: "TEJASNET", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 570.00, sl: 530.00, target: 650.00, catalyst: "BSNL ₹1,537 Cr 4G/5G Order + Positional Hold", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 09:25 IST" },
-    { name: "Dixon Tech", ticker: "DIXON", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 14930.00, sl: 14700.00, target: 15530.00, catalyst: "Stockpro Alert (>14930) + Massive EMS Order Inflow", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 09:20 IST" },
+    // 🔵 Live Telegram Community Channels (Stockpro Online, Breakout Investing, Univest, BreakoutStreak)
+    { name: "Protean eGov Technologies", ticker: "PROTEAN", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 580.00, sl: 545.00, target: 680.00, catalyst: "🔒 20% Upper Circuit Breakout: Leads gainers in A group on heavy volumes; Targets 640 / 680", date: "21 Sep 2026", recommendedAt: "21 Sep 2026, 11:30 IST" },
+    { name: "HEG Advanced Materials", ticker: "HEG", channel: "Telegram (Breakout Investing)", source: "Breakout Investing", tag: "telegram", entry: 240.00, sl: 228.00, target: 295.00, catalyst: "🚀 Clean Tech Order Win: Subsidiary Replus Engitech secures ₹218 Cr lithium-ion battery orders; Tgt 270/295", date: "21 Sep 2026", recommendedAt: "21 Sep 2026, 12:00 IST" },
+    { name: "LEAP India", ticker: "LEAPINDIA", channel: "Telegram (Univest Research)", source: "Univest Research", tag: "telegram", entry: 345.00, sl: 325.00, target: 450.00, catalyst: "⚡ UBS Buy Initiation: Global brokerage initiates coverage with Buy and 25% upside target of ₹450", date: "21 Sep 2026", recommendedAt: "21 Sep 2026, 12:15 IST" },
+    { name: "Jash Engineering", ticker: "JASH", channel: "Telegram (BreakoutStreak)", source: "BreakoutStreak", tag: "telegram", entry: 590.00, sl: 560.00, target: 690.00, catalyst: "⚡ 8.4x Volume Spurt: Water and engineering infra equipment volume breakout past ₹592", date: "21 Sep 2026", recommendedAt: "21 Sep 2026, 12:45 IST" },
+    { name: "CG Power & Industrial", ticker: "CGPOWER", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 910.00, sl: 875.00, target: 1030.00, catalyst: "⚡ Industrial Equipment Momentum: Surges 2.6% on broad-based substation and automation capex", date: "21 Sep 2026", recommendedAt: "21 Sep 2026, 13:00 IST" },
+    { name: "Balmer Lawrie", ticker: "BALMERLAWRIE", channel: "Telegram (Stockpro Online)", source: "Stockpro Online", tag: "telegram", entry: 285.00, sl: 270.00, target: 330.00, catalyst: "🚂 Rail Logistics Expansion: Major capex announced for domestic rail and third-party logistics", date: "21 Sep 2026", recommendedAt: "21 Sep 2026, 13:15 IST" },
 
     // 🟣 Instagram (StockMarket Times & TradeClues)
-    { name: "Jio Financial", ticker: "JIOFIN", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 338.00, sl: 318.00, target: 385.00, catalyst: "SEBI Jio ₹37,000 Cr IPO Clearance & BlackRock JV Wealth Scaling", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 09:15 IST" },
-    { name: "Suzlon Energy", ticker: "SUZLON", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 74.50, sl: 68.00, target: 88.00, catalyst: "Record 5.4 GW Wind Turbine Order Book & Turnaround", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 09:15 IST" },
-    { name: "Tata Power", ticker: "TATAPOWER", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 435.00, sl: 412.00, target: 485.00, catalyst: "Solar Rooftop Surge & EV Highway Charging Growth", date: "19 Sep 2026", recommendedAt: "19 Sep 2026, 09:15 IST" }
+    { name: "Jio Financial", ticker: "JIOFIN", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 340.00, sl: 320.00, target: 395.00, catalyst: "SEBI Clearance & BlackRock JV Wealth Scaling; High festive retail expansion", date: "21 Sep 2026", recommendedAt: "21 Sep 2026, 10:00 IST" },
+    { name: "Suzlon Energy", ticker: "SUZLON", channel: "Instagram (@StockMarketTimes)", source: "StockMarket Times", tag: "instagram", entry: 75.00, sl: 69.00, target: 92.00, catalyst: "Record 5.4 GW Wind Turbine Order Backlog & execution velocity", date: "21 Sep 2026", recommendedAt: "21 Sep 2026, 10:00 IST" }
   ];
 
   function fmtINR(val) {
@@ -9735,7 +9791,16 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       .then(function(res){ return res.json(); })
       .then(function(data){
         if (data && data.setups && data.setups.length) {
-          SWING_SETUPS = data.setups;
+          // Strict freshness filter: only pull latest stock data else don't pull data
+          var usableSetups = data.setups;
+          if (!dateVal || dateVal === 'latest') {
+            usableSetups = data.setups.filter(function(s){
+              return s.date && (s.date.indexOf('2026') > -1);
+            });
+          }
+          if (usableSetups.length > 0) {
+            SWING_SETUPS = usableSetups;
+          }
           selectedStockIdx = 0;
           populateDropdown();
           calculateSwing();

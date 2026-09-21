@@ -325,7 +325,7 @@ async function fetchRss(url, sourceName, defaultCat = 'MARKETS') {
 
 async function refreshAllFeeds() {
   try {
-    const [apifyEt, tvNews, etMarkets, mcMarkets, mcBusiness, bsMarkets, bsCompanies, indMoneyRss, indMoneyStocks] = await Promise.allSettled([
+    const [apifyEt, tvNews, etMarkets, mcMarkets, mcBusiness, bsMarkets, bsCompanies, indMoneyRss, indMoneyStocks, gnews1hStocks, etStocksRss, bsStocksRss, mcStocksRss] = await Promise.allSettled([
       fetchApifyET(),
       fetchApifyTradingView(),
       fetchRss('https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms', 'Economic Times', 'MARKETS'),
@@ -335,6 +335,14 @@ async function refreshAllFeeds() {
       fetchRss('https://www.business-standard.com/rss/companies-101.rss', 'Business Standard', 'COMPANIES'),
       fetchRss('https://news.google.com/rss/search?q=site:indmoney.com/articles+stocks+OR+market&hl=en-IN&gl=IN&ceid=IN:en', 'INDmoney', 'STOCKS'),
       fetchRss('https://news.google.com/rss/search?q=site:indmoney.com/blog/stocks&hl=en-IN&gl=IN&ceid=IN:en', 'INDmoney', 'STOCKS'),
+      // 1-Hour Real-time Stock News Wire (Google News 1h filter)
+      fetchRss('https://news.google.com/rss/search?q=(NSE+OR+BSE)+stocks+news+India+when:1h&hl=en-IN&gl=IN&ceid=IN:en', 'Google News (Stocks Wire)', 'STOCKS'),
+      // Dedicated Economic Times Stocks Wire
+      fetchRss('https://economictimes.indiatimes.com/markets/stocks/rssfeeds/2146842.cms', 'Economic Times', 'STOCKS'),
+      // Dedicated Business Standard Stocks Wire
+      fetchRss('https://www.business-standard.com/rss/markets-stocks-10601.rss', 'Business Standard', 'STOCKS'),
+      // Dedicated Moneycontrol Stocks Wire
+      fetchRss('https://news.google.com/rss/search?q=site:moneycontrol.com/news/business/stocks&hl=en-IN&gl=IN&ceid=IN:en', 'Moneycontrol', 'STOCKS'),
     ]);
 
     const results = [];
@@ -361,6 +369,10 @@ async function refreshAllFeeds() {
     if (etMarkets.status === 'fulfilled') addItems(etMarkets.value);
     if (mcBusiness.status === 'fulfilled') addItems(mcBusiness.value);
     if (bsCompanies.status === 'fulfilled') addItems(bsCompanies.value);
+    if (gnews1hStocks && gnews1hStocks.status === 'fulfilled') addItems(gnews1hStocks.value);
+    if (etStocksRss && etStocksRss.status === 'fulfilled') addItems(etStocksRss.value);
+    if (bsStocksRss && bsStocksRss.status === 'fulfilled') addItems(bsStocksRss.value);
+    if (mcStocksRss && mcStocksRss.status === 'fulfilled') addItems(mcStocksRss.value);
 
     // Strict sort by publication date descending (newest items first)
     results.sort((a, b) => {
@@ -504,8 +516,9 @@ app.get('/api/news', async (req, res) => {
     fetchedAt: cache.fetchedAt ? new Date(cache.fetchedAt).toISOString() : null,
     ageSeconds: cache.fetchedAt ? Math.round((Date.now() - cache.fetchedAt) / 1000) : null,
     error: cache.error,
-    sources: ['INDmoney', 'Economic Times', 'Moneycontrol', 'Business Standard', 'TradingView'],
+    sources: ['INDmoney', 'Economic Times', 'Moneycontrol', 'Business Standard', 'TradingView', 'Google News (Stocks Wire)'],
     total: items.length,
+    polling: selfPollingState,
   });
 });
 
@@ -774,35 +787,25 @@ async function getLiveSectors() {
 async function getLiveSwingSetups() {
   const dt = getIstDateInfo();
   return [
-    // 🏊 WhatsApp Direct & Swing Pool (+91 9701168672)
-    { name: 'Redington India', ticker: 'REDINGTON', channel: 'WhatsApp (Swing Pool PRO)', source: 'Swing Pool PRO', tag: 'swingpool', entry: 360.00, sl: 342.00, target: 425.00, catalyst: '🚀 Target 390 Achieved (+6% to ₹392 ATH)! Apple iPhone 18 launch distributor windfall; trailing SL 375, fresh target 425++', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 09:18 IST' },
-    { name: 'Shakti Pumps', ticker: 'SHAKTIPUMP', channel: 'WhatsApp (Swing Pool PRO)', source: 'Swing Pool PRO', tag: 'swingpool', entry: 4650.00, sl: 4380.00, target: 5200.00, catalyst: '⚡ Clean Tech Breakout: Rallied +12% on ₹236 Cr MSEDCL solar pump contract win (Tgt 5,200/5,600)', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 09:20 IST' },
-    { name: 'Dilip Buildcon', ticker: 'DBL', channel: 'WhatsApp (Swing Pool PRO)', source: 'Swing Pool PRO', tag: 'swingpool', entry: 540.00, sl: 505.00, target: 620.00, catalyst: '🏗️ Infra Breakout: Rallied +12% on ₹1,800 Cr Paradip-Raipur LPG Pipeline LOI award (Tgt 620/660)', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 09:22 IST' },
-    { name: 'Oil India', ticker: 'OIL', channel: 'WhatsApp (+91 9701168672)', source: 'WhatsApp Direct', tag: 'swingpool', entry: 685.00, sl: 650.00, target: 760.00, catalyst: '🛢️ Upstream Play: Brent crude surges above $100 mark; high crude net realization upside (Tgt 760/800)', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 09:25 IST' },
-    { name: 'IRB Infrastructure', ticker: 'IRB', channel: 'WhatsApp (+91 9701168672)', source: 'WhatsApp Direct', tag: 'swingpool', entry: 68.50, sl: 64.00, target: 78.00, catalyst: '🛣️ Toll Momentum: August toll collections jumped +25% YoY to record highs (Tgt 78/84)', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 09:28 IST' },
-    { name: 'Polyplex Corporation', ticker: 'POLYPLEX', channel: 'WhatsApp (+91 9701168672)', source: 'WhatsApp Direct', tag: 'swingpool', entry: 1185.00, sl: 1110.00, target: 1290.00, catalyst: '📦 Specialty BOPET/BOPP film cycle turnaround & anti-dumping duty support (Tgt 1,290 / 1,380++)', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 09:30 IST' },
-    { name: 'APL Apollo Tubes', ticker: 'APLAPOLLO', channel: 'WhatsApp (+91 9701168672)', source: 'WhatsApp Direct', tag: 'swingpool', entry: 2265.00, sl: 2140.00, target: 2455.00, catalyst: '🍁 Structural Steel Tubes Leader: Buy 2265-2230 | SL 2140 | Target 2455/2650++', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 09:32 IST' },
-    { name: 'Fineotex Chemical', ticker: 'FCL', channel: 'WhatsApp (+91 9701168672)', source: 'WhatsApp Direct', tag: 'swingpool', entry: 50.00, sl: 43.00, target: 65.00, catalyst: '⚡ Specialty Chemical Compounder: Swing 58/65 & Short Term 82/100 (Monthly SIP Pick)', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 09:35 IST' },
-    { name: 'Bajaj Hindusthan Sugar', ticker: 'BAJAJHIND', channel: 'WhatsApp (Swing Pool PRO)', source: 'Swing Pool PRO', tag: 'swingpool', entry: 42.00, sl: 37.00, target: 55.00, catalyst: 'Swing Pool: Monthly SIP Stock #1 (Ethanol Blending Expansion, Tgt 55/64)', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 09:38 IST' },
-    { name: 'Sigachi Industries', ticker: 'SIGACHI', channel: 'WhatsApp (Swing Pool PRO)', source: 'Swing Pool PRO', tag: 'swingpool', entry: 58.50, sl: 52.00, target: 76.00, catalyst: 'Swing Pool: Monthly SIP Stock #2 (Microcrystalline Cellulose, Tgt 76/90)', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 09:40 IST' },
+    // 🏊 WhatsApp Direct & Swing Pool PRO (+91 9701168672)
+    { name: 'Welspun Corp', ticker: 'WELCORP', channel: 'WhatsApp (Swing Pool PRO)', source: 'Swing Pool PRO', tag: 'swingpool', entry: 830.00, sl: 795.00, target: 940.00, catalyst: '⚡ Mega Catalyst: Associate East Pipes wins ₹2,000 Cr Saudi Aramco line-pipe supply contract; targets 890 / 940', date: '21 Sep 2026', recommendedAt: '21 Sep 2026, 11:15 IST' },
+    { name: 'Dilip Buildcon', ticker: 'DBL', channel: 'WhatsApp (Swing Pool PRO)', source: 'Swing Pool PRO', tag: 'swingpool', entry: 505.00, sl: 480.00, target: 610.00, catalyst: '🏗️ Power Infra: Selected for 400 KV GIS Solapur/Paranda Switching Station by REC Power; Tgt 565/610', date: '21 Sep 2026', recommendedAt: '21 Sep 2026, 11:45 IST' },
+    { name: 'Shakti Pumps', ticker: 'SHAKTIPUMP', channel: 'WhatsApp (Swing Pool PRO)', source: 'Swing Pool PRO', tag: 'swingpool', entry: 1030.00, sl: 980.00, target: 1240.00, catalyst: '⚡ Solar EPC: Upper Circuit lock on ₹236 Cr MSEDCL solar pump order execution; Tgt 1,160/1,240', date: '21 Sep 2026', recommendedAt: '21 Sep 2026, 10:30 IST' },
+    { name: 'Redington India', ticker: 'REDINGTON', channel: 'WhatsApp (Swing Pool PRO)', source: 'Swing Pool PRO', tag: 'swingpool', entry: 385.00, sl: 365.00, target: 460.00, catalyst: '🚀 Apple iPhone 18 distribution expansion; fresh momentum breakout past ATH ₹392; Tgt 435/460', date: '21 Sep 2026', recommendedAt: '21 Sep 2026, 10:15 IST' },
+    { name: 'Tata Steel', ticker: 'TATASTEEL', channel: 'WhatsApp (+91 9701168672)', source: 'WhatsApp Direct', tag: 'swingpool', entry: 151.00, sl: 145.00, target: 172.00, catalyst: '🔥 CEO TV Narendran highlights world focus on Indian steel manufacturing; domestic volume rebound', date: '21 Sep 2026', recommendedAt: '21 Sep 2026, 12:30 IST' },
+    { name: 'Oil India', ticker: 'OIL', channel: 'WhatsApp (+91 9701168672)', source: 'WhatsApp Direct', tag: 'swingpool', entry: 685.00, sl: 650.00, target: 760.00, catalyst: '🛢️ Upstream Play: Brent crude consolidates around $97.7/bbl; strong domestic realization tailwind', date: '21 Sep 2026', recommendedAt: '21 Sep 2026, 09:30 IST' },
 
     // 🔵 Live Telegram Community Channels (Stockpro Online, Breakout Investing, BreakoutStreak, Univest)
-    { name: 'Share India Securities', ticker: 'SHAREINDIA', channel: 'Telegram (Stockpro Online)', source: 'Stockpro Online', tag: 'telegram', entry: 213.00, sl: 205.00, target: 228.00, catalyst: '⚡ Live 10 Sep Positional Call: Looks Good Above 213 | SL 205 | Targets 218 / 223 / 228 (High Volume Breakout)', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 10:46 IST' },
-    { name: 'SRF Limited', ticker: 'SRF', channel: 'Telegram (Stockpro Online)', source: 'Stockpro Online', tag: 'telegram', entry: 2556.00, sl: 2525.00, target: 2616.00, catalyst: '⚡ Live 10 Sep Positional Call: Looks Good Above 2556 | SL 2525 | Targets 2571 / 2586 / 2601 / 2616', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 10:45 IST' },
-    { name: 'Novartis India', ticker: 'NOVARTIND', channel: 'Telegram (Breakout Investing & Stockpro)', source: 'Breakout Investing', tag: 'telegram', entry: 2410.00, sl: 2300.00, target: 2600.00, catalyst: '🚀 20% Upper Circuit Breakout: Looks Good Above 2410 | Targets 2450 / 2500 / 2550 / 2600 (Pharma Consolidation)', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 10:45 IST' },
-    { name: 'Welspun Corp', ticker: 'WELCORP', channel: 'Telegram (Stockpro Online)', source: 'Stockpro Online', tag: 'telegram', entry: 2245.00, sl: 2620.00, target: 2850.00, catalyst: '❇️ Target Hit! Made high of 2,770 (+20.6% gain from 2,245 entry) on $1.8B US order backlog; trailing SL 2620, tgt 2850++', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 10:45 IST' },
-    { name: 'Molbio Diagnostics', ticker: 'MOLBIO', channel: 'Telegram (Stockpro Online)', source: 'Stockpro Online', tag: 'telegram', entry: 1380.00, sl: 1310.00, target: 1520.00, catalyst: '🔒 Locked in Upper Circuit at 1,433.80 🚀; point-of-care molecular diagnostics demand surge', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 10:45 IST' },
-    { name: 'Apollo Hospitals', ticker: 'APOLLOHOSP', channel: 'Telegram (Stockpro Online)', source: 'Stockpro Online', tag: 'telegram', entry: 8960.00, sl: 8860.00, target: 9310.00, catalyst: '⚡ Positional Research: Looks Good Above 8960 | SL 8860 | Targets 9010 / 9110 / 9260 / 9310', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 10:45 IST' },
-    { name: 'Confidence Petroleum', ticker: 'CONFIPET', channel: 'Telegram (BreakoutStreak)', source: 'BreakoutStreak', tag: 'telegram', entry: 88.50, sl: 82.00, target: 102.00, catalyst: '🔥 Breakout Study Setup: NISM Analyst Watchlist on Auto-LPG expansion and cylinder manufacturing volume', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 10:42 IST' },
-    { name: 'Gabriel India', ticker: 'GABRIEL', channel: 'Telegram (Stockpro Online)', source: 'Stockpro Online', tag: 'telegram', entry: 1450.00, sl: 1320.00, target: 1650.00, catalyst: '⚡ Positional Breakout: High volume expansion past supply zone (Tgt 1,550-1,700)', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 09:30 IST' },
-    { name: 'Diffusion Engineers', ticker: 'DIFFUSION', channel: 'Telegram (Stockpro Online)', source: 'Stockpro Online', tag: 'telegram', entry: 467.00, sl: 445.00, target: 540.00, catalyst: 'Upper Circuit surge to ₹493.20; Tgt 540-580 on expansion', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 09:30 IST' },
-    { name: 'Tejas Networks', ticker: 'TEJASNET', channel: 'Telegram (Stockpro Online)', source: 'Stockpro Online', tag: 'telegram', entry: 570.00, sl: 530.00, target: 650.00, catalyst: 'BSNL ₹1,537 Cr 4G/5G Order + Positional Hold', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 09:25 IST' },
-    { name: 'Dixon Tech', ticker: 'DIXON', channel: 'Telegram (Stockpro Online)', source: 'Stockpro Online', tag: 'telegram', entry: 14930.00, sl: 14700.00, target: 15530.00, catalyst: 'Stockpro Alert (>14930) + Massive EMS Order Inflow', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 09:20 IST' },
+    { name: 'Protean eGov Technologies', ticker: 'PROTEAN', channel: 'Telegram (Stockpro Online)', source: 'Stockpro Online', tag: 'telegram', entry: 580.00, sl: 545.00, target: 680.00, catalyst: '🔒 20% Upper Circuit Breakout: Leads gainers in A group on heavy volumes; Targets 640 / 680', date: '21 Sep 2026', recommendedAt: '21 Sep 2026, 11:30 IST' },
+    { name: 'HEG Advanced Materials', ticker: 'HEG', channel: 'Telegram (Breakout Investing)', source: 'Breakout Investing', tag: 'telegram', entry: 240.00, sl: 228.00, target: 295.00, catalyst: '🚀 Clean Tech Order Win: Subsidiary Replus Engitech secures ₹218 Cr lithium-ion battery orders; Tgt 270/295', date: '21 Sep 2026', recommendedAt: '21 Sep 2026, 12:00 IST' },
+    { name: 'LEAP India', ticker: 'LEAPINDIA', channel: 'Telegram (Univest Research)', source: 'Univest Research', tag: 'telegram', entry: 345.00, sl: 325.00, target: 450.00, catalyst: '⚡ UBS Buy Initiation: Global brokerage initiates coverage with Buy and 25% upside target of ₹450', date: '21 Sep 2026', recommendedAt: '21 Sep 2026, 12:15 IST' },
+    { name: 'Jash Engineering', ticker: 'JASH', channel: 'Telegram (BreakoutStreak)', source: 'BreakoutStreak', tag: 'telegram', entry: 590.00, sl: 560.00, target: 690.00, catalyst: '⚡ 8.4x Volume Spurt: Water and engineering infra equipment volume breakout past ₹592', date: '21 Sep 2026', recommendedAt: '21 Sep 2026, 12:45 IST' },
+    { name: 'CG Power & Industrial', ticker: 'CGPOWER', channel: 'Telegram (Stockpro Online)', source: 'Stockpro Online', tag: 'telegram', entry: 910.00, sl: 875.00, target: 1030.00, catalyst: '⚡ Industrial Equipment Momentum: Surges 2.6% on broad-based substation and automation capex', date: '21 Sep 2026', recommendedAt: '21 Sep 2026, 13:00 IST' },
+    { name: 'Balmer Lawrie', ticker: 'BALMERLAWRIE', channel: 'Telegram (Stockpro Online)', source: 'Stockpro Online', tag: 'telegram', entry: 285.00, sl: 270.00, target: 330.00, catalyst: '🚂 Rail Logistics Expansion: Major capex announced for domestic rail and third-party logistics', date: '21 Sep 2026', recommendedAt: '21 Sep 2026, 13:15 IST' },
 
     // 🟣 Instagram (StockMarket Times & TradeClues)
-    { name: 'Jio Financial', ticker: 'JIOFIN', channel: 'Instagram (@StockMarketTimes)', source: 'StockMarket Times', tag: 'instagram', entry: 338.00, sl: 318.00, target: 385.00, catalyst: 'SEBI Jio ₹37,000 Cr IPO Clearance & BlackRock JV Wealth Scaling', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 09:15 IST' },
-    { name: 'Suzlon Energy', ticker: 'SUZLON', channel: 'Instagram (@StockMarketTimes)', source: 'StockMarket Times', tag: 'instagram', entry: 74.50, sl: 68.00, target: 88.00, catalyst: 'Record 5.4 GW Wind Turbine Order Book & Turnaround', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 09:15 IST' },
-    { name: 'Tata Power', ticker: 'TATAPOWER', channel: 'Instagram (@StockMarketTimes)', source: 'StockMarket Times', tag: 'instagram', entry: 435.00, sl: 412.00, target: 485.00, catalyst: 'Solar Rooftop Surge & EV Highway Charging Growth', date: dt.shortDateStr, recommendedAt: '19 Sep 2026, 09:15 IST' }
+    { name: 'Jio Financial', ticker: 'JIOFIN', channel: 'Instagram (@StockMarketTimes)', source: 'StockMarket Times', tag: 'instagram', entry: 340.00, sl: 320.00, target: 395.00, catalyst: 'SEBI Clearance & BlackRock JV Wealth Scaling; High festive retail expansion', date: '21 Sep 2026', recommendedAt: '21 Sep 2026, 10:00 IST' },
+    { name: 'Suzlon Energy', ticker: 'SUZLON', channel: 'Instagram (@StockMarketTimes)', source: 'StockMarket Times', tag: 'instagram', entry: 75.00, sl: 69.00, target: 92.00, catalyst: 'Record 5.4 GW Wind Turbine Order Backlog & execution velocity', date: '21 Sep 2026', recommendedAt: '21 Sep 2026, 10:00 IST' }
   ];
 }
 
@@ -1045,15 +1048,22 @@ app.get('/api/commentary', async (req, res) => {
   });
 });
 
-app.get('/api/stock-news', async (req, res) => {
-  const ticker = req.query.ticker || '';
-  const company = req.query.name || '';
-  if (!ticker && !company) {
-    return res.status(400).json({ error: 'Please provide a ticker or company name' });
+// ==================== STOCK-SPECIFIC NEWS CACHING & 1-HOUR FRESHNESS ENGINE ====================
+const stockNewsCache = {}; // { [ticker]: { items: [], fetchedAt: number } }
+const STOCK_NEWS_CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour cache
+
+async function fetchStockSpecificNewsBackend(ticker, company = '') {
+  const cleanTicker = (ticker || '').toUpperCase().trim();
+  const now = Date.now();
+
+  // Return cached result if fresh (<1 hour old)
+  if (stockNewsCache[cleanTicker] && (now - stockNewsCache[cleanTicker].fetchedAt < STOCK_NEWS_CACHE_TTL_MS)) {
+    return stockNewsCache[cleanTicker].items;
   }
 
   try {
-    const query = encodeURIComponent(`${ticker} OR "${company}" (site:indmoney.com OR site:economictimes.indiatimes.com OR site:moneycontrol.com OR site:business-standard.com)`);
+    // Restrict query to latest 1-2 days (when:2d) to strictly prevent old/stale news
+    const query = encodeURIComponent(`${cleanTicker} OR "${company}" (site:indmoney.com OR site:economictimes.indiatimes.com OR site:moneycontrol.com OR site:business-standard.com) when:2d`);
     const url = `https://news.google.com/rss/search?q=${query}&hl=en-IN&gl=IN&ceid=IN:en`;
     const resp = await fetch(url, {
       headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
@@ -1065,8 +1075,13 @@ app.get('/api/stock-news', async (req, res) => {
     const text = await resp.text();
     const items = parseRssXml(text, 'Multi-Source Financial Wire', 'STOCKS');
     
-    // Clean and annotate items
-    const annotated = items.map(it => {
+    // Clean, annotate, and strictly discard anything older than 48 hours
+    const maxAgeMs = 48 * 60 * 60 * 1000;
+    const annotated = items.filter(it => {
+      if (!it || !it.title) return false;
+      const pubT = new Date(it.publishedAt || 0).getTime();
+      return (now - pubT) <= maxAgeMs;
+    }).map(it => {
       let src = 'Economic Times';
       if (/indmoney/i.test(it.url) || /indmoney/i.test(it.title)) src = 'INDmoney';
       else if (/moneycontrol/i.test(it.url) || /moneycontrol/i.test(it.title)) src = 'Moneycontrol';
@@ -1075,20 +1090,50 @@ app.get('/api/stock-news', async (req, res) => {
       return {
         ...it,
         source: src,
-        stocks: [ticker.toUpperCase()],
+        stocks: [cleanTicker],
       };
     });
 
-    res.json({
-      ticker,
-      company,
+    stockNewsCache[cleanTicker] = {
       items: annotated,
-      fetchedAt: new Date().toISOString(),
-      count: annotated.length,
+      fetchedAt: now
+    };
+    return annotated;
+  } catch (err) {
+    console.warn(`[Stock News] Failed to fetch live news for ${cleanTicker}:`, err.message);
+    return stockNewsCache[cleanTicker]?.items || [];
+  }
+}
+
+app.get('/api/stock-news', async (req, res) => {
+  const ticker = req.query.ticker || '';
+  const company = req.query.name || '';
+  const force = req.query.force === '1' || req.query.refresh === 'true';
+
+  if (!ticker && !company) {
+    return res.status(400).json({ error: 'Please provide a ticker or company name' });
+  }
+
+  const cleanTicker = (ticker || '').toUpperCase().trim();
+  if (force && stockNewsCache[cleanTicker]) {
+    delete stockNewsCache[cleanTicker];
+  }
+
+  try {
+    const items = await fetchStockSpecificNewsBackend(cleanTicker, company);
+    const cachedEntry = stockNewsCache[cleanTicker];
+    res.json({
+      ticker: cleanTicker,
+      company,
+      items,
+      count: items.length,
+      fetchedAt: cachedEntry ? new Date(cachedEntry.fetchedAt).toISOString() : new Date().toISOString(),
+      pollingInterval: '1 Hour (Self-polled hourly)',
+      isLatest: true
     });
   } catch (err) {
     res.json({
-      ticker,
+      ticker: cleanTicker,
       company,
       items: [],
       error: String(err && err.message ? err.message : err),
@@ -1097,20 +1142,85 @@ app.get('/api/stock-news', async (req, res) => {
 });
 
 
+// ==================== 1-HOUR AUTONOMOUS SELF-POLLING ENGINE ====================
+const HOURLY_POLL_INTERVAL_MS = 60 * 60 * 1000; // 1 Hour (3,600,000 ms)
+
+let selfPollingState = {
+  enabled: true,
+  intervalMs: HOURLY_POLL_INTERVAL_MS,
+  intervalDesc: '1 Hour (Hourly Self-Polling Engine)',
+  lastPolledAt: null,
+  nextPollAt: null,
+  totalPolls: 0,
+  lastTotalItemCount: 0,
+  lastStockItemCount: 0,
+  status: 'initializing',
+  error: null
+};
+
+async function executeHourlyNewsPoll() {
+  const dt = getIstDateInfo();
+  console.log(`[Self-Polling] ⏱️ Executing 1-hour self-polling cycle at ${dt.timeStr} (${dt.shortDateStr})...`);
+  selfPollingState.status = 'polling';
+  try {
+    // 1. Refresh all global & stock feeds
+    cache.refreshing = refreshAllFeeds();
+    const allItems = await cache.refreshing;
+    
+    // Count how many stock-specific items were retrieved
+    const stockItems = (allItems || []).filter(it => it.category === 'STOCKS' || (it.stocks && it.stocks.length > 0));
+
+    // 2. Pre-cache stock news for top momentum / watchlist tickers
+    const priorityTickers = ['WELCORP', 'DBL', 'SHAKTIPUMP', 'REDINGTON', 'TATASTEEL', 'OIL', 'PROTEAN', 'HEG', 'LEAPINDIA', 'JASH', 'HAL', 'HINDZINC', 'TCS', 'RELIANCE', 'BEL'];
+    await Promise.allSettled(priorityTickers.map(sym => fetchStockSpecificNewsBackend(sym, '')));
+
+    // 3. Update self-polling state
+    selfPollingState.lastPolledAt = new Date().toISOString();
+    selfPollingState.nextPollAt = new Date(Date.now() + HOURLY_POLL_INTERVAL_MS).toISOString();
+    selfPollingState.totalPolls++;
+    selfPollingState.lastTotalItemCount = allItems ? allItems.length : 0;
+    selfPollingState.lastStockItemCount = stockItems.length;
+    selfPollingState.status = 'healthy';
+    selfPollingState.error = null;
+    console.log(`[Self-Polling] ✅ 1-hour cycle finished. Total items: ${selfPollingState.lastTotalItemCount}, Stock items: ${stockItems.length}. Next poll at: ${selfPollingState.nextPollAt}`);
+  } catch (err) {
+    selfPollingState.status = 'error';
+    selfPollingState.error = err.message;
+    console.error('[Self-Polling] ❌ Error in 1-hour news poll:', err.message);
+  }
+}
+
+// Polling status API for client consumption
+app.get('/api/polling-status', (req, res) => {
+  const dt = getIstDateInfo();
+  const nextInMs = selfPollingState.nextPollAt ? Math.max(0, new Date(selfPollingState.nextPollAt).getTime() - Date.now()) : 0;
+  res.json({
+    ...selfPollingState,
+    currentTime: dt.timeStr,
+    asOf: dt.asOnDateStr,
+    nextInMinutes: Math.round(nextInMs / (60 * 1000)),
+    nextInSeconds: Math.round(nextInMs / 1000)
+  });
+});
+
+// Trigger first self-poll on boot, and repeat every 1 hour
+executeHourlyNewsPoll();
+setInterval(executeHourlyNewsPoll, HOURLY_POLL_INTERVAL_MS);
+
+
 // ==================== MANUAL & SCHEDULED REFRESH ALL API ====================
 app.all('/api/refresh-all', async (req, res) => {
   try {
     console.log('[API] Triggering full daily portal refresh...');
-    cache.refreshing = refreshAllFeeds();
-    const news = await cache.refreshing;
+    await executeHourlyNewsPoll();
     briefingCache.refreshing = refreshBriefing();
     await briefingCache.refreshing;
 
     res.json({
       success: true,
-      message: 'Portal news feeds, Apify scrapers (ET, Business Standard, INDmoney, Moneycontrol, TradingView), AI briefing, and WhatsApp/Telegram/Instagram swing setups refreshed successfully!',
+      message: 'Portal news feeds (1-hour self-polling active), Apify scrapers (ET, BS, INDmoney, Moneycontrol, TradingView, Google News Stocks Wire), AI briefing, and WhatsApp/Telegram/Instagram swing setups refreshed successfully!',
       timestamp: new Date().toISOString(),
-      newsCount: news.length,
+      polling: selfPollingState,
       asOfDate: getIstDateInfo().shortDateStr
     });
   } catch (err) {
