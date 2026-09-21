@@ -93,6 +93,16 @@ const STOCK_PATTERNS = [
   { ticker: 'APOLLOHOSP', names: ['Apollo Hospital', 'Apollo Hospitals'] },
   { ticker: 'CONFIPET', names: ['Confidence Petroleum', 'Confipet'] },
   { ticker: 'WABAG', names: ['VA Tech Wabag', 'Wabag'] },
+  { ticker: 'TATASTEEL', names: ['Tata Steel'] },
+  { ticker: 'JSWSTEEL', names: ['JSW Steel'] },
+  { ticker: 'JSWENERGY', names: ['JSW Energy'] },
+  { ticker: 'BALMERLAWRIE', names: ['Balmer Lawrie'] },
+  { ticker: 'EDELWEISS', names: ['Edelweiss'] },
+  { ticker: 'HEROMOTOCO', names: ['Hero Motors', 'Hero MotoCorp'] },
+  { ticker: 'PROTEAN', names: ['Protean eGov', 'Protean'] },
+  { ticker: 'LEAPINDIA', names: ['LEAP India', 'Leap India'] },
+  { ticker: 'HEG', names: ['HEG', 'HEG Advanced Materials', 'Replus Engitech'] },
+  { ticker: 'PIGL', names: ['Power & Instrumentation', 'PIGL'] },
 ];
 
 function extractStocks(text) {
@@ -180,10 +190,15 @@ function parseRssXml(xmlText, sourceName, defaultCategory = 'MARKETS') {
       
       let category = defaultCategory;
       if (stocks.length > 0) category = 'STOCKS';
-      else if (/defence|tejas|hal|bel|mod/i.test(combined)) category = 'DEFENCE';
-      else if (/zinc|gold|silver|metal|oil|crude|brent/i.test(combined)) category = 'COMMODITIES';
-      else if (/it|tech|ai|nvidia|tcs|infosys/i.test(combined)) category = 'IT SERVICES';
-      else if (/policy|gst|rbi|fdi|itr|tax|budget/i.test(combined)) category = 'POLICY';
+      else if (/\b(defence|defense|tejas|hal|bel|mazdock|bdl|mod|aerospace|missile)\b/i.test(combined)) category = 'DEFENCE';
+      else if (/\b(gold|silver|zinc|copper|aluminium|crude|brent|oil|petroleum|gas)\b/i.test(combined)) category = 'COMMODITIES';
+      else if (/\b(realty|real\s+estate|housing|property|dlf|godrej\s+prop)\b/i.test(combined)) category = 'REALTY';
+      else if (/\b(steel|metals?|mining|iron\s+ore|pipe|tubes)\b/i.test(combined)) category = 'METALS';
+      else if (/\b(solar|power|grid|infra|infrastructure|pipeline|substation|transmission)\b/i.test(combined)) category = 'POWER & INFRA';
+      else if (/\b(it\s+services|tech|technology|software|saas|ai|artificial\s+intelligence|nvidia|tcs|infosys|wipro|hcltech)\b/i.test(combined)) category = 'IT SERVICES';
+      else if (/\b(bank|nbfc|ncd|bonds|lending|credit|deposit)\b/i.test(combined)) category = 'BANKING & NBFC';
+      else if (/\b(ipo|listing|anchor|subscription)\b/i.test(combined)) category = 'IPOS & PRIMARY';
+      else if (/\b(gdp|inflation|cpi|gst|rbi|fdi|itr|tax|budget|policy)\b/i.test(combined)) category = 'POLICY & MACRO';
 
       let pubIso = new Date().toISOString();
       let timeAgoStr = 'just now';
@@ -383,11 +398,12 @@ const STOCK_RECOMMENDATIONS = [
 
 async function summarizeForVoice(items, token) {
   const newsSource = items.slice(0, 12).map((it) => `- [${it.source}] ${it.title}: ${it.summary || ''}`).join('\n');
+  const istInfo = getIstDateInfo();
   const prompt = `You are a calm, professional financial-news audio host for MomentWealth, an India-markets portal powered by Google AI. ` +
-    `Generate a compelling spoken 1-Hour Market Pulse audio script (roughly 170-230 words, 60-90 seconds when read aloud) for today, August 31, 2026. ` +
+    `Generate a compelling spoken 1-Hour Market Pulse audio script (roughly 170-230 words, 60-90 seconds when read aloud) for today, ${istInfo.fullDateStr}. ` +
     `Cover key market-moving developments from INDmoney, Economic Times, Moneycontrol, and Business Standard, followed by active brokerage recommendations below. ` +
     `Name the firm, stock, rating, and target price clearly. No markdown, no bullet points, no headers -- just natural spoken prose meant for an audio player widget. ` +
-    `Start directly with: "Good morning, here is your 1-Hour Market Pulse for Monday August 31..."\n\n` +
+    `Start directly with: "Good day, here is your 1-Hour Market Pulse for ${istInfo.fullDateStr}..."\n\n` +
     `LATEST 1-HOUR FINANCIAL NEWS:\n${newsSource}\n\nANALYST STOCK CALLS:\n${STOCK_RECOMMENDATIONS}`;
 
   const url = `https://${VERTEX_REGION}-aiplatform.googleapis.com/v1/projects/${GCP_PROJECT}/locations/${VERTEX_REGION}/publishers/google/models/${GEMINI_MODEL}:generateContent`;
