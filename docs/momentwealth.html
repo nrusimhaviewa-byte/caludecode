@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>momentWealth · Indian Markets & Wealth Terminal</title>
@@ -4039,6 +4042,281 @@ footer {
   overflow-y: auto;
 }
 
+
+/* ==========================================================================
+   STITCH OBSIDIAN TERMINAL & ET MONEY "BASED ON STOCK ACTION" LAYOUT
+   ========================================================================== */
+.stock-action-section {
+  margin: 1.5rem 0 2rem 0;
+  width: 100%;
+}
+.stock-action-header-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.stock-action-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.stock-action-title {
+  font-family: 'Plus Jakarta Sans', var(--font-display, inherit);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin: 0 0 0.35rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.stock-action-sub {
+  font-size: 0.88rem;
+  color: var(--muted);
+  max-width: 820px;
+  line-height: 1.45;
+  margin: 0;
+}
+.stock-action-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.action-filter-pill {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.action-filter-pill:hover {
+  border-color: var(--accent);
+  color: var(--ink);
+}
+.action-filter-pill.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 10px rgba(0, 230, 118, 0.2);
+}
+
+/* 4-Card Grid conforming to ET Money */
+.stock-action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+@media (min-width: 1200px) {
+  .stock-action-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.action-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.action-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Card Header Banners */
+.action-card-header {
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+}
+.action-card-header.gainers-banner {
+  background: linear-gradient(135deg, rgba(0, 230, 118, 0.15), rgba(0, 230, 118, 0.04));
+  border-top: 3px solid #00E676;
+}
+.action-card-header.losers-banner {
+  background: linear-gradient(135deg, rgba(255, 59, 48, 0.15), rgba(255, 59, 48, 0.04));
+  border-top: 3px solid #FF3B30;
+}
+.action-card-header.buyers-banner {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.18), rgba(0, 230, 118, 0.08));
+  border-top: 3px solid #06B6D4;
+}
+.action-card-header.volume-banner {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.18), rgba(139, 92, 246, 0.08));
+  border-top: 3px solid #F59E0B;
+}
+
+.action-card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.action-card-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+}
+.action-card-title {
+  font-family: 'Plus Jakarta Sans', var(--font-display, inherit);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+}
+.action-card-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.action-card-badge.gain {
+  background: rgba(0, 230, 118, 0.18);
+  color: var(--gain);
+  border: 1px solid rgba(0, 230, 118, 0.35);
+}
+.action-card-badge.loss {
+  background: rgba(255, 59, 48, 0.18);
+  color: var(--loss);
+  border: 1px solid rgba(255, 59, 48, 0.35);
+}
+.action-card-badge.buyers {
+  background: rgba(6, 182, 212, 0.18);
+  color: #06B6D4;
+  border: 1px solid rgba(6, 182, 212, 0.35);
+  box-shadow: 0 0 8px rgba(6, 182, 212, 0.2);
+}
+.action-card-badge.volume {
+  background: rgba(245, 158, 11, 0.18);
+  color: #F59E0B;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+/* Action Table List */
+.action-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.action-row {
+  border-bottom: 1px solid var(--line);
+  transition: background 0.15s ease;
+  cursor: pointer;
+}
+.action-row:hover {
+  background: var(--surface-2);
+}
+.action-row:last-child {
+  border-bottom: none;
+}
+.action-row td {
+  padding: 0.75rem 1rem;
+  vertical-align: middle;
+}
+.action-stock-name {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+  margin-bottom: 0.15rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.action-stock-name:hover {
+  color: var(--accent);
+}
+.action-stock-sector {
+  font-size: 0.72rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+.action-price-col {
+  text-align: right;
+  white-space: nowrap;
+}
+.action-ltp {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ink);
+  display: block;
+}
+.action-delta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-top: 0.1rem;
+}
+.action-delta.gain {
+  color: var(--gain);
+}
+.action-delta.loss {
+  color: var(--loss);
+}
+
+/* View All Footer */
+.action-card-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--line);
+  padding: 0.65rem 1rem;
+  background: var(--surface-2);
+  text-align: center;
+}
+.action-view-all-link {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: gap 0.2s ease, color 0.2s ease;
+}
+.action-view-all-link:hover {
+  gap: 0.55rem;
+  color: var(--accent-hover);
+}
 </style>
 <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 </head>
@@ -4213,6 +4491,361 @@ footer {
 </div>
 </div>
 </header>
+
+<!-- ==========================================================================
+     ET MONEY INSPIRED "BASED ON STOCK ACTION" SECTION (WITH STITCH OBSIDIAN UI)
+     ========================================================================== -->
+<section class="stock-action-section" id="section-stock-action">
+  <div class="stock-action-header-wrap">
+    <div>
+      <div class="stock-action-eyebrow">
+        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#00E676;box-shadow:0 0 8px #00E676;"></span>
+        NSE / BSE LIVE ACTION · ET MONEY TEMPLATE
+      </div>
+      <h2 class="stock-action-title">
+        Based on Stock Action
+        <span style="font-size:0.75rem;padding:2px 8px;border-radius:9999px;background:rgba(0,230,118,0.15);color:var(--gain);border:1px solid rgba(0,230,118,0.3);font-family:'JetBrains Mono',monospace;font-weight:600;">ACTIVE TRADE</span>
+      </h2>
+      <p class="stock-action-sub">
+        Real-time multi-dimensional tracking of stocks based on market activity and trading patterns: Top Gainers, Top Losers, Stocks with Only Buyers (Upper Circuit 100% Demand), and High Volume Shockers.
+      </p>
+    </div>
+
+    <!-- Quick Filter Category Pills -->
+    <div class="stock-action-filters">
+      <button class="action-filter-pill active" onclick="filterActionCards('all', this)">All Cap (100+)</button>
+      <button class="action-filter-pill" onclick="filterActionCards('nifty50', this)">Nifty 50</button>
+      <button class="action-filter-pill" onclick="filterActionCards('midcap', this)">Mid & Small Cap</button>
+      <button class="action-filter-pill" onclick="filterActionCards('circuits', this)">🔒 Circuits Only</button>
+      <button class="action-filter-pill" onclick="filterActionCards('fno', this)">F&amp;O Universe</button>
+    </div>
+  </div>
+
+  <!-- 4-Card Responsive Grid -->
+  <div class="stock-action-grid">
+
+    <!-- CARD 1: TOP GAINERS -->
+    <div class="action-card" id="card-top-gainers">
+      <div class="action-card-header gainers-banner">
+        <div class="action-card-title-group">
+          <div class="action-card-icon" style="color:#00E676;">📈</div>
+          <h3 class="action-card-title">Top Gainers</h3>
+        </div>
+        <span class="action-card-badge gain">▲ Bullish</span>
+      </div>
+      <table class="action-table">
+        <tbody>
+          <tr class="action-row" data-cap="midcap" onclick="if(window.openStockDetail) openStockDetail('TEGA');">
+            <td>
+              <div class="action-stock-name">Tega Industries Ltd.</div>
+              <div class="action-stock-sector">Engineering &amp; Equipment</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹2,135.10</span>
+              <span class="action-delta gain">▲ +192.10 (+9.89%)</span>
+            </td>
+          </tr>
+          <tr class="action-row" data-cap="midcap" onclick="if(window.openStockDetail) openStockDetail('JPPOWER');">
+            <td>
+              <div class="action-stock-name">Jaiprakash Power Ventures</div>
+              <div class="action-stock-sector">Power - Generation</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹16.84</span>
+              <span class="action-delta gain">▲ +1.47 (+9.56%)</span>
+            </td>
+          </tr>
+          <tr class="action-row" data-cap="nifty50" onclick="if(window.openStockDetail) openStockDetail('WELSPUN');">
+            <td>
+              <div class="action-stock-name">Welspun Corp Ltd.</div>
+              <div class="action-stock-sector">Steel Pipes · Aramco Order</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹842.10</span>
+              <span class="action-delta gain">▲ +40.10 (+5.00%)</span>
+            </td>
+          </tr>
+          <tr class="action-row" data-cap="midcap" onclick="if(window.openStockDetail) openStockDetail('PATANJALI');">
+            <td>
+              <div class="action-stock-name">Patanjali Foods Ltd.</div>
+              <div class="action-stock-sector">Edible Oils &amp; FMCG</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹396.85</span>
+              <span class="action-delta gain">▲ +29.85 (+8.13%)</span>
+            </td>
+          </tr>
+          <tr class="action-row" data-cap="midcap" onclick="if(window.openStockDetail) openStockDetail('COHANCE');">
+            <td>
+              <div class="action-stock-name">Cohance Lifesciences Ltd.</div>
+              <div class="action-stock-sector">Pharmaceuticals</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹470.45</span>
+              <span class="action-delta gain">▲ +32.45 (+7.41%)</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="action-card-footer">
+        <a href="#tab-stocks" class="action-view-all-link" onclick="if(window.filterLiveWireBySource) filterLiveWireBySource('gainers');">
+          View all 48 Gainers <span style="font-size:1rem;">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- CARD 2: TOP LOSERS -->
+    <div class="action-card" id="card-top-losers">
+      <div class="action-card-header losers-banner">
+        <div class="action-card-title-group">
+          <div class="action-card-icon" style="color:#FF3B30;">📉</div>
+          <h3 class="action-card-title">Top Losers</h3>
+        </div>
+        <span class="action-card-badge loss">▼ Bearish</span>
+      </div>
+      <table class="action-table">
+        <tbody>
+          <tr class="action-row" data-cap="fno" onclick="if(window.openStockDetail) openStockDetail('OFSS');">
+            <td>
+              <div class="action-stock-name">Oracle Financial Services</div>
+              <div class="action-stock-sector">IT - Software Solutions</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹11,031.00</span>
+              <span class="action-delta loss">▼ -865.00 (-7.27%)</span>
+            </td>
+          </tr>
+          <tr class="action-row" data-cap="fno" onclick="if(window.openStockDetail) openStockDetail('BSE');">
+            <td>
+              <div class="action-stock-name">BSE Ltd.</div>
+              <div class="action-stock-sector">Exchanges &amp; Data Services</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹3,123.00</span>
+              <span class="action-delta loss">▼ -143.40 (-4.39%)</span>
+            </td>
+          </tr>
+          <tr class="action-row" data-cap="fno" onclick="if(window.openStockDetail) openStockDetail('UNOMINDA');">
+            <td>
+              <div class="action-stock-name">UNO Minda Ltd.</div>
+              <div class="action-stock-sector">Auto Ancillary Components</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹1,226.10</span>
+              <span class="action-delta loss">▼ -57.90 (-4.51%)</span>
+            </td>
+          </tr>
+          <tr class="action-row" data-cap="nifty50" onclick="if(window.openStockDetail) openStockDetail('TCS');">
+            <td>
+              <div class="action-stock-name">Tata Consultancy (TCS)</div>
+              <div class="action-stock-sector">IT Services · Tata Sons Deliberations</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹2,105.00</span>
+              <span class="action-delta loss">▼ -94.40 (-4.30%)</span>
+            </td>
+          </tr>
+          <tr class="action-row" data-cap="midcap" onclick="if(window.openStockDetail) openStockDetail('VTL');">
+            <td>
+              <div class="action-stock-name">Vardhman Textiles Ltd.</div>
+              <div class="action-stock-sector">Textiles &amp; Yarn</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹557.20</span>
+              <span class="action-delta loss">▼ -20.85 (-3.61%)</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="action-card-footer">
+        <a href="#tab-stocks" class="action-view-all-link" onclick="if(window.filterLiveWireBySource) filterLiveWireBySource('losers');">
+          View all 32 Losers <span style="font-size:1rem;">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- CARD 3: ONLY BUYERS (UPPER CIRCUIT LOCK 100% BUYERS) -->
+    <div class="action-card" id="card-only-buyers">
+      <div class="action-card-header buyers-banner">
+        <div class="action-card-title-group">
+          <div class="action-card-icon" style="color:#06B6D4;">🔒</div>
+          <h3 class="action-card-title">Only Buyers</h3>
+        </div>
+        <span class="action-card-badge buyers">100% BIDS • 0 SELLERS</span>
+      </div>
+      <table class="action-table">
+        <tbody>
+          <tr class="action-row" data-cap="circuits" onclick="if(window.openStockDetail) openStockDetail('PROTEAN');">
+            <td>
+              <div class="action-stock-name">
+                Protean eGov Technologies
+                <span style="font-size:0.6rem;background:rgba(0,230,118,0.2);color:#00E676;padding:1px 4px;border-radius:3px;font-weight:700;">20% UC</span>
+              </div>
+              <div class="action-stock-sector">IT Software · Group A Leader</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹588.35</span>
+              <span class="action-delta gain">▲ +98.05 (+20.00%)</span>
+            </td>
+          </tr>
+          <tr class="action-row" data-cap="circuits" onclick="if(window.openStockDetail) openStockDetail('SHAKTIPUMP');">
+            <td>
+              <div class="action-stock-name">
+                Shakti Pumps (India)
+                <span style="font-size:0.6rem;background:rgba(0,230,118,0.2);color:#00E676;padding:1px 4px;border-radius:3px;font-weight:700;">UC LOCK</span>
+              </div>
+              <div class="action-stock-sector">Solar Pumps · ₹236 Cr Order</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹1,048.20</span>
+              <span class="action-delta gain">▲ +112.30 (+12.00%)</span>
+            </td>
+          </tr>
+          <tr class="action-row" data-cap="circuits" onclick="if(window.openStockDetail) openStockDetail('INDOMIM');">
+            <td>
+              <div class="action-stock-name">
+                Indo-MIM Ltd.
+                <span style="font-size:0.6rem;background:rgba(0,230,118,0.2);color:#00E676;padding:1px 4px;border-radius:3px;font-weight:700;">10% UC</span>
+              </div>
+              <div class="action-stock-sector">Precision Engineering</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹1,161.45</span>
+              <span class="action-delta gain">▲ +105.55 (+10.00%)</span>
+            </td>
+          </tr>
+          <tr class="action-row" data-cap="circuits" onclick="if(window.openStockDetail) openStockDetail('DBL');">
+            <td>
+              <div class="action-stock-name">
+                Dilip Buildcon Ltd.
+                <span style="font-size:0.6rem;background:rgba(0,230,118,0.2);color:#00E676;padding:1px 4px;border-radius:3px;font-weight:700;">10% UC</span>
+              </div>
+              <div class="action-stock-sector">Power Substation · 400KV GIS</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹512.40</span>
+              <span class="action-delta gain">▲ +46.50 (+9.98%)</span>
+            </td>
+          </tr>
+          <tr class="action-row" data-cap="circuits" onclick="if(window.openStockDetail) openStockDetail('HEG');">
+            <td>
+              <div class="action-stock-name">
+                HEG Advanced Materials
+                <span style="font-size:0.6rem;background:rgba(0,230,118,0.2);color:#00E676;padding:1px 4px;border-radius:3px;font-weight:700;">5% UC</span>
+              </div>
+              <div class="action-stock-sector">Lithium Battery · ₹218 Cr Win</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹243.00</span>
+              <span class="action-delta gain">▲ +11.60 (+5.00%)</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="action-card-footer">
+        <a href="#tab-stocks" class="action-view-all-link" onclick="if(window.filterLiveWireBySource) filterLiveWireBySource('circuits');">
+          View all 19 Upper Circuits <span style="font-size:1rem;">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- CARD 4: VOLUME SHOCKERS -->
+    <div class="action-card" id="card-volume-shockers">
+      <div class="action-card-header volume-banner">
+        <div class="action-card-title-group">
+          <div class="action-card-icon" style="color:#F59E0B;">⚡</div>
+          <h3 class="action-card-title">Volume Shockers</h3>
+        </div>
+        <span class="action-card-badge volume">HIGH SPIKES</span>
+      </div>
+      <table class="action-table">
+        <tbody>
+          <tr class="action-row" data-cap="midcap" onclick="if(window.openStockDetail) openStockDetail('JASH');">
+            <td>
+              <div class="action-stock-name">Jash Engineering Ltd.</div>
+              <div class="action-stock-sector">Engineering · 8.4x 30D Vol</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹592.70</span>
+              <span class="action-delta gain">▲ +71.55 (+13.73%)</span>
+            </td>
+          </tr>
+          <tr class="action-row" data-cap="midcap" onclick="if(window.openStockDetail) openStockDetail('SVGLOBAL');">
+            <td>
+              <div class="action-stock-name">SV Global Mill Ltd.</div>
+              <div class="action-stock-sector">Infra Developers · 6.2x Vol</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹163.51</span>
+              <span class="action-delta gain">▲ +15.59 (+10.54%)</span>
+            </td>
+          </tr>
+          <tr class="action-row" data-cap="midcap" onclick="if(window.openStockDetail) openStockDetail('CGPOWER');">
+            <td>
+              <div class="action-stock-name">CG Power &amp; Industrial</div>
+              <div class="action-stock-sector">Automation · 4.8x Vol</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹915.00</span>
+              <span class="action-delta gain">▲ +23.00 (+2.58%)</span>
+            </td>
+          </tr>
+          <tr class="action-row" data-cap="fno" onclick="if(window.openStockDetail) openStockDetail('IDEA');">
+            <td>
+              <div class="action-stock-name">Vodafone Idea Ltd.</div>
+              <div class="action-stock-sector">Telecom · 284M Shares Traded</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹13.94</span>
+              <span class="action-delta gain">▲ +0.02 (+0.14%)</span>
+            </td>
+          </tr>
+          <tr class="action-row" data-cap="midcap" onclick="if(window.openStockDetail) openStockDetail('UNIMECH');">
+            <td>
+              <div class="action-stock-name">Unimech Aerospace</div>
+              <div class="action-stock-sector">Defence Export · 5.5x Vol</div>
+            </td>
+            <td class="action-price-col">
+              <span class="action-ltp">₹1,840.00</span>
+              <span class="action-delta gain">▲ +120.30 (+7.00%)</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="action-card-footer">
+        <a href="#tab-stocks" class="action-view-all-link" onclick="if(window.filterLiveWireBySource) filterLiveWireBySource('volume');">
+          View all 27 Volume Shockers <span style="font-size:1rem;">→</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Filter Script for Action Cards -->
+<script>
+function filterActionCards(type, btn) {
+  var pills = document.querySelectorAll('.action-filter-pill');
+  pills.forEach(function(p){ p.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+
+  var rows = document.querySelectorAll('.action-row');
+  rows.forEach(function(row){
+    if (type === 'all') {
+      row.style.display = '';
+    } else {
+      var rowCap = row.getAttribute('data-cap');
+      if (rowCap === type || (type === 'circuits' && row.closest('#card-only-buyers'))) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    }
+  });
+}
+</script>
+
+
 <!-- GOOGLE AI VOICE AGENT DOCK -->
 <section>
 <div class="voice-agent-dock" id="voice-agent-dock">
