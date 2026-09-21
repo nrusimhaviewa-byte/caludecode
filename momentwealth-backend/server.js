@@ -279,7 +279,7 @@ async function fetchApifyTradingView() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: 'NSE stock ideas India news', maxResults: 15 }),
-        signal: AbortSignal.timeout(10000),
+        signal: AbortSignal.timeout(5000),
       });
       if (resp.ok) {
         const items = await resp.json();
@@ -301,10 +301,10 @@ async function fetchApifyTradingView() {
         }
       }
     } catch (err) {
-      console.warn('Apify TradingView fetch warning, falling back to RSS:', err.message);
+      console.warn('Apify TradingView fetch warning:', err.message);
     }
   }
-  return fetchRss('https://news.google.com/rss/search?q=site:tradingview.com/news+OR+site:tradingview.com/chart+NSE&hl=en-IN&gl=IN&ceid=IN:en', 'TradingView', 'MARKETS');
+  return [];
 }
 
 // 2. Fetch from RSS Feeds
@@ -1170,9 +1170,20 @@ async function executeHourlyNewsPoll() {
     // Count how many stock-specific items were retrieved
     const stockItems = (allItems || []).filter(it => it.category === 'STOCKS' || (it.stocks && it.stocks.length > 0));
 
-    // 2. Pre-cache stock news for top momentum / watchlist tickers
-    const priorityTickers = ['WELCORP', 'DBL', 'SHAKTIPUMP', 'REDINGTON', 'TATASTEEL', 'OIL', 'PROTEAN', 'HEG', 'LEAPINDIA', 'JASH', 'HAL', 'HINDZINC', 'TCS', 'RELIANCE', 'BEL'];
-    await Promise.allSettled(priorityTickers.map(sym => fetchStockSpecificNewsBackend(sym, '')));
+    // 2. Index stock news for quick lookup from the fresh 1-hour wire
+    if (Array.isArray(allItems)) {
+      for (const it of allItems) {
+        if (it.stocks && it.stocks.length > 0) {
+          for (const s of it.stocks) {
+            if (!stockNewsCache[s]) stockNewsCache[s] = { items: [], fetchedAt: Date.now() };
+            if (!stockNewsCache[s].items.some(x => x.title === it.title)) {
+              stockNewsCache[s].items.push(it);
+              stockNewsCache[s].fetchedAt = Date.now();
+            }
+          }
+        }
+      }
+    }
 
     // 3. Update self-polling state
     selfPollingState.lastPolledAt = new Date().toISOString();
