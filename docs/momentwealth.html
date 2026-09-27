@@ -4402,7 +4402,7 @@ footer {
     <!-- Navigation Tabs -->
     <nav class="tabs" role="tablist" aria-label="Portal sections">
       <button class="tab-btn" role="tab" aria-selected="true" aria-controls="tab-stocks" id="tabbtn-stocks">Stocks</button>
-      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-swingpool" id="tabbtn-swingpool">Swing Trading <span class="tab-badge" style="background:rgba(37,211,102,0.18);color:#25D366;border-color:rgba(37,211,102,0.35);">PRO</span></button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-swingpool" id="tabbtn-swingpool">StockPro Telegram <span class="tab-badge" style="background:rgba(0,136,204,0.18);color:#0088cc;border-color:rgba(0,136,204,0.35);">VERIFIED</span></button>
       <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-ipo" id="tabbtn-ipo">IPO <span class="tab-badge" style="background:rgba(245,166,35,0.2);color:#F5A623;border-color:rgba(245,166,35,0.4);">LIVE</span></button>
       <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-etfs" id="tabbtn-etfs">ETFs</button>
       <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-mf" id="tabbtn-mf">Mutual Funds</button>
@@ -6124,16 +6124,22 @@ function filterActionCards(type, btn) {
 <header class="masthead" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;">
 <div style="flex:1;min-width:280px;">
 <div class="masthead-top">
-<span class="eyebrow" style="color:#25D366;">Exclusive Community Research · 1–2 Weeks Horizon &amp; Position Planner</span>
-<span class="timestamp">Live Feeds: WhatsApp + Telegram + Instagram</span>
+<span class="eyebrow" style="color:#0088cc;display:inline-flex;align-items:center;gap:0.4rem;">
+  <span style="width:8px;height:8px;border-radius:50%;background:#0088cc;display:inline-block;box-shadow:0 0 8px #0088cc;animation:pulse-dot 1.2s infinite;"></span>
+  📡 StockPro Online · Verified Channel Stream
+</span>
+<span class="timestamp" style="color:#0088cc;">🔵 Telegram: @stockpro_online &middot; Dr. Seema Jain (PhD IIT Delhi, SEBI Reg. Analyst)</span>
 </div>
-<h1 style="font-family:'Newsreader',serif;font-size:2.2rem;font-weight:400;margin:0.25rem 0 0.5rem 0;">Swing Trading Desk · 1–2 Weeks Horizon <span class="tab-badge" style="background:rgba(37,211,102,0.18);color:#25D366;border-color:rgba(37,211,102,0.35);font-size:0.9rem;vertical-align:middle;">PRO</span></h1>
-<p class="dek">Curated institutional &amp; high-conviction swing setups from the Swing Pool community. Includes multi-target profit booking, exact stop-losses on daily closing, and monthly SIP wealth compounders.</p>
+<h1 style="font-family:'Newsreader',serif;font-size:2.2rem;font-weight:400;margin:0.25rem 0 0.5rem 0;">StockPro Online &middot; Verified Channel Stream <span class="tab-badge" style="background:rgba(0,136,204,0.18);color:#0088cc;border-color:rgba(0,136,204,0.35);font-size:0.9rem;vertical-align:middle;">TELEGRAM</span></h1>
+<p class="dek">Live verified positional research, high-conviction momentum swing trade setups, and 1–2 months target achievement performance logs streamed directly from StockPro Online on Telegram.</p>
 </div>
 <div style="display:flex;align-items:center;gap:0.6rem;margin-top:0.5rem;">
-<button class="btn-lock-desk" id="btn-lock-swing-desk" title="Lock Swing Trading Desk">
-          🔒 Lock Desk
-        </button>
+  <a href="https://t.me/stockpro_online" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;background:rgba(0,136,204,0.12);color:#0088cc;border:1px solid rgba(0,136,204,0.3);padding:0.45rem 0.9rem;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem;">
+    ↗ Open @stockpro_online on Telegram
+  </a>
+  <button class="btn-lock-desk" id="btn-lock-swing-desk" title="Lock Desk">
+    🔒 Lock Desk
+  </button>
 </div>
 </header>
 <!-- SWING TRADING DESK PIN LOCK CARD (PIN: 2026) -->
@@ -6403,894 +6409,305 @@ function filterActionCards(type, btn) {
         </div>
       </div>
 
-      <!-- ==================== GROWW DAILY STOCK PLANNER & ORDER DESK ==================== -->
-      <div class="groww-order-desk-card" id="groww-order-desk-section">
-        <div class="groww-desk-header">
-          <div style="display:flex;align-items:center;gap:0.75rem;">
-            <div style="width:38px;height:38px;border-radius:10px;background:rgba(0,208,156,0.15);color:#00D09C;display:flex;align-items:center;justify-content:center;font-size:1.3rem;">⚡</div>
-            <div>
-              <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.2rem;font-weight:800;display:flex;align-items:center;gap:0.5rem;">
-                <span>AI Daily Stock Planner &middot; Groww Order Terminal</span>
-                <span class="groww-brand-badge">🟢 Groww API Connected</span>
-              </h3>
-              <div style="font-size:0.75rem;color:var(--muted);margin-top:0.15rem;">Daily high-conviction planned stocks &middot; 1-Click order execution with pre-set SL &amp; Target brackets.</div>
+      <!-- ==================== STOCKPRO ONLINE VERIFIED TELEGRAM STREAM ==================== -->
+      <div class="stockpro-stream-card" id="stockpro-telegram-desk" style="background:var(--surface);border:1px solid var(--line);border-top:3px solid #0088cc;border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+        
+        <!-- STREAM HEADER STRIP -->
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;margin-bottom:1.25rem;border-bottom:1px solid var(--line);padding-bottom:1.25rem;">
+          <div>
+            <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.35rem;">
+              <span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:8px;background:rgba(0,136,204,0.12);color:#0088cc;font-size:1.2rem;">📡</span>
+              <div>
+                <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.25rem;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+                  <span>StockPro Online &middot; Verified Channel Stream</span>
+                  <span style="font-size:0.72rem;background:rgba(0,136,204,0.12);color:#0088cc;border:1px solid rgba(0,136,204,0.3);padding:0.2rem 0.55rem;border-radius:20px;font-family:IBM Plex Mono,monospace;font-weight:700;">🔵 @stockpro_online</span>
+                  <span style="font-size:0.72rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);padding:0.2rem 0.55rem;border-radius:20px;font-family:IBM Plex Mono,monospace;font-weight:700;">✓ SEBI Reg. INH100008549</span>
+                </h3>
+                <div style="font-size:0.8rem;color:var(--muted);margin-top:0.2rem;">
+                  Lead Analyst: <strong>Dr. Seema Jain</strong> (PhD IIT Delhi) &middot; Over 470,000+ members &middot; Live positional calls, precise entry triggers, disciplined stop-losses &amp; target updates.
+                </div>
+              </div>
             </div>
           </div>
-          <div style="display:flex;align-items:center;gap:0.5rem;">
-            <button class="chat-inline-btn" id="btn-refresh-groww-desk" title="Refresh Live Prices & Orders">🔄 Refresh Feed</button>
+          <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+            <a href="https://t.me/stockpro_online" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.4rem;background:#0088cc;color:#ffffff;font-size:0.8rem;font-weight:700;padding:0.5rem 1rem;border-radius:8px;text-decoration:none;transition:transform 0.15s ease;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+              <span>Join @stockpro_online</span>
+            </a>
           </div>
         </div>
 
-        <!-- GROWW ACCOUNT MARGIN & METRICS STRIP -->
-        <div class="groww-account-summary">
-          <div class="groww-stat-pill">
-            <span class="lbl">Groww Trade Account</span>
-            <span class="val" style="font-size:0.85rem;color:var(--accent);">SAHAJ INVESTMENTS</span>
+        <!-- CHANNEL STATS STRIP -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:0.75rem;margin-bottom:1.5rem;">
+          <div style="background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:0.75rem 1rem;">
+            <div style="font-size:0.68rem;text-transform:uppercase;color:var(--muted);font-weight:700;letter-spacing:0.5px;">Active Stream Calls</div>
+            <div style="font-size:1.3rem;font-weight:800;color:#0088cc;font-family:IBM Plex Mono,monospace;margin-top:0.2rem;">10 Setups</div>
+            <div style="font-size:0.72rem;color:var(--muted);">23–25 Sep 2026 Fresh Triggers</div>
           </div>
-          <div class="groww-stat-pill">
-            <span class="lbl">Available Margin</span>
-            <span class="val num gain">₹1,42,850.00</span>
+          <div style="background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:0.75rem 1rem;">
+            <div style="font-size:0.68rem;text-transform:uppercase;color:var(--muted);font-weight:700;letter-spacing:0.5px;">Verified Hits (Aug-Sep)</div>
+            <div style="font-size:1.3rem;font-weight:800;color:var(--gain);font-family:IBM Plex Mono,monospace;margin-top:0.2rem;">11 / 11 Clean</div>
+            <div style="font-size:0.72rem;color:var(--muted);">Rallies from +6.9% to +53.6%</div>
           </div>
-          <div class="groww-stat-pill">
-            <span class="lbl">Total Swing Portfolio</span>
-            <span class="val num">₹8,75,400.00</span>
+          <div style="background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:0.75rem 1rem;">
+            <div style="font-size:0.68rem;text-transform:uppercase;color:var(--muted);font-weight:700;letter-spacing:0.5px;">Average Horizon</div>
+            <div style="font-size:1.3rem;font-weight:800;color:var(--ink);font-family:IBM Plex Mono,monospace;margin-top:0.2rem;">1–4 Weeks</div>
+            <div style="font-size:0.72rem;color:var(--muted);">Positional Swing Trading</div>
           </div>
-          <div class="groww-stat-pill">
-            <span class="lbl">Today's Realised P&amp;L</span>
-            <span class="val num gain">+₹14,320.00</span>
-          </div>
-        </div>
-
-        <!-- DAILY PLANNED STOCKS ORDER QUEUE -->
-        <div class="daily-orders-grid">
-          <!-- 1. Welspun Corp -->
-          <div class="daily-order-card">
-            <div class="daily-order-head">
-              <div>
-                <h4>Welspun Corp (WELSPUN)</h4>
-                <div style="font-size:0.75rem;color:var(--muted);">CMP: ₹2,373.80 &middot; ATH Blue-Sky Breakout</div>
-              </div>
-              <span class="daily-order-tag">HIGH CONVICTION</span>
-            </div>
-            <div class="daily-order-levels">
-              <div class="col">
-                <span class="k">Plan Limit</span>
-                <span class="v" style="color:var(--ink);">₹2,345.00</span>
-              </div>
-              <div class="col">
-                <span class="k">Stop-Loss</span>
-                <span class="v" style="color:var(--loss);">₹2,210.00</span>
-              </div>
-              <div class="col">
-                <span class="k">Target 1</span>
-                <span class="v" style="color:var(--gain);">₹2,600.00</span>
-              </div>
-            </div>
-            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">
-              💡 <em>Trigger:</em> $1.8B US pipe contract momentum. Order type: <strong>CNC Delivery</strong>.
-            </div>
-            <button class="btn-groww-order" onclick="openGrowwModal('WELSPUN', 'Welspun Corp', 2345.00, 2210.00, 2600.00, 25)">
-              <span>⚡ Place Order on Groww</span>
-            </button>
-          </div>
-
-          <!-- 2. Hindustan Zinc -->
-          <div class="daily-order-card">
-            <div class="daily-order-head">
-              <div>
-                <h4>Hindustan Zinc (HINDZINC)</h4>
-                <div style="font-size:0.75rem;color:var(--muted);">CMP: ₹622.00 &middot; Silver &amp; Zinc Squeeze</div>
-              </div>
-              <span class="daily-order-tag">COMMODITY PLAY</span>
-            </div>
-            <div class="daily-order-levels">
-              <div class="col">
-                <span class="k">Plan Limit</span>
-                <span class="v" style="color:var(--ink);">₹618.00</span>
-              </div>
-              <div class="col">
-                <span class="k">Stop-Loss</span>
-                <span class="v" style="color:var(--loss);">₹580.00</span>
-              </div>
-              <div class="col">
-                <span class="k">Target 1</span>
-                <span class="v" style="color:var(--gain);">₹690.00</span>
-              </div>
-            </div>
-            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">
-              💡 <em>Trigger:</em> Jefferies target upgrade to ₹750 on firm silver prices.
-            </div>
-            <button class="btn-groww-order" onclick="openGrowwModal('HINDZINC', 'Hindustan Zinc', 618.00, 580.00, 690.00, 100)">
-              <span>⚡ Place Order on Groww</span>
-            </button>
-          </div>
-
-          <!-- 3. Bharat Electronics (BEL) -->
-          <div class="daily-order-card">
-            <div class="daily-order-head">
-              <div>
-                <h4>Bharat Electronics (BEL)</h4>
-                <div style="font-size:0.75rem;color:var(--muted);">CMP: ₹392.40 &middot; 20 EMA Pullback</div>
-              </div>
-              <span class="daily-order-tag">DEFENCE LEADER</span>
-            </div>
-            <div class="daily-order-levels">
-              <div class="col">
-                <span class="k">Plan Limit</span>
-                <span class="v" style="color:var(--ink);">₹390.00</span>
-              </div>
-              <div class="col">
-                <span class="k">Stop-Loss</span>
-                <span class="v" style="color:var(--loss);">₹375.00</span>
-              </div>
-              <div class="col">
-                <span class="k">Target 1</span>
-                <span class="v" style="color:var(--gain);">₹425.00</span>
-              </div>
-            </div>
-            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">
-              💡 <em>Trigger:</em> Low-risk pullback bounce to 20 EMA with ₹76,000cr backlog.
-            </div>
-            <button class="btn-groww-order" onclick="openGrowwModal('BEL', 'Bharat Electronics', 390.00, 375.00, 425.00, 150)">
-              <span>⚡ Place Order on Groww</span>
-            </button>
-          </div>
-
-          <!-- 4. Fineotex Chemical (FCL) -->
-          <div class="daily-order-card">
-            <div class="daily-order-head">
-              <div>
-                <h4>Fineotex Chemical (FCL)</h4>
-                <div style="font-size:0.75rem;color:var(--muted);">CMP: ₹50.20 &middot; Swing Pool WhatsApp Alert</div>
-              </div>
-              <span class="daily-order-tag" style="background:rgba(37,211,102,0.18);color:#25D366;">1 : 10 R:R</span>
-            </div>
-            <div class="daily-order-levels">
-              <div class="col">
-                <span class="k">Plan Limit</span>
-                <span class="v" style="color:var(--ink);">₹49.50</span>
-              </div>
-              <div class="col">
-                <span class="k">Stop-Loss</span>
-                <span class="v" style="color:var(--loss);">₹44.00</span>
-              </div>
-              <div class="col">
-                <span class="k">Target 1</span>
-                <span class="v" style="color:var(--gain);">₹65.00</span>
-              </div>
-            </div>
-            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">
-              💡 <em>Trigger:</em> Multi-week accumulation breakout in specialty chemicals.
-            </div>
-            <button class="btn-groww-order" onclick="openGrowwModal('FCL', 'Fineotex Chemical', 49.50, 44.00, 65.00, 1000)">
-              <span>⚡ Place Order on Groww</span>
-            </button>
-          </div>
-
-          <!-- 5. Mastek (MASTEK) -->
-          <div class="daily-order-card">
-            <div class="daily-order-head">
-              <div>
-                <h4>Mastek (MASTEK)</h4>
-                <div style="font-size:0.75rem;color:var(--muted);">CMP: ₹3,145.00 &middot; IT Turnaround</div>
-              </div>
-              <span class="daily-order-tag">TECH REVERSAL</span>
-            </div>
-            <div class="daily-order-levels">
-              <div class="col">
-                <span class="k">Plan Limit</span>
-                <span class="v" style="color:var(--ink);">₹3,120.00</span>
-              </div>
-              <div class="col">
-                <span class="k">Stop-Loss</span>
-                <span class="v" style="color:var(--loss);">₹2,960.00</span>
-              </div>
-              <div class="col">
-                <span class="k">Target 1</span>
-                <span class="v" style="color:var(--gain);">₹3,450.00</span>
-              </div>
-            </div>
-            <div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">
-              💡 <em>Trigger:</em> UK &amp; US healthcare deals + Nvidia AI sentiment boost.
-            </div>
-            <button class="btn-groww-order" onclick="openGrowwModal('MASTEK', 'Mastek Ltd', 3120.00, 2960.00, 3450.00, 20)">
-              <span>⚡ Place Order on Groww</span>
-            </button>
-          </div>
-
-          <!-- 6. Custom Stock Direct Order Launcher -->
-          <div class="daily-order-card" style="border-style:dashed;background:var(--surface-2);">
-            <div class="daily-order-head">
-              <div>
-                <h4>Custom Stock Order</h4>
-                <div style="font-size:0.75rem;color:var(--muted);">Enter any NSE/BSE Symbol</div>
-              </div>
-              <span class="daily-order-tag" style="background:var(--surface);color:var(--ink);">DIRECT MCP</span>
-            </div>
-            <p style="font-size:0.82rem;color:var(--muted);margin:0.25rem 0;">
-              Execute instant orders on any other Indian stock in your Groww account with customized limit price and stop-loss.
-            </p>
-            <button class="btn-groww-order" style="background:var(--surface);border:1px solid var(--line);color:var(--ink);" onclick="openGrowwModal('', '', 0, 0, 0, 10)">
-              <span>➕ Build Custom Groww Order</span>
-            </button>
+          <div style="background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:0.75rem 1rem;">
+            <div style="font-size:0.68rem;text-transform:uppercase;color:var(--muted);font-weight:700;letter-spacing:0.5px;">Risk Management</div>
+            <div style="font-size:1.3rem;font-weight:800;color:var(--accent);font-family:IBM Plex Mono,monospace;margin-top:0.2rem;">Strict SL</div>
+            <div style="font-size:0.72rem;color:var(--muted);">Exit on Daily Candle Close below SL</div>
           </div>
         </div>
-      </div>
 
-      <!-- GROWW ORDER PLACEMENT MODAL -->
-      <div class="groww-modal-backdrop" id="groww-order-modal-backdrop">
-        <div class="groww-order-modal">
-          <div class="groww-modal-header">
+        <!-- ==================== TABLE 1: ACTIVE POSITIONAL & SWING CALLS ==================== -->
+        <div style="margin-bottom:2rem;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.5rem;">
             <div style="display:flex;align-items:center;gap:0.5rem;">
-              <span style="font-size:1.2rem;">⚡</span>
-              <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.1rem;font-weight:800;" id="groww-modal-title">Place Groww Order</h3>
+              <h4 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.1rem;font-weight:800;color:var(--ink);">
+                Active Positional &amp; Swing Trade Calls (Latest Stream)
+              </h4>
+              <span style="font-size:0.7rem;background:rgba(0,136,204,0.15);color:#0088cc;padding:0.15rem 0.5rem;border-radius:12px;font-weight:700;font-family:IBM Plex Mono,monospace;">10 LIVE</span>
             </div>
-            <button onclick="closeGrowwModal()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted);">&times;</button>
+            <span style="font-size:0.75rem;color:var(--muted);font-family:IBM Plex Mono,monospace;">Streamed from @stockpro_online</span>
           </div>
 
-          <div class="groww-modal-body">
-            <div class="order-type-toggle">
-              <button class="btn-order-side active-buy" id="modal-side-buy" onclick="setOrderSide('BUY')">BUY (LONG)</button>
-              <button class="btn-order-side" id="modal-side-sell" onclick="setOrderSide('SELL')">SELL (SHORT)</button>
-            </div>
-
-            <div class="groww-form-group">
-              <label>Stock Symbol</label>
-              <input type="text" id="modal-symbol" class="groww-input-field" placeholder="e.g. WELSPUN / HINDZINC / RELIANCE">
-            </div>
-
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
-              <div class="groww-form-group">
-                <label>Quantity (Shares)</label>
-                <input type="number" id="modal-qty" class="groww-input-field" value="25" min="1">
-              </div>
-              <div class="groww-form-group">
-                <label>Limit Price (₹)</label>
-                <input type="number" id="modal-price" class="groww-input-field" step="0.05" placeholder="0.00">
-              </div>
-            </div>
-
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
-              <div class="groww-form-group">
-                <label>Stop-Loss (₹)</label>
-                <input type="number" id="modal-sl" class="groww-input-field" step="0.05" placeholder="0.00">
-              </div>
-              <div class="groww-form-group">
-                <label>Target Price (₹)</label>
-                <input type="number" id="modal-target" class="groww-input-field" step="0.05" placeholder="0.00">
-              </div>
-            </div>
-
-            <div class="groww-form-group">
-              <label>Product &amp; Order Type</label>
-              <select id="modal-product" class="groww-input-field" style="cursor:pointer;">
-                <option value="CNC">CNC - Delivery (Cash &amp; Carry)</option>
-                <option value="MTF">MTF - Margin Trade Funding (4x Leverage)</option>
-                <option value="INTRADAY">MIS - Intraday</option>
-              </select>
-            </div>
-
-            <div style="background:var(--surface-2);border-radius:10px;padding:0.75rem;border:1px solid var(--line);font-size:0.8rem;display:flex;justify-content:space-between;">
-              <span style="color:var(--muted);">Total Order Value:</span>
-              <strong id="modal-total-val" style="font-family:IBM Plex Mono,monospace;">₹0.00</strong>
-            </div>
-
-            <button class="btn-groww-order" style="padding:0.85rem;font-size:0.95rem;" onclick="submitGrowwOrder()">
-              <span>🚀 Submit Order to Groww API</span>
-            </button>
+          <div style="overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);">
+            <table style="width:100%;border-collapse:collapse;text-align:left;font-size:0.83rem;">
+              <thead>
+                <tr style="background:rgba(0,0,0,0.03);border-bottom:1px solid var(--line);color:var(--muted);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px;font-family:IBM Plex Mono,monospace;">
+                  <th style="padding:0.75rem 1rem;white-space:nowrap;">Date Shared (IST)</th>
+                  <th style="padding:0.75rem 1rem;">Stock / Company</th>
+                  <th style="padding:0.75rem 1rem;white-space:nowrap;">Trigger / Entry Level</th>
+                  <th style="padding:0.75rem 1rem;white-space:nowrap;">Stop-Loss</th>
+                  <th style="padding:0.75rem 1rem;white-space:nowrap;">Targets</th>
+                  <th style="padding:0.75rem 1rem;min-width:280px;">Timeframe / Notes</th>
+                </tr>
+              </thead>
+              <tbody style="divide-y:1px solid var(--line);">
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">25 Sep 2026, 01:55 PM</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Kanohar</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">Above ₹895</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹850</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹925 – ₹950 – ₹975</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">Hold few weeks; breaking past multi-month resistance with decisive volume expansion.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">25 Sep 2026, 10:53 AM</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Sunflag Iron &amp; Steel <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">(SUNFLAG)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">Above ₹420</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹395</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹430 – ₹440 – ₹450 – ₹460</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">Hold few weeks; heavy institutional delivery accumulation seen on daily timeframe.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">25 Sep 2026, 10:34 AM</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Dixon Technologies <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">(DIXON)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">Above ₹13,480</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹13,350</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">+50 to +500 pts from entry</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">Hold few days; fast swing momentum, touched intra-day high of ₹13,514 on Sep 25.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">24 Sep 2026, 10:22 AM</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">ARCIL</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">Above ₹154</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹154 <span style="font-size:0.7rem;color:var(--muted);">(Tight SL)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹164 – ₹170 – ₹175</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">Hold few weeks; hit high of ₹156.50 on entry day, consolidating above breakout level.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">24 Sep 2026, 10:11 AM</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Raymond Realty <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">(RAYMONDREL)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">Above ₹710</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹650</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹735 – ₹750 – ₹775 – ₹800</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">Hold few weeks; surged straight to ₹741.95 on Sep 25 (+4.50% gain achieved).</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">24 Sep 2026, 09:57 AM</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Bharat Dynamics <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">(BDL)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">Above ₹1,185</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹1,175</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">+5 to +30 pts from entry</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">Hold few days; defense order inflow momentum continuation.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">23 Sep 2026, 02:40 PM</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Multi Commodity Exchange <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">(MCX)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">Above ₹3,440</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹3,380</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">+10 to +80 pts from entry</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">Hold few days; multi-timeframe commodity volume expansion.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">23 Sep 2026, 12:44 PM</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Tamilnad Mercantile Bank <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">(TMB)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">Above ₹916</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹890</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹940 – ₹960 – ₹980 – ₹1,000</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">Hold few weeks; regional banking accumulation base breakout.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">23 Sep 2026, 11:21 AM</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">GNA Axles <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">(GNA)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">Above ₹584</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹575</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹595 – ₹605 – ₹615</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">Hold few weeks; auto ancillary export momentum follow-through.</td>
+                </tr>
+                <tr>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">23 Sep 2026, 09:27 AM</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Elecon Engineering <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">(ELECON)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">Above ₹461</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹450</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹475 – ₹485 – ₹500</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">Hold few weeks; industrial gear transmission order backlog expansion.</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
+
+        <!-- ==================== TABLE 2: PERFORMANCE & TARGET ACHIEVEMENTS LOG ==================== -->
+        <div style="margin-bottom:1.5rem;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.5rem;">
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <h4 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.1rem;font-weight:800;color:var(--ink);">
+                Performance &amp; Target Achievements Log (Aug – Sep 2026)
+              </h4>
+              <span style="font-size:0.7rem;background:rgba(15,107,76,0.15);color:var(--gain);padding:0.15rem 0.5rem;border-radius:12px;font-weight:700;font-family:IBM Plex Mono,monospace;">100% CLAIM-FREE &amp; VERIFIED</span>
+            </div>
+            <span style="font-size:0.75rem;color:var(--muted);font-family:IBM Plex Mono,monospace;">Historical 1–2 Months Track Record</span>
+          </div>
+
+          <div style="overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);">
+            <table style="width:100%;border-collapse:collapse;text-align:left;font-size:0.83rem;">
+              <thead>
+                <tr style="background:rgba(0,0,0,0.03);border-bottom:1px solid var(--line);color:var(--muted);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px;font-family:IBM Plex Mono,monospace;">
+                  <th style="padding:0.75rem 1rem;white-space:nowrap;">Date Achieved / Update</th>
+                  <th style="padding:0.75rem 1rem;">Stock / Company</th>
+                  <th style="padding:0.75rem 1rem;white-space:nowrap;">Shared / Entry Price</th>
+                  <th style="padding:0.75rem 1rem;white-space:nowrap;">High Achieved</th>
+                  <th style="padding:0.75rem 1rem;white-space:nowrap;">Net Gain %</th>
+                  <th style="padding:0.75rem 1rem;min-width:260px;">Achievement Status &amp; Milestones</th>
+                </tr>
+              </thead>
+              <tbody style="divide-y:1px solid var(--line);">
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">25 Sep 2026</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Protean eGov Technologies</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--muted);">₹1,032.70</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹1,104.70</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:800;color:var(--gain);">+6.97%</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);"><span style="background:rgba(15,107,76,0.12);color:var(--gain);padding:0.15rem 0.45rem;border-radius:4px;font-size:0.75rem;font-weight:700;">TARGETS SMASHED</span> &middot; Smashed all targets in 2 trading sessions post recommendation.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">25 Sep 2026</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">AHCL</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--muted);">₹729.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹806.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:800;color:var(--gain);">+10.56%</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);"><span style="background:rgba(15,107,76,0.12);color:var(--gain);padding:0.15rem 0.45rem;border-radius:4px;font-size:0.75rem;font-weight:700;">TARGET ACHIEVED</span> &middot; Crossed target within 1 week of channel broadcast.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">24 Sep 2026</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Antelopus</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--muted);">₹158.50</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹197.40</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:800;color:var(--gain);">+24.54%</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);"><span style="background:rgba(15,107,76,0.12);color:var(--gain);padding:0.15rem 0.45rem;border-radius:4px;font-size:0.75rem;font-weight:700;">NEW 52W HIGH</span> &middot; Multi-week positional rally, printed new 52-week peak.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">24 Sep 2026</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Lalithaa Jewellery</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--muted);">₹262.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹317.50</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:800;color:var(--gain);">+21.18%</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);"><span style="background:rgba(15,107,76,0.12);color:var(--gain);padding:0.15rem 0.45rem;border-radius:4px;font-size:0.75rem;font-weight:700;">FESTIVE BOOM</span> &middot; Sustained retail accumulation driving massive swing expansion.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">24 Sep 2026</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Page Industries</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--muted);">₹44,200.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹45,376.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:800;color:var(--gain);">+2.66%</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);"><span style="background:rgba(15,107,76,0.12);color:var(--gain);padding:0.15rem 0.45rem;border-radius:4px;font-size:0.75rem;font-weight:700;">+1,176 PTS SWING</span> &middot; Rapid large-cap delivery pop within 24 hours of call.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">23 Sep 2026</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Motisons Jewellers</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--muted);">₹234.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹287.50</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:800;color:var(--gain);">+22.85%</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);"><span style="background:rgba(15,107,76,0.12);color:var(--gain);padding:0.15rem 0.45rem;border-radius:4px;font-size:0.75rem;font-weight:700;">MOMENTUM EXPANSION</span> &middot; All multi-targets hit with continuous upper circuits.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">20 Sep 2026</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Milky Mist</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--muted);">₹318.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹447.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:800;color:var(--gain);">+40.55%</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);"><span style="background:rgba(15,107,76,0.12);color:var(--gain);padding:0.15rem 0.45rem;border-radius:4px;font-size:0.75rem;font-weight:700;">MEGA MULTI-BAGGER</span> &middot; Positional hold from late August, delivered massive +40% gain.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">18 Sep 2026</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Indo-MIM</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--muted);">₹1,125.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹1,724.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:800;color:var(--gain);">+53.24%</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);"><span style="background:rgba(15,107,76,0.12);color:var(--gain);padding:0.15rem 0.45rem;border-radius:4px;font-size:0.75rem;font-weight:700;">+53% RUNNER</span> &middot; Precision aerospace injection moulding breakout over 3 weeks.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">16 Sep 2026</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Man Industries</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--muted);">₹380.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹583.75</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:800;color:var(--gain);">+53.62%</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);"><span style="background:rgba(15,107,76,0.12);color:var(--gain);padding:0.15rem 0.45rem;border-radius:4px;font-size:0.75rem;font-weight:700;">RECORD SURGE</span> &middot; Infrastructure pipe order ramp-up delivered 200+ points profit.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">12 Sep 2026</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">PC Jeweller</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--muted);">₹114.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹154.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:800;color:var(--gain);">+35.09%</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);"><span style="background:rgba(15,107,76,0.12);color:var(--gain);padding:0.15rem 0.45rem;border-radius:4px;font-size:0.75rem;font-weight:700;">DEBT RESOLUTION RUN</span> &middot; High beta turnaround trade executed flawlessly.</td>
+                </tr>
+                <tr>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">04 Sep 2026</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Technocraft Industries</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--muted);">₹2,240.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹3,346.45</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:800;color:var(--gain);">+49.39%</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);"><span style="background:rgba(15,107,76,0.12);color:var(--gain);padding:0.15rem 0.45rem;border-radius:4px;font-size:0.75rem;font-weight:700;">+1,106 PTS RALLY</span> &middot; Industrial drum closures exporter hit massive ATH rally.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ==================== CHANNEL STRATEGY & RULES CARD ==================== -->
+        <div style="background:rgba(0,136,204,0.05);border:1px solid rgba(0,136,204,0.2);border-radius:10px;padding:1rem 1.25rem;">
+          <h4 style="margin:0 0 0.5rem 0;font-size:0.95rem;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:0.4rem;">
+            <span>🛡️ Key StockPro Strategy &amp; Risk Rules (By Dr. Seema Jain)</span>
+          </h4>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:0.75rem;font-size:0.78rem;color:var(--ink-light);line-height:1.45;">
+            <div>
+              <strong style="color:#0088cc;">1. Strict Trigger Confirmation:</strong> Always enter only when the stock sustains <span style="font-family:IBM Plex Mono,monospace;font-weight:700;">Above</span> the specified trigger price with volume. Never pre-empt before the level triggers.
+            </div>
+            <div>
+              <strong style="color:var(--loss);">2. Closing Basis Stop-Loss:</strong> Stop-loss is evaluated strictly on a <em>daily candle closing basis</em>. If a stock trades below SL intraday but closes above, the setup remains valid.
+            </div>
+            <div>
+              <strong style="color:var(--gain);">3. Profit Booking &amp; Trailing:</strong> Book 50% profit immediately upon reaching Target 1, and trail the stop-loss to cost (entry price) for holding toward subsequent targets.
+            </div>
+          </div>
+        </div>
+
       </div>
-
-
-
-<div class="kpi-strip" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 1.5rem;">
-<div class="kpi-tile">
-<span class="lbl">⚡ Latest Alert (27 Sep 2026)</span>
-<span class="val num gain">Bharat Dynamics</span>
-<span class="sub">+₹810 Cr MoD Contract | Tgt ₹1,550</span>
-</div>
-<div class="kpi-tile">
-<span class="lbl">Power &amp; Clean Energy</span>
-<span class="val num" style="color:#25D366;">NTPC Limited</span>
-<span class="sub">EDF Hydro JV Signed | Tgt ₹490</span>
-</div>
-<div class="kpi-tile">
-<span class="lbl">Solar &amp; Semiconductor</span>
-<span class="val num" style="color:#25D366;">Waaree Energies</span>
-<span class="sub">2 GW Order &amp; Semi Gas | Tgt ₹3,150</span>
-</div>
-<div class="kpi-tile">
-<span class="lbl">Active Community Setup</span>
-<span class="val num">32 Setups</span>
-<span class="sub">Average Risk-to-Reward 1 : 2.85</span>
-</div>
-</div>
-<div class="section-head">
-<div class="section-head-left">
-<h2>Swing Trading Desk · 1–2 Weeks Horizon</h2>
-<span class="count">5 high-probability setups</span>
-</div>
-</div>
-<p class="section-note">Researched based on last week's momentum breakouts, volume expansion, and fresh catalyst flows. Engineered for <strong>7–14 calendar days</strong> holding with strict risk:reward ratios (≥ 1:2.3).</p>
-<div class="sync-status-bar">
-<div class="sync-indicator">
-<span class="sync-dot"></span>
-<span id="live-sync-text">Auto-Sync Active: WhatsApp (Swing Pool) &amp; Telegram (StockPro)</span>
-</div>
-<div style="display:flex;align-items:center;gap:0.5rem;">
-<span id="sync-time-text" style="font-family:IBM Plex Mono,monospace;font-size:0.7rem;color:var(--muted);">Synced just now</span>
-<button class="btn-live-sync" id="btn-trigger-sync">
-            ↻ Sync Feeds Now
-          </button>
-</div>
-</div>
-<!-- SATISH SWING POOL (WHATSAPP) LIVE STREAM SECTION -->
-<div class="swing-desk-card" style="border-top-color:#25D366;margin-bottom:1.5rem;">
-<div class="section-head" style="margin-bottom:0.2rem;">
-<div class="section-head-left">
-<h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.2rem;display:flex;align-items:center;gap:0.5rem;">
-<span>🏊 Swing Pool PRO · Live Community Stream</span>
-</h3>
-</div>
-<span class="whatsapp-feed-badge">
-<svg fill="currentColor" height="14" viewbox="0 0 24 24" width="14"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"></path></svg>
-            Swing Pool Group (120363408700357361@g.us)
-          </span>
-</div>
-<p class="section-note" style="margin:0;">Curated stock recommendations directly from Swing Pool (Australia) in the Swing Pool group. Click any setup to load into the Dynamic Profit Planner.</p>
-<div class="stockpro-grid">
-<!-- FINEOTEX CHEMICAL (FCL) - FRESH LATEST AUG 30 -->
-<div class="stockpro-item-card" data-stock="Fineotex Chemical" style="border-left-color:#25D366;border-width:2px;box-shadow:0 0 12px rgba(37,211,102,0.2);">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Fineotex Chemical (FCL)</span>
-<span class="stockpro-status" style="background:#25D366;color:#000;font-weight:800;">⚡ Fresh Aug 30 Alert</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:35 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹48–₹50</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹43.00</span></div>
-<div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹58 / ₹65 (ST: ₹82–₹100)</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;"><strong>Swing Pool (12:34 PM):</strong> "Swing Trade &amp; Monthly SIP Stock. Swing target 58/65, short term 82/100."</div>
-</div>
-<!-- ANTHEM BIOSCIENCES -->
-<div class="stockpro-item-card" data-stock="Anthem Bioscience" style="border-left-color:#25D366;">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Anthem Biosciences</span>
-<span class="stockpro-status" style="background:rgba(37,211,102,0.15);color:#25D366;">IPO Base Breakout</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:15 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹923.00</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹872.00</span></div>
-<div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹1,090–₹1,250</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;"><strong>Swing Pool:</strong> "Portfolio Pick — Fresh Buy at CMP. Swing target 1,090+, short term 1,250+."</div>
-</div>
-<!-- E2E NETWORKS -->
-<div class="stockpro-item-card" data-stock="E2E Networks" style="border-left-color:#25D366;">
-<div class="stockpro-item-head">
-<span class="stockpro-title">E2E Networks (AI Cloud)</span>
-<span class="stockpro-status" style="background:rgba(37,211,102,0.15);color:#25D366;">Short Term Trade</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:15 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry (60%)</span><span class="v num">₹627.00</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹555.00</span></div>
-<div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹820+ (+30%)</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;"><strong>Swing Pool:</strong> "First tranche 60% @ 627, second dip @ 595. Target 820+."</div>
-</div>
-<!-- FEDERAL MOGUL SWING POOL -->
-<div class="stockpro-item-card" data-stock="Federal-Mogul" style="border-left-color:#25D366;">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Federal-Mogul Goetze</span>
-<span class="stockpro-status" style="background:rgba(37,211,102,0.15);color:#25D366;">₹94 Dividend + Swing</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:15 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹534–₹582</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹499.00</span></div>
-<div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹628++ (+17%)</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;"><strong>Swing Pool:</strong> "Perfect Setup — ₹94/share dividend declared. Swing target 628+."</div>
-</div>
-<!-- KARUR VYSYA BANK -->
-<div class="stockpro-item-card" data-stock="Karur Vysya Bank" style="border-left-color:#25D366;">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Karur Vysya Bank (KVB)</span>
-<span class="stockpro-status" style="background:rgba(37,211,102,0.15);color:#25D366;">Banking Swing</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:15 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹355.00</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹330.00</span></div>
-<div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹400.00 (+12.7%)</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;"><strong>Swing Pool:</strong> "Strong asset quality and valuation discount. Target 400."</div>
-</div>
-<!-- BALU FORGE -->
-<div class="stockpro-item-card" data-stock="Balu Forge" style="border-left-color:#25D366;">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Balu Forge</span>
-<span class="stockpro-status" style="background:rgba(37,211,102,0.15);color:#25D366;">Multi-bagger</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:15 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹555.00</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹510.00</span></div>
-<div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹680.00 (+22%)</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;"><strong>Swing Pool:</strong> "High conviction defense/precision forging growth play."</div>
-</div>
-<!-- REDINGTON -->
-<div class="stockpro-item-card" data-stock="Redington India" style="border-left-color:#25D366;">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Redington India</span>
-<span class="stockpro-status" style="background:rgba(37,211,102,0.15);color:#25D366;">Swing Play</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:18 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹360.00</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹342.00</span></div>
-<div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹390+++ (+8.3%)</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;"><strong>Swing Pool:</strong> "Clean base breakout with strong IT hardware demand."</div>
-</div>
-</div>
-</div>
-<!-- IPO Section moved to dedicated #tab-ipo tab panel -->
-<p class="section-note" style="margin:0;">Live Grey Market Premiums (GMP), subscription demand ratios, and post-listing swing opportunities. Click any card to load into the Profit Planner.</p>
-<div class="stockpro-grid">
-<!-- TEMPSENS INSTRUMENTS -->
-<div class="stockpro-item-card" data-stock="Tempsens Instruments" style="border-left-color:#F5A623;">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Tempsens Instruments</span>
-<span class="gmp-badge">+111.3% Debut</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:00 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹640.00</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹595.00</span></div>
-<div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹740.00 (+15.6%)</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Listed at ₹634 against ₹300 IPO issue price. High-volume delivery markup continuation.</div>
-</div>
-<!-- HERO MOTORS -->
-<div class="stockpro-item-card" data-stock="Hero Motors" style="border-left-color:#F5A623;">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Hero Motors</span>
-<span class="ipo-feed-badge" style="padding:0.1rem 0.4rem;font-size:0.65rem;">₹1,000 Cr Issue</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:00 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Est. Band</span><span class="v num">₹4,850.00</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹4,680.00</span></div>
-<div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹5,300.00 (+9.3%)</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Revised IPO size to ₹1,000 Cr (Fresh ₹600 Cr + OFS ₹400 Cr). Major auto components proxy.</div>
-</div>
-<!-- SKYWAYS AIR SERVICES -->
-<div class="stockpro-item-card" data-stock="Skyways Air Services" style="border-left-color:#F5A623;">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Skyways Air Services</span>
-<span class="gmp-badge">GMP +32%</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:00 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Issue Price</span><span class="v num">₹138.00</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹128.00</span></div>
-<div class="swing-lvl-col"><span class="k">Est. Listing</span><span class="v num gain">₹182.00 (+32%)</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Air cargo logistics &amp; international freight forwarding. Heavy HNI subscription oversubscription.</div>
-</div>
-<!-- SYMBIOTEC PHARMALAB -->
-<div class="stockpro-item-card" data-stock="Symbiotec Pharmalab" style="border-left-color:#F5A623;">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Symbiotec Pharmalab</span>
-<span class="gmp-badge">GMP +27%</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:00 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Issue Price</span><span class="v num">₹960.00</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹910.00</span></div>
-<div class="swing-lvl-col"><span class="k">Est. Listing</span><span class="v num gain">₹1,220.00 (+27%)</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Active Pharmaceutical Ingredients (APIs) &amp; steroid formulation global supplier.</div>
-</div>
-<!-- HY-TECH ENGINEERS -->
-<div class="stockpro-item-card" data-stock="Hy-Tech Engineers" style="border-left-color:#F5A623;">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Hy-Tech Engineers</span>
-<span class="gmp-badge">GMP +85%</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:00 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Issue Price</span><span class="v num">₹53.00</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹48.00</span></div>
-<div class="swing-lvl-col"><span class="k">Est. Listing</span><span class="v num gain">₹98.00 (+85%)</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Aerospace CNC machining &amp; precision components. 138x retail oversubscription.</div>
-</div>
-<!-- ANTHEM BIOSCIENCES IPO -->
-<div class="stockpro-item-card" data-stock="Anthem Biosciences" style="border-left-color:#F5A623;">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Anthem Biosciences</span>
-<span class="gmp-badge">Base Breakout</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:15 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹923.00</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹872.00</span></div>
-<div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹1,090–₹1,250</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">CDMO biology platform post-listing base formation with robust institutional accumulation.</div>
-</div>
-</div>
-</div>
-<!-- INSTAGRAM (@stockmarket_times) LIVE CHANNEL FEED SECTION -->
-<div class="swing-desk-card" style="border-top-color:#E1306C;margin-bottom:1.5rem;">
-<div class="section-head" style="margin-bottom:0.2rem;">
-<div class="section-head-left">
-<h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.2rem;display:flex;align-items:center;gap:0.5rem;">
-<span>📸 StockMarket Times · Instagram Stream</span>
-</h3>
-</div>
-<div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
-<a class="stockpro-feed-badge" href="https://t.me/stockmarkettimes_updates" rel="noopener" target="_blank">
-<svg fill="currentColor" height="14" viewbox="0 0 24 24" width="14"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.05-.49-.83-.27-1.49-.42-1.43-.88.03-.24.37-.49 1.02-.75 4-1.74 6.67-2.89 8.02-3.45 3.82-1.59 4.61-1.87 5.13-1.88.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.21-.04.33z"></path></svg>
-              Telegram: @stockmarkettimes_updates
-            </a>
-<a class="instagram-feed-badge" href="https://www.instagram.com/stockmarket_times/" rel="noopener" target="_blank">
-<svg fill="currentColor" height="14" viewbox="0 0 24 24" width="14"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
-              Instagram: @stockmarket_times
-            </a>
-</div>
-</div>
-<p class="section-note" style="margin:0;">High-engagement retail momentum, breakout alerts, and institutional volume tracking from StockMarket Times. Click any card to calculate position sizing.</p>
-<div class="stockpro-grid">
-<!-- LAURUS LABS (MSCI INFLOW BREAKOUT) -->
-<div class="stockpro-item-card" data-stock="Laurus Labs" style="border-left-color:#E1306C;">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Laurus Labs (MSCI Flow)</span>
-<span class="stockpro-status" style="background:rgba(225,48,108,0.15);color:#E1306C;">+$598M Inflow</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:15 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹478.00</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹452.00</span></div>
-<div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹540.00 (+13%)</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Major beneficiary of Aug 31 MSCI Index rebalancing with massive foreign institutional buying.</div>
-</div>
-<!-- ADANI ENERGY SOLUTIONS -->
-<div class="stockpro-item-card" data-stock="Adani Energy Solutions" style="border-left-color:#E1306C;">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Adani Energy Solutions</span>
-<span class="stockpro-status" style="background:rgba(225,48,108,0.15);color:#E1306C;">+$310M Inflow</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:15 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹1,045.00</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹990.00</span></div>
-<div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹1,180.00 (+13%)</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Smart metering grid expansion and MSCI passive flow rebalancing trigger.</div>
-</div>
-<!-- JIO FINANCIAL -->
-<div class="stockpro-item-card" data-stock="Jio Financial" style="border-left-color:#E1306C;">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Jio Financial Services</span>
-<span class="stockpro-status" style="background:rgba(225,48,108,0.15);color:#E1306C;">Fintech Breakout</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:15 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹338.00</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹318.00</span></div>
-<div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹385.00 (+14%)</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">BlackRock JV licensing approval catalyst &amp; expanding mutual fund AUM footprint.</div>
-</div>
-<!-- SUZLON ENERGY -->
-<div class="stockpro-item-card" data-stock="Suzlon Energy" style="border-left-color:#E1306C;">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Suzlon Energy</span>
-<span class="stockpro-status" style="background:rgba(225,48,108,0.15);color:#E1306C;">Green Energy Play</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:15 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹74.50</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹68.00</span></div>
-<div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹88.00 (+18%)</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Record 5.4 GW order book and commercial wind turbine execution surge.</div>
-</div>
-<!-- TATA POWER -->
-<div class="stockpro-item-card" data-stock="Tata Power" style="border-left-color:#E1306C;">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Tata Power</span>
-<span class="stockpro-status" style="background:rgba(225,48,108,0.15);color:#E1306C;">Solar &amp; EV Infra</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:15 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹435.00</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹412.00</span></div>
-<div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹485.00 (+11.5%)</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Rooftop solar solarization scheme and EV fast-charging network rollout.</div>
-</div>
-<!-- CDSL -->
-<div class="stockpro-item-card" data-stock="CDSL" style="border-left-color:#E1306C;">
-<div class="stockpro-item-head">
-<span class="stockpro-title">CDSL (Central Depository)</span>
-<span class="stockpro-status" style="background:rgba(225,48,108,0.15);color:#E1306C;">Market Volume Proxy</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:15 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">₹1,640.00</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹1,560.00</span></div>
-<div class="swing-lvl-col"><span class="k">Target</span><span class="v num gain">₹1,850.00 (+12.8%)</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Record 13+ crore active demat accounts and IPO pipeline volume beneficiary.</div>
-</div>
-</div>
-</div>
-<!-- STOCKPRO ONLINE LIVE CHANNEL FEED SECTION -->
-<div class="swing-desk-card" style="border-top-color:#0088cc;margin-bottom:1.5rem;">
-<div class="section-head" style="margin-bottom:0.2rem;">
-<div class="section-head-left">
-<h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.2rem;display:flex;align-items:center;gap:0.5rem;">
-<span>📡 StockPro Online · Verified Channel Stream</span>
-</h3>
-</div>
-<a class="stockpro-feed-badge" href="https://t.me/stockpro_online" rel="noopener" target="_blank">
-<svg fill="currentColor" height="14" viewbox="0 0 24 24" width="14"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.05-.49-.83-.27-1.49-.42-1.43-.88.03-.24.37-.49 1.02-.75 4-1.74 6.67-2.89 8.02-3.45 3.82-1.59 4.61-1.87 5.13-1.88.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.21-.04.33z"></path></svg>
-            @stockpro_online (Live Synced)
-          </a>
-</div>
-<p class="section-note" style="margin:0;">Retrieved latest research &amp; price action alerts from SEBI RA Dr. Seema Jain's StockPro channel. Click any card to load into the Position Calculator.</p>
-<div class="stockpro-grid">
-<!-- DIXON -->
-<div class="stockpro-item-card" data-entry="14930" data-sl="14700" data-stock="Dixon Tech" data-tgt="15530">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Dixon Tech (DIXON)</span>
-<span class="stockpro-status">Positional Alert</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:20 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">&gt; ₹14,930</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹14,700</span></div>
-<div class="swing-lvl-col"><span class="k">Targets</span><span class="v num gain">+100 to +600 pts</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Based on price action and massive order inflow. Volume breakout ready.</div>
-</div>
-<!-- TEJAS NETWORKS -->
-<div class="stockpro-item-card" data-entry="570" data-sl="530" data-stock="Tejas Networks" data-tgt="650">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Tejas Networks (TEJASNET)</span>
-<span class="stockpro-status">Few Weeks Hold</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:25 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry</span><span class="v num">&gt; ₹568–₹570</span></div>
-<div class="swing-lvl-col"><span class="k">Stop-Loss</span><span class="v num loss">₹530</span></div>
-<div class="swing-lvl-col"><span class="k">Targets</span><span class="v num gain">₹600–₹675</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Ready to cross past resistance barriers with heavy delivery volume.</div>
-</div>
-<!-- MV ELECTROSYSTEMS -->
-<div class="stockpro-item-card" data-entry="675" data-sl="640" data-stock="MV Electrosystems" data-tgt="768">
-<div class="stockpro-item-head">
-<span class="stockpro-title">MV Electrosystems</span>
-<span class="stockpro-status" style="background:var(--gain-soft);color:var(--gain);">Hit ₹768 Target 🎯</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:30 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry Trigger</span><span class="v num">&gt; ₹675</span></div>
-<div class="swing-lvl-col"><span class="k">High Hit</span><span class="v num gain">₹768 (+13.7%)</span></div>
-<div class="swing-lvl-col"><span class="k">Momentum</span><span class="v num gain">Ultra High</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Powerful blast triggered right after morning research shared above ₹675.</div>
-</div>
-<!-- FEDERAL MOGUL -->
-<div class="stockpro-item-card" data-entry="582" data-sl="555" data-stock="Federal-Mogul" data-tgt="615">
-<div class="stockpro-item-head">
-<span class="stockpro-title">Federal-Mogul Goetze</span>
-<span class="stockpro-status" style="background:var(--gain-soft);color:var(--gain);">Hit ₹614.80 🎯</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);font-size:0.67rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;">📅 Rec: 19 Sep 2026, 09:15 IST</span></div>
-<div class="swing-levels-box" style="padding:0.5rem 0.65rem;">
-<div class="swing-lvl-col"><span class="k">Entry Trigger</span><span class="v num">&gt; ₹582</span></div>
-<div class="swing-lvl-col"><span class="k">High Hit</span><span class="v num gain">₹614.80 (+5.6%)</span></div>
-<div class="swing-lvl-col"><span class="k">Breakout</span><span class="v num">Confirmed</span></div>
-</div>
-<div style="font-size:0.78rem;color:var(--muted);line-height:1.4;">Clean multi-day consolidation breakout with institutional follow-through.</div>
-</div>
-</div>
-</div>
-<div class="swing-grid">
-<!-- SETUP 1: WELSPUN CORP -->
-<div class="swing-card" data-stock="Welspun Corp">
-<div class="swing-card-head">
-<div class="swing-card-title">
-<h3>Welspun Corp</h3>
-<span class="stk-ticker">NSE: WELSPUNCORP · Large Cap</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(0,208,156,0.14);color:var(--accent);border:1px solid rgba(0,208,156,0.3);font-size:0.68rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;margin-top:0.25rem;">📅 Recommended: 19 Sep 2026, 10:45 IST</span></div>
-<span class="swing-badge-horizon">1–2W Breakout</span>
-</div>
-<div class="swing-levels-box">
-<div class="swing-lvl-col">
-<span class="k">Entry Range</span>
-<span class="v num">₹2,360–₹2,385</span>
-</div>
-<div class="swing-lvl-col">
-<span class="k">Target (1-2W)</span>
-<span class="v num gain">₹2,620 (+10.5%)</span>
-</div>
-<div class="swing-lvl-col">
-<span class="k">Stop-Loss</span>
-<span class="v num loss">₹2,260 (-4.6%)</span>
-</div>
-</div>
-<div class="swing-stat-pill-row">
-<span class="swing-pill">Risk:Reward <strong>1 : 2.3</strong></span>
-<span class="swing-pill">Trigger: <strong>$1.8B US Order</strong></span>
-<span class="swing-pill">Target 1: <strong>₹2,520</strong></span>
-</div>
-<div class="watch-field">
-<span class="k">Technical &amp; Catalyst Rationale</span>
-<span class="v" style="font-size:0.83rem;line-height:1.45;">
-              Stock printed a fresh all-time high on 3.4x 20-day average volume after landing the $1.8bn US order. Consolidated tight on Friday. A sustained move above ₹2,380 triggers continuation towards Nuvama's upgraded ₹2,656 target.
-            </span>
-</div>
-</div>
-<!-- SETUP 2: HINDUSTAN ZINC -->
-<div class="swing-card" data-stock="Hindustan Zinc">
-<div class="swing-card-head">
-<div class="swing-card-title">
-<h3>Hindustan Zinc</h3>
-<span class="stk-ticker">NSE: HINDZINC · Metals</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(0,208,156,0.14);color:var(--accent);border:1px solid rgba(0,208,156,0.3);font-size:0.68rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;margin-top:0.25rem;">📅 Recommended: 19 Sep 2026, 09:15 IST</span></div>
-<span class="swing-badge-horizon">1–2W Squeeze</span>
-</div>
-<div class="swing-levels-box">
-<div class="swing-lvl-col">
-<span class="k">Entry Range</span>
-<span class="v num">₹618–₹625</span>
-</div>
-<div class="swing-lvl-col">
-<span class="k">Target (1-2W)</span>
-<span class="v num gain">₹715 (+14.8%)</span>
-</div>
-<div class="swing-lvl-col">
-<span class="k">Stop-Loss</span>
-<span class="v num loss">₹588 (-5.4%)</span>
-</div>
-</div>
-<div class="swing-stat-pill-row">
-<span class="swing-pill">Risk:Reward <strong>1 : 2.7</strong></span>
-<span class="swing-pill">Trigger: <strong>Zinc Spot +31%</strong></span>
-<span class="swing-pill">Target 1: <strong>₹675</strong></span>
-</div>
-<div class="watch-field">
-<span class="k">Technical &amp; Catalyst Rationale</span>
-<span class="v" style="font-size:0.83rem;line-height:1.45;">
-              Spot zinc and silver rally on severe mine constraints outside China. Jefferies upgrade to ₹750 catalyzed massive institutional turnover. Weekly chart shows a multi-week cup-and-handle breakout ready for extension.
-            </span>
-</div>
-</div>
-<!-- SETUP 3: BHARAT ELECTRONICS -->
-<div class="swing-card" data-stock="Bharat Electronics (BEL)">
-<div class="swing-card-head">
-<div class="swing-card-title">
-<h3>Bharat Electronics</h3>
-<span class="stk-ticker">NSE: BEL · Defence PSU</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(0,208,156,0.14);color:var(--accent);border:1px solid rgba(0,208,156,0.3);font-size:0.68rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;margin-top:0.25rem;">📅 Recommended: 19 Sep 2026, 09:15 IST</span></div>
-<span class="swing-badge-horizon">1–2W Pullback</span>
-</div>
-<div class="swing-levels-box">
-<div class="swing-lvl-col">
-<span class="k">Entry Range</span>
-<span class="v num">₹408–₹414</span>
-</div>
-<div class="swing-lvl-col">
-<span class="k">Target (1-2W)</span>
-<span class="v num gain">₹462 (+11.8%)</span>
-</div>
-<div class="swing-lvl-col">
-<span class="k">Stop-Loss</span>
-<span class="v num loss">₹392 (-4.3%)</span>
-</div>
-</div>
-<div class="swing-stat-pill-row">
-<span class="swing-pill">Risk:Reward <strong>1 : 2.6</strong></span>
-<span class="swing-pill">Trigger: <strong>Tejas 97 Jet Book</strong></span>
-<span class="swing-pill">Target 1: <strong>₹445</strong></span>
-</div>
-<div class="watch-field">
-<span class="k">Technical &amp; Catalyst Rationale</span>
-<span class="v" style="font-size:0.83rem;line-height:1.45;">
-              BEL completed a 4-day shallow pullback to its 20-day EMA support zone and bounced firmly on Friday. Defence PSU basket is witnessing consistent domestic mutual fund inflows; HDFC Securities target stands at ₹490.
-            </span>
-</div>
-</div>
-<!-- SETUP 4: MASTEK -->
-<div class="swing-card" data-stock="Mastek">
-<div class="swing-card-head">
-<div class="swing-card-title">
-<h3>Mastek</h3>
-<span class="stk-ticker">NSE: MASTEK · IT Services</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(0,208,156,0.14);color:var(--accent);border:1px solid rgba(0,208,156,0.3);font-size:0.68rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;margin-top:0.25rem;">📅 Recommended: 19 Sep 2026, 09:15 IST</span></div>
-<span class="swing-badge-horizon reversal">1–2W Reversal</span>
-</div>
-<div class="swing-levels-box">
-<div class="swing-lvl-col">
-<span class="k">Entry Range</span>
-<span class="v num">₹1,885–₹1,915</span>
-</div>
-<div class="swing-lvl-col">
-<span class="k">Target (1-2W)</span>
-<span class="v num gain">₹2,140 (+12.2%)</span>
-</div>
-<div class="swing-lvl-col">
-<span class="k">Stop-Loss</span>
-<span class="v num loss">₹1,815 (-4.5%)</span>
-</div>
-</div>
-<div class="swing-stat-pill-row">
-<span class="swing-pill">Risk:Reward <strong>1 : 2.5</strong></span>
-<span class="swing-pill">Trigger: <strong>Tech Short Squeeze</strong></span>
-<span class="swing-pill">Target 1: <strong>₹2,060</strong></span>
-</div>
-<div class="watch-field">
-<span class="k">Technical &amp; Catalyst Rationale</span>
-<span class="v" style="font-size:0.83rem;line-height:1.45;">
-              Surged +17.98% on Friday breaking out of a 2-month base as global tech sentiment flipped bullish post Nvidia Q2. High-beta setup with RSI crossing 60; ideal candidate for a 1–2 week momentum follow-through.
-            </span>
-</div>
-</div>
-<!-- SETUP 5: ATHER ENERGY -->
-<div class="swing-card" data-stock="Ather Energy">
-<div class="swing-card-head">
-<div class="swing-card-title">
-<h3>Ather Energy</h3>
-<span class="stk-ticker">NSE: ATHERENERGY · EV Auto</span>
-
-<span class="rec-date-tag" style="display:inline-flex;align-items:center;gap:0.25rem;background:rgba(0,208,156,0.14);color:var(--accent);border:1px solid rgba(0,208,156,0.3);font-size:0.68rem;padding:0.12rem 0.45rem;border-radius:4px;font-family:IBM Plex Mono,monospace;font-weight:700;margin-top:0.25rem;">📅 Recommended: 19 Sep 2026, 09:15 IST</span></div>
-<span class="swing-badge-horizon">1–2W Momentum</span>
-</div>
-<div class="swing-levels-box">
-<div class="swing-lvl-col">
-<span class="k">Entry Range</span>
-<span class="v num">₹1,600–₹1,625</span>
-</div>
-<div class="swing-lvl-col">
-<span class="k">Target (1-2W)</span>
-<span class="v num gain">₹1,840 (+13.8%)</span>
-</div>
-<div class="swing-lvl-col">
-<span class="k">Stop-Loss</span>
-<span class="v num loss">₹1,515 (-5.8%)</span>
-</div>
-</div>
-<div class="swing-stat-pill-row">
-<span class="swing-pill">Risk:Reward <strong>1 : 2.4</strong></span>
-<span class="swing-pill">Trigger: <strong>EV Share Expansion</strong></span>
-<span class="swing-pill">Target 1: <strong>₹1,760</strong></span>
-</div>
-<div class="watch-field">
-<span class="k">Technical &amp; Catalyst Rationale</span>
-<span class="v" style="font-size:0.83rem;line-height:1.45;">
-              Gained 33% over 1 month and 127% over 6 months. Clean ascending channel structure with expanding delivery percentages. Volume expansion on Friday confirmed strong accumulator interest.
-            </span>
-</div>
-</div>
-</div>
 <!-- UPGRADED INTERACTIVE POSITION SIZER & RISK MANAGER -->
 <div class="swing-calc-container" id="swing-calculator-box">
 <div class="swing-calc-header">
