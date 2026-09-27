@@ -4402,7 +4402,7 @@ footer {
     <!-- Navigation Tabs -->
     <nav class="tabs" role="tablist" aria-label="Portal sections">
       <button class="tab-btn" role="tab" aria-selected="true" aria-controls="tab-stocks" id="tabbtn-stocks">Stocks</button>
-      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-swingpool" id="tabbtn-swingpool">StockPro Telegram <span class="tab-badge" style="background:rgba(0,136,204,0.18);color:#0088cc;border-color:rgba(0,136,204,0.35);">VERIFIED</span></button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-swingpool" id="tabbtn-swingpool">Swing Recommendations <span class="tab-badge" style="background:rgba(0,136,204,0.18);color:#0088cc;border-color:rgba(0,136,204,0.35);">VERIFIED</span></button>
       <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-ipo" id="tabbtn-ipo">IPO <span class="tab-badge" style="background:rgba(245,166,35,0.2);color:#F5A623;border-color:rgba(245,166,35,0.4);">LIVE</span></button>
       <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-etfs" id="tabbtn-etfs">ETFs</button>
       <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-mf" id="tabbtn-mf">Mutual Funds</button>
@@ -6126,11 +6126,11 @@ function filterActionCards(type, btn) {
 <div class="masthead-top">
 <span class="eyebrow" style="color:#0088cc;display:inline-flex;align-items:center;gap:0.4rem;">
   <span style="width:8px;height:8px;border-radius:50%;background:#0088cc;display:inline-block;box-shadow:0 0 8px #0088cc;animation:pulse-dot 1.2s infinite;"></span>
-  📡 StockPro Online · Verified Channel Stream
+  🏊 Swing Pool PRO &middot; Dual Verified Trade Streams
 </span>
-<span class="timestamp" style="color:#0088cc;">🔵 Telegram: @stockpro_online &middot; Dr. Seema Jain (PhD IIT Delhi, SEBI Reg. Analyst)</span>
+<span class="timestamp" style="color:var(--muted);">🟢 WhatsApp: Swing Pool &middot; 🔵 Telegram: @stockpro_online</span>
 </div>
-<h1 style="font-family:'Newsreader',serif;font-size:2.2rem;font-weight:400;margin:0.25rem 0 0.5rem 0;">StockPro Online &middot; Verified Channel Stream <span class="tab-badge" style="background:rgba(0,136,204,0.18);color:#0088cc;border-color:rgba(0,136,204,0.35);font-size:0.9rem;vertical-align:middle;">TELEGRAM</span></h1>
+<h1 style="font-family:'Newsreader',serif;font-size:2.2rem;font-weight:400;margin:0.25rem 0 0.5rem 0;">Swing Trading Recommendations <span class="tab-badge" style="background:rgba(37,211,102,0.18);color:#25D366;border-color:rgba(37,211,102,0.35);font-size:0.9rem;vertical-align:middle;">WHATSAPP + TELEGRAM</span></h1>
 <p class="dek">Live verified positional research, high-conviction momentum swing trade setups, and 1–2 months target achievement performance logs streamed directly from StockPro Online on Telegram.</p>
 </div>
 <div style="display:flex;align-items:center;gap:0.6rem;margin-top:0.5rem;">
@@ -6172,244 +6172,188 @@ function filterActionCards(type, btn) {
 <!-- PROTECTED SWING TRADING WRAPPER -->
 
     <div id="swing-trading-protected-wrap" style="display:none;">
-
-      
-                        <!-- ==================== TRADINGVIEW LIVE INTERACTIVE CHART & WINDOW DESK ==================== -->
-      <div class="tv-chart-desk-card" id="tradingview-chart-section">
-        <div class="tv-desk-header">
-          <div style="display:flex;align-items:center;gap:0.75rem;">
-            <div style="width:38px;height:38px;border-radius:10px;background:rgba(41,98,255,0.15);color:#2962FF;display:flex;align-items:center;justify-content:center;font-size:1.3rem;">📈</div>
-            <div>
-              <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.2rem;font-weight:800;display:flex;align-items:center;gap:0.5rem;">
-                <span>TradingView Technical Radar &middot; Multi-Timeframe Chart</span>
-                <span class="daily-order-tag" style="background:rgba(41,98,255,0.15);color:#2962FF;">ACTIVE RADAR</span>
-              </h3>
-              <div style="font-size:0.75rem;color:var(--muted);margin-top:0.15rem;">Interactive candlestick chart, 20 EMA overlay, RSI indicator, and 1-click TradingView Window launcher.</div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:0.5rem;">
-            <button class="chat-inline-btn" id="btn-open-tv-window" onclick="openTradingViewWindow()" style="background:#2962FF;color:#fff;border-color:#2962FF;font-weight:800;padding:0.45rem 1rem;">
-              🚀 Open in TradingView Window ↗
-            </button>
-          </div>
-        </div>
-
-        <!-- QUICK STOCK SELECTOR TABS -->
-        <div class="tv-symbol-bar">
-          <button class="btn-tv-sym" data-symbol="NSE:SHAREINDIA" data-name="Share India" onclick="selectStockChart('NSE:SHAREINDIA', 'Share India', 'Telegram Positional Breakout', '213.00', 'BUY', '66.2', '205.00', this)">
-            <span>⚡ Share India</span>
-          </button>
-          <button class="btn-tv-sym" data-symbol="NSE:SRF" data-name="SRF Limited" onclick="selectStockChart('NSE:SRF', 'SRF Ltd', 'Telegram Chemical Breakout', '2556.00', 'BUY', '67.4', '2525.00', this)">
-            <span>🧪 SRF</span>
-          </button>
-          <button class="btn-tv-sym" data-symbol="NSE:NOVARTIND" data-name="Novartis India" onclick="selectStockChart('NSE:NOVARTIND', 'Novartis India', '20% Upper Circuit', '2410.00', 'STRONG BUY', '78.5', '2300.00', this)">
-            <span>🚀 Novartis</span>
-          </button>
-          <button class="btn-tv-sym" data-symbol="NSE:POLYPLEX" data-name="Polyplex Corp" onclick="selectStockChart('NSE:POLYPLEX', 'Polyplex Corp', 'BOPET Film Breakout', '1185.00', 'STRONG BUY', '64.5', '1140.00', this)">
-            <span>📦 Polyplex</span>
-          </button>
-          <button class="btn-tv-sym" data-symbol="NSE:APLAPOLLO" data-name="APL Apollo Tubes" onclick="selectStockChart('NSE:APLAPOLLO', 'APL Apollo Tubes', 'Infra Tube Breakout', '2265.00', 'STRONG BUY', '66.8', '2190.00', this)">
-            <span>🍁 APL Apollo</span>
-          </button>
-          <button class="btn-tv-sym active" data-symbol="NSE:HINDZINC" data-name="Hindustan Zinc" onclick="selectStockChart('NSE:HINDZINC', 'Hindustan Zinc', 'Commodity Squeeze', '622.00', 'STRONG BUY', '68.2', '594.00', this)">
-            <span>⚡ Hind Zinc</span>
-          </button>
-          <button class="btn-tv-sym" data-symbol="NSE:WELCORP" data-name="Welspun Corp" onclick="selectStockChart('NSE:WELCORP', 'Welspun Corp', 'ATH Breakout', '2373.80', 'STRONG BUY', '71.4', '2180.00', this)">
-            <span>📊 Welspun Corp</span>
-          </button>
-          <button class="btn-tv-sym" data-symbol="NSE:BEL" data-name="Bharat Electronics" onclick="selectStockChart('NSE:BEL', 'Bharat Electronics', '20 EMA Pullback', '392.40', 'BUY', '61.5', '384.50', this)">
-            <span>🛡️ BEL</span>
-          </button>
-          <button class="btn-tv-sym" data-symbol="NSE:MASTEK" data-name="Mastek" onclick="selectStockChart('NSE:MASTEK', 'Mastek Ltd', 'Tech Turnaround', '3145.00', 'BUY', '64.8', '3020.00', this)">
-            <span>💻 Mastek</span>
-          </button>
-          <button class="btn-tv-sym" data-symbol="NSE:FCL" data-name="Fineotex Chemical" onclick="selectStockChart('NSE:FCL', 'Fineotex Chem', 'Accumulation Base', '50.20', 'STRONG BUY', '69.0', '47.50', this)">
-            <span>🧪 Fineotex Chem</span>
-          </button>
-          <button class="btn-tv-sym" data-symbol="NSE:DIXON" data-name="Dixon Tech" onclick="selectStockChart('NSE:DIXON', 'Dixon Technologies', 'EMS Momentum', '15650.00', 'STRONG BUY', '72.1', '14800.00', this)">
-            <span>📱 Dixon Tech</span>
-          </button>
-          <button class="btn-tv-sym" data-symbol="NSE:NIFTY" data-name="Nifty 50" onclick="selectStockChart('NSE:NIFTY', 'NIFTY 50 Index', 'Market Benchmark', '24175.65', 'NEUTRAL-BUY', '58.4', '24050.00', this)">
-            <span>🇮🇳 Nifty 50</span>
-          </button>
-        </div>
-
-        <!-- TRADINGVIEW DUAL-PANEL CANVAS & SPEEDOMETER GAUGE -->
-        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));gap:0;background:#131722;border-radius:0 0 16px 16px;overflow:hidden;">
-          
-          <!-- LEFT PANEL: INTERACTIVE CANDLESTICK CHART CANVAS -->
-          <div style="padding:1rem;border-right:1px solid rgba(255,255,255,0.08);background:#131722;display:flex;flex-direction:column;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+      <!-- ==================== SWING POOL PRO VERIFIED WHATSAPP STREAM ==================== -->
+      <div class="swingpool-stream-card" id="swingpool-whatsapp-desk" style="background:var(--surface);border:1px solid var(--line);border-top:3px solid #25D366;border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+        
+        <!-- STREAM HEADER STRIP -->
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;margin-bottom:1.25rem;border-bottom:1px solid var(--line);padding-bottom:1.25rem;">
+          <div>
+            <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.35rem;">
+              <span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:8px;background:rgba(37,211,102,0.12);color:#25D366;font-size:1.2rem;">🏊</span>
               <div>
-                <strong id="tv-chart-title" style="color:#E8EDE7;font-size:1.05rem;">Hindustan Zinc (NSE:HINDZINC) &middot; Daily 1D</strong>
-                <div style="font-size:0.75rem;color:#8A968C;">Indicators: <span style="color:#2962FF;">20 EMA</span> &middot; <span style="color:#00D09C;">Volume</span> &middot; <span style="color:#E5A11F;">Trade Levels</span></div>
-              </div>
-              <span id="tv-chart-cmp-badge" class="num gain" style="font-family:IBM Plex Mono,monospace;font-size:1.1rem;font-weight:800;color:#00D09C;">₹622.00</span>
-            </div>
-            
-            <div class="tradingview-widget-container" style="flex:1;min-height:440px;height:440px;position:relative;background:#131722;border-radius:8px;border:1px solid rgba(255,255,255,0.1);overflow:hidden;">
-              <div id="tradingview_main_chart" style="width:100%;height:100%;">
-                <div class="tradingview-widget-container" style="height:100%;width:100%;">
-                  <div class="tradingview-widget-container__widget" style="height:100%;width:100%;"></div>
-                  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                  {
-                    "autosize": true,
-                    "symbol": "NSE:HINDZINC",
-                    "interval": "D",
-                    "timezone": "Asia/Kolkata",
-                    "theme": "dark",
-                    "style": "1",
-                    "locale": "in",
-                    "enable_publishing": false,
-                    "allow_symbol_change": true,
-                    "hide_top_toolbar": false,
-                    "hide_legend": false,
-                    "save_image": false,
-                    "calendar": false,
-                    "studies": [
-                      "MASimple@tv-basicstudies",
-                      "RSI@tv-basicstudies"
-                    ],
-                    "support_host": "https://www.tradingview.com"
-                  }
-                  </script>
+                <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.25rem;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+                  <span>Swing Pool PRO &middot; Verified WhatsApp Recommendations</span>
+                  <span style="font-size:0.72rem;background:rgba(37,211,102,0.12);color:#25D366;border:1px solid rgba(37,211,102,0.3);padding:0.2rem 0.55rem;border-radius:20px;font-family:IBM Plex Mono,monospace;font-weight:700;">🟢 WhatsApp Channel Stream</span>
+                  <span style="font-size:0.72rem;background:rgba(15,107,76,0.12);color:var(--accent);border:1px solid rgba(15,107,76,0.25);padding:0.2rem 0.55rem;border-radius:20px;font-family:IBM Plex Mono,monospace;font-weight:700;">✓ 1–2 Weeks Horizon</span>
+                </h3>
+                <div style="font-size:0.8rem;color:var(--muted);margin-top:0.2rem;">
+                  Source: <strong>Swing Pool Community Group</strong> (120363408700357361@g.us &middot; Satish / Australia &middot; +91 9701168672) &middot; High-conviction institutional momentum breakouts, MoD defence wins, clean energy JVs &amp; volume expansion plays.
                 </div>
               </div>
-            </div>
-
-          <!-- RIGHT PANEL: SPEEDOMETER GAUGE & TECHNICAL BREAKDOWN -->
-          <div style="padding:1.25rem;background:#131722;display:flex;flex-direction:column;justify-content:space-between;">
-            <div>
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
-                <strong style="color:#E8EDE7;font-size:0.95rem;">Technical Speedometer &middot; 1D</strong>
-                <span class="daily-order-tag" style="background:rgba(37,211,102,0.15);color:#25D366;font-size:0.7rem;">OSCILLATORS + MAS</span>
-              </div>
-
-              <!-- SPEEDOMETER SVG DIAL GAUGE -->
-              <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0.75rem 0;">
-                <svg width="240" height="130" viewBox="0 0 200 110">
-                  <!-- Dial Arc -->
-                  <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#26332C" stroke-width="14" stroke-linecap="round"/>
-                  <!-- Strong Sell Zone -->
-                  <path d="M 20 100 A 80 80 0 0 1 52 44" fill="none" stroke="#B23A2E" stroke-width="14" stroke-linecap="round"/>
-                  <!-- Neutral Zone -->
-                  <path d="M 68 30 A 80 80 0 0 1 132 30" fill="none" stroke="#9A7B1F" stroke-width="14"/>
-                  <!-- Strong Buy Zone -->
-                  <path d="M 148 44 A 80 80 0 0 1 180 100" fill="none" stroke="#1F8A5F" stroke-width="14" stroke-linecap="round"/>
-                  
-                  <!-- Needle -->
-                  <line id="speedo-needle" x1="100" y1="100" x2="155" y2="45" stroke="#00D09C" stroke-width="4" stroke-linecap="round"/>
-                  <circle cx="100" cy="100" r="7" fill="#E8EDE7"/>
-                </svg>
-                <div id="tv-speedo-label" style="font-family:'Manrope',sans-serif;font-size:1.25rem;font-weight:800;color:#00D09C;margin-top:-10px;">
-                  STRONG BUY
-                </div>
-                <div style="font-size:0.75rem;color:#8A968C;margin-top:2px;">Summary of 26 Technical Indicators</div>
-              </div>
-
-              <!-- OSCILLATORS & MOVING AVERAGES STATS TABLE -->
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:0.75rem;">
-                <div style="background:#1D2721;padding:0.6rem 0.75rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);">
-                  <div style="font-size:0.68rem;color:#8A968C;font-family:IBM Plex Mono,monospace;">OSCILLATORS</div>
-                  <div id="tv-stat-osc" style="font-size:0.88rem;font-weight:700;color:#00D09C;margin-top:2px;">2 Buy &middot; 8 Neutral</div>
-                  <div style="font-size:0.72rem;color:#93A398;">RSI (14): <strong id="tv-stat-rsi-val">68.2</strong></div>
-                </div>
-
-                <div style="background:#1D2721;padding:0.6rem 0.75rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);">
-                  <div style="font-size:0.68rem;color:#8A968C;font-family:IBM Plex Mono,monospace;">MOVING AVERAGES</div>
-                  <div id="tv-stat-ma" style="font-size:0.88rem;font-weight:700;color:#00D09C;margin-top:2px;">14 Buy &middot; 1 Sell</div>
-                  <div style="font-size:0.72rem;color:#93A398;">20 EMA: <strong id="tv-stat-ema-val">₹594.00</strong></div>
-                </div>
-              </div>
-            </div>
-
-            <div style="margin-top:1rem;">
-              <button class="chat-inline-btn" onclick="openTradingViewWindow()" style="width:100%;background:rgba(41,98,255,0.15);color:#2962FF;border-color:#2962FF;font-weight:700;padding:0.6rem;justify-content:center;">
-                📈 Launch Interactive TradingView Terminal Window ↗
-              </button>
             </div>
           </div>
-
+          <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+            <span style="display:inline-flex;align-items:center;gap:0.35rem;background:rgba(37,211,102,0.1);color:#25D366;border:1px solid rgba(37,211,102,0.3);padding:0.4rem 0.8rem;border-radius:8px;font-family:IBM Plex Mono,monospace;font-size:0.75rem;font-weight:700;">
+              <span style="width:7px;height:7px;border-radius:50%;background:#25D366;animation:pulse-dot 1.2s infinite;"></span>
+              Active Setups: Week of 28 Sep 2026
+            </span>
+          </div>
         </div>
 
-        <!-- TRADINGVIEW LIVE TECHNICAL INDICATORS SUMMARY -->
-        <div class="tv-tech-summary-grid">
-          <div class="tv-stat-tile">
-            <span class="k">Active Symbol / Setup</span>
-            <span class="v" id="tv-active-name" style="font-size:1rem;color:var(--ink);">Hindustan Zinc</span>
-            <span class="sub" id="tv-active-pattern" style="color:#2962FF;font-weight:700;">Commodity Squeeze</span>
+        <!-- CHANNEL STATS STRIP -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:0.75rem;margin-bottom:1.5rem;">
+          <div style="background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:0.75rem 1rem;">
+            <div style="font-size:0.68rem;text-transform:uppercase;color:var(--muted);font-weight:700;letter-spacing:0.5px;">Active WhatsApp Calls</div>
+            <div style="font-size:1.3rem;font-weight:800;color:#25D366;font-family:IBM Plex Mono,monospace;margin-top:0.2rem;">10 Setups</div>
+            <div style="font-size:0.72rem;color:var(--muted);">Fresh 28 Sep 2026 &amp; Active Radars</div>
           </div>
-          <div class="tv-stat-tile">
-            <span class="k">TradingView Technical Rating</span>
-            <span class="v num gain" id="tv-active-rating" style="color:#00D09C;">STRONG BUY</span>
-            <span class="sub">18 Buy / 6 Neutral / 2 Sell</span>
+          <div style="background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:0.75rem 1rem;">
+            <div style="font-size:0.68rem;text-transform:uppercase;color:var(--muted);font-weight:700;letter-spacing:0.5px;">Average Risk-to-Reward</div>
+            <div style="font-size:1.3rem;font-weight:800;color:var(--gain);font-family:IBM Plex Mono,monospace;margin-top:0.2rem;">1 : 2.9</div>
+            <div style="font-size:0.72rem;color:var(--muted);">Strict Minimum Threshold &ge; 1:2.4</div>
           </div>
-          <div class="tv-stat-tile">
-            <span class="k">Daily RSI (14) Momentum</span>
-            <span class="v num" id="tv-active-rsi" style="color:var(--gain);">68.2</span>
-            <span class="sub">Healthy Momentum Zone</span>
+          <div style="background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:0.75rem 1rem;">
+            <div style="font-size:0.68rem;text-transform:uppercase;color:var(--muted);font-weight:700;letter-spacing:0.5px;">Holding Horizon</div>
+            <div style="font-size:1.3rem;font-weight:800;color:var(--ink);font-family:IBM Plex Mono,monospace;margin-top:0.2rem;">7–14 Days</div>
+            <div style="font-size:0.72rem;color:var(--muted);">Positional Swing Delivery</div>
           </div>
-          <div class="tv-stat-tile">
-            <span class="k">Key Support (20 EMA)</span>
-            <span class="v num" id="tv-active-ema" style="color:var(--ink);">₹594.00</span>
-            <span class="sub">Trailing Stop Baseline</span>
+          <div style="background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:0.75rem 1rem;">
+            <div style="font-size:0.68rem;text-transform:uppercase;color:var(--muted);font-weight:700;letter-spacing:0.5px;">Execution Discipline</div>
+            <div style="font-size:1.3rem;font-weight:800;color:var(--accent);font-family:IBM Plex Mono,monospace;margin-top:0.2rem;">Strict Entry &amp; SL</div>
+            <div style="font-size:0.72rem;color:var(--muted);">No Chasing Above Upper Range</div>
           </div>
         </div>
+
+        <!-- ==================== TABLE: ACTIVE WHATSAPP SWING RECOMMENDATIONS ==================== -->
+        <div style="margin-bottom:1.5rem;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.5rem;">
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <h4 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.1rem;font-weight:800;color:var(--ink);">
+                Active Swing Pool Recommendations &middot; WhatsApp Channel
+              </h4>
+              <span style="font-size:0.7rem;background:rgba(37,211,102,0.15);color:#25D366;padding:0.15rem 0.5rem;border-radius:12px;font-weight:700;font-family:IBM Plex Mono,monospace;">10 RECOMMENDATIONS</span>
+            </div>
+            <span style="font-size:0.75rem;color:var(--muted);font-family:IBM Plex Mono,monospace;">Streamed from WhatsApp Group</span>
+          </div>
+
+          <div style="overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);">
+            <table style="width:100%;border-collapse:collapse;text-align:left;font-size:0.83rem;">
+              <thead>
+                <tr style="background:rgba(0,0,0,0.03);border-bottom:1px solid var(--line);color:var(--muted);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px;font-family:IBM Plex Mono,monospace;">
+                  <th style="padding:0.75rem 1rem;white-space:nowrap;">Date Shared (IST)</th>
+                  <th style="padding:0.75rem 1rem;">Stock / Company</th>
+                  <th style="padding:0.75rem 1rem;white-space:nowrap;">Entry / Trigger Level</th>
+                  <th style="padding:0.75rem 1rem;white-space:nowrap;">Stop-Loss</th>
+                  <th style="padding:0.75rem 1rem;white-space:nowrap;">Targets (T1 / T2)</th>
+                  <th style="padding:0.75rem 1rem;white-space:nowrap;">R : R</th>
+                  <th style="padding:0.75rem 1rem;min-width:280px;">Technical &amp; Fundamental Catalyst Notes</th>
+                </tr>
+              </thead>
+              <tbody style="divide-y:1px solid var(--line);">
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">28 Sep 2026, 08:30 IST</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Bharat Dynamics <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">(BDL)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">₹1,295.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹1,220.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹1,460 / ₹1,550</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:#25D366;">1 : 3.4</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">🎯 <strong>Fresh MoD Mega Win:</strong> Ministry of Defence inks ₹810.79 Cr contract for 160 Satellite Smart Anti-Airfield Weapons (SAT-SAAW) for IAF. Clean volume expansion.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">28 Sep 2026, 08:35 IST</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">NTPC Limited <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">(NTPC)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">₹422.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹398.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹465 / ₹490</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:#25D366;">1 : 2.8</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">⚡ <strong>Landmark Indo-French JV:</strong> Signed 50:50 joint venture pact on Sep 25 with EDF Power Solutions for pumped hydro &amp; green power; Kalasar solar project commissioned.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">28 Sep 2026, 08:40 IST</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Waaree Energies <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">(WAAREEENER)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">₹2,650.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹2,480.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹2,980 / ₹3,150</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:#25D366;">1 : 2.9</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">☀️ <strong>Cleantech &amp; Semi Expansion:</strong> Entered specialty gases market for semiconductor manufacturing; approved Indosolar merger &amp; 2 GW solar module supply contract.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">28 Sep 2026, 08:45 IST</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Bajaj Finance <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">(BAJFINANCE)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">₹7,520.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹7,180.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹8,150 / ₹8,450</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:#25D366;">1 : 2.7</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">🚀 <strong>Brokerage Upgrades:</strong> Jefferies maintains Buy &amp; UBS upgrades target price on credit cost stabilization and festive consumer loan disbursement boom.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">28 Sep 2026, 08:50 IST</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Laurus Labs <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">(LAURUSLABS)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">₹1,845.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹1,740.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹2,050 / ₹2,150</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:#25D366;">1 : 2.9</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">🧪 <strong>CDMO Breakout:</strong> Breaking out of multi-month channel toward ₹2,100 on multi-year European CDMO contracts and formulations ramp-up.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">28 Sep 2026, 08:55 IST</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">MCX India <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">(MCX)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">₹6,520.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹6,180.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹7,150 / ₹7,400</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:#25D366;">1 : 2.6</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">🪙 <strong>Volume Explosion:</strong> Multi-year high trading volumes driven by gold and silver all-time highs and crude hedging; revenue surge.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">28 Sep 2026, 09:00 IST</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Dr. Lal PathLabs <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">(LALPATHLAB)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">₹3,210.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹3,020.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹3,550 / ₹3,700</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:#25D366;">1 : 2.6</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">🩺 <strong>M&amp;A Network Expansion:</strong> Regional diagnostics lab network acquisition driving tier-2/3 volume market share and margin expansion.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">19 Sep 2026, 09:35 IST</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Fineotex Chemical <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">(FCL)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">₹48.00–₹50.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹43.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹58 / ₹65 (ST: ₹82–₹100)</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:#25D366;">1 : 2.7</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">🧪 <strong>Accumulation Breakout:</strong> Specialty chemical accumulation base breakout with expanding delivery percentages and strong export order inflows.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">19 Sep 2026, 09:20 IST</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Welspun Corp <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">(WELCORP)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">₹2,340–₹2,375</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹2,180.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹2,656 / ₹2,750</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:#25D366;">1 : 2.6</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">📊 <strong>ATH Blue-Sky Breakout:</strong> Surging past all-time highs on massive US and Middle East pipeline orders; ₹2,656 near-term target.</td>
+                </tr>
+                <tr>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:var(--muted);white-space:nowrap;">19 Sep 2026, 09:15 IST</td>
+                  <td style="padding:0.75rem 1rem;font-weight:700;color:var(--ink);">Hindustan Zinc <span style="font-size:0.72rem;color:var(--muted);font-weight:600;">(HINDZINC)</span></td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--accent);font-weight:700;">₹615–₹625</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--loss);font-weight:700;">₹585.00</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;color:var(--gain);font-weight:700;">₹695 / ₹750</td>
+                  <td style="padding:0.75rem 1rem;font-family:IBM Plex Mono,monospace;font-weight:700;color:#25D366;">1 : 3.6</td>
+                  <td style="padding:0.75rem 1rem;color:var(--ink-light);line-height:1.4;">⚡ <strong>Commodity Squeeze:</strong> Beneficiary of global refined zinc supply deficit and multi-year high silver spot realizations.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- WHATSAPP RISK & DISCIPLINE STRIP -->
+        <div style="background:rgba(37,211,102,0.06);border:1px solid rgba(37,211,102,0.22);border-radius:10px;padding:0.85rem 1.15rem;font-size:0.78rem;color:var(--ink-light);line-height:1.45;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+          <strong style="color:#25D366;">🛡️ Swing Pool Protocol:</strong>
+          <span>Risk per trade capped at 1.5%–2% of trading portfolio &middot; Do not enter if stock opens gap-up &gt;3% above entry level &middot; Trail stop-loss to cost when Target 1 is achieved.</span>
+        </div>
+
       </div>
 
-      <!-- ==================== ASK AI SWING TRADING & CHART ANALYSIS CHATBOT ==================== -->
-      <div class="swing-ai-chatbot-card" id="swing-ai-chatbot-section">
-        <div class="swing-ai-header">
-          <div class="swing-ai-title-wrap">
-            <div class="swing-ai-avatar">🤖</div>
-            <div>
-              <h3 style="font-family:'Manrope',sans-serif;margin:0;font-size:1.15rem;font-weight:800;display:flex;align-items:center;gap:0.5rem;">
-                <span>Ask AI &middot; Swing Trading &amp; Chart Analysis</span>
-                <span class="swing-ai-badge-status">🟢 AI Model Online</span>
-              </h3>
-              <div style="font-size:0.75rem;color:var(--muted);margin-top:0.15rem;">Multi-timeframe technical indicators, support/resistance breakout levels &amp; risk/reward calculations.</div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:0.5rem;">
-            <button class="chat-inline-btn" id="btn-clear-swing-chat" title="Clear conversation history">🗑️ Clear Chat</button>
-          </div>
-        </div>
-
-        <!-- QUICK PROMPT CHIPS -->
-        <div class="swing-ai-quick-chips">
-          <button class="ai-chip-btn" data-query="Pick 2 best stocks for Aug 31 2026 swing trading based on latest positive news" style="background:rgba(0,208,156,0.18);color:#00D09C;border-color:rgba(0,208,156,0.35);font-weight:700;">🌟 Top 2 Stock Picks (Aug 31)</button>
-          <button class="ai-chip-btn" data-query="Analyze Welspun Corp breakout chart and target levels">📊 Welspun Corp ATH Breakout</button>
-          <button class="ai-chip-btn" data-query="Hindustan Zinc commodity squeeze setup and risk reward">⚡ Hind Zinc Commodity Play</button>
-          <button class="ai-chip-btn" data-query="Bharat Electronics (BEL) 20 EMA pullback bounce analysis">🛡️ BEL 20 EMA Pullback</button>
-          <button class="ai-chip-btn" data-query="Mastek tech short squeeze continuation chart levels">💻 Mastek Tech Reversal</button>
-          <button class="ai-chip-btn" data-query="Ather Energy EV volume markup analysis">⚡ Ather Energy EV Breakout</button>
-          <button class="ai-chip-btn" data-query="Scan all setups with Risk to Reward greater than 1:2.5">🎯 Scan Best R:R (&gt;1:2.5)</button>
-          <button class="ai-chip-btn" data-query="What is the strict stop loss and trailing rule for swing trades?">📐 Swing Trading Rules</button>
-        </div>
-
-        <!-- CHAT MESSAGE HISTORY CONTAINER -->
-        <div class="swing-chat-history" id="swing-chat-history">
-          <!-- Welcome Message -->
-          <div class="chat-msg-row ai">
-            <div class="swing-ai-avatar" style="width:30px;height:30px;font-size:1rem;flex-shrink:0;">🤖</div>
-            <div class="chat-msg-bubble">
-              <strong>Hello! I am your momentWealth Swing Trading AI &amp; Chart Analyst.</strong><br>
-              I can analyze all 24 curated setups from the <em>Swing Pool (WhatsApp)</em>, <em>StockPro (Telegram)</em>, and <em>Instagram Momentum Radars</em>, evaluate support/resistance levels, verify 20 EMA pullback bounces, and calculate optimal position sizes.<br><br>
-              💡 <em>Click any chip above or type any stock query below (e.g. &quot;Analyze Hindustan Zinc&quot; or &quot;Chart breakdown for Dixon Tech&quot;):</em>
-            </div>
-          </div>
-        </div>
-
-        <!-- INPUT BAR -->
-        <div class="swing-chat-input-bar">
-          <input type="text" id="swing-chat-input" class="swing-chat-input" placeholder="Ask AI about any stock chart, breakout setup, stop-loss, or target..." autocomplete="off">
-          <button class="btn-send-chat" id="btn-send-swing-chat">
-            <span>Send</span> ➔
-          </button>
-        </div>
-      </div>
-
-      <!-- ==================== STOCKPRO ONLINE VERIFIED TELEGRAM STREAM ==================== -->
+<!-- ==================== STOCKPRO ONLINE VERIFIED TELEGRAM STREAM ==================== -->
       <div class="stockpro-stream-card" id="stockpro-telegram-desk" style="background:var(--surface);border:1px solid var(--line);border-top:3px solid #0088cc;border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
         
         <!-- STREAM HEADER STRIP -->
