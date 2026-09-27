@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import https from 'https';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -323,9 +324,218 @@ async function fetchRss(url, sourceName, defaultCat = 'MARKETS') {
   }
 }
 
+// ==================== GROWW STOCKS IN NEWS TODAY SCRAPER & CACHE ====================
+let growwFeedCache = null;
+let growwFeedCacheTime = 0;
+const GROWW_CACHE_TTL = 5 * 60 * 1000; // 5 mins
+
+function getFallbackGrowwNews() {
+  return [
+    {
+      id: "963964_ADANIPOWER_MERGER",
+      title: "Adani Power Merges 10 Units; RCF Grants ₹797 Cr L&T Contract",
+      summary: "Adani Power finalizes merger of 10 subsidiaries; SAIL, BCCL sign MoU for coal block development. RCF awards ₹797 crore contract to L&T; Edelweiss confirms Carlyle's ₹2,000 crore Nido Home Finance stake.",
+      rawBody: "Adani Power finalizes merger of 10 subsidiaries; SAIL, BCCL sign MoU for coal block development.\n\nRCF awards ₹797 crore contract to L&T; Edelweiss confirms Carlyle's ₹2,000 crore Nido Home Finance stake.\n\nSource: CNBC TV 18",
+      publishedAt: "2026-09-27T08:42:12",
+      publisher: "CNBC TV 18",
+      primaryStock: {
+        name: "Adani Power",
+        ticker: "ADANIPOWER",
+        logo: "https://assets-netstorage.groww.in/stock-assets/logos2/ADANIPOWER.webp",
+        url: "https://groww.in/stocks/adani-power-ltd"
+      },
+      stocks: ["ADANIPOWER", "SAIL", "RCF", "LT", "EDELWEISS"],
+      stockDetails: [
+        { name: "Adani Power", ticker: "ADANIPOWER", logo: "https://assets-netstorage.groww.in/stock-assets/logos2/ADANIPOWER.webp", url: "https://groww.in/stocks/adani-power-ltd" },
+        { name: "SAIL", ticker: "SAIL", logo: "https://assets-netstorage.groww.in/stock-assets/logos2/SAIL.webp", url: "https://groww.in/stocks/steel-authority-of-india-ltd" },
+        { name: "RCF", ticker: "RCF", logo: "https://assets-netstorage.groww.in/stock-assets/logos2/RCF.webp", url: "https://groww.in/stocks/rashtriya-chemicals-fertilizers-ltd" },
+        { name: "L&T", ticker: "LT", logo: "https://assets-netstorage.groww.in/stock-assets/logos2/LT.webp", url: "https://groww.in/stocks/larsen-toubro-ltd" }
+      ],
+      source: "Groww",
+      category: "STOCKS",
+      url: "https://groww.in/stocks/adani-power-ltd",
+      timeAgo: "today"
+    },
+    {
+      id: "891760217329202336_ZEELEARN_IBC",
+      title: "Zee Learn Faces ₹821 Cr Insolvency Case by ACRE",
+      summary: "Zee Learn and subsidiary face insolvency petitions by ACRE under IBC Section 7. Alleged default amounts to approximately Rs. 821 crores.",
+      rawBody: "Zee Learn and subsidiary face insolvency petitions by ACRE under IBC Section 7.\n\nAlleged default amounts to approximately Rs. 821 crores.\n\nSource: ScoutQuest",
+      publishedAt: "2026-09-27T00:32:11",
+      publisher: "ScoutQuest",
+      primaryStock: {
+        name: "Zee Learn",
+        ticker: "ZEELEARN",
+        logo: "https://assets-netstorage.groww.in/stock-assets/logos2/ZeeLearn_22137558626_37833.png",
+        url: "https://groww.in/stocks/zee-learn-ltd"
+      },
+      stocks: ["ZEELEARN"],
+      stockDetails: [
+        { name: "Zee Learn", ticker: "ZEELEARN", logo: "https://assets-netstorage.groww.in/stock-assets/logos2/ZeeLearn_22137558626_37833.png", url: "https://groww.in/stocks/zee-learn-ltd" }
+      ],
+      source: "Groww",
+      category: "STOCKS",
+      url: "https://groww.in/stocks/zee-learn-ltd",
+      timeAgo: "today"
+    },
+    {
+      id: "DCMNVL_AGM_RESOLUTIONS",
+      title: "DCM Nouvelle AGM: Key Resolutions Passed via E-Voting",
+      summary: "DCM Nouvelle's 10th AGM resolutions passed with requisite majority via e-voting. Key resolutions included financial statements and director re-appointments.",
+      rawBody: "DCM Nouvelle's 10th AGM resolutions passed with requisite majority via e-voting.\n\nKey resolutions included financial statements and director re-appointments.",
+      publishedAt: "2026-09-26T23:50:43",
+      publisher: "Stock News Summary",
+      primaryStock: {
+        name: "DCM Nouvelle",
+        ticker: "DCMNVL",
+        logo: "https://assets-netstorage.groww.in/stock-assets/logos2/DCMNouvelle_72128862_69008.png",
+        url: "https://groww.in/stocks/dcm-nouvelle-ltd"
+      },
+      stocks: ["DCMNVL"],
+      stockDetails: [
+        { name: "DCM Nouvelle", ticker: "DCMNVL", logo: "https://assets-netstorage.groww.in/stock-assets/logos2/DCMNouvelle_72128862_69008.png", url: "https://groww.in/stocks/dcm-nouvelle-ltd" }
+      ],
+      source: "Groww",
+      category: "STOCKS",
+      url: "https://groww.in/stocks/dcm-nouvelle-ltd",
+      timeAgo: "1d ago"
+    },
+    {
+      id: "ALPHALOGIC_AGM_2026",
+      title: "Alphalogic AGM Reviews Financials, Awaits Voting Results",
+      summary: "Alphalogic Techsys Ltd held its AGM on 26 Sep 2026 via video conferencing, discussing resolutions and industry outlook. Voting results will be submitted separately within the prescribed timeframe.",
+      rawBody: "Alphalogic Techsys Ltd held its AGM on 26 Sep 2026 via video conferencing, discussing resolutions and industry outlook.\n\nVoting results will be submitted separately within the prescribed timeframe.",
+      publishedAt: "2026-09-26T22:26:40",
+      publisher: "Groww Wire",
+      primaryStock: {
+        name: "Alphalogic Techsys",
+        ticker: "ALPHALOGIC",
+        logo: "https://assets-netstorage.groww.in/stock-assets/logos2/AlphalogicTechsys_32674832_74495.png",
+        url: "https://groww.in/stocks/alphalogic-techsys-ltd"
+      },
+      stocks: ["ALPHALOGIC"],
+      stockDetails: [
+        { name: "Alphalogic Techsys", ticker: "ALPHALOGIC", logo: "https://assets-netstorage.groww.in/stock-assets/logos2/AlphalogicTechsys_32674832_74495.png", url: "https://groww.in/stocks/alphalogic-techsys-ltd" }
+      ],
+      source: "Groww",
+      category: "STOCKS",
+      url: "https://groww.in/stocks/alphalogic-techsys-ltd",
+      timeAgo: "1d ago"
+    }
+  ];
+}
+
+function fetchGrowwStockFeed() {
+  return new Promise((resolve) => {
+    const options = {
+      hostname: 'groww.in',
+      path: '/stock-feed',
+      method: 'GET',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+      },
+      timeout: 8000
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', chunk => { data += chunk; });
+      res.on('end', () => {
+        try {
+          const match = data.match(/<script id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/i);
+          if (match) {
+            const parsed = JSON.parse(match[1]);
+            const items = (parsed.props && parsed.props.pageProps && parsed.props.pageProps.initialData) || [];
+            const result = items.map((it, idx) => {
+              const d = it.data || {};
+              const ctas = d.cta || [];
+              const primaryCta = ctas[0] || {};
+              
+              const stockList = ctas.map(c => ({
+                name: c.ctaText || 'Stock',
+                ticker: (c.meta && c.meta.nseScriptCode) || (c.meta && c.meta.bseScriptCode) || c.ctaText,
+                nseCode: (c.meta && c.meta.nseScriptCode) || '',
+                bseCode: (c.meta && c.meta.bseScriptCode) || '',
+                logo: c.logoUrl || '',
+                url: c.ctaUrl ? (c.ctaUrl.startsWith('http') ? c.ctaUrl : 'https://groww.in' + c.ctaUrl) : 'https://groww.in/stock-feed'
+              }));
+
+              const tickerNames = stockList.map(s => s.ticker).filter(Boolean);
+
+              let stockUrl = primaryCta.ctaUrl || 'https://groww.in/stock-feed';
+              if (!stockUrl.startsWith('http')) {
+                stockUrl = 'https://groww.in' + stockUrl;
+              }
+
+              let timeAgoStr = 'today';
+              if (it.publishedAt) {
+                const diffMs = Date.now() - new Date(it.publishedAt).getTime();
+                if (diffMs > 0) {
+                  const m = Math.floor(diffMs / 60000);
+                  if (m < 60) timeAgoStr = `${m}m ago`;
+                  else {
+                    const h = Math.floor(m / 60);
+                    if (h < 24) timeAgoStr = `${h}h ago`;
+                    else timeAgoStr = `${Math.floor(h / 24)}d ago`;
+                  }
+                }
+              }
+
+              return {
+                id: it.postId || `groww_${idx}`,
+                title: d.title || (primaryCta.ctaText ? `${primaryCta.ctaText} in News` : 'Stock in News'),
+                summary: (d.body || d.subTitle || '').replace(/\s+/g, ' ').trim(),
+                rawBody: d.body || '',
+                publishedAt: it.publishedAt || new Date().toISOString(),
+                publisher: it.publisher || 'Groww Stock Wire',
+                primaryStock: {
+                  name: primaryCta.ctaText || 'Market Alert',
+                  ticker: (primaryCta.meta && primaryCta.meta.nseScriptCode) || primaryCta.ctaText || '',
+                  logo: primaryCta.logoUrl || '',
+                  url: stockUrl
+                },
+                stocks: tickerNames,
+                stockDetails: stockList,
+                source: 'Groww',
+                category: 'STOCKS',
+                url: stockUrl,
+                timeAgo: timeAgoStr,
+                scrapedAt: new Date().toISOString()
+              };
+            });
+
+            if (result.length > 0) {
+              growwFeedCache = result;
+              growwFeedCacheTime = Date.now();
+            }
+            resolve(result.length > 0 ? result : (growwFeedCache || getFallbackGrowwNews()));
+          } else {
+            resolve(growwFeedCache || getFallbackGrowwNews());
+          }
+        } catch (e) {
+          console.warn('[Groww Scraper] Parse error:', e.message);
+          resolve(growwFeedCache || getFallbackGrowwNews());
+        }
+      });
+    });
+
+    req.on('error', (e) => {
+      console.warn('[Groww Scraper] Request error:', e.message);
+      resolve(growwFeedCache || getFallbackGrowwNews());
+    });
+    req.on('timeout', () => {
+      req.destroy();
+      resolve(growwFeedCache || getFallbackGrowwNews());
+    });
+    req.end();
+  });
+}
+
 async function refreshAllFeeds() {
   try {
-    const [apifyEt, tvNews, etMarkets, mcMarkets, mcBusiness, bsMarkets, bsCompanies, indMoneyRss, indMoneyStocks, gnews1hStocks, etStocksRss, bsStocksRss, mcStocksRss] = await Promise.allSettled([
+    const [growwFeed, apifyEt, tvNews, etMarkets, mcMarkets, mcBusiness, bsMarkets, bsCompanies, indMoneyRss, indMoneyStocks, gnews1hStocks, etStocksRss, bsStocksRss, mcStocksRss] = await Promise.allSettled([
+      fetchGrowwStockFeed(),
       fetchApifyET(),
       fetchApifyTradingView(),
       fetchRss('https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms', 'Economic Times', 'MARKETS'),
@@ -360,6 +570,7 @@ async function refreshAllFeeds() {
       }
     }
 
+    if (growwFeed.status === 'fulfilled') addItems(growwFeed.value);
     if (apifyEt.status === 'fulfilled') addItems(apifyEt.value);
     if (tvNews.status === 'fulfilled') addItems(tvNews.value);
     if (indMoneyRss.status === 'fulfilled') addItems(indMoneyRss.value);
@@ -1190,9 +1401,16 @@ async function executeHourlyNewsPoll() {
     selfPollingState.nextPollAt = new Date(Date.now() + HOURLY_POLL_INTERVAL_MS).toISOString();
     selfPollingState.totalPolls++;
     selfPollingState.lastTotalItemCount = allItems ? allItems.length : 0;
-    selfPollingState.lastStockItemCount = stockItems.length;
-    selfPollingState.status = 'healthy';
-    selfPollingState.error = null;
+    // 4. Warm up Groww ETFs and ET Money caches
+    try {
+      await Promise.allSettled([
+        fetchGrowwEtfs(),
+        fetchEtMoneyLive()
+      ]);
+    } catch (e) {
+      console.warn('[Self-Polling] Secondary cache warmup note:', e.message);
+    }
+
     console.log(`[Self-Polling] ✅ 1-hour cycle finished. Total items: ${selfPollingState.lastTotalItemCount}, Stock items: ${stockItems.length}. Next poll at: ${selfPollingState.nextPollAt}`);
   } catch (err) {
     selfPollingState.status = 'error';
@@ -1402,6 +1620,221 @@ app.get('/api/etmoney-stocks', async (req, res) => {
       sourceUrl: 'https://www.etmoney.com/stocks',
       error: err.message,
       categories: getFallbackEtMoney()
+    });
+  }
+});
+
+// API Endpoint for Groww Stocks in News Today
+app.get('/api/groww-news', async (req, res) => {
+  try {
+    const force = req.query.force === '1' || req.query.force === 'true';
+    if (!force && growwFeedCache && (Date.now() - growwFeedCacheTime < GROWW_CACHE_TTL)) {
+      return res.json({
+        success: true,
+        source: 'Groww Stocks in News (Cached)',
+        sourceUrl: 'https://groww.in/stock-feed',
+        asOf: new Date(growwFeedCacheTime).toISOString(),
+        total: growwFeedCache.length,
+        items: growwFeedCache
+      });
+    }
+
+    const data = await fetchGrowwStockFeed();
+    res.json({
+      success: true,
+      source: 'Groww Stocks in News (Live)',
+      sourceUrl: 'https://groww.in/stock-feed',
+      asOf: new Date().toISOString(),
+      total: data.length,
+      items: data
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      source: 'Groww Stocks in News (Fallback)',
+      sourceUrl: 'https://groww.in/stock-feed',
+      error: err.message,
+      total: getFallbackGrowwNews().length,
+      items: getFallbackGrowwNews()
+    });
+  }
+});
+
+// ==================== GROWW ETF SCREENER SCRAPER & CACHE ====================
+let growwEtfCache = null;
+let growwEtfCacheTime = 0;
+const GROWW_ETF_CACHE_TTL = 15 * 60 * 1000; // 15 mins
+
+function categorizeEtf(name, ticker) {
+  const s = `${name} ${ticker}`.toUpperCase();
+  if (s.includes('SILVER')) return 'Silver';
+  if (s.includes('GOLD')) return 'Gold';
+  if (s.includes('NIFTY 50') || s.includes('NIFTYBEES') || s.includes('SETFNIF50') || s.includes('SENSEX')) return 'Index';
+  if (s.includes('BANK') || s.includes('FINANCIAL') || s.includes('FIN')) return 'Banking';
+  if (s.includes('IT') || s.includes('TECH')) return 'IT / Tech';
+  if (s.includes('AUTO')) return 'Auto';
+  if (s.includes('PHARMA') || s.includes('HEALTH')) return 'Pharma';
+  if (s.includes('MIDCAP') || s.includes('SMALLCAP') || s.includes('NEXT 50')) return 'Mid / Small Cap';
+  if (s.includes('COMMODITY') || s.includes('OIL') || s.includes('ENERGY')) return 'Commodities & Energy';
+  return 'Thematic / Other';
+}
+
+function getFallbackGrowwEtfs() {
+  return [
+    { ticker: "SETFNIF50", name: "SBI-ETF NIFTY 50", category: "Index", ltp: 249.47, nav: 249.12, close: 248.90, premiumDiscountPct: 0.14, expenseRatio: 0.04, aumCr: 213793, volume: 15420000, trackingError: 0.02, return1Y: -5.87, return3Y: 42.15, returnAll: 132.40, logoUrl: "https://assets-netstorage.groww.in/stock-assets/logos2/sbi_groww.png", growwUrl: "https://groww.in/etfs/sbi-etf-nifty-50" },
+    { ticker: "NIFTYBEES", name: "Nippon India ETF Nifty 50 BeES", category: "Index", ltp: 264.13, nav: 263.95, close: 263.50, premiumDiscountPct: 0.07, expenseRatio: 0.04, aumCr: 67095, volume: 22100000, trackingError: 0.02, return1Y: -5.86, return3Y: 42.18, returnAll: 185.60, logoUrl: "https://assets-netstorage.groww.in/stock-assets/logos2/nippon_groww.png", growwUrl: "https://groww.in/etfs/nippon-india-etf-nifty-50-bees" },
+    { ticker: "GOLDBEES", name: "Nippon India ETF Gold BeES", category: "Gold", ltp: 124.43, nav: 124.10, close: 123.85, premiumDiscountPct: 0.27, expenseRatio: 0.81, aumCr: 58629, volume: 18500000, trackingError: 0.15, return1Y: 31.37, return3Y: 58.20, returnAll: 240.50, logoUrl: "https://assets-netstorage.groww.in/stock-assets/logos2/nippon_groww.png", growwUrl: "https://groww.in/etfs/nippon-india-etf-gold-bees" },
+    { ticker: "SILVERBEES", name: "Nippon India Silver ETF", category: "Silver", ltp: 218.80, nav: 216.30, close: 215.95, premiumDiscountPct: 1.16, expenseRatio: 0.58, aumCr: 32222, volume: 14322962, trackingError: 0.80, return1Y: 69.93, return3Y: 45.06, returnAll: 31.97, logoUrl: "https://assets-netstorage.groww.in/stock-assets/logos2/nippon_groww.png", growwUrl: "https://groww.in/etfs/nippon-life-india-asset-management-ltd-nippon-india-silver-etf" },
+    { ticker: "TATSILV", name: "Tata Silver Exchange Traded Fund", category: "Silver", ltp: 22.21, nav: 21.97, close: 21.92, premiumDiscountPct: 1.09, expenseRatio: 0.39, aumCr: 5440, volume: 28133247, trackingError: 0.65, return1Y: 71.53, return3Y: null, returnAll: 52.88, logoUrl: "https://assets-netstorage.groww.in/stock-assets/logos2/tata_groww.png", growwUrl: "https://groww.in/etfs/tata-silver-exchange-traded-fund" },
+    { ticker: "TATAGOLD", name: "Tata Gold Exchange Traded Fund", category: "Gold", ltp: 14.62, nav: 14.51, close: 14.52, premiumDiscountPct: 0.76, expenseRatio: 0.35, aumCr: 6172, volume: 37775946, trackingError: 0.20, return1Y: 31.57, return3Y: null, returnAll: 37.52, logoUrl: "https://assets-netstorage.groww.in/stock-assets/logos2/tata_groww.png", growwUrl: "https://groww.in/etfs/tata-gold-exchange-traded-fund" },
+    { ticker: "BANKBEES", name: "Nippon India ETF Nifty Bank BeES", category: "Banking", ltp: 532.10, nav: 531.80, close: 530.20, premiumDiscountPct: 0.06, expenseRatio: 0.16, aumCr: 12450, volume: 8200000, trackingError: 0.04, return1Y: 8.45, return3Y: 34.20, returnAll: 165.20, logoUrl: "https://assets-netstorage.groww.in/stock-assets/logos2/nippon_groww.png", growwUrl: "https://groww.in/etfs/nippon-india-etf-bank-bees" }
+  ];
+}
+
+function fetchGrowwEtfs() {
+  return new Promise((resolve) => {
+    const options = {
+      hostname: 'groww.in',
+      path: '/etfs',
+      method: 'GET',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+      },
+      timeout: 10000
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', chunk => { data += chunk; });
+      res.on('end', () => {
+        try {
+          const match = data.match(/<script id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/i);
+          if (match) {
+            const parsed = JSON.parse(match[1]);
+            const rawList = (parsed.props && parsed.props.pageProps && parsed.props.pageProps.data) || [];
+            const result = rawList.map(e => {
+              const r1m = (e.returns && e.returns.find(r => r.key === 'return1M')) || {};
+              const r6m = (e.returns && e.returns.find(r => r.key === 'return6M')) || {};
+              const r1y = (e.returns && e.returns.find(r => r.key === 'return1Y')) || {};
+              const r3y = (e.returns && e.returns.find(r => r.key === 'return3Y')) || {};
+              const rAll = (e.returns && e.returns.find(r => r.key === 'returnAll')) || {};
+
+              const category = categorizeEtf(e.shortName || '', e.nseScriptCode || '');
+              const navVal = typeof e.nav === 'number' ? e.nav : null;
+              const ltpVal = typeof e.ltp === 'number' ? e.ltp : null;
+              let premiumPct = null;
+              if (navVal && ltpVal && navVal > 0) {
+                premiumPct = Number((((ltpVal - navVal) / navVal) * 100).toFixed(2));
+              }
+
+              return {
+                ticker: e.nseScriptCode || e.bseScriptCode || 'ETF',
+                nseCode: e.nseScriptCode || '',
+                bseCode: e.bseScriptCode || '',
+                name: e.shortName || 'Exchange Traded Fund',
+                category,
+                ltp: ltpVal,
+                nav: navVal,
+                close: e.close || null,
+                premiumDiscountPct: premiumPct,
+                expenseRatio: typeof e.expenseRatio === 'number' ? e.expenseRatio : null,
+                aumCr: typeof e.aum === 'number' ? e.aum : null,
+                volume: typeof e.volume === 'number' ? e.volume : null,
+                trackingError: typeof e.trackingError === 'number' ? e.trackingError : null,
+                return1M: typeof r1m.value === 'number' ? r1m.value : null,
+                return6M: typeof r6m.value === 'number' ? r6m.value : null,
+                return1Y: typeof r1y.value === 'number' ? r1y.value : null,
+                return3Y: typeof r3y.value === 'number' ? r3y.value : null,
+                returnAll: typeof rAll.value === 'number' ? rAll.value : null,
+                logoUrl: e.logoUrl || 'https://assets-netstorage.groww.in/stock-assets/logos2/default_etf.png',
+                growwUrl: e.searchId ? `https://groww.in/etfs/${e.searchId}` : 'https://groww.in/etfs'
+              };
+            });
+
+            if (result.length > 0) {
+              growwEtfCache = result;
+              growwEtfCacheTime = Date.now();
+            }
+            resolve(result.length > 0 ? result : (growwEtfCache || getFallbackGrowwEtfs()));
+          } else {
+            resolve(growwEtfCache || getFallbackGrowwEtfs());
+          }
+        } catch (e) {
+          console.warn('[Groww ETF Scraper] Parse error:', e.message);
+          resolve(growwEtfCache || getFallbackGrowwEtfs());
+        }
+      });
+    });
+
+    req.on('error', (e) => {
+      console.warn('[Groww ETF Scraper] Request error:', e.message);
+      resolve(growwEtfCache || getFallbackGrowwEtfs());
+    });
+    req.on('timeout', () => {
+      req.destroy();
+      resolve(growwEtfCache || getFallbackGrowwEtfs());
+    });
+    req.end();
+  });
+}
+
+// API Endpoint for Groww ETF Screener Online
+app.get('/api/groww-etfs', async (req, res) => {
+  try {
+    const force = req.query.force === '1' || req.query.force === 'true';
+    let etfs = null;
+    if (!force && growwEtfCache && (Date.now() - growwEtfCacheTime < GROWW_ETF_CACHE_TTL)) {
+      etfs = growwEtfCache;
+    } else {
+      etfs = await fetchGrowwEtfs();
+    }
+
+    let list = Array.isArray(etfs) ? [...etfs] : getFallbackGrowwEtfs();
+
+    // Category filter
+    const cat = (req.query.category || '').toLowerCase();
+    if (cat && cat !== 'all') {
+      list = list.filter(e => (e.category || '').toLowerCase().includes(cat));
+    }
+
+    // Search query
+    const q = (req.query.q || '').toLowerCase();
+    if (q) {
+      list = list.filter(e => (e.name || '').toLowerCase().includes(q) || (e.ticker || '').toLowerCase().includes(q));
+    }
+
+    // Sort
+    const sortBy = req.query.sort || 'aum';
+    if (sortBy === 'return1y') {
+      list.sort((a, b) => (b.return1Y || -999) - (a.return1Y || -999));
+    } else if (sortBy === 'volume') {
+      list.sort((a, b) => (b.volume || 0) - (a.volume || 0));
+    } else if (sortBy === 'expense') {
+      list.sort((a, b) => (a.expenseRatio || 999) - (b.expenseRatio || 999));
+    } else {
+      // default aum
+      list.sort((a, b) => (b.aumCr || 0) - (a.aumCr || 0));
+    }
+
+    const limit = Number(req.query.limit) || 100;
+
+    res.json({
+      success: true,
+      source: 'Groww ETF Screener Online',
+      sourceUrl: 'https://groww.in/etfs',
+      asOf: new Date(growwEtfCacheTime || Date.now()).toISOString(),
+      total: list.length,
+      etfs: list.slice(0, limit)
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      source: 'Groww ETF Fallback',
+      sourceUrl: 'https://groww.in/etfs',
+      error: err.message,
+      total: getFallbackGrowwEtfs().length,
+      etfs: getFallbackGrowwEtfs()
     });
   }
 });

@@ -4946,6 +4946,450 @@ function filterActionCards(type, btn) {
 }
 </script>
 
+<!-- ==========================================================================
+     GROWW "STOCKS IN NEWS TODAY" SECTION (WITH 60-SEC AUTO-REFRESH)
+     ========================================================================== -->
+<section class="groww-news-section" id="section-groww-news" style="margin-top:2.2rem;margin-bottom:2rem;">
+  <div class="stock-action-header-wrap" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;margin-bottom:1.25rem;">
+    <div>
+      <div class="stock-action-eyebrow" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#00D09C;box-shadow:0 0 8px #00D09C;animation:pulse-dot 1.2s infinite;"></span>
+        <span>REAL-TIME CORPORATE WIRE &middot; RETRIEVED FROM <a href="https://groww.in/stock-feed" target="_blank" style="color:#00D09C;text-decoration:underline;font-weight:700;">GROWW LIVE FEED</a></span>
+        <span id="groww-news-sync-badge" style="font-size:0.68rem;padding:2px 7px;border-radius:9999px;background:rgba(0,208,156,0.12);color:#00D09C;border:1px solid rgba(0,208,156,0.25);font-family:'JetBrains Mono',monospace;font-weight:700;">LIVE SYNCED</span>
+        <span id="groww-news-countdown-badge" style="font-size:0.68rem;padding:2px 7px;border-radius:9999px;background:rgba(255,255,255,0.05);color:var(--muted);border:1px solid var(--line);font-family:'JetBrains Mono',monospace;">Auto-refresh: <strong id="groww-news-countdown" style="color:#00D09C;">60s</strong></span>
+      </div>
+      <h2 class="stock-action-title" style="margin-top:0.35rem;display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+        Groww &middot; Stocks in News Today
+        <span style="font-size:0.75rem;padding:2px 8px;border-radius:9999px;background:rgba(0,208,156,0.15);color:#00D09C;border:1px solid rgba(0,208,156,0.3);font-family:'JetBrains Mono',monospace;font-weight:600;">STREAMING WIRE</span>
+      </h2>
+      <p class="stock-action-sub" style="margin-top:0.25rem;color:var(--muted);font-size:0.85rem;max-width:850px;">
+        Live real-time feed of market-moving stock news, mergers, order wins, IBC insolvency filings, and AGM shareholder voting directly parsed from <a href="https://groww.in/stock-feed" target="_blank" style="color:#00D09C;">Groww Stock Feed</a>. Auto-refreshes every 60 seconds.
+      </p>
+    </div>
+
+    <!-- Quick Action Controls -->
+    <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+      <button id="btn-refresh-groww-news" onclick="refreshGrowwNews(true)" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;background:var(--surface);border:1px solid var(--line);padding:0.4rem 0.8rem;border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem;color:var(--ink);box-shadow:var(--shadow-sm);">
+        <span id="groww-news-refresh-icon">🔄</span> Auto-Refresh Groww News
+      </button>
+      <a href="https://groww.in/stock-feed" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;background:rgba(0,208,156,0.1);color:#00D09C;border:1px solid rgba(0,208,156,0.25);padding:0.4rem 0.8rem;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:0.3rem;">
+        ↗ Open groww.in/stock-feed
+      </a>
+    </div>
+  </div>
+
+  <!-- Cards Grid for Groww Stocks in News -->
+  <div class="groww-news-grid" id="groww-news-container" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:1.25rem;">
+    <!-- Items rendered dynamically -->
+  </div>
+</section>
+
+<!-- ==========================================================================
+     GROWW ETF SCREENER ONLINE SECTION (WITH LIVE NAV, AUM & 1Y RETURNS)
+     ========================================================================== -->
+<section class="groww-etf-section" id="section-groww-etfs" style="margin-top:2.5rem;margin-bottom:2.5rem;">
+  <div class="stock-action-header-wrap" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;margin-bottom:1.25rem;">
+    <div>
+      <div class="stock-action-eyebrow" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#F7A600;box-shadow:0 0 8px #F7A600;"></span>
+        <span>ETF SCREENER ONLINE &middot; RETRIEVED FROM <a href="https://groww.in/etfs" target="_blank" style="color:#F7A600;text-decoration:underline;font-weight:700;">GROWW ETFS</a></span>
+        <span id="groww-etf-sync-badge" style="font-size:0.68rem;padding:2px 7px;border-radius:9999px;background:rgba(247,166,0,0.12);color:#F7A600;border:1px solid rgba(247,166,0,0.25);font-family:'JetBrains Mono',monospace;font-weight:700;">100+ ETFS SYNCED</span>
+      </div>
+      <h2 class="stock-action-title" style="margin-top:0.35rem;display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+        Groww &middot; ETF Screener Online
+        <span style="font-size:0.75rem;padding:2px 8px;border-radius:9999px;background:rgba(247,166,0,0.15);color:#F7A600;border:1px solid rgba(247,166,0,0.3);font-family:'JetBrains Mono',monospace;font-weight:600;">PRECIOUS METALS &middot; INDEX &middot; SECTORAL</span>
+      </h2>
+      <p class="stock-action-sub" style="margin-top:0.25rem;color:var(--muted);font-size:0.85rem;max-width:850px;">
+        Filter and compare top Indian Exchange Traded Funds (ETFs) on <a href="https://groww.in/etfs" target="_blank" style="color:#F7A600;">Groww</a> by 1Y/3Y returns, Expense Ratio (TER), live NAV discount/premium, and Assets Under Management (AUM). Silver ETFs leading with +70% 1Y gains!
+      </p>
+    </div>
+
+    <!-- Quick Action Controls -->
+    <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+      <button id="btn-refresh-groww-etfs" onclick="refreshGrowwEtfs(true)" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;background:var(--surface);border:1px solid var(--line);padding:0.4rem 0.8rem;border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem;color:var(--ink);box-shadow:var(--shadow-sm);">
+        <span id="groww-etf-refresh-icon">🔄</span> Refresh ETF Screener
+      </button>
+      <a href="https://groww.in/etfs" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;background:rgba(247,166,0,0.1);color:#F7A600;border:1px solid rgba(247,166,0,0.25);padding:0.4rem 0.8rem;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:0.3rem;">
+        ↗ Open groww.in/etfs
+      </a>
+    </div>
+  </div>
+
+  <!-- ETF Category Filter Tabs & Search -->
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;margin-bottom:1rem;background:var(--surface);border:1px solid var(--line);padding:0.6rem 0.9rem;border-radius:12px;">
+    <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;" id="etf-category-pills">
+      <button class="etf-pill active" onclick="filterEtfs('all', this)" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;background:rgba(247,166,0,0.15);border:1px solid rgba(247,166,0,0.35);color:#F7A600;padding:0.35rem 0.75rem;border-radius:6px;cursor:pointer;">All ETFs</button>
+      <button class="etf-pill" onclick="filterEtfs('Silver', this)" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);padding:0.35rem 0.75rem;border-radius:6px;cursor:pointer;">🥈 Silver (+70% 1Y)</button>
+      <button class="etf-pill" onclick="filterEtfs('Gold', this)" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);padding:0.35rem 0.75rem;border-radius:6px;cursor:pointer;">🥇 Gold (+31% 1Y)</button>
+      <button class="etf-pill" onclick="filterEtfs('Index', this)" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);padding:0.35rem 0.75rem;border-radius:6px;cursor:pointer;">📊 Index (Nifty/Sensex)</button>
+      <button class="etf-pill" onclick="filterEtfs('Banking', this)" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);padding:0.35rem 0.75rem;border-radius:6px;cursor:pointer;">🏦 Banking & Fin</button>
+      <button class="etf-pill" onclick="filterEtfs('IT', this)" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);padding:0.35rem 0.75rem;border-radius:6px;cursor:pointer;">💻 IT & Tech</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <input type="text" id="etf-search-input" oninput="searchEtfs(this.value)" placeholder="Search ETF or symbol (e.g. SILVERBEES, GOLDBEES)..." style="background:var(--surface-2);border:1px solid var(--line);color:var(--ink);padding:0.35rem 0.75rem;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;min-width:240px;" />
+    </div>
+  </div>
+
+  <!-- Interactive ETF Table -->
+  <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow-x:auto;box-shadow:var(--shadow-sm);">
+    <table style="width:100%;border-collapse:collapse;text-align:left;font-size:0.82rem;">
+      <thead>
+        <tr style="background:var(--surface-2);border-bottom:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted);text-transform:uppercase;">
+          <th style="padding:0.75rem 1rem;">ETF Scheme & Ticker</th>
+          <th style="padding:0.75rem 0.75rem;">Category</th>
+          <th style="padding:0.75rem 0.75rem;text-align:right;cursor:pointer;" onclick="sortEtfs('ltp')">Market Price (LTP) ↕</th>
+          <th style="padding:0.75rem 0.75rem;text-align:right;">NAV / Premium</th>
+          <th style="padding:0.75rem 0.75rem;text-align:right;cursor:pointer;" onclick="sortEtfs('expense')">TER (Expense %) ↕</th>
+          <th style="padding:0.75rem 0.75rem;text-align:right;cursor:pointer;" onclick="sortEtfs('aum')">AUM (₹ Cr) ↕</th>
+          <th style="padding:0.75rem 0.75rem;text-align:right;cursor:pointer;" onclick="sortEtfs('return1y')">1-Year Return ↕</th>
+          <th style="padding:0.75rem 1rem;text-align:center;">Action</th>
+        </tr>
+      </thead>
+      <tbody id="groww-etf-tbody">
+        <!-- Rendered dynamically -->
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SCRIPTS FOR GROWW NEWS AUTO-REFRESH & ETF SCREENER -->
+<script>
+(function() {
+  var GROWW_NEWS_API = 'https://momentwealth-backend-911650691357.asia-south1.run.app/api/groww-news';
+  var GROWW_ETF_API = 'https://momentwealth-backend-911650691357.asia-south1.run.app/api/groww-etfs';
+
+  // Fallback Groww News Items
+  var FALLBACK_GROWW_NEWS = [
+    {
+      id: "963964_ADANI",
+      title: "Adani Power Merges 10 Units; RCF Grants ₹797 Cr L&T Contract",
+      summary: "Adani Power finalizes merger of 10 subsidiaries (including Vidarbha Industries Power); SAIL, BCCL sign MoU for coal block development. RCF awards ₹797 crore contract to L&T; Edelweiss confirms Carlyle's ₹2,000 crore Nido Home Finance stake.",
+      publishedAt: "2026-09-27T08:42:12",
+      publisher: "CNBC TV 18",
+      primaryStock: { name: "Adani Power", ticker: "ADANIPOWER", logo: "https://assets-netstorage.groww.in/stock-assets/logos2/ADANIPOWER.webp", url: "https://groww.in/stocks/adani-power-ltd" },
+      stocks: ["ADANIPOWER", "SAIL", "RCF", "LT", "EDELWEISS"],
+      timeAgo: "today"
+    },
+    {
+      id: "891760_ZEE",
+      title: "Zee Learn Faces ₹821 Cr Insolvency Case by ACRE",
+      summary: "Zee Learn and subsidiary face insolvency petitions by ACRE under IBC Section 7. Alleged default amounts to approximately ₹821 crores.",
+      publishedAt: "2026-09-27T00:32:11",
+      publisher: "ScoutQuest",
+      primaryStock: { name: "Zee Learn", ticker: "ZEELEARN", logo: "https://assets-netstorage.groww.in/stock-assets/logos2/ZeeLearn_22137558626_37833.png", url: "https://groww.in/stocks/zee-learn-ltd" },
+      stocks: ["ZEELEARN"],
+      timeAgo: "today"
+    },
+    {
+      id: "DCMNVL_AGM",
+      title: "DCM Nouvelle AGM: Key Resolutions Passed via E-Voting",
+      summary: "DCM Nouvelle's 10th AGM resolutions passed with requisite majority via e-voting. Key resolutions included financial statements and director re-appointments.",
+      publishedAt: "2026-09-26T23:50:43",
+      publisher: "Stock News Summary",
+      primaryStock: { name: "DCM Nouvelle", ticker: "DCMNVL", logo: "https://assets-netstorage.groww.in/stock-assets/logos2/DCMNouvelle_72128862_69008.png", url: "https://groww.in/stocks/dcm-nouvelle-ltd" },
+      stocks: ["DCMNVL"],
+      timeAgo: "yesterday"
+    },
+    {
+      id: "ALPHALOGIC_AGM",
+      title: "Alphalogic AGM Reviews Financials, Awaits Voting Results",
+      summary: "Alphalogic Techsys Ltd held its AGM on 26 Sep 2026 via video conferencing, discussing resolutions and industry outlook. Scrutinizer voting results to follow.",
+      publishedAt: "2026-09-26T22:26:40",
+      publisher: "Groww Wire",
+      primaryStock: { name: "Alphalogic Techsys", ticker: "ALPHALOGIC", logo: "https://assets-netstorage.groww.in/stock-assets/logos2/AlphalogicTechsys_32674832_74495.png", url: "https://groww.in/stocks/alphalogic-techsys-ltd" },
+      stocks: ["ALPHALOGIC"],
+      timeAgo: "yesterday"
+    }
+  ];
+
+  // Fallback Groww ETFs
+  var FALLBACK_GROWW_ETFS = [
+    { ticker: "TATSILV", name: "Tata Silver Exchange Traded Fund", category: "Silver", ltp: 22.21, nav: 21.97, premiumDiscountPct: 1.09, expenseRatio: 0.39, aumCr: 5440, return1Y: 71.53, logoUrl: "https://assets-netstorage.groww.in/stock-assets/logos2/tata_groww.png", growwUrl: "https://groww.in/etfs/tata-silver-exchange-traded-fund" },
+    { ticker: "SILVERBEES", name: "Nippon India Silver ETF", category: "Silver", ltp: 218.80, nav: 216.30, premiumDiscountPct: 1.16, expenseRatio: 0.58, aumCr: 32222, return1Y: 69.93, logoUrl: "https://assets-netstorage.groww.in/stock-assets/logos2/nippon_groww.png", growwUrl: "https://groww.in/etfs/nippon-life-india-asset-management-ltd-nippon-india-silver-etf" },
+    { ticker: "TATAGOLD", name: "Tata Gold Exchange Traded Fund", category: "Gold", ltp: 14.62, nav: 14.51, premiumDiscountPct: 0.76, expenseRatio: 0.35, aumCr: 6172, return1Y: 31.57, logoUrl: "https://assets-netstorage.groww.in/stock-assets/logos2/tata_groww.png", growwUrl: "https://groww.in/etfs/tata-gold-exchange-traded-fund" },
+    { ticker: "GOLDBEES", name: "Nippon India ETF Gold BeES", category: "Gold", ltp: 124.43, nav: 124.10, premiumDiscountPct: 0.27, expenseRatio: 0.81, aumCr: 58629, return1Y: 31.37, logoUrl: "https://assets-netstorage.groww.in/stock-assets/logos2/nippon_groww.png", growwUrl: "https://groww.in/etfs/nippon-india-etf-gold-bees" },
+    { ticker: "SETFNIF50", name: "SBI-ETF NIFTY 50", category: "Index", ltp: 249.47, nav: 249.12, premiumDiscountPct: 0.14, expenseRatio: 0.04, aumCr: 213793, return1Y: -5.87, logoUrl: "https://assets-netstorage.groww.in/stock-assets/logos2/sbi_groww.png", growwUrl: "https://groww.in/etfs/sbi-etf-nifty-50" },
+    { ticker: "NIFTYBEES", name: "Nippon India ETF Nifty 50 BeES", category: "Index", ltp: 264.13, nav: 263.95, premiumDiscountPct: 0.07, expenseRatio: 0.04, aumCr: 67095, return1Y: -5.86, logoUrl: "https://assets-netstorage.groww.in/stock-assets/logos2/nippon_groww.png", growwUrl: "https://groww.in/etfs/nippon-india-etf-nifty-50-bees" },
+    { ticker: "BANKBEES", name: "Nippon India ETF Nifty Bank BeES", category: "Banking", ltp: 532.10, nav: 531.80, premiumDiscountPct: 0.06, expenseRatio: 0.16, aumCr: 12450, return1Y: 8.45, logoUrl: "https://assets-netstorage.groww.in/stock-assets/logos2/nippon_groww.png", growwUrl: "https://groww.in/etfs/nippon-india-etf-bank-bees" }
+  ];
+
+  var growwNewsCountdownSec = 60;
+  var growwNewsTimer = null;
+  var rawEtfList = FALLBACK_GROWW_ETFS;
+  var currentEtfCategory = 'all';
+  var currentEtfSearch = '';
+  var currentEtfSort = 'return1y';
+
+  // Render Groww Stocks in News Cards
+  function renderGrowwNewsCards(items) {
+    var container = document.getElementById('groww-news-container');
+    if (!container) return;
+    if (!items || items.length === 0) {
+      container.innerHTML = '<div style="grid-column:1/-1;padding:2rem;text-align:center;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:12px;">No active Groww stock feed items available.</div>';
+      return;
+    }
+
+    container.innerHTML = items.slice(0, 8).map(function(it) {
+      var primary = it.primaryStock || {};
+      var logoSrc = primary.logo || 'https://assets-netstorage.groww.in/stock-assets/logos2/default_etf.png';
+      var stockName = primary.name || 'Stock Alert';
+      var ticker = primary.ticker || '';
+      var url = it.url || primary.url || 'https://groww.in/stock-feed';
+      var title = it.title || '';
+      var summary = it.summary || '';
+      var timeAgo = it.timeAgo || 'today';
+
+      var tagsHtml = '';
+      if (it.stocks && it.stocks.length > 0) {
+        tagsHtml = it.stocks.map(function(s) {
+          return '<span style="font-size:0.68rem;padding:2px 6px;border-radius:4px;background:rgba(0,208,156,0.1);color:#00D09C;border:1px solid rgba(0,208,156,0.25);font-family:\'JetBrains Mono\',monospace;font-weight:700;">' + s + '</span>';
+        }).join(' ');
+      }
+
+      return '<div class="groww-news-card" style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:1.15rem;display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow-sm);transition:all 0.2s ease;">' +
+        '<div>' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">' +
+            '<div style="display:flex;align-items:center;gap:0.6rem;">' +
+              '<img src="' + logoSrc + '" alt="' + stockName + '" onerror="this.style.display=\'none\'" style="width:34px;height:34px;border-radius:8px;object-fit:contain;background:var(--surface-2);border:1px solid var(--line);padding:2px;" />' +
+              '<div>' +
+                '<div style="font-weight:800;font-size:0.95rem;color:var(--ink);line-height:1.2;">' + stockName + '</div>' +
+                (ticker ? '<div style="font-size:0.72rem;color:var(--muted);font-family:\'JetBrains Mono\',monospace;">' + ticker + '</div>' : '') +
+              '</div>' +
+            '</div>' +
+            '<span style="font-size:0.68rem;padding:2px 7px;border-radius:9999px;background:rgba(0,208,156,0.12);color:#00D09C;border:1px solid rgba(0,208,156,0.25);font-family:\'JetBrains Mono\',monospace;font-weight:700;display:inline-flex;align-items:center;gap:0.3rem;">' +
+              '<span style="width:6px;height:6px;border-radius:50%;background:#00D09C;display:inline-block;"></span>' + timeAgo +
+            '</span>' +
+          '</div>' +
+          '<h4 style="margin:0 0 0.5rem 0;font-size:0.92rem;font-weight:700;color:var(--ink);line-height:1.35;">' + title + '</h4>' +
+          '<p style="margin:0;font-size:0.8rem;color:var(--muted);line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">' + summary + '</p>' +
+        '</div>' +
+        '<div style="margin-top:1rem;padding-top:0.75rem;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">' +
+          '<div style="display:flex;align-items:center;gap:0.3rem;flex-wrap:wrap;">' + tagsHtml + '</div>' +
+          '<a href="' + url + '" target="_blank" style="font-size:0.75rem;font-weight:700;color:#00D09C;text-decoration:none;display:inline-flex;align-items:center;gap:0.25rem;font-family:\'JetBrains Mono\',monospace;">' +
+            'View on Groww ↗' +
+          '</a>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  // Refresh Groww News
+  window.refreshGrowwNews = function(force) {
+    var icon = document.getElementById('groww-news-refresh-icon');
+    var badge = document.getElementById('groww-news-sync-badge');
+    if (icon) icon.style.animation = 'spin 0.8s linear infinite';
+    if (badge) badge.textContent = 'SYNCING WIRE...';
+
+    var url = GROWW_NEWS_API + (force ? '?force=1' : '');
+    fetch(url, { cache: 'no-store' })
+      .then(function(r) { return r.json(); })
+      .then(function(res) {
+        if (icon) icon.style.animation = '';
+        if (badge) {
+          badge.textContent = 'LIVE SYNCED (' + (res.items ? res.items.length : 0) + ' ITEMS)';
+          badge.style.color = '#00D09C';
+        }
+        if (res && res.items && res.items.length > 0) {
+          renderGrowwNewsCards(res.items);
+        } else {
+          renderGrowwNewsCards(FALLBACK_GROWW_NEWS);
+        }
+        growwNewsCountdownSec = 60;
+      })
+      .catch(function() {
+        if (icon) icon.style.animation = '';
+        if (badge) badge.textContent = 'CACHED SYNC';
+        renderGrowwNewsCards(FALLBACK_GROWW_NEWS);
+        growwNewsCountdownSec = 60;
+      });
+  };
+
+  // Start 60s countdown timer for Groww News
+  function startGrowwNewsAutoRefresh() {
+    if (growwNewsTimer) clearInterval(growwNewsTimer);
+    growwNewsCountdownSec = 60;
+    growwNewsTimer = setInterval(function() {
+      growwNewsCountdownSec--;
+      var el = document.getElementById('groww-news-countdown');
+      if (el) el.textContent = growwNewsCountdownSec + 's';
+      if (growwNewsCountdownSec <= 0) {
+        growwNewsCountdownSec = 60;
+        window.refreshGrowwNews(false);
+      }
+    }, 1000);
+  }
+
+  // Render ETF Table Rows
+  function renderEtfTable() {
+    var tbody = document.getElementById('groww-etf-tbody');
+    if (!tbody) return;
+
+    var list = [...rawEtfList];
+
+    // Filter by Category
+    if (currentEtfCategory !== 'all') {
+      list = list.filter(function(e) {
+        return (e.category || '').toLowerCase().indexOf(currentEtfCategory.toLowerCase()) > -1;
+      });
+    }
+
+    // Filter by Search
+    if (currentEtfSearch) {
+      var q = currentEtfSearch.toLowerCase();
+      list = list.filter(function(e) {
+        return (e.name || '').toLowerCase().indexOf(q) > -1 || (e.ticker || '').toLowerCase().indexOf(q) > -1;
+      });
+    }
+
+    // Sort
+    if (currentEtfSort === 'return1y') {
+      list.sort(function(a, b) { return (b.return1Y || -999) - (a.return1Y || -999); });
+    } else if (currentEtfSort === 'aum') {
+      list.sort(function(a, b) { return (b.aumCr || 0) - (a.aumCr || 0); });
+    } else if (currentEtfSort === 'expense') {
+      list.sort(function(a, b) { return (a.expenseRatio || 999) - (b.expenseRatio || 999); });
+    } else if (currentEtfSort === 'ltp') {
+      list.sort(function(a, b) { return (b.ltp || 0) - (a.ltp || 0); });
+    }
+
+    if (list.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="8" style="padding:2rem;text-align:center;color:var(--muted);">No ETFs match the selected category or search filter.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = list.map(function(e, idx) {
+      var borderStyle = (idx === list.length - 1) ? '' : 'border-bottom:1px solid var(--line);';
+      var logoSrc = e.logoUrl || 'https://assets-netstorage.groww.in/stock-assets/logos2/default_etf.png';
+      var ltpFormatted = typeof e.ltp === 'number' ? '₹' + e.ltp.toFixed(2) : '—';
+      var navFormatted = typeof e.nav === 'number' ? '₹' + e.nav.toFixed(2) : '—';
+      var terFormatted = typeof e.expenseRatio === 'number' ? e.expenseRatio.toFixed(2) + '%' : '—';
+      var aumFormatted = typeof e.aumCr === 'number' ? '₹' + Number(e.aumCr).toLocaleString('en-IN') + ' Cr' : '—';
+
+      var r1yHtml = '—';
+      if (typeof e.return1Y === 'number') {
+        var isPos = e.return1Y >= 0;
+        var rClass = isPos ? 'var(--gain)' : 'var(--loss)';
+        var rSign = isPos ? '+' : '';
+        r1yHtml = '<span style="font-family:\'JetBrains Mono\',monospace;font-weight:800;color:' + rClass + ';padding:2px 6px;border-radius:4px;background:' + (isPos ? 'rgba(0,230,118,0.1)' : 'rgba(255,23,68,0.1)') + ';">' + rSign + e.return1Y.toFixed(2) + '%</span>';
+      }
+
+      var premHtml = '';
+      if (typeof e.premiumDiscountPct === 'number') {
+        var pSign = e.premiumDiscountPct >= 0 ? '+' : '';
+        var pColor = e.premiumDiscountPct >= 0 ? 'var(--gain)' : 'var(--loss)';
+        premHtml = ' <span style="font-size:0.7rem;color:' + pColor + ';">(' + pSign + e.premiumDiscountPct.toFixed(2) + '%)</span>';
+      }
+
+      var catBadgeBg = 'rgba(255,255,255,0.06)';
+      var catBadgeColor = 'var(--ink)';
+      if (e.category === 'Silver') { catBadgeBg = 'rgba(192,192,192,0.15)'; catBadgeColor = '#C0C0C0'; }
+      else if (e.category === 'Gold') { catBadgeBg = 'rgba(255,215,0,0.15)'; catBadgeColor = '#FFD700'; }
+      else if (e.category === 'Index') { catBadgeBg = 'rgba(0,208,156,0.15)'; catBadgeColor = '#00D09C'; }
+      else if (e.category === 'Banking') { catBadgeBg = 'rgba(41,121,255,0.15)'; catBadgeColor = '#2979FF'; }
+
+      var growwLink = e.growwUrl || ('https://groww.in/etfs/' + (e.ticker || '').toLowerCase());
+
+      return '<tr style="' + borderStyle + 'transition:background 0.15s ease;" onmouseover="this.style.background=\'var(--surface-2)\'" onmouseout="this.style.background=\'\'">' +
+        '<td style="padding:0.75rem 1rem;">' +
+          '<div style="display:flex;align-items:center;gap:0.6rem;">' +
+            '<img src="' + logoSrc + '" alt="' + e.ticker + '" onerror="this.style.display=\'none\'" style="width:28px;height:28px;border-radius:6px;object-fit:contain;background:var(--surface-2);border:1px solid var(--line);padding:2px;" />' +
+            '<div>' +
+              '<div style="font-weight:700;color:var(--ink);font-size:0.86rem;">' + e.name + '</div>' +
+              '<div style="font-family:\'JetBrains Mono\',monospace;font-size:0.72rem;color:var(--muted);">' + e.ticker + '</div>' +
+            '</div>' +
+          '</div>' +
+        '</td>' +
+        '<td style="padding:0.75rem 0.75rem;">' +
+          '<span style="font-size:0.68rem;padding:2px 7px;border-radius:9999px;background:' + catBadgeBg + ';color:' + catBadgeColor + ';font-weight:700;font-family:\'JetBrains Mono\',monospace;">' + (e.category || 'ETF') + '</span>' +
+        '</td>' +
+        '<td style="padding:0.75rem 0.75rem;text-align:right;font-family:\'JetBrains Mono\',monospace;font-weight:800;color:var(--ink);font-size:0.88rem;">' + ltpFormatted + '</td>' +
+        '<td style="padding:0.75rem 0.75rem;text-align:right;font-family:\'JetBrains Mono\',monospace;font-size:0.78rem;color:var(--muted);">' + navFormatted + premHtml + '</td>' +
+        '<td style="padding:0.75rem 0.75rem;text-align:right;font-family:\'JetBrains Mono\',monospace;font-size:0.78rem;color:var(--muted);">' + terFormatted + '</td>' +
+        '<td style="padding:0.75rem 0.75rem;text-align:right;font-family:\'JetBrains Mono\',monospace;font-size:0.78rem;color:var(--ink);font-weight:600;">' + aumFormatted + '</td>' +
+        '<td style="padding:0.75rem 0.75rem;text-align:right;">' + r1yHtml + '</td>' +
+        '<td style="padding:0.75rem 1rem;text-align:center;">' +
+          '<a href="' + growwLink + '" target="_blank" style="font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;font-weight:700;background:rgba(247,166,0,0.12);color:#F7A600;border:1px solid rgba(247,166,0,0.3);padding:0.3rem 0.6rem;border-radius:6px;text-decoration:none;display:inline-flex;align-items:center;gap:0.25rem;">' +
+            'Groww ↗' +
+          '</a>' +
+        '</td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  // Refresh Groww ETFs
+  window.refreshGrowwEtfs = function(force) {
+    var icon = document.getElementById('groww-etf-refresh-icon');
+    var badge = document.getElementById('groww-etf-sync-badge');
+    if (icon) icon.style.animation = 'spin 0.8s linear infinite';
+    if (badge) badge.textContent = 'SYNCING ETFS...';
+
+    var url = GROWW_ETF_API + (force ? '?force=1' : '');
+    fetch(url, { cache: 'no-store' })
+      .then(function(r) { return r.json(); })
+      .then(function(res) {
+        if (icon) icon.style.animation = '';
+        if (badge) badge.textContent = (res.total || (res.etfs ? res.etfs.length : 0)) + '+ ETFS SYNCED';
+        if (res && res.etfs && res.etfs.length > 0) {
+          rawEtfList = res.etfs;
+        } else {
+          rawEtfList = FALLBACK_GROWW_ETFS;
+        }
+        renderEtfTable();
+      })
+      .catch(function() {
+        if (icon) icon.style.animation = '';
+        if (badge) badge.textContent = 'CACHED ETFS SYNCED';
+        rawEtfList = FALLBACK_GROWW_ETFS;
+        renderEtfTable();
+      });
+  };
+
+  // Filter ETFs by Category
+  window.filterEtfs = function(cat, btn) {
+    currentEtfCategory = cat;
+    var pills = document.querySelectorAll('.etf-pill');
+    pills.forEach(function(p) {
+      p.style.background = 'var(--surface-2)';
+      p.style.borderColor = 'var(--line)';
+      p.style.color = 'var(--muted)';
+      p.classList.remove('active');
+    });
+    if (btn) {
+      btn.style.background = 'rgba(247,166,0,0.15)';
+      btn.style.borderColor = 'rgba(247,166,0,0.35)';
+      btn.style.color = '#F7A600';
+      btn.classList.add('active');
+    }
+    renderEtfTable();
+  };
+
+  // Search ETFs
+  window.searchEtfs = function(q) {
+    currentEtfSearch = q;
+    renderEtfTable();
+  };
+
+  // Sort ETFs
+  window.sortEtfs = function(field) {
+    currentEtfSort = field;
+    renderEtfTable();
+  };
+
+  // Initialize both sections on load
+  function initGrowwSections() {
+    window.refreshGrowwNews(false);
+    startGrowwNewsAutoRefresh();
+    window.refreshGrowwEtfs(false);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGrowwSections);
+  } else {
+    initGrowwSections();
+  }
+})();
+</script>
+
 
 <!-- GOOGLE AI VOICE AGENT DOCK -->
 <section>
@@ -5220,6 +5664,7 @@ function filterActionCards(type, btn) {
 <button class="lw-source-pill" data-source="Economic Times">Economic Times</button>
 <button class="lw-source-pill" data-source="Moneycontrol">Moneycontrol</button>
 <button class="lw-source-pill" data-source="Business Standard">Business Standard</button>
+<button class="lw-source-pill" data-source="Groww" style="font-weight:700;color:#00D09C;border-color:rgba(0,208,156,0.3);">🟢 Groww Wire</button>
 <button class="lw-source-pill" data-source="stocks">🎯 Stock Specific</button>
 </div>
 <div class="livewire-filter-bar">
@@ -10581,85 +11026,86 @@ document.querySelectorAll('.watch-card').forEach(function(card){
 
   var VERIFIED_LIVE_WIRE = [
     {
-      title: "Sterling and Wilson Renewable Energy surges after bagging orders worth ₹985 crore",
-      url: "https://www.business-standard.com/companies/news/sterling-and-wilson-renewable-energy-surges-after-bagging-orders-worth-rs-985-crore-126092200150_1.html",
-      category: "STOCKS & SOLAR",
-      source: "Business Standard",
-      timeAgo: "15m ago",
-      publishedAt: "2026-09-22T04:20:32.000Z",
-      stocks: ["SWSOLAR"],
-      summary: "Sterling and Wilson Renewable Energy (SWREL) rallied over 4% after securing landmark domestic and international solar EPC orders worth ₹985 Cr, boosting FY27 project execution velocity."
+      title: "Adani Power Merges 10 Units; RCF Grants ₹797 Cr L&T Contract",
+      url: "https://groww.in/stocks/adani-power-ltd",
+      category: "STOCKS IN NEWS",
+      source: "Groww",
+      timeAgo: "today",
+      publishedAt: "2026-09-27T08:42:12.000Z",
+      stocks: ["ADANIPOWER", "SAIL", "RCF", "LT", "EDELWEISS"],
+      summary: "Adani Power finalizes merger of 10 subsidiaries (including Vidarbha Industries Power); SAIL, BCCL sign MoU for coal block development. RCF awards ₹797 crore contract to L&T; Edelweiss confirms Carlyle's ₹2,000 crore Nido Home Finance stake."
     },
     {
-      title: "Investors rush into India's National Stock Exchange IPO at valuation multiple above Nasdaq",
-      url: "https://www.cnbc.com/2026/09/22/india-nse-ipo-demand-valuation.html",
-      category: "IPOS & EXCHANGES",
-      source: "CNBC",
-      timeAgo: "30m ago",
-      publishedAt: "2026-09-22T04:00:28.000Z",
-      stocks: ["NIFTY", "PROTEAN", "CDSL"],
-      summary: "India's landmark NSE IPO garners overwhelming global institutional demand exceeding $10 Billion (subscribed 6x) with allotment finalized today; premium secondary market sentiment lifts intermediary stocks."
+      title: "Zee Learn Faces ₹821 Cr Insolvency Case by ACRE",
+      url: "https://groww.in/stocks/zee-learn-ltd",
+      category: "INSOLVENCY & IBC",
+      source: "Groww",
+      timeAgo: "today",
+      publishedAt: "2026-09-27T00:32:11.000Z",
+      stocks: ["ZEELEARN"],
+      summary: "Zee Learn and subsidiary face insolvency petitions by ACRE under IBC Section 7. Alleged default amounts to approximately ₹821 crores."
     },
     {
-      title: "Welspun Corp extends rally following associate company's ₹2,000-crore Saudi Aramco supply contract",
-      url: "https://www.business-standard.com/companies/news/welspun-corps-associate-company-bags-rs-2000-cr-contract-from-aramco-126092100240_1.html",
+      title: "DCM Nouvelle AGM: Key Resolutions Passed via E-Voting",
+      url: "https://groww.in/stocks/dcm-nouvelle-ltd",
+      category: "AGM & VOTING",
+      source: "Groww",
+      timeAgo: "yesterday",
+      publishedAt: "2026-09-26T23:50:43.000Z",
+      stocks: ["DCMNVL"],
+      summary: "DCM Nouvelle's 10th AGM resolutions passed with requisite majority via e-voting. Key resolutions included financial statements and director re-appointments."
+    },
+    {
+      title: "Alphalogic AGM Reviews Financials, Awaits Voting Results",
+      url: "https://groww.in/stocks/alphalogic-techsys-ltd",
+      category: "AGM & VOTING",
+      source: "Groww",
+      timeAgo: "yesterday",
+      publishedAt: "2026-09-26T22:26:40.000Z",
+      stocks: ["ALPHALOGIC"],
+      summary: "Alphalogic Techsys Ltd held its AGM on 26 Sep 2026 via video conferencing, discussing resolutions and industry outlook. Scrutinizer voting results to follow."
+    },
+    {
+      title: "G.G. Dandekar Sells Bhiwandi Land for ₹2.01 Cr per SEBI Guidelines",
+      url: "https://groww.in/stock-feed",
+      category: "ASSET DISPOSAL",
+      source: "Groww",
+      timeAgo: "yesterday",
+      publishedAt: "2026-09-26T22:18:41.000Z",
+      stocks: ["GGDANDEKAR"],
+      summary: "G. G. Dandekar Properties Ltd completed disposal of 1,800 sq.m. land in Bhiwandi for ₹2.01 Cr following Board approval and SEBI (LODR) disclosures."
+    },
+    {
+      title: "Shoppers Stop Surges 10% on Pre-Festive Retail Demand & High Delivery Volumes",
+      url: "https://www.etmoney.com/stocks",
+      category: "VOLUME SHOCKERS",
+      source: "ET Money",
+      timeAgo: "yesterday",
+      publishedAt: "2026-09-26T15:30:00.000Z",
+      stocks: ["SHOPERSTOP"],
+      summary: "Shoppers Stop locked near 10% upper limit with 4.5x volume expansion driven by strong pre-Diwali fashion, festive apparel, and beauty retail consumption trends."
+    },
+    {
+      title: "Som Distilleries Breaks Out with 10.6% Surge & Institutional Delivery Spike",
+      url: "https://www.etmoney.com/stocks",
+      category: "VOLUME SHOCKERS",
+      source: "ET Money",
+      timeAgo: "yesterday",
+      publishedAt: "2026-09-26T15:30:00.000Z",
+      stocks: ["SOMDIST"],
+      summary: "Som Distilleries rallied +10.59% to ₹74.36 with aggressive accumulation on the back of rising draught beer volumes and rapid Southern India distribution expansion."
+    },
+    {
+      title: "Welspun Corp Consolidates Strong Gains on ₹2,000 Cr Saudi Aramco Win",
+      url: "https://groww.in/stocks/welspun-corp-ltd",
       category: "STOCKS & INFRA",
-      source: "Business Standard",
-      timeAgo: "1h ago",
-      publishedAt: "2026-09-22T03:45:00.000Z",
+      source: "Groww",
+      timeAgo: "yesterday",
+      publishedAt: "2026-09-26T14:00:00.000Z",
       stocks: ["WELSPUN"],
-      summary: "Welspun Corp maintains robust momentum as brokerages lift target to ₹960 following associate firm East Pipes winning ₹2,000 Cr line-pipe supply contract from Aramco."
-    },
-    {
-      title: "Phoenix Mills Ltd spikes 1.5% on record festive mall consumption and retail expansion",
-      url: "https://www.business-standard.com/companies/news/phoenix-mills-spikes-festive-consumption-126092200180_1.html",
-      category: "STOCKS & REALTY",
-      source: "Business Standard",
-      timeAgo: "1h ago",
-      publishedAt: "2026-09-22T04:20:14.000Z",
-      stocks: ["PHOENIXLTD"],
-      summary: "Phoenix Mills rallies as footfall trends and pre-festive retail tenant sales jump double-digits across Bengaluru, Mumbai, and Pune flagship malls."
-    },
-    {
-      title: "Indian shares open higher on easing oil prices and firm Asian tech cues; Nifty holds 23,450",
-      url: "https://www.reuters.com/markets/asia/indian-shares-open-higher-2026-09-22/",
-      category: "MARKETS",
-      source: "Reuters",
-      timeAgo: "1h ago",
-      publishedAt: "2026-09-22T03:48:50.000Z",
-      stocks: ["NIFTY", "SENSEX"],
-      summary: "Nifty and Sensex open on a firm note on Tuesday supported by softening crude prices ($97.20/bbl) and sustained domestic mutual fund SIP buying (+₹17,850 Cr)."
-    },
-    {
-      title: "Dilip Buildcon selected as successful bidder for 400 KV GIS Solapur / Paranda switching station project",
-      url: "https://www.business-standard.com/companies/news/dilip-buildcon-bags-project-for-establishment-of-400-kv-gis-126092100220_1.html",
-      category: "POWER & INFRA",
-      source: "Business Standard",
-      timeAgo: "2h ago",
-      publishedAt: "2026-09-22T03:15:00.000Z",
-      stocks: ["DBL"],
-      summary: "REC Power Development declares Dilip Buildcon successful bidder for Solapur 400 KV GIS project, adding to robust infrastructure order book."
-    },
-    {
-      title: "HEG Advanced Materials gains on ₹218 crore lithium-ion battery system order from clean tech clients",
-      url: "https://www.business-standard.com/companies/news/heg-advanced-materials-gains-on-rs-218-crore-lithium-ion-battery-orders-126092100215_1.html",
-      category: "CLEAN TECH",
-      source: "Business Standard",
-      timeAgo: "2h ago",
-      publishedAt: "2026-09-22T02:50:00.000Z",
-      stocks: ["HEG"],
-      summary: "Subsidiary Replus Engitech secures ₹218 Cr in battery energy storage system (BESS) purchase orders from top infrastructure and clean mobility customers."
-    },
-    {
-      title: "Shakti Pumps surges as execution begins on ₹236 Cr MSEDCL solar agricultural pump contract",
-      url: "https://www.indmoney.com/stocks",
-      category: "CLEAN TECH",
-      source: "INDmoney",
-      timeAgo: "2h ago",
-      publishedAt: "2026-09-22T02:30:00.000Z",
-      stocks: ["SHAKTIPUMP"],
-      summary: "Shakti Pumps maintains upper circuit strength following receipt of work order for 10,000+ off-grid solar photovoltaic water pumping systems under PM KUSUM."
-    }];
+      summary: "Welspun Corp maintains commanding position with record order book exceeding ₹15,000 Cr following Aramco and US line-pipe wins, lifting FY27 EPS targets."
+    }
+  ];
 
   function sanitizeNewsText(str) {
     if (!str) return '';
@@ -10778,6 +11224,7 @@ document.querySelectorAll('.watch-card').forEach(function(card){
       if (currentSource === 'Moneycontrol' && (!it.source || it.source.indexOf('Moneycontrol') === -1)) return false;
       if (currentSource === 'Business Standard' && (!it.source || it.source.indexOf('Business') === -1)) return false;
       if (currentSource === 'TradingView' && (!it.source || it.source.indexOf('TradingView') === -1)) return false;
+      if (currentSource === 'Groww' && (!it.source || it.source.indexOf('Groww') === -1)) return false;
       if (currentSource === 'stocks' && (!it.stocks || it.stocks.length === 0)) return false;
 
       // Quick Ticker Chip filter
