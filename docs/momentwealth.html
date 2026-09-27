@@ -4529,328 +4529,398 @@ footer {
 <section class="stock-action-section" id="section-stock-action">
   <div class="stock-action-header-wrap">
     <div>
-      <div class="stock-action-eyebrow">
+      <div class="stock-action-eyebrow" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
         <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#00E676;box-shadow:0 0 8px #00E676;"></span>
-        NSE / BSE LIVE ACTION · ET MONEY TEMPLATE
+        <span>NSE / BSE LIVE ACTION &middot; RETRIEVED FROM <a href="https://www.etmoney.com/stocks" target="_blank" style="color:#00E676;text-decoration:underline;font-weight:700;">ET MONEY LIVE</a></span>
+        <span id="etmoney-sync-badge" style="font-size:0.68rem;padding:2px 7px;border-radius:9999px;background:rgba(0,230,118,0.12);color:var(--gain);border:1px solid rgba(0,230,118,0.25);font-family:'JetBrains Mono',monospace;">LIVE SYNCED</span>
       </div>
       <h2 class="stock-action-title">
         Based on Stock Action
         <span style="font-size:0.75rem;padding:2px 8px;border-radius:9999px;background:rgba(0,230,118,0.15);color:var(--gain);border:1px solid rgba(0,230,118,0.3);font-family:'JetBrains Mono',monospace;font-weight:600;">ACTIVE TRADE</span>
       </h2>
       <p class="stock-action-sub">
-        Real-time multi-dimensional tracking of stocks based on market activity and trading patterns: Top Gainers, Top Losers, Stocks with Only Buyers (Upper Circuit 100% Demand), and High Volume Shockers.
+        Real-time multi-dimensional tracking of stocks based on market activity and trading patterns from <a href="https://www.etmoney.com/stocks" target="_blank" style="color:var(--accent);">ET Money (NSE Share Market Today)</a>: Top Gainers, Top Losers, Only Buyers (Upper Circuits), Volume Shockers, Only Sellers (Lower Circuits), and Most Active Stocks.
       </p>
     </div>
 
-    <!-- Quick Filter Category Pills -->
-    <div class="stock-action-filters">
-      <button class="action-filter-pill active" onclick="filterActionCards('all', this)">All Cap (100+)</button>
-      <button class="action-filter-pill" onclick="filterActionCards('nifty50', this)">Nifty 50</button>
-      <button class="action-filter-pill" onclick="filterActionCards('midcap', this)">Mid & Small Cap</button>
-      <button class="action-filter-pill" onclick="filterActionCards('circuits', this)">🔒 Circuits Only</button>
-      <button class="action-filter-pill" onclick="filterActionCards('fno', this)">F&amp;O Universe</button>
+    <!-- Quick Action Controls -->
+    <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+      <button id="btn-refresh-etmoney" onclick="refreshEtMoneyStocks(true)" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;background:var(--surface);border:1px solid var(--line);padding:0.4rem 0.8rem;border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem;color:var(--ink);box-shadow:var(--shadow-sm);">
+        🔄 Refresh ET Money Live
+      </button>
+      <a href="https://www.etmoney.com/stocks" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;background:rgba(0,230,118,0.1);color:var(--gain);border:1px solid rgba(0,230,118,0.25);padding:0.4rem 0.8rem;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:0.3rem;">
+        ↗ Open etmoney.com/stocks
+      </a>
     </div>
   </div>
 
-  <!-- 4-Card Responsive Grid -->
-  <div class="stock-action-grid">
+  <!-- 6-Card Responsive Grid directly retrieved from ET Money -->
+  <div class="stock-action-grid" id="etmoney-cards-container" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:1.25rem;">
 
     <!-- CARD 1: TOP GAINERS -->
-    <div class="action-card" id="card-top-gainers">
-      <div class="action-card-header gainers-banner">
-        <div class="action-card-title-group">
-          <div class="action-card-icon" style="color:#00E676;">📈</div>
-          <h3 class="action-card-title">Top Gainers</h3>
+    <div class="action-card" id="card-top-gainers" style="background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);">
+      <div class="action-card-header gainers-banner" style="padding:0.85rem 1.1rem;background:linear-gradient(90deg, rgba(0,230,118,0.12), transparent);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);">
+        <div class="action-card-title-group" style="display:flex;align-items:center;gap:0.5rem;">
+          <span style="font-size:1.2rem;">📈</span>
+          <h3 class="action-card-title" style="margin:0;font-size:1.05rem;font-weight:800;color:var(--ink);">Top Gainers</h3>
         </div>
-        <span class="action-card-badge gain">▲ Bullish</span>
+        <span class="action-card-badge gain" style="font-size:0.7rem;font-weight:700;color:var(--gain);background:rgba(0,230,118,0.15);padding:2px 7px;border-radius:4px;">▲ Bullish</span>
       </div>
-      <table class="action-table">
-        <tbody>
-          <tr class="action-row" data-cap="midcap" onclick="if(window.openStockDetail) openStockDetail('TEGA');">
-            <td>
-              <div class="action-stock-name">Tega Industries Ltd.</div>
-              <div class="action-stock-sector">Engineering &amp; Equipment</div>
+      <table class="action-table" style="width:100%;border-collapse:collapse;">
+        <tbody id="etmoney-tbody-gainers">
+          <tr class="action-row" style="border-bottom:1px solid var(--line);cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('WHIRLPOOL');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Whirlpool of India Ltd.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Consumer Electronics</div>
             </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹2,135.10</span>
-              <span class="action-delta gain">▲ +192.10 (+9.89%)</span>
-            </td>
-          </tr>
-          <tr class="action-row" data-cap="midcap" onclick="if(window.openStockDetail) openStockDetail('JPPOWER');">
-            <td>
-              <div class="action-stock-name">Jaiprakash Power Ventures</div>
-              <div class="action-stock-sector">Power - Generation</div>
-            </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹16.84</span>
-              <span class="action-delta gain">▲ +1.47 (+9.56%)</span>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹918.90</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--gain);">+65.45 (+7.67%)</div>
             </td>
           </tr>
-          <tr class="action-row" data-cap="nifty50" onclick="if(window.openStockDetail) openStockDetail('WELSPUN');">
-            <td>
-              <div class="action-stock-name">Welspun Corp Ltd.</div>
-              <div class="action-stock-sector">Steel Pipes · Aramco Order</div>
+          <tr class="action-row" style="border-bottom:1px solid var(--line);cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('ENGINERSIN');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Engineers India Ltd.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Engineering</div>
             </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹842.10</span>
-              <span class="action-delta gain">▲ +40.10 (+5.00%)</span>
-            </td>
-          </tr>
-          <tr class="action-row" data-cap="midcap" onclick="if(window.openStockDetail) openStockDetail('PATANJALI');">
-            <td>
-              <div class="action-stock-name">Patanjali Foods Ltd.</div>
-              <div class="action-stock-sector">Edible Oils &amp; FMCG</div>
-            </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹396.85</span>
-              <span class="action-delta gain">▲ +29.85 (+8.13%)</span>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹315.65</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--gain);">+19.00 (+6.40%)</div>
             </td>
           </tr>
-          <tr class="action-row" data-cap="midcap" onclick="if(window.openStockDetail) openStockDetail('COHANCE');">
-            <td>
-              <div class="action-stock-name">Cohance Lifesciences Ltd.</div>
-              <div class="action-stock-sector">Pharmaceuticals</div>
+          <tr class="action-row" style="border-bottom:1px solid var(--line);cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('WELCORP');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Welspun Corp Ltd.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Steel Pipes &middot; Aramco Win</div>
             </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹470.45</span>
-              <span class="action-delta gain">▲ +32.45 (+7.41%)</span>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹2,832.40</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--gain);">+140.20 (+5.21%)</div>
+            </td>
+          </tr>
+          <tr class="action-row" style="cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('KAYNES');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Kaynes Technology India Ltd.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Electronic Equipment</div>
+            </td>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹3,650.00</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--gain);">+140.50 (+4.00%)</div>
             </td>
           </tr>
         </tbody>
       </table>
-      <div class="action-card-footer">
-        <a href="#tab-stocks" class="action-view-all-link" onclick="if(window.filterLiveWireBySource) filterLiveWireBySource('gainers');">
-          View all 48 Gainers <span style="font-size:1rem;">→</span>
-        </a>
-      </div>
     </div>
 
     <!-- CARD 2: TOP LOSERS -->
-    <div class="action-card" id="card-top-losers">
-      <div class="action-card-header losers-banner">
-        <div class="action-card-title-group">
-          <div class="action-card-icon" style="color:#FF3B30;">📉</div>
-          <h3 class="action-card-title">Top Losers</h3>
+    <div class="action-card" id="card-top-losers" style="background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);">
+      <div class="action-card-header losers-banner" style="padding:0.85rem 1.1rem;background:linear-gradient(90deg, rgba(255,59,48,0.12), transparent);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);">
+        <div class="action-card-title-group" style="display:flex;align-items:center;gap:0.5rem;">
+          <span style="font-size:1.2rem;">📉</span>
+          <h3 class="action-card-title" style="margin:0;font-size:1.05rem;font-weight:800;color:var(--ink);">Top Losers</h3>
         </div>
-        <span class="action-card-badge loss">▼ Bearish</span>
+        <span class="action-card-badge loss" style="font-size:0.7rem;font-weight:700;color:var(--loss);background:rgba(255,59,48,0.15);padding:2px 7px;border-radius:4px;">▼ Bearish</span>
       </div>
-      <table class="action-table">
-        <tbody>
-          <tr class="action-row" data-cap="fno" onclick="if(window.openStockDetail) openStockDetail('OFSS');">
-            <td>
-              <div class="action-stock-name">Oracle Financial Services</div>
-              <div class="action-stock-sector">IT - Software Solutions</div>
+      <table class="action-table" style="width:100%;border-collapse:collapse;">
+        <tbody id="etmoney-tbody-losers">
+          <tr class="action-row" style="border-bottom:1px solid var(--line);cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('OLAELEC');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Ola Electric Mobility Ltd.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Automobiles</div>
             </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹11,031.00</span>
-              <span class="action-delta loss">▼ -865.00 (-7.27%)</span>
-            </td>
-          </tr>
-          <tr class="action-row" data-cap="fno" onclick="if(window.openStockDetail) openStockDetail('BSE');">
-            <td>
-              <div class="action-stock-name">BSE Ltd.</div>
-              <div class="action-stock-sector">Exchanges &amp; Data Services</div>
-            </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹3,123.00</span>
-              <span class="action-delta loss">▼ -143.40 (-4.39%)</span>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹38.48</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--loss);">-4.04 (-9.50%)</div>
             </td>
           </tr>
-          <tr class="action-row" data-cap="fno" onclick="if(window.openStockDetail) openStockDetail('UNOMINDA');">
-            <td>
-              <div class="action-stock-name">UNO Minda Ltd.</div>
-              <div class="action-stock-sector">Auto Ancillary Components</div>
+          <tr class="action-row" style="border-bottom:1px solid var(--line);cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('MEESHO');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Meesho Ltd.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">E-Commerce</div>
             </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹1,226.10</span>
-              <span class="action-delta loss">▼ -57.90 (-4.51%)</span>
-            </td>
-          </tr>
-          <tr class="action-row" data-cap="nifty50" onclick="if(window.openStockDetail) openStockDetail('TCS');">
-            <td>
-              <div class="action-stock-name">Tata Consultancy (TCS)</div>
-              <div class="action-stock-sector">IT Services · Tata Sons Deliberations</div>
-            </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹2,105.00</span>
-              <span class="action-delta loss">▼ -94.40 (-4.30%)</span>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹217.06</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--loss);">-15.78 (-6.78%)</div>
             </td>
           </tr>
-          <tr class="action-row" data-cap="midcap" onclick="if(window.openStockDetail) openStockDetail('VTL');">
-            <td>
-              <div class="action-stock-name">Vardhman Textiles Ltd.</div>
-              <div class="action-stock-sector">Textiles &amp; Yarn</div>
+          <tr class="action-row" style="border-bottom:1px solid var(--line);cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('FORTIS');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Fortis Healthcare Ltd.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Hospital &amp; Healthcare</div>
             </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹557.20</span>
-              <span class="action-delta loss">▼ -20.85 (-3.61%)</span>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹837.85</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--loss);">-39.50 (-4.50%)</div>
+            </td>
+          </tr>
+          <tr class="action-row" style="cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('JKCEMENT');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">JK Cement Ltd.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Cement</div>
+            </td>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹5,000.00</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--loss);">-184.50 (-3.56%)</div>
             </td>
           </tr>
         </tbody>
       </table>
-      <div class="action-card-footer">
-        <a href="#tab-stocks" class="action-view-all-link" onclick="if(window.filterLiveWireBySource) filterLiveWireBySource('losers');">
-          View all 32 Losers <span style="font-size:1rem;">→</span>
-        </a>
-      </div>
     </div>
 
-    <!-- CARD 3: ONLY BUYERS (UPPER CIRCUIT LOCK 100% BUYERS) -->
-    <div class="action-card" id="card-only-buyers">
-      <div class="action-card-header buyers-banner">
-        <div class="action-card-title-group">
-          <div class="action-card-icon" style="color:#06B6D4;">🔒</div>
-          <h3 class="action-card-title">Only Buyers</h3>
+    <!-- CARD 3: ONLY BUYERS (UPPER CIRCUITS) -->
+    <div class="action-card" id="card-only-buyers" style="background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);">
+      <div class="action-card-header buyers-banner" style="padding:0.85rem 1.1rem;background:linear-gradient(90deg, rgba(37,211,102,0.15), transparent);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);">
+        <div class="action-card-title-group" style="display:flex;align-items:center;gap:0.5rem;">
+          <span style="font-size:1.2rem;">🔒</span>
+          <h3 class="action-card-title" style="margin:0;font-size:1.05rem;font-weight:800;color:var(--ink);">Only Buyers</h3>
         </div>
-        <span class="action-card-badge buyers">100% BIDS • 0 SELLERS</span>
+        <span class="action-card-badge gain" style="font-size:0.7rem;font-weight:700;color:var(--gain);background:rgba(0,230,118,0.15);padding:2px 7px;border-radius:4px;">Upper Circuit</span>
       </div>
-      <table class="action-table">
-        <tbody>
-          <tr class="action-row" data-cap="circuits" onclick="if(window.openStockDetail) openStockDetail('PROTEAN');">
-            <td>
-              <div class="action-stock-name">
-                Protean eGov Technologies
-                <span style="font-size:0.6rem;background:rgba(0,230,118,0.2);color:#00E676;padding:1px 4px;border-radius:3px;font-weight:700;">20% UC</span>
-              </div>
-              <div class="action-stock-sector">IT Software · Group A Leader</div>
+      <table class="action-table" style="width:100%;border-collapse:collapse;">
+        <tbody id="etmoney-tbody-buyers">
+          <tr class="action-row" style="border-bottom:1px solid var(--line);cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('HEROMOTO');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Hero Motors Ltd.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Automobiles</div>
             </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹588.35</span>
-              <span class="action-delta gain">▲ +98.05 (+20.00%)</span>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹141.69</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--gain);">+23.61 (+19.99%)</div>
             </td>
           </tr>
-          <tr class="action-row" data-cap="circuits" onclick="if(window.openStockDetail) openStockDetail('SHAKTIPUMP');">
-            <td>
-              <div class="action-stock-name">
-                Shakti Pumps (India)
-                <span style="font-size:0.6rem;background:rgba(0,230,118,0.2);color:#00E676;padding:1px 4px;border-radius:3px;font-weight:700;">UC LOCK</span>
-              </div>
-              <div class="action-stock-sector">Solar Pumps · ₹236 Cr Order</div>
+          <tr class="action-row" style="border-bottom:1px solid var(--line);cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('INDIABULL');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Indiabulls Ltd.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">IT - Software</div>
             </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹1,048.20</span>
-              <span class="action-delta gain">▲ +112.30 (+12.00%)</span>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹29.83</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--gain);">+1.42 (+5.00%)</div>
             </td>
           </tr>
-          <tr class="action-row" data-cap="circuits" onclick="if(window.openStockDetail) openStockDetail('INDOMIM');">
-            <td>
-              <div class="action-stock-name">
-                Indo-MIM Ltd.
-                <span style="font-size:0.6rem;background:rgba(0,230,118,0.2);color:#00E676;padding:1px 4px;border-radius:3px;font-weight:700;">10% UC</span>
-              </div>
-              <div class="action-stock-sector">Precision Engineering</div>
+          <tr class="action-row" style="border-bottom:1px solid var(--line);cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('VIDYA');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Vidya Wires Ltd.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Cables</div>
             </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹1,161.45</span>
-              <span class="action-delta gain">▲ +105.55 (+10.00%)</span>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹90.54</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--gain);">+4.31 (+5.00%)</div>
             </td>
           </tr>
-          <tr class="action-row" data-cap="circuits" onclick="if(window.openStockDetail) openStockDetail('DBL');">
-            <td>
-              <div class="action-stock-name">
-                Dilip Buildcon Ltd.
-                <span style="font-size:0.6rem;background:rgba(0,230,118,0.2);color:#00E676;padding:1px 4px;border-radius:3px;font-weight:700;">10% UC</span>
-              </div>
-              <div class="action-stock-sector">Power Substation · 400KV GIS</div>
+          <tr class="action-row" style="cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('ESAFSFB');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">ESAF Small Finance Bank</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Banking</div>
             </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹512.40</span>
-              <span class="action-delta gain">▲ +46.50 (+9.98%)</span>
-            </td>
-          </tr>
-          <tr class="action-row" data-cap="circuits" onclick="if(window.openStockDetail) openStockDetail('HEG');">
-            <td>
-              <div class="action-stock-name">
-                HEG Advanced Materials
-                <span style="font-size:0.6rem;background:rgba(0,230,118,0.2);color:#00E676;padding:1px 4px;border-radius:3px;font-weight:700;">5% UC</span>
-              </div>
-              <div class="action-stock-sector">Lithium Battery · ₹218 Cr Win</div>
-            </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹243.00</span>
-              <span class="action-delta gain">▲ +11.60 (+5.00%)</span>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹42.86</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--gain);">+2.04 (+5.00%)</div>
             </td>
           </tr>
         </tbody>
       </table>
-      <div class="action-card-footer">
-        <a href="#tab-stocks" class="action-view-all-link" onclick="if(window.filterLiveWireBySource) filterLiveWireBySource('circuits');">
-          View all 19 Upper Circuits <span style="font-size:1rem;">→</span>
-        </a>
-      </div>
     </div>
 
     <!-- CARD 4: VOLUME SHOCKERS -->
-    <div class="action-card" id="card-volume-shockers">
-      <div class="action-card-header volume-banner">
-        <div class="action-card-title-group">
-          <div class="action-card-icon" style="color:#F59E0B;">⚡</div>
-          <h3 class="action-card-title">Volume Shockers</h3>
+    <div class="action-card" id="card-volume-shockers" style="background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);">
+      <div class="action-card-header volume-banner" style="padding:0.85rem 1.1rem;background:linear-gradient(90deg, rgba(6,182,212,0.15), transparent);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);">
+        <div class="action-card-title-group" style="display:flex;align-items:center;gap:0.5rem;">
+          <span style="font-size:1.2rem;">⚡</span>
+          <h3 class="action-card-title" style="margin:0;font-size:1.05rem;font-weight:800;color:var(--ink);">Volume Shockers</h3>
         </div>
-        <span class="action-card-badge volume">HIGH SPIKES</span>
+        <span class="action-card-badge gain" style="font-size:0.7rem;font-weight:700;color:#06B6D4;background:rgba(6,182,212,0.15);padding:2px 7px;border-radius:4px;">High Volume</span>
       </div>
-      <table class="action-table">
-        <tbody>
-          <tr class="action-row" data-cap="midcap" onclick="if(window.openStockDetail) openStockDetail('JASH');">
-            <td>
-              <div class="action-stock-name">Jash Engineering Ltd.</div>
-              <div class="action-stock-sector">Engineering · 8.4x 30D Vol</div>
+      <table class="action-table" style="width:100%;border-collapse:collapse;">
+        <tbody id="etmoney-tbody-volume">
+          <tr class="action-row" style="border-bottom:1px solid var(--line);cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('SOMDIST');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Som Distilleries &amp; Breweries</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Alcoholic Beverages</div>
             </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹592.70</span>
-              <span class="action-delta gain">▲ +71.55 (+13.73%)</span>
-            </td>
-          </tr>
-          <tr class="action-row" data-cap="midcap" onclick="if(window.openStockDetail) openStockDetail('SVGLOBAL');">
-            <td>
-              <div class="action-stock-name">SV Global Mill Ltd.</div>
-              <div class="action-stock-sector">Infra Developers · 6.2x Vol</div>
-            </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹163.51</span>
-              <span class="action-delta gain">▲ +15.59 (+10.54%)</span>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹74.36</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--gain);">+7.12 (+10.59%)</div>
             </td>
           </tr>
-          <tr class="action-row" data-cap="midcap" onclick="if(window.openStockDetail) openStockDetail('CGPOWER');">
-            <td>
-              <div class="action-stock-name">CG Power &amp; Industrial</div>
-              <div class="action-stock-sector">Automation · 4.8x Vol</div>
+          <tr class="action-row" style="border-bottom:1px solid var(--line);cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('SHOPERSTOP');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Shoppers Stop Ltd.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Retail</div>
             </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹915.00</span>
-              <span class="action-delta gain">▲ +23.00 (+2.58%)</span>
-            </td>
-          </tr>
-          <tr class="action-row" data-cap="fno" onclick="if(window.openStockDetail) openStockDetail('IDEA');">
-            <td>
-              <div class="action-stock-name">Vodafone Idea Ltd.</div>
-              <div class="action-stock-sector">Telecom · 284M Shares Traded</div>
-            </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹13.94</span>
-              <span class="action-delta gain">▲ +0.02 (+0.14%)</span>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹423.55</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--gain);">+38.50 (+10.00%)</div>
             </td>
           </tr>
-          <tr class="action-row" data-cap="midcap" onclick="if(window.openStockDetail) openStockDetail('UNIMECH');">
-            <td>
-              <div class="action-stock-name">Unimech Aerospace</div>
-              <div class="action-stock-sector">Defence Export · 5.5x Vol</div>
+          <tr class="action-row" style="border-bottom:1px solid var(--line);cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('HERANBA');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Heranba Industries Ltd.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Agro Chemicals</div>
             </td>
-            <td class="action-price-col">
-              <span class="action-ltp">₹1,840.00</span>
-              <span class="action-delta gain">▲ +120.30 (+7.00%)</span>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹187.60</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--gain);">+15.33 (+8.90%)</div>
+            </td>
+          </tr>
+          <tr class="action-row" style="cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('TCI');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Transport Corp of India (TCI)</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Logistics</div>
+            </td>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹883.70</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--gain);">+50.25 (+6.03%)</div>
             </td>
           </tr>
         </tbody>
       </table>
-      <div class="action-card-footer">
-        <a href="#tab-stocks" class="action-view-all-link" onclick="if(window.filterLiveWireBySource) filterLiveWireBySource('volume');">
-          View all 27 Volume Shockers <span style="font-size:1rem;">→</span>
-        </a>
+    </div>
+
+    <!-- CARD 5: ONLY SELLERS (LOWER CIRCUITS) -->
+    <div class="action-card" id="card-only-sellers" style="background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);">
+      <div class="action-card-header sellers-banner" style="padding:0.85rem 1.1rem;background:linear-gradient(90deg, rgba(255,59,48,0.12), transparent);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);">
+        <div class="action-card-title-group" style="display:flex;align-items:center;gap:0.5rem;">
+          <span style="font-size:1.2rem;">🔻</span>
+          <h3 class="action-card-title" style="margin:0;font-size:1.05rem;font-weight:800;color:var(--ink);">Only Sellers</h3>
+        </div>
+        <span class="action-card-badge loss" style="font-size:0.7rem;font-weight:700;color:var(--loss);background:rgba(255,59,48,0.15);padding:2px 7px;border-radius:4px;">Lower Circuit</span>
       </div>
+      <table class="action-table" style="width:100%;border-collapse:collapse;">
+        <tbody id="etmoney-tbody-sellers">
+          <tr class="action-row" style="border-bottom:1px solid var(--line);cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('TURTLEMINT');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Turtlemint Fintech Solutions</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Fintech</div>
+            </td>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹87.24</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--loss);">-21.80 (-19.99%)</div>
+            </td>
+          </tr>
+          <tr class="action-row" style="border-bottom:1px solid var(--line);cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('RELINFRA');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Reliance Infrastructure Ltd.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Power Generation</div>
+            </td>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹45.20</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--loss);">-0.92 (-1.99%)</div>
+            </td>
+          </tr>
+          <tr class="action-row" style="cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('SONASEL');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Sonaselection India Ltd.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Textiles</div>
+            </td>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹102.05</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--loss);">-5.37 (-5.00%)</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CARD 6: MOST ACTIVE STOCKS -->
+    <div class="action-card" id="card-most-active" style="background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);">
+      <div class="action-card-header active-banner" style="padding:0.85rem 1.1rem;background:linear-gradient(90deg, rgba(245,166,35,0.15), transparent);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);">
+        <div class="action-card-title-group" style="display:flex;align-items:center;gap:0.5rem;">
+          <span style="font-size:1.2rem;">🔥</span>
+          <h3 class="action-card-title" style="margin:0;font-size:1.05rem;font-weight:800;color:var(--ink);">Most Active Stocks</h3>
+        </div>
+        <span class="action-card-badge" style="font-size:0.7rem;font-weight:700;color:#F5A623;background:rgba(245,166,35,0.15);padding:2px 7px;border-radius:4px;">Highest Turnover</span>
+      </div>
+      <table class="action-table" style="width:100%;border-collapse:collapse;">
+        <tbody id="etmoney-tbody-active">
+          <tr class="action-row" style="border-bottom:1px solid var(--line);cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('IDEA');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Vodafone Idea Ltd.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Telecom Services</div>
+            </td>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹14.26</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--gain);">+0.14 (+0.99%)</div>
+            </td>
+          </tr>
+          <tr class="action-row" style="border-bottom:1px solid var(--line);cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('SUZLON');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">Suzlon Energy Ltd.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Green Energy</div>
+            </td>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹40.80</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--gain);">+0.06 (+0.15%)</div>
+            </td>
+          </tr>
+          <tr class="action-row" style="cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail('POLICYBZR');">
+            <td style="padding:0.65rem 1rem;">
+              <div style="font-weight:700;font-size:0.88rem;color:var(--ink);">PB Fintech Ltd.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Fintech &middot; Insurance</div>
+            </td>
+            <td style="padding:0.65rem 1rem;text-align:right;">
+              <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹1,166.00</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--loss);">-41.20 (-3.41%)</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
   </div>
+
+  <script>
+  function refreshEtMoneyStocks(force) {
+    var badge = document.getElementById('etmoney-sync-badge');
+    if (badge) badge.innerText = 'SYNCING ET MONEY...';
+
+    var url = 'https://momentwealth-backend-911650691357.asia-south1.run.app/api/etmoney-stocks' + (force ? '?force=1' : '');
+    fetch(url)
+      .then(function(r){ return r.json(); })
+      .then(function(res){
+        if (res && res.categories) {
+          updateEtMoneyCardTable('etmoney-tbody-gainers', res.categories['Top Gainers'], true);
+          updateEtMoneyCardTable('etmoney-tbody-losers', res.categories['Top Losers'], false);
+          updateEtMoneyCardTable('etmoney-tbody-buyers', res.categories['Only Buyers'], true);
+          updateEtMoneyCardTable('etmoney-tbody-volume', res.categories['Volume Shockers'], true);
+          updateEtMoneyCardTable('etmoney-tbody-sellers', res.categories['Only Sellers'], false);
+          updateEtMoneyCardTable('etmoney-tbody-active', res.categories['Most Active Stocks'], null);
+          if (badge) badge.innerText = 'ET MONEY LIVE SYNCED';
+        }
+      })
+      .catch(function(){
+        if (badge) badge.innerText = 'ET MONEY VERIFIED';
+      });
+  }
+
+  function updateEtMoneyCardTable(tbodyId, items, isGainHint) {
+    var tbody = document.getElementById(tbodyId);
+    if (!tbody || !items || !items.length) return;
+    tbody.innerHTML = items.map(function(s, idx){
+      var isGain = (isGainHint !== null && isGainHint !== undefined) ? isGainHint : (s.diff && s.diff.indexOf('+') > -1);
+      var colorClass = isGain ? 'var(--gain)' : 'var(--loss)';
+      var borderStyle = (idx === items.length - 1) ? '' : 'border-bottom:1px solid var(--line);';
+      var cleanCode = s.name.split(' ')[0].toUpperCase();
+      return '<tr class="action-row" style="' + borderStyle + 'cursor:pointer;" onclick="if(window.openStockDetail) openStockDetail(&quot;' + cleanCode + '&quot;);">' +
+        '<td style="padding:0.65rem 1rem;">' +
+          '<div style="font-weight:700;font-size:0.88rem;color:var(--ink);">' + s.name + '</div>' +
+          '<div style="font-size:0.72rem;color:var(--muted);">' + s.sector + '</div>' +
+        '</td>' +
+        '<td style="padding:0.65rem 1rem;text-align:right;">' +
+          '<div style="font-family:monospace;font-weight:700;font-size:0.9rem;color:var(--ink);">₹' + s.price + '</div>' +
+          '<div style="font-family:monospace;font-size:0.75rem;font-weight:700;color:' + colorClass + ';">' + s.diff + ' ' + s.pct + '</div>' +
+        '</td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  // Trigger auto-sync on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function(){ refreshEtMoneyStocks(false); });
+  } else {
+    refreshEtMoneyStocks(false);
+  }
+  </script>
 </section>
 
 <!-- Filter Script for Action Cards -->

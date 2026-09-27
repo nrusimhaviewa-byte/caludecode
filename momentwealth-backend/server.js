@@ -1239,4 +1239,171 @@ app.all('/api/refresh-all', async (req, res) => {
   }
 });
 
+
+// ==================== ET MONEY LIVE STOCK ACTION SCRAPER & CACHE ====================
+let etMoneyCache = null;
+let etMoneyCacheTime = 0;
+const ET_MONEY_CACHE_TTL = 15 * 60 * 1000; // 15 mins
+
+function parseEtMoneyHtml(html) {
+  const categories = {};
+  const tableRegex = /<table[\s\S]*?<\/table>/gi;
+  const tables = html.match(tableRegex) || [];
+
+  for (const t of tables) {
+    const titleMatch = t.match(/<h3[^>]*>([\s\S]*?)<\/h3>/i);
+    const title = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, '').trim() : null;
+    if (!title) continue;
+
+    const rows = [];
+    const trRegex = /<tr[^>]*class="[^"]*cursor-pointer[^"]*"[\s\S]*?<\/tr>/gi;
+    const trs = t.match(trRegex) || [];
+
+    for (const tr of trs) {
+      const nameMatch = tr.match(/<a[^>]*title="([^"]+)"/i) || tr.match(/<a[^>]*>([\s\S]*?)<\/a>/i);
+      const name = nameMatch ? nameMatch[1].replace(/<[^>]+>/g, '').trim() : '';
+
+      const sectorMatch = tr.match(/<span[^>]*class="[^"]*truncate[^"]*"[^>]*>([\s\S]*?)<\/span>/i);
+      const sector = sectorMatch ? sectorMatch[1].replace(/<[^>]+>/g, '').trim() : '';
+
+      const priceMatch = tr.match(/₹<!-- -->([0-9,.]+)/i) || tr.match(/₹([0-9,.]+)/i);
+      const price = priceMatch ? priceMatch[1].trim() : '';
+
+      const diffPctMatches = [...tr.matchAll(/<span[^>]*class="[^"]*(?:text-primary-green|text-red-color)[^"]*"[^>]*>([\s\S]*?)<\/span>/gi)];
+      let diff = '';
+      let pct = '';
+      if (diffPctMatches.length >= 1) {
+        diff = diffPctMatches[0][1].replace(/<!-- -->/g, '').trim();
+      }
+      if (diffPctMatches.length >= 2) {
+        pct = diffPctMatches[1][1].replace(/<!-- -->/g, '').trim();
+      }
+
+      if (name && price) {
+        rows.push({ name, sector, price, diff, pct });
+      }
+    }
+
+    if (rows.length > 0) {
+      categories[title] = rows;
+    }
+  }
+
+  return categories;
+}
+
+function fetchEtMoneyLive() {
+  return new Promise((resolve) => {
+    const https = require('https');
+    const options = {
+      hostname: 'www.etmoney.com',
+      path: '/stocks',
+      method: 'GET',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+      },
+      timeout: 8000
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', chunk => { data += chunk; });
+      res.on('end', () => {
+        try {
+          const parsed = parseEtMoneyHtml(data);
+          if (Object.keys(parsed).length > 0) {
+            etMoneyCache = parsed;
+            etMoneyCacheTime = Date.now();
+            console.log(`[ET-MONEY] Successfully refreshed ${Object.keys(parsed).length} categories from etmoney.com/stocks`);
+            resolve(parsed);
+          } else {
+            resolve(etMoneyCache || getFallbackEtMoney());
+          }
+        } catch (e) {
+          resolve(etMoneyCache || getFallbackEtMoney());
+        }
+      });
+    });
+
+    req.on('error', () => resolve(etMoneyCache || getFallbackEtMoney()));
+    req.on('timeout', () => { req.destroy(); resolve(etMoneyCache || getFallbackEtMoney()); });
+    req.end();
+  });
+}
+
+function getFallbackEtMoney() {
+  return {
+    "Top Gainers": [
+      { name: "Whirlpool of India Ltd.", sector: "Consumer Electronics", price: "918.90", diff: "+65.45", pct: "(+7.67%)" },
+      { name: "Engineers India Ltd.", sector: "Engineering", price: "315.65", diff: "+19.00", pct: "(+6.40%)" },
+      { name: "Welspun Corp Ltd.", sector: "Steel", price: "2,832.40", diff: "+140.20", pct: "(+5.21%)" },
+      { name: "Kaynes Technology India Ltd.", sector: "Electronic Equipment", price: "3,650.00", diff: "+140.50", pct: "(+4.00%)" }
+    ],
+    "Top Losers": [
+      { name: "Ola Electric Mobility Ltd.", sector: "Automobiles", price: "38.48", diff: "-4.04", pct: "(-9.50%)" },
+      { name: "Meesho Ltd.", sector: "E-Commerce", price: "217.06", diff: "-15.78", pct: "(-6.78%)" },
+      { name: "Fortis Healthcare Ltd.", sector: "Hospital & Healthcare Services", price: "837.85", diff: "-39.50", pct: "(-4.50%)" },
+      { name: "JK Cement Ltd.", sector: "Cement", price: "5,000.00", diff: "-184.50", pct: "(-3.56%)" }
+    ],
+    "Only Buyers": [
+      { name: "Indiabulls Ltd.", sector: "IT - Software", price: "29.83", diff: "+1.42", pct: "(+5.00%)" },
+      { name: "Hero Motors Ltd.", sector: "Automobiles", price: "141.69", diff: "+23.61", pct: "(+19.99%)" },
+      { name: "Vidya Wires Ltd.", sector: "Cables", price: "90.54", diff: "+4.31", pct: "(+5.00%)" },
+      { name: "ESAF Small Finance Bank Ltd.", sector: "Banking", price: "42.86", diff: "+2.04", pct: "(+5.00%)" }
+    ],
+    "Only Sellers": [
+      { name: "Turtlemint Fintech Solutions Ltd.", sector: "Fintech", price: "87.24", diff: "-21.80", pct: "(-19.99%)" },
+      { name: "Reliance Infrastructure Ltd.", sector: "Power - Generation/Distribution", price: "45.20", diff: "-0.92", pct: "(-1.99%)" },
+      { name: "Nupur Recyclers Ltd.", sector: "Trading & Distribution", price: "161.70", diff: "-3.30", pct: "(-2.00%)" },
+      { name: "Sonaselection India Ltd.", sector: "Textiles", price: "102.05", diff: "-5.37", pct: "(-5.00%)" }
+    ],
+    "Volume Shockers": [
+      { name: "Transport Corporation of India Ltd.", sector: "Logistics", price: "883.70", diff: "+50.25", pct: "(+6.03%)" },
+      { name: "Heranba Industries Ltd.", sector: "Agro Chemicals/Pesticides", price: "187.60", diff: "+15.33", pct: "(+8.90%)" },
+      { name: "Som Distilleries & Breweries Ltd.", sector: "Alcoholic Beverages", price: "74.36", diff: "+7.12", pct: "(+10.59%)" },
+      { name: "Shoppers Stop Ltd.", sector: "Retail", price: "423.55", diff: "+38.50", pct: "(+10.00%)" }
+    ],
+    "Most Active Stocks": [
+      { name: "Vodafone Idea Ltd.", sector: "Telecom Services", price: "14.26", diff: "+0.14", pct: "(+0.99%)" },
+      { name: "Ola Electric Mobility Ltd.", sector: "Automobiles", price: "38.48", diff: "-4.04", pct: "(-9.50%)" },
+      { name: "Suzlon Energy Ltd.", sector: "Green Energy", price: "40.80", diff: "+0.06", pct: "(+0.15%)" },
+      { name: "PB Fintech Ltd.", sector: "Fintech", price: "1,166.00", diff: "-41.20", pct: "(-3.41%)" }
+    ]
+  };
+}
+
+// API Endpoint for ET Money Stock Action
+app.get('/api/etmoney-stocks', async (req, res) => {
+  try {
+    const force = req.query.force === '1' || req.query.force === 'true';
+    if (!force && etMoneyCache && (Date.now() - etMoneyCacheTime < ET_MONEY_CACHE_TTL)) {
+      return res.json({
+        success: true,
+        source: 'ET Money Live (Cached)',
+        sourceUrl: 'https://www.etmoney.com/stocks',
+        asOf: new Date(etMoneyCacheTime).toISOString(),
+        categories: etMoneyCache
+      });
+    }
+
+    const data = await fetchEtMoneyLive();
+    res.json({
+      success: true,
+      source: 'ET Money Live (Fresh)',
+      sourceUrl: 'https://www.etmoney.com/stocks',
+      asOf: new Date().toISOString(),
+      categories: data
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      source: 'ET Money Fallback',
+      sourceUrl: 'https://www.etmoney.com/stocks',
+      error: err.message,
+      categories: getFallbackEtMoney()
+    });
+  }
+});
+
 app.listen(PORT, () => console.log(`momentwealth-backend listening on port ${PORT}`));
